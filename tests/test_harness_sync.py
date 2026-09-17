@@ -4,10 +4,12 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import yaml
 
-from scripts.validation.render_mermaid import extract_blocks
+from scripts.validation.render_mermaid import extract_blocks, render
 from scripts.validation.validate_harness_sync import validate_project
 
 
@@ -150,6 +152,26 @@ class HarnessSyncTests(unittest.TestCase):
             blocks = extract_blocks(project)
             self.assertEqual(len(blocks), 1)
             self.assertIn("A --> B", blocks[0][2])
+
+    def test_mermaid_renderer_passes_puppeteer_config(self):
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            docs = project / "docs/harness"
+            docs.mkdir(parents=True)
+            (docs / "architecture.md").write_text(
+                "```mermaid\nflowchart LR\nA --> B\n```\n", encoding="utf-8"
+            )
+            config = project / "puppeteer.json"
+            config.write_text('{"args":["--no-sandbox"]}\n', encoding="utf-8")
+
+            def fake_run(command, **_kwargs):
+                output = Path(command[command.index("-o") + 1])
+                output.write_text("<svg/>\n", encoding="utf-8")
+                self.assertEqual(command[command.index("-p") + 1], str(config))
+                return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+            with patch("scripts.validation.render_mermaid.subprocess.run", side_effect=fake_run):
+                self.assertEqual(render(project, project / "rendered", "mmdc", config), 0)
 
 
 if __name__ == "__main__":

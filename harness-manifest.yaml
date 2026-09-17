@@ -150,7 +150,7 @@ validation:
       - manifest_to_documentation
     json_schema_meta_schema: https://json-schema.org/draft/2020-12/schema
   mermaid:
-    command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory>
+    command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"
   documentation_freshness:
     requires_docs_and_adr_for:

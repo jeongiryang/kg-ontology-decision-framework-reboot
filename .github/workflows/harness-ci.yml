@@ -35,7 +35,11 @@ jobs:
       - name: Validate harness manifest synchronization and JSON Schema meta-schemas
         run: python scripts/validation/validate_harness_sync.py --project .
       - name: Render every harness Mermaid block
-        run: python scripts/validation/render_mermaid.py --project . --output-dir "$RUNNER_TEMP/mermaid-rendered"
+        run: >-
+          python scripts/validation/render_mermaid.py
+          --project .
+          --output-dir "$RUNNER_TEMP/mermaid-rendered"
+          --puppeteer-config scripts/validation/puppeteer-ci.json
       - name: Validate public reports and harness documentation
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}

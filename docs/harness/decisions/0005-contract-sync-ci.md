@@ -18,7 +18,7 @@
 - manifest에 등록된 설계 문서 경로
 - 모든 계약의 JSON Schema Draft 2020-12 meta-schema 적합성
 
-GitHub Actions는 고정 버전 `@mermaid-js/mermaid-cli@11.12.0`을 설치하고 `docs/harness/`의 모든 Mermaid 블록을 SVG로 실제 렌더링한다. 하네스 실행 설정, CI workflow, 보고·검증 스크립트가 바뀌면 설계 문서와 ADR을 함께 바꾸도록 freshness 범위에 포함한다.
+GitHub Actions는 고정 버전 `@mermaid-js/mermaid-cli@11.12.0`을 설치하고 `docs/harness/`의 모든 Mermaid 블록을 SVG로 실제 렌더링한다. GitHub의 임시 Ubuntu runner에서는 Chromium 사용자 네임스페이스 제한 때문에 저장소의 `scripts/validation/puppeteer-ci.json`을 명시적으로 전달해 browser sandbox를 끈다. 이 설정은 신뢰할 수 없는 웹 페이지를 여는 용도가 아니라 저장소에 커밋된 Mermaid 텍스트를 일회성 SVG로 렌더링하는 CI 단계에만 사용한다. 하네스 실행 설정, CI workflow, 보고·검증 스크립트가 바뀌면 설계 문서와 ADR을 함께 바꾸도록 freshness 범위에 포함한다.
 
 ## 결과
 
@@ -29,4 +29,3 @@ GitHub Actions는 고정 버전 `@mermaid-js/mermaid-cli@11.12.0`을 설치하�
 - 수동 리뷰만 수행: 누락·버전 드리프트를 일관되게 차단하지 못해 채택하지 않았다.
 - YAML/TOML/JSON 파싱만 수행: 파일 간 의미적 동기화와 meta-schema 오류를 놓쳐 채택하지 않았다.
 - Mermaid 펜스 균형만 확인: 실제 Mermaid 파서 오류를 검출하지 못해 채택하지 않았다.
-

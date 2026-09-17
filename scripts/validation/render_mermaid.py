@@ -37,7 +37,12 @@ def extract_blocks(project: Path) -> list[tuple[Path, int, str]]:
     return blocks
 
 
-def render(project: Path, output_dir: Path, mmdc: str) -> int:
+def render(
+    project: Path,
+    output_dir: Path,
+    mmdc: str,
+    puppeteer_config: Path | None = None,
+) -> int:
     blocks = extract_blocks(project)
     if not blocks:
         print("mermaid-render: error: no Mermaid blocks found under docs/harness", file=sys.stderr)
@@ -48,8 +53,11 @@ def render(project: Path, output_dir: Path, mmdc: str) -> int:
         source = output_dir / f"{index:03d}-{stem}-L{line}.mmd"
         target = source.with_suffix(".svg")
         source.write_text(content, encoding="utf-8")
+        command = [mmdc, "-i", str(source), "-o", str(target)]
+        if puppeteer_config is not None:
+            command.extend(["-p", str(puppeteer_config)])
         completed = subprocess.run(
-            [mmdc, "-i", str(source), "-o", str(target)],
+            command,
             cwd=project,
             text=True,
             capture_output=True,
@@ -77,11 +85,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--project", type=Path, default=Path.cwd())
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--mmdc", default="mmdc")
+    parser.add_argument(
+        "--puppeteer-config",
+        type=Path,
+        help="Optional Puppeteer JSON configuration passed to Mermaid CLI.",
+    )
     args = parser.parse_args(argv)
     project = args.project.resolve()
     output = args.output_dir.resolve()
     try:
-        return render(project, output, args.mmdc)
+        config = args.puppeteer_config
+        if config is not None and not config.is_absolute():
+            config = (project / config).resolve()
+        return render(project, output, args.mmdc, config)
     except (OSError, UnicodeError, ValueError) as exc:
         print(f"mermaid-render: error: {exc}", file=sys.stderr)
         return 1
@@ -89,4 +105,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
