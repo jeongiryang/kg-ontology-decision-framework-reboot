@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/evidence-packet.schema.json",
+  "title": "EvidencePacket",
+  "description": "De-identified facts, applied rules, citations, and support status for one academic-assistant answer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "packet_id",
+    "scope",
+    "student_facts",
+    "applied_rule_ids",
+    "evidence",
+    "issues",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "packet_id": { "type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{2,127}$" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["academic_year", "department"],
+      "properties": {
+        "academic_year": { "type": "integer", "minimum": 1900, "maximum": 2200 },
+        "department": { "type": "string", "minLength": 1 }
+      }
+    },
+    "student_facts": {
+      "type": "object",
+      "description": "Only facts needed for evaluation; names, student numbers, and raw transcript content are prohibited.",
+      "propertyNames": { "$ref": "#/$defs/safeFactName" },
+      "additionalProperties": { "$ref": "#/$defs/deidentifiedFact" }
+    },
+    "applied_rule_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceReference" }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "message"],
+        "properties": {
+          "kind": { "type": "string", "enum": ["missing", "conflict", "scope", "review"] },
+          "message": { "type": "string", "minLength": 1 },
+          "related_ids": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["supported", "insufficient_evidence", "conflict", "out_of_scope"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "supported" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "applied_rule_ids": { "minItems": 1 },
+          "evidence": { "minItems": 1 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "safeFactName": {
+      "type": "string",
+      "not": {
+        "pattern": "^(?:[Nn][Aa][Mm][Ee]|[Ss][Tt][Uu][Dd][Ee][Nn][Tt](?:[_ -]?(?:[Nn][Aa][Mm][Ee]|[Ii][Dd]|[Nn][Uu][Mm][Bb][Ee][Rr]|[Nn][Oo]))?|[Rr][Aa][Ww](?:[_ -]?[Tt][Rr][Aa][Nn][Ss][Cc][Rr][Ii][Pp][Tt])|이름|학번|학생[_ -]?(?:이름|성명|식별))$"
+      }
+    },
+    "deidentifiedFact": {
+      "oneOf": [
+        {
+          "type": "string",
+          "not": { "pattern": "[0-9]{6,12}" }
+        },
+        { "type": ["boolean", "null"] },
+        {
+          "type": "integer",
+          "not": {
+            "allOf": [
+              { "minimum": 100000 },
+              { "maximum": 999999999999 }
+            ]
+          }
+        },
+        {
+          "type": "number",
+          "not": { "type": "integer" }
+        },
+        {
+          "type": "array",
+          "items": { "$ref": "#/$defs/deidentifiedFact" }
+        },
+        {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/safeFactName" },
+          "additionalProperties": { "$ref": "#/$defs/deidentifiedFact" }
+        }
+      ]
+    },
+    "evidenceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "locator"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "rule_id": { "type": "string", "minLength": 1 },
+        "locator": { "type": "string", "minLength": 1 },
+        "claim": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

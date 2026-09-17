@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/dsw-run-request.schema.json",
+  "title": "DSWRunRequest",
+  "description": "An approved, auditable request for a bounded DSW compute job. Connection secrets are deliberately excluded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "purpose",
+    "gpu_count",
+    "expected_start",
+    "expected_end",
+    "command",
+    "outputs",
+    "persistent_service"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "request_id": { "type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{2,127}$" },
+    "purpose": { "type": "string", "minLength": 1 },
+    "gpu_count": { "type": "integer", "minimum": 0, "maximum": 4 },
+    "requested_gpu_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 0, "maximum": 3 }
+    },
+    "expected_start": { "type": "string", "format": "date-time" },
+    "expected_end": { "type": "string", "format": "date-time" },
+    "command": { "type": "string", "minLength": 1 },
+    "outputs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "persistent_service": { "type": "boolean" },
+    "approval_reference": { "type": "string", "minLength": 1 },
+    "announcement_reference": { "type": "string", "minLength": 1 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "gpu_count": { "minimum": 1 } }, "required": ["gpu_count"] },
+      "then": {
+        "required": ["requested_gpu_ids"],
+        "properties": { "command": { "pattern": "CUDA_VISIBLE_DEVICES=" } }
+      }
+    },
+    {
+      "if": { "properties": { "gpu_count": { "const": 0 } }, "required": ["gpu_count"] },
+      "then": { "properties": { "requested_gpu_ids": { "maxItems": 0 } } }
+    },
+    {
+      "if": { "properties": { "gpu_count": { "const": 1 } }, "required": ["gpu_count"] },
+      "then": { "properties": { "requested_gpu_ids": { "minItems": 1, "maxItems": 1 } } }
+    },
+    {
+      "if": { "properties": { "gpu_count": { "const": 2 } }, "required": ["gpu_count"] },
+      "then": { "properties": { "requested_gpu_ids": { "minItems": 2, "maxItems": 2 } } }
+    },
+    {
+      "if": { "properties": { "gpu_count": { "const": 3 } }, "required": ["gpu_count"] },
+      "then": { "properties": { "requested_gpu_ids": { "minItems": 3, "maxItems": 3 } } }
+    },
+    {
+      "if": { "properties": { "gpu_count": { "const": 4 } }, "required": ["gpu_count"] },
+      "then": {
+        "required": ["announcement_reference"],
+        "properties": { "requested_gpu_ids": { "minItems": 4, "maxItems": 4 } }
+      }
+    },
+    {
+      "if": { "properties": { "persistent_service": { "const": true } }, "required": ["persistent_service"] },
+      "then": { "required": ["approval_reference"] }
+    }
+  ]
+}

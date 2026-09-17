@@ -1,0 +1,12 @@
+# 하네스 ADR 색인
+
+ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과 맥락을 보존한다. 상태가 바뀌면 기존 문서를 지우지 않고 새 ADR에서 대체 관계를 기록한다.
+
+| ADR | 결정 | 상태 |
+| --- | --- | --- |
+| [0001](0001-vendored-harness-installation.md) | WSL에서 고정 SHA의 하네스를 설치본으로 포함 | 채택 |
+| [0002](0002-max-three-concurrent-agents.md) | 동시 서브에이전트 최대 3개 | 채택 |
+| [0003](0003-exclude-source-documents.md) | 원문·학생정보·접속정보를 Git에서 제외 | 채택 |
+| [0004](0004-pdf-completion-reports.md) | 중대 변경에 검증된 PDF 완료 보고서 생성 | 채택 |
+| [0005](0005-contract-sync-ci.md) | 계약 동기화·meta-schema·Mermaid 렌더링을 CI에서 검증 | 채택 |
+| [0006](0006-fail-closed-publication-and-deidentification.md) | 비식별 계약과 공개 보고서 쌍을 실패 폐쇄로 검증 | 채택 |

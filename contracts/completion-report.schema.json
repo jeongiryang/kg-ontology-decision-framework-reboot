@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/completion-report.schema.json",
+  "title": "CompletionReport",
+  "description": "Sanitized public-facing record of a completed harness run.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "title",
+    "request",
+    "summary",
+    "harness_version",
+    "git",
+    "changes",
+    "agents",
+    "checks",
+    "academic_sources_changed",
+    "issues",
+    "publication"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "request": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "harness_version": { "type": "string", "minLength": 1 },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "base_commit", "head_commit"],
+      "properties": {
+        "branch": { "type": "string", "minLength": 1 },
+        "base_commit": { "type": "string", "pattern": "^[0-9a-fA-F]{7,64}$" },
+        "head_commit": { "type": "string", "pattern": "^[0-9a-fA-F]{7,64}$" }
+      }
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "path", "summary"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["added", "fixed", "changed", "removed", "security", "documentation"]
+          },
+          "path": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "task_id", "status", "summary"],
+        "properties": {
+          "role": { "type": "string", "minLength": 1 },
+          "task_id": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["completed", "blocked", "failed"] },
+          "summary": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } },
+    "academic_sources_changed": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "issues": { "type": "array", "items": { "$ref": "#/$defs/issue" } },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["major", "pdf_required"],
+      "properties": {
+        "major": { "type": "boolean" },
+        "pdf_required": { "type": "boolean" },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "markdown_path": { "type": "string", "minLength": 1 },
+        "json_path": { "type": "string", "minLength": 1 },
+        "pdf_path": { "type": ["string", "null"] },
+        "sanitization": { "type": "string", "enum": ["passed", "failed", "not_run"] }
+      }
+    }
+  },
+  "$defs": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "status", "required", "evidence"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["passed", "failed", "not_run"] },
+        "required": { "type": "boolean" },
+        "command": { "type": "string" },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["message"],
+      "properties": {
+        "severity": { "type": "string", "enum": ["info", "warning", "error"] },
+        "message": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string" }
+      }
+    }
+  }
+}

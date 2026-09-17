@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "20260917-report-fixture",
+  "title": "하네스 완료 보고서 샘플",
+  "summary": "공개 보고서 생성과 PDF 레이아웃을 검증한다.",
+  "harness_version": "1.0.0",
+  "git": {
+    "branch": "codex/reporting",
+    "base_commit": null,
+    "head_commit": "abc1234"
+  },
+  "changes": [
+    {
+      "kind": "added",
+      "path": "scripts/reporting/generate_report.py",
+      "summary": "CompletionReport에서 결정적 보고서를 생성한다."
+    },
+    {
+      "kind": "security",
+      "path": "scripts/reporting/reporting.py",
+      "summary": "비밀값과 학생 식별정보를 차단하고 절대경로를 정제한다."
+    }
+  ],
+  "agents": [
+    {
+      "role": "harness_worker",
+      "task_id": "completion-reporting",
+      "summary": "보고서 생성기와 검증 테스트를 구현했다."
+    }
+  ],
+  "checks": [
+    {
+      "name": "unit tests",
+      "status": "passed",
+      "required": true,
+      "command": "python -m unittest discover -s tests",
+      "evidence": "정상·실패·보안·결정성 사례가 통과했다."
+    },
+    {
+      "name": "PDF visual review",
+      "status": "not_run",
+      "required": false,
+      "evidence": "fixture 생성 전 상태이며 생성 후 별도로 렌더링한다."
+    }
+  ],
+  "academic_sources_changed": [],
+  "issues": [
+    {
+      "severity": "info",
+      "message": "실제 실행 보고서는 통합 작업 완료 후 생성한다.",
+      "owner": "main-orchestrator"
+    }
+  ],
+  "publication": {
+    "major": true,
+    "pdf_required": true,
+    "reason": "계약과 보고 체계를 변경하는 주요 작업"
+  }
+}

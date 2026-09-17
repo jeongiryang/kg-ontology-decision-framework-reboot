@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/task-result.schema.json",
+  "title": "TaskResult",
+  "description": "Observable result returned by one harness task.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "task_id", "status", "summary", "artifacts", "checks", "issues"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "task_id": { "type": "string", "minLength": 1 },
+    "agent_id": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["completed", "blocked", "failed"] },
+    "summary": { "type": "string", "minLength": 1 },
+    "artifacts": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } },
+    "issues": { "type": "array", "items": { "$ref": "#/$defs/issue" } }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "completed" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "checks": {
+            "minItems": 1,
+            "contains": {
+              "properties": {
+                "required": { "const": true },
+                "status": { "const": "passed" }
+              },
+              "required": ["required", "status"]
+            },
+            "items": {
+              "allOf": [
+                { "$ref": "#/$defs/check" },
+                {
+                  "if": {
+                    "properties": { "required": { "const": true } },
+                    "required": ["required"]
+                  },
+                  "then": { "properties": { "status": { "const": "passed" } } }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "status", "required", "evidence"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["passed", "failed", "not_run"] },
+        "required": { "type": "boolean" },
+        "command": { "type": "string" },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["severity", "message"],
+      "properties": {
+        "severity": { "type": "string", "enum": ["info", "warning", "error"] },
+        "message": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string" }
+      }
+    }
+  }
+}

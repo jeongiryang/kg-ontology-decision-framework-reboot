@@ -1,0 +1,52 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+.local/
+*.pem
+*.key
+
+# Harness runtime state and agent communication
+.harness/
+_workspace/
+
+# Source documents and private/student data
+*.pdf
+!reports/pdf/*.pdf
+*.hwp
+*.hwpx
+*.xls
+*.xlsx
+data/raw/
+data/private/
+data/student/
+
+# Models, checkpoints, and databases
+*.gguf
+*.safetensors
+*.ckpt
+models/
+checkpoints/
+neo4j-data/
+
+# Python and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Generated scratch output
+tmp/
+output/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+

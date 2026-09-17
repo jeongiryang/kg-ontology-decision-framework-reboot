@@ -1,0 +1,165 @@
+schema_version: "1.0.0"
+project:
+  name: kg-ontology-decision-framework-reboot
+  initial_scope:
+    academic_year: 2026
+    department: "컴퓨터공학과"
+  answer_statuses:
+    - supported
+    - insufficient_evidence
+    - conflict
+    - out_of_scope
+
+upstream:
+  repository: https://github.com/jeongiryang/codex-harness
+  commit: 79b82281d305c89181fbb216499d5f1e962c14ed
+  license: Apache-2.0
+
+orchestration:
+  coordinator: main_session
+  max_concurrent_agents: 3
+  patterns:
+    - pipeline
+    - fan_out_fan_in
+    - generate_validate
+  single_writer_per_path: true
+  source_precedence:
+    - university_statute
+    - curriculum
+    - department_guidance
+    - validation_aid
+
+agents:
+  - name: harness_explorer
+    config: .codex/agents/harness-explorer.toml
+    permission: read_only
+    input: task_packet
+    output: exploration_findings
+  - name: harness_architect
+    config: .codex/agents/harness-architect.toml
+    permission: read_only
+    input: task_packet
+    output: architecture_proposal
+  - name: academic_source_auditor
+    config: .codex/agents/academic-source-auditor.toml
+    permission: read_only
+    input: academic_sources
+    output: SourceEntry
+  - name: academic_rule_modeler
+    config: .codex/agents/academic-rule-modeler.toml
+    permission: assigned_contract_paths
+    input: approved_SourceEntry
+    output: RuleFact
+  - name: harness_worker
+    config: .codex/agents/harness-worker.toml
+    permission: assigned_product_paths
+    input: task_packet
+    output: TaskResult
+  - name: harness_reviewer
+    config: .codex/agents/harness-reviewer.toml
+    permission: read_only
+    input: diff_and_acceptance
+    output: review_findings
+  - name: harness_qa
+    config: .codex/agents/harness-qa.toml
+    permission: assigned_test_and_verification_paths
+    input: implementation_and_acceptance
+    output: TaskResult
+    skills:
+      - academic-evaluation
+  - name: dsw_compute_operator
+    config: .codex/agents/dsw-compute-operator.toml
+    permission: approved_server_job_and_assigned_run_paths
+    input: DSWRunRequest
+    output: TaskResult
+
+skills:
+  - name: harness
+    path: .agents/skills/harness/SKILL.md
+    trigger: harness_creation_migration_extension_or_audit
+  - name: academic-assistant-orchestrator
+    path: .agents/skills/academic-assistant-orchestrator/SKILL.md
+    trigger: academic_assistant_feature_or_partial_rerun
+  - name: academic-source-grounding
+    path: .agents/skills/academic-source-grounding/SKILL.md
+    trigger: academic_source_registration_or_citation_audit
+  - name: academic-rule-modeling
+    path: .agents/skills/academic-rule-modeling/SKILL.md
+    trigger: academic_rule_or_ontology_change
+  - name: academic-evaluation
+    path: .agents/skills/academic-evaluation/SKILL.md
+    trigger: academic_answer_QA
+  - name: dsw-server-operations
+    path: .agents/skills/dsw-server-operations/SKILL.md
+    trigger: approved_DSW_compute_operation
+  - name: completion-reporting
+    path: .agents/skills/completion-reporting/SKILL.md
+    trigger: completed_run_reporting
+
+contracts:
+  version: "1.0.0"
+  schemas:
+    SourceEntry: contracts/source-entry.schema.json
+    RuleFact: contracts/rule-fact.schema.json
+    EvidencePacket: contracts/evidence-packet.schema.json
+    DSWRunRequest: contracts/dsw-run-request.schema.json
+    TaskResult: contracts/task-result.schema.json
+    CompletionReport: contracts/completion-report.schema.json
+
+reporting:
+  raw_run_data:
+    - .harness/runs/
+    - _workspace/communications/
+  public_outputs:
+    changelog: CHANGELOG.md
+    markdown: reports/runs/<run-id>.md
+    json: reports/runs/<run-id>.json
+    pdf: reports/pdf/<run-id>.pdf
+  pdf_required_for:
+    - product_behavior_change
+    - academic_rule_or_ontology_change
+    - API_schema_or_contract_change
+    - DSW_or_model_configuration_change
+    - privacy_or_security_policy_change
+    - milestone_completion
+  sanitize_before_publication:
+    - student_identifiers
+    - server_connection_values
+    - secrets
+    - local_absolute_paths
+
+documentation:
+  index: docs/harness/README.md
+  architecture: docs/harness/architecture.md
+  agents_and_permissions: docs/harness/agents-and-permissions.md
+  workflows: docs/harness/workflows.md
+  contracts: docs/harness/contracts.md
+  reporting: docs/harness/reporting.md
+  dsw_operations: docs/harness/dsw-operations.md
+  upstream: docs/harness/upstream.md
+  decisions: docs/harness/decisions/
+
+validation:
+  synchronization:
+    command: python scripts/validation/validate_harness_sync.py --project .
+    compares:
+      - manifest_to_agent_toml
+      - manifest_to_skill_frontmatter
+      - manifest_to_json_schema
+      - manifest_to_codex_config
+      - manifest_to_documentation
+    json_schema_meta_schema: https://json-schema.org/draft/2020-12/schema
+  mermaid:
+    command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory>
+    cli_package: "@mermaid-js/mermaid-cli@11.12.0"
+  documentation_freshness:
+    requires_docs_and_adr_for:
+      - AGENTS.md
+      - harness-manifest.yaml
+      - .codex/config.toml
+      - .codex/agents/
+      - .agents/skills/
+      - contracts/
+      - .github/workflows/harness-ci.yml
+      - scripts/reporting/
+      - scripts/validation/
