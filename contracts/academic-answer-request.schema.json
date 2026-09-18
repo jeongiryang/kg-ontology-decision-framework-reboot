@@ -1,0 +1,16 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/academic-answer-request.schema.json",
+  "title":"AcademicAnswerRequest",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","question","admission_year","matched_curriculum_year","department"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},
+    "question":{"type":"string","minLength":1,"maxLength":500,"pattern":".*\\S.*"},
+    "admission_year":{"type":"integer","minimum":1900,"maximum":2200},
+    "matched_curriculum_year":{"type":"integer","minimum":1900,"maximum":2200},
+    "department":{"type":"string","minLength":1,"maxLength":100,"pattern":".*\\S.*"},
+    "earned_credits":{"type":"object","propertyNames":{"pattern":"^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$"},"additionalProperties":{"type":"integer","minimum":0,"maximum":500}}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/academic-answer-response.schema.json",
+  "title":"AcademicAnswerResponse",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","packet_id","status","answer","intent_ids","calculations","evidence_packet"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},
+    "packet_id":{"type":"string","pattern":"^[a-zA-Z0-9][a-zA-Z0-9._-]{2,127}$"},
+    "status":{"enum":["supported","insufficient_evidence","conflict","out_of_scope"]},
+    "answer":{"type":"string","minLength":1},
+    "intent_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "calculations":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["metric","required","earned","gap"],"properties":{"metric":{"type":"string"},"required":{"type":"integer","minimum":0,"maximum":500},"earned":{"type":"integer","minimum":0,"maximum":500},"gap":{"type":"integer","minimum":0,"maximum":500}}}},
+    "evidence_packet":{"$ref":"evidence-packet.schema.json"}
+  }
+}

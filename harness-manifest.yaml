@@ -115,6 +115,15 @@ contracts:
     EvidencePacket:
       path: contracts/evidence-packet.schema.json
       version: "2.0.0"
+    AcademicAnswerRequest:
+      path: contracts/academic-answer-request.schema.json
+      version: "1.0.0"
+    AcademicAnswerResponse:
+      path: contracts/academic-answer-response.schema.json
+      version: "1.0.0"
+    AcademicIntentProfile:
+      path: contracts/academic-intent-profile.schema.json
+      version: "1.0.0"
     AcademicReviewPacket:
       path: contracts/academic-review-packet.schema.json
       version: "1.0.0"
@@ -205,6 +214,14 @@ validation:
       - answer_evidence_isolation
       - insufficient_evidence_until_official_source
       - paraphrase_injection_blocked_by_preapproval_content_lock
+  academic_answer_engine:
+    command: python scripts/validation/validate_academic_answer_engine.py --project .
+    checks:
+      - explicit_registry_profile
+      - deterministic_intent_matching
+      - evidence_packet_grounding
+      - exact_48_case_evaluation
+      - API_CLI_core_parity
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

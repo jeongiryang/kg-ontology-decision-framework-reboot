@@ -2,7 +2,23 @@
 
 국립창원대학교 학칙과 교육과정에 근거하여 질문에 답하고, 근거가 부족하거나 충돌하면 답변을 보류하는 학사조교 시스템의 Season 2 프로젝트입니다.
 
-현재 저장소는 **제품 구현 전 단계의 Codex 프로젝트 하네스**를 제공합니다. 챗봇 UI, Neo4j, PDF 파서, 로컬 LLM 서빙은 아직 구현 범위에 포함되지 않습니다.
+현재 저장소는 Codex 프로젝트 하네스와 승인된 2026학번 컴퓨터공학과 규칙만 사용하는 결정론적 학사 답변 엔진을 제공합니다. Neo4j, PDF 파서, 로컬 LLM 서빙은 구현 범위에 포함되지 않습니다.
+
+## 학사 답변 엔진
+
+Python 3.12에서 설치한 뒤 CLI 또는 localhost FastAPI 앱으로 같은 코어를 호출합니다.
+
+```bash
+python -m pip install -e ".[test]"
+academic-assistant ask --year 2026 --department 컴퓨터공학과 --question "졸업학점 얼마나 부족해" --credits credits.graduation.total=120 --json
+uvicorn academic_assistant.api:app --host 127.0.0.1 --port 8000
+```
+
+`--credits METRIC=VALUE`는 여러 번 사용할 수 있습니다. 기존 `--admission-year`,
+`--curriculum-year`, `--earned-credit`도 호환되지만 `--year`와 값이 충돌하거나 같은 metric이
+중복되면 입력 오류로 종료합니다.
+
+API는 `POST /v1/academic/answers`, 준비 상태는 `GET /readyz`입니다. 질문, 명시적 적용 범위와 승인된 학점 metric별 이수학점만 받으며 이름·학번·원본 성적표는 받지 않습니다. 질문 또는 근거를 저장하지 않으며 검증 오류와 지원 범위 밖 학과 값도 응답에 되돌려 보내지 않습니다. 재입학·전과·편입·경과조치는 별도 예외 근거가 없어 `insufficient_evidence`로 보류합니다.
 
 ## Season 2 원칙
 
@@ -53,9 +69,10 @@ docs/harness/        하네스 설계와 ADR
 scripts/reporting/   정제 Markdown/PDF 보고서 생성
 reports/             공개 가능한 실행 보고서
 tests/               하네스·계약·보고 검증
+src/academic_assistant/ 결정론적 코어와 FastAPI/CLI 어댑터
+evaluations/         48개 학사 답변 회귀 사례
 ```
 
 ## 공개 범위와 라이선스
 
 공개 저장소이지만 산학협력 결과물의 권리 관계가 확정되기 전까지 프로젝트 전체에 별도 오픈소스 라이선스를 부여하지 않습니다. 포함된 `codex-harness` 설치본의 Apache-2.0 출처는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 기록합니다.
-

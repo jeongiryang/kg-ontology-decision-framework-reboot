@@ -107,6 +107,28 @@
 규칙의 존재와 canonical SHA-256, `human/full/approved` 상태, 입학연도·교육과정·학과 범위,
 인용의 규칙·출처·locator 연결을 모두 대조한다. 하나라도 다르면 fail-closed로 거절한다.
 
+## AcademicAnswerRequest와 AcademicAnswerResponse
+
+답변 요청은 1~500자의 질문, `admission_year`, `matched_curriculum_year`, `department`, 선택적인
+`earned_credits`만 받는다. 학점 값은 승인된 credit metric을 키로 하는 0~500 정수이며 bool,
+알 수 없는 metric, 학생 식별정보와 원본 성적표는 검증 오류다. 응답은 결정론적 `packet_id`,
+네 상태 중 하나, 한국어 답변, 선택된 intent, 개별 metric 계산과 같은 상태·ID의 EvidencePacket을
+포함한다. 질문 원문과 로컬 경로는 응답하지 않는다.
+
+레지스트리는 명시적으로 등록한 13개 RuleFact, 출처 1개와 미검증 연구 항목 1개만 한 번씩 읽어
+스키마, 범위, 관계, `human/full/approved` 상태와 canonical SHA-256을 검증한다. canonical 형식은
+UTF-8 JSON, 정렬된 키, 공백 없는 구분자와 `ensure_ascii=false`다. 일부 파일이라도 손상되면 전체
+레지스트리를 사용할 수 없는 것으로 처리한다.
+
+승인 기준선은 `config/academic-registry-pins.json`에 RuleFact 13건, SourceEntry, 연구 항목과
+intent profile의 canonical digest로 고정한다. 각 객체가 스키마에는 맞더라도 판정값·문장·검수·
+적용범위·근거·별칭이 바뀌어 pin과 달라지면 레지스트리 전체가 닫힌다. Intent profile 자체도
+`AcademicIntentProfile` 스키마와 정확한 intent/rule coverage를 통과해야 한다.
+
+HTTP 400/422와 CLI exit 64는 고정된 `invalid request`만 반환하며 입력값이나 검증기의 `input`
+세부정보를 포함하지 않는다. 범위 밖 또는 레지스트리 장애 EvidencePacket은 사용자가 제출한
+학과 문자열 대신 고정된 `지원범위외` 표지를 사용한다.
+
 ## AcademicReviewPacket
 
 출처 적용 관계와 각 RuleFact의 관계·판정·해석을 사람이 전수 검수하기 위한 큐다.

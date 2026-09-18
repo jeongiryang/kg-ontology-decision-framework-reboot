@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "protected_aliases": ["pccp", "캡스톤", "졸업작품", "공모전", "총장상", "대회수상", "외부대회"],
+  "broad_graduation_aliases": ["졸업요건", "졸업조건", "졸업기준", "졸업가능", "졸업인증", "졸업할수"],
+  "exception_aliases": ["재입학", "재입학생", "전과", "전과생", "편입", "편입생", "경과조치", "경과조치대상"],
+  "negation_aliases": ["아닌", "아니고", "말고", "제외", "빼고"],
+  "disjunction_aliases": ["또는", "혹은", "아니면", "중하나"],
+  "conjunction_aliases": ["및", "그리고", "와", "과"],
+  "comparison_aliases": ["vs", "대비", "비교"],
+  "contextual_aliases": {"전선":["학점", "전공", "이수"]},
+  "intents": [
+    {"intent_id":"credits.general.balanced","kind":"specific","aliases":["균형교양"],"rule_ids":["cwnu.cs.2026.credits.general-balanced"]},
+    {"intent_id":"credits.general.foundation","kind":"specific","aliases":["기초교양"],"rule_ids":["cwnu.cs.2026.credits.general-foundation"]},
+    {"intent_id":"credits.general.remaining","kind":"specific","aliases":["교양잔여학점","교양잔여"],"rule_ids":["cwnu.cs.2026.credits.general-remaining"]},
+    {"intent_id":"credits.general.total","kind":"specific","aliases":["교양소계","교양총학점","교양최소이수학점"],"rule_ids":["cwnu.cs.2026.credits.general-total"]},
+    {"intent_id":"credits.graduation.remaining","kind":"specific","aliases":["졸업잔여학점","졸업잔여"],"rule_ids":["cwnu.cs.2026.credits.graduation-remaining"]},
+    {"intent_id":"credits.graduation.total","kind":"specific","aliases":["졸업학점","총이수학점","졸업최소학점"],"rule_ids":["cwnu.cs.2026.credits.graduation-total"]},
+    {"intent_id":"credits.major.advanced","kind":"specific","aliases":["심화전공"],"rule_ids":["cwnu.cs.2026.credits.major-advanced"]},
+    {"intent_id":"credits.major.elective","kind":"specific","aliases":["전공선택","전선"],"rule_ids":["cwnu.cs.2026.credits.major-elective"]},
+    {"intent_id":"credits.major.minimum","kind":"specific","aliases":["최소전공"],"rule_ids":["cwnu.cs.2026.credits.major-minimum"]},
+    {"intent_id":"credits.major.required","kind":"specific","aliases":["전공필수","전필"],"rule_ids":["cwnu.cs.2026.credits.major-required"]},
+    {"intent_id":"credits.major.total","kind":"specific","aliases":["전공소계","전공총학점","전공최소이수학점"],"rule_ids":["cwnu.cs.2026.credits.major-total"]},
+    {"intent_id":"graduation.thesis.required","kind":"specific","aliases":["졸업논문","논문요건"],"rule_ids":["cwnu.cs.2026.graduation.thesis-required"]},
+    {"intent_id":"graduation.thesis.substitution","kind":"specific","aliases":["졸업논문대체","논문대체요건","논문대체"],"rule_ids":["cwnu.cs.2026.graduation.thesis-substitution"]},
+    {"intent_id":"credits.general.bundle","kind":"bundle","aliases":["교양학점","교양은","교양"],"rule_ids":["cwnu.cs.2026.credits.general-balanced","cwnu.cs.2026.credits.general-foundation","cwnu.cs.2026.credits.general-remaining","cwnu.cs.2026.credits.general-total"]},
+    {"intent_id":"credits.major.bundle","kind":"bundle","aliases":["전공학점","전공은","전공"],"rule_ids":["cwnu.cs.2026.credits.major-advanced","cwnu.cs.2026.credits.major-elective","cwnu.cs.2026.credits.major-minimum","cwnu.cs.2026.credits.major-required","cwnu.cs.2026.credits.major-total"]}
+  ]
+}

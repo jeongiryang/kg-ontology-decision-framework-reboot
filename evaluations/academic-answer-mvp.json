@@ -1,0 +1,60 @@
+{
+  "schema_version":"1.0.0",
+  "scope":{"admission_year":2026,"matched_curriculum_year":2026,"department":"컴퓨터공학과"},
+  "cases":[
+    {"id":"canonical-01","category":"canonical","question":"균형교양","expected_status":"supported","expected_intents":["credits.general.balanced"]},
+    {"id":"canonical-02","category":"canonical","question":"기초교양","expected_status":"supported","expected_intents":["credits.general.foundation"]},
+    {"id":"canonical-03","category":"canonical","question":"교양 잔여학점","expected_status":"supported","expected_intents":["credits.general.remaining"]},
+    {"id":"canonical-04","category":"canonical","question":"교양 소계","expected_status":"supported","expected_intents":["credits.general.total"]},
+    {"id":"canonical-05","category":"canonical","question":"졸업 잔여학점","expected_status":"supported","expected_intents":["credits.graduation.remaining"]},
+    {"id":"canonical-06","category":"canonical","question":"졸업학점","expected_status":"supported","expected_intents":["credits.graduation.total"]},
+    {"id":"canonical-07","category":"canonical","question":"심화전공","expected_status":"supported","expected_intents":["credits.major.advanced"]},
+    {"id":"canonical-08","category":"canonical","question":"전공선택","expected_status":"supported","expected_intents":["credits.major.elective"]},
+    {"id":"canonical-09","category":"canonical","question":"최소전공","expected_status":"supported","expected_intents":["credits.major.minimum"]},
+    {"id":"canonical-10","category":"canonical","question":"전공필수","expected_status":"supported","expected_intents":["credits.major.required"]},
+    {"id":"canonical-11","category":"canonical","question":"전공 소계","expected_status":"supported","expected_intents":["credits.major.total"]},
+    {"id":"canonical-12","category":"canonical","question":"졸업논문","expected_status":"supported","expected_intents":["graduation.thesis.required"]},
+    {"id":"canonical-13","category":"canonical","question":"졸업논문 대체","expected_status":"supported","expected_intents":["graduation.thesis.substitution"]},
+
+    {"id":"paraphrase-01","category":"paraphrase","question":"균형 교양은 몇 학점 기준인가요","expected_status":"supported","expected_intents":["credits.general.balanced"]},
+    {"id":"paraphrase-02","category":"paraphrase","question":"기초 교양 최소 기준을 알려줘","expected_status":"supported","expected_intents":["credits.general.foundation"]},
+    {"id":"paraphrase-03","category":"paraphrase","question":"교양잔여 기준이 궁금해","expected_status":"supported","expected_intents":["credits.general.remaining"]},
+    {"id":"paraphrase-04","category":"paraphrase","question":"교양총학점 기준","expected_status":"supported","expected_intents":["credits.general.total"]},
+    {"id":"paraphrase-05","category":"paraphrase","question":"졸업잔여 기준","expected_status":"supported","expected_intents":["credits.graduation.remaining"]},
+    {"id":"paraphrase-06","category":"paraphrase","question":"졸업최소학점이 얼마죠","expected_status":"supported","expected_intents":["credits.graduation.total"]},
+    {"id":"paraphrase-07","category":"paraphrase","question":"심화 전공 기준","expected_status":"supported","expected_intents":["credits.major.advanced"]},
+    {"id":"paraphrase-08","category":"paraphrase","question":"전선 학점 기준","expected_status":"supported","expected_intents":["credits.major.elective"]},
+    {"id":"paraphrase-09","category":"paraphrase","question":"최소 전공 합계","expected_status":"supported","expected_intents":["credits.major.minimum"]},
+    {"id":"paraphrase-10","category":"paraphrase","question":"전필 기준","expected_status":"supported","expected_intents":["credits.major.required"]},
+    {"id":"paraphrase-11","category":"paraphrase","question":"전공총학점 기준","expected_status":"supported","expected_intents":["credits.major.total"]},
+    {"id":"paraphrase-12","category":"paraphrase","question":"논문요건이 있나요","expected_status":"supported","expected_intents":["graduation.thesis.required"]},
+    {"id":"paraphrase-13","category":"paraphrase","question":"논문대체요건은 무엇인가요","expected_status":"supported","expected_intents":["graduation.thesis.substitution"]},
+
+    {"id":"gap-01","category":"credit-gap","question":"균형교양 얼마나 부족해","earned_credits":{"credits.general.balanced":7},"expected_status":"supported","expected_gap":5},
+    {"id":"gap-02","category":"credit-gap","question":"기초교양 부족 학점","earned_credits":{"credits.general.foundation":9},"expected_status":"supported","expected_gap":0},
+    {"id":"gap-03","category":"credit-gap","question":"교양잔여학점 얼마나 남았어","earned_credits":{"credits.general.remaining":3},"expected_status":"supported","expected_gap":10},
+    {"id":"gap-04","category":"credit-gap","question":"교양소계 부족 학점","earned_credits":{"credits.general.total":30},"expected_status":"supported","expected_gap":4},
+    {"id":"gap-05","category":"credit-gap","question":"졸업잔여학점 얼마나 부족해","earned_credits":{"credits.graduation.remaining":10},"expected_status":"supported","expected_gap":8},
+    {"id":"gap-06","category":"credit-gap","question":"졸업학점 얼마나 부족해","earned_credits":{"credits.graduation.total":120},"expected_status":"supported","expected_gap":10},
+    {"id":"gap-07","category":"credit-gap","question":"심화전공 얼마나 부족해","earned_credits":{"credits.major.advanced":30},"expected_status":"supported","expected_gap":3},
+    {"id":"gap-08","category":"credit-gap","question":"전공선택 부족 학점","earned_credits":{"credits.major.elective":20},"expected_status":"supported","expected_gap":4},
+    {"id":"gap-09","category":"credit-gap","question":"최소전공 얼마나 남았어","earned_credits":{"credits.major.minimum":40},"expected_status":"supported","expected_gap":5},
+    {"id":"gap-10","category":"credit-gap","question":"전공필수 부족 학점","earned_credits":{"credits.major.required":18},"expected_status":"supported","expected_gap":3},
+    {"id":"gap-11","category":"credit-gap","question":"전공소계 얼마나 부족해","earned_credits":{"credits.major.total":70},"expected_status":"supported","expected_gap":8},
+
+    {"id":"research-01","category":"unverified-practice","question":"PCCP 400점이 캡스톤 통과 조건인가요","expected_status":"insufficient_evidence"},
+    {"id":"research-02","category":"unverified-practice","question":"캡스톤 1과 2의 순서가 있나요","expected_status":"insufficient_evidence"},
+    {"id":"research-03","category":"unverified-practice","question":"공모전 총장상으로 졸업작품을 대체하나요","expected_status":"insufficient_evidence"},
+
+    {"id":"scope-01","category":"scope-unsupported","question":"졸업학점","admission_year":2025,"expected_status":"out_of_scope"},
+    {"id":"scope-02","category":"scope-unsupported","question":"졸업학점","department":"기계공학과","expected_status":"out_of_scope"},
+    {"id":"scope-03","category":"scope-unsupported","question":"오늘 날씨","expected_status":"out_of_scope"},
+    {"id":"scope-04","category":"scope-unsupported","question":"복수전공 신청 기간","expected_status":"insufficient_evidence"},
+
+    {"id":"ambiguity-01","category":"ambiguity-conflict","question":"졸업요건을 모두 알려줘","expected_status":"insufficient_evidence"},
+    {"id":"ambiguity-02","category":"ambiguity-conflict","question":"전공필수 및 전공선택 기준","expected_status":"supported","expected_intents":["credits.major.elective","credits.major.required"]},
+
+    {"id":"invalid-01","category":"privacy-invalid","question":"학번 2026123456의 졸업학점","expected_error":"invalid_request"},
+    {"id":"invalid-02","category":"privacy-invalid","question":"졸업학점","earned_credits":{"unknown.metric":10},"expected_error":"invalid_request"}
+  ]
+}
