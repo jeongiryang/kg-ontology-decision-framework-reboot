@@ -682,10 +682,11 @@ def render_pdf(report: Mapping[str, Any], output_path: Path) -> None:
 
         story.append(
             KeepTogether([
-                _pdf_paragraph("공개 정보", heading),
-                _pdf_paragraph(f"주요 작업: {_display(report['publication']['major'])}", body),
                 _pdf_paragraph(
-                    f"PDF 필요: {_display(report['publication']['pdf_required'])}", body
+                    "공개 정보 · "
+                    f"주요 작업: {_display(report['publication']['major'])} · "
+                    f"PDF 필요: {_display(report['publication']['pdf_required'])}",
+                    body,
                 ),
             ])
         )
