@@ -495,7 +495,7 @@ def render_pdf(report: Mapping[str, Any], output_path: Path) -> None:
         from reportlab.pdfbase import pdfmetrics
         from reportlab.pdfbase.cidfonts import UnicodeCIDFont
         from reportlab.pdfgen import canvas
-        from reportlab.platypus import PageBreak, SimpleDocTemplate, Spacer, Table, TableStyle
+        from reportlab.platypus import KeepTogether, PageBreak, SimpleDocTemplate, Spacer, Table, TableStyle
     except ImportError as exc:
         raise ReportError(
             "reportlab is required for major-work PDFs; "
@@ -680,14 +680,14 @@ def render_pdf(report: Mapping[str, Any], output_path: Path) -> None:
         else:
             story.append(_pdf_paragraph("알려진 미해결 이슈 없음.", body))
 
-        story.extend(
-            [
+        story.append(
+            KeepTogether([
                 _pdf_paragraph("공개 정보", heading),
                 _pdf_paragraph(f"주요 작업: {_display(report['publication']['major'])}", body),
                 _pdf_paragraph(
                     f"PDF 필요: {_display(report['publication']['pdf_required'])}", body
                 ),
-            ]
+            ])
         )
 
         doc.build(
