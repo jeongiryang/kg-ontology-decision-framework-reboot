@@ -97,14 +97,28 @@ skills:
     trigger: completed_run_reporting
 
 contracts:
-  version: "1.0.0"
   schemas:
-    SourceEntry: contracts/source-entry.schema.json
-    RuleFact: contracts/rule-fact.schema.json
-    EvidencePacket: contracts/evidence-packet.schema.json
-    DSWRunRequest: contracts/dsw-run-request.schema.json
-    TaskResult: contracts/task-result.schema.json
-    CompletionReport: contracts/completion-report.schema.json
+    SourceEntry:
+      path: contracts/source-entry.schema.json
+      version: "2.0.0"
+    RuleFact:
+      path: contracts/rule-fact.schema.json
+      version: "2.0.0"
+    EvidencePacket:
+      path: contracts/evidence-packet.schema.json
+      version: "2.0.0"
+    AcademicReviewPacket:
+      path: contracts/academic-review-packet.schema.json
+      version: "1.0.0"
+    DSWRunRequest:
+      path: contracts/dsw-run-request.schema.json
+      version: "1.0.0"
+    TaskResult:
+      path: contracts/task-result.schema.json
+      version: "1.0.0"
+    CompletionReport:
+      path: contracts/completion-report.schema.json
+      version: "1.0.0"
 
 reporting:
   raw_run_data:
@@ -149,6 +163,15 @@ validation:
       - manifest_to_codex_config
       - manifest_to_documentation
     json_schema_meta_schema: https://json-schema.org/draft/2020-12/schema
+  academic_knowledge:
+    command: python scripts/validation/validate_academic_knowledge.py --project .
+    checks:
+      - source_and_rule_schema
+      - evidence_source_references
+      - rule_relationship_targets
+      - approved_authoritative_evidence
+      - review_queue_completeness
+      - graduation_thesis_fact_separation
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

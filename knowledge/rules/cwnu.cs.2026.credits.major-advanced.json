@@ -1,0 +1,10 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.credits.major-advanced",
+  "label": "심화전공 최소 이수학점",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "decision": {"statement": "심화전공을 33학점 이상 이수해야 한다.", "outcome": {"type": "credit_threshold", "metric": "credits.major.advanced", "comparator": "at_least", "credits": 33}, "operator": "threshold"},
+  "evidence": [{"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 심화전공 열", "evidence_type": "table_structure", "excerpt": "심화전공 33"}],
+  "review": {"status": "needs_review", "mode": "human", "scope": "full"}
+}

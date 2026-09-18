@@ -10,3 +10,5 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 | [0004](0004-pdf-completion-reports.md) | 중대 변경에 검증된 PDF 완료 보고서 생성 | 채택 |
 | [0005](0005-contract-sync-ci.md) | 계약 동기화·meta-schema·Mermaid 렌더링을 CI에서 검증 | 채택 |
 | [0006](0006-fail-closed-publication-and-deidentification.md) | 비식별 계약과 공개 보고서 쌍을 실패 폐쇄로 검증 | 채택 |
+| [0007](0007-admission-cohort-and-human-review.md) | 교육과정은 입학연도로 적용하고 학사 관계를 사람 전수 검수 | 채택 |
+| [0008](0008-portable-run-state-paths.md) | 실행 상태의 프로젝트 상대 경로를 POSIX 형식으로 정규화 | 채택 |

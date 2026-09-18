@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/academic-review-packet.schema.json",
+  "title": "AcademicReviewPacket",
+  "description": "A human review queue for academic sources, rule relationships, decisions, and interpretations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_id", "scope", "subjects", "overall_status"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "review_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["curriculum_year", "admission_year", "department"],
+      "properties": {
+        "curriculum_year": { "type": "integer", "minimum": 1900, "maximum": 2200 },
+        "admission_year": { "type": "integer", "minimum": 1900, "maximum": 2200 },
+        "department": { "type": "string", "minLength": 1 }
+      }
+    },
+    "subjects": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/subject" }
+    },
+    "overall_status": { "type": "string", "enum": ["open", "approved", "changes_requested"] },
+    "notes": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_type", "subject_id", "status", "review_question", "evidence_locators"],
+      "properties": {
+        "subject_type": { "type": "string", "enum": ["source", "rule"] },
+        "subject_id": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "needs_revision"] },
+        "review_question": { "type": "string", "minLength": 1 },
+        "evidence_locators": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "reviewer_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
+        "reviewed_at": { "type": "string", "format": "date-time" },
+        "comment": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "enum": ["approved", "rejected", "needs_revision"] } }, "required": ["status"] },
+          "then": { "required": ["reviewer_id", "reviewed_at", "comment"] }
+        }
+      ]
+    }
+  }
+}

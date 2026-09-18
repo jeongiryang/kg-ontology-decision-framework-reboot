@@ -14,6 +14,12 @@ from scripts.validation.validate_harness_sync import validate_project
 
 
 class HarnessSyncTests(unittest.TestCase):
+    def test_dependency_result_paths_are_serialized_portably(self):
+        root = Path(__file__).resolve().parents[1]
+        source = (root / ".agents/skills/harness/scripts/run_state.py").read_text(encoding="utf-8")
+        self.assertIn('f"task-{identifier}" / "result.json").as_posix()', source)
+        self.assertNotIn('str(directory.relative_to(project) / f"task-{identifier}" / "result.json")', source)
+
     def make_project(self, root: Path) -> None:
         (root / ".codex/agents").mkdir(parents=True)
         (root / ".agents/skills/example").mkdir(parents=True)
@@ -52,8 +58,12 @@ class HarnessSyncTests(unittest.TestCase):
                 {"name": "example", "path": ".agents/skills/example/SKILL.md"}
             ],
             "contracts": {
-                "version": "1.0.0",
-                "schemas": {"Example": "contracts/example.schema.json"},
+                "schemas": {
+                    "Example": {
+                        "path": "contracts/example.schema.json",
+                        "version": "1.0.0",
+                    }
+                },
             },
             "documentation": {"index": "docs/harness/README.md"},
         }
@@ -109,7 +119,7 @@ class HarnessSyncTests(unittest.TestCase):
             schema["properties"]["schema_version"]["const"] = "2.0.0"
             path.write_text(json.dumps(schema), encoding="utf-8")
             errors = validate_project(project)
-            self.assertTrue(any("does not match contracts.version" in error for error in errors))
+            self.assertTrue(any("does not match contracts.schemas.Example.version" in error for error in errors))
 
     def test_unregistered_schema_is_reported(self):
         with tempfile.TemporaryDirectory() as temp:

@@ -34,6 +34,8 @@ jobs:
         run: python .agents/skills/harness/scripts/validate.py --project .
       - name: Validate harness manifest synchronization and JSON Schema meta-schemas
         run: python scripts/validation/validate_harness_sync.py --project .
+      - name: Validate academic sources, rules, relationships, and review queue
+        run: python scripts/validation/validate_academic_knowledge.py --project .
       - name: Render every harness Mermaid block
         run: >-
           python scripts/validation/render_mermaid.py

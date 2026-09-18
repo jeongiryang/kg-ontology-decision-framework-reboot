@@ -37,17 +37,18 @@ class DocumentedContractExamplesTest(unittest.TestCase):
         "SourceEntry": "source-entry.schema.json",
         "RuleFact": "rule-fact.schema.json",
         "EvidencePacket": "evidence-packet.schema.json",
+        "AcademicReviewPacket": "academic-review-packet.schema.json",
         "DSWRunRequest": "dsw-run-request.schema.json",
         "TaskResult": "task-result.schema.json",
         "CompletionReport": "completion-report.schema.json",
     }
 
-    def test_all_six_examples_validate_against_live_schemas(self) -> None:
+    def test_all_documented_examples_validate_against_live_schemas(self) -> None:
         for heading, schema_file in self.EXAMPLES.items():
             with self.subTest(contract=heading):
                 validator(schema_file).validate(documented_example(heading))
 
-    def test_all_six_contract_schemas_pass_meta_schema_validation(self) -> None:
+    def test_all_contract_schemas_pass_meta_schema_validation(self) -> None:
         for schema_file in self.EXAMPLES.values():
             with self.subTest(schema=schema_file):
                 Draft202012Validator.check_schema(load_schema(schema_file))
@@ -75,6 +76,78 @@ class SourceEntrySecurityTest(unittest.TestCase):
             with self.subTest(locator=locator):
                 self.assertFalse(self.validator.is_valid(instance))
 
+    def test_curriculum_does_not_require_an_invented_effective_date(self) -> None:
+        self.assertNotIn("document_dates", self.valid)
+        self.validator.validate(self.valid)
+
+    def test_curriculum_requires_admission_year_applicability(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        del instance["applicability"]["admission_years"]
+        self.assertFalse(self.validator.is_valid(instance))
+
+    def test_approved_source_requires_human_review_record(self) -> None:
+        for field in ("reviewer_id", "reviewed_at", "rationale"):
+            instance = copy.deepcopy(self.valid)
+            del instance["review"][field]
+            with self.subTest(field=field):
+                self.assertFalse(self.validator.is_valid(instance))
+
+
+class RuleFactContractTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.validator = validator("rule-fact.schema.json")
+        self.valid = documented_example("RuleFact")
+
+    def test_v1_shape_is_rejected(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["schema_version"] = "1.0.0"
+        self.assertFalse(self.validator.is_valid(instance))
+
+    def test_base_rule_cannot_target_another_rule(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["relationship"]["target_rule_ids"] = ["another.rule"]
+        self.assertFalse(self.validator.is_valid(instance))
+
+    def test_non_base_rule_requires_a_target(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["relationship"]["kind"] = "exception"
+        self.assertFalse(self.validator.is_valid(instance))
+
+    def test_admission_year_rule_requires_cohort(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        del instance["applicability"]["admission_years"]
+        self.assertFalse(self.validator.is_valid(instance))
+
+    def test_none_listed_substitution_is_not_a_boolean_exemption(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["decision"] = {
+            "statement": "현재 교육과정에는 졸업논문 대체수단이 기재되어 있지 않다.",
+            "operator": "direct",
+            "outcome": {
+                "type": "substitution_policy",
+                "target_requirement": "graduation.thesis",
+                "listing_status": "none_listed",
+            },
+        }
+        self.validator.validate(instance)
+        instance["decision"]["outcome"]["required"] = False
+        self.assertFalse(self.validator.is_valid(instance))
+
+
+class AcademicReviewPacketTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.validator = validator("academic-review-packet.schema.json")
+        self.valid = documented_example("AcademicReviewPacket")
+
+    def test_pending_review_subject_is_valid(self) -> None:
+        self.validator.validate(self.valid)
+
+    def test_completed_review_subject_requires_audit_fields(self) -> None:
+        for status in ("approved", "rejected", "needs_revision"):
+            instance = copy.deepcopy(self.valid)
+            instance["subjects"][0]["status"] = status
+            with self.subTest(status=status):
+                self.assertFalse(self.validator.is_valid(instance))
 
 class EvidencePacketSecurityTest(unittest.TestCase):
     def setUp(self) -> None:
@@ -118,6 +191,14 @@ class EvidencePacketSecurityTest(unittest.TestCase):
         instance = copy.deepcopy(self.valid)
         instance["student_facts"]["completed_major_credits"] = 42
         self.validator.validate(instance)
+
+    def test_supported_packet_cannot_keep_review_issues(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["status"] = "supported"
+        instance["applied_rules"] = [
+            {"rule_id": "cwnu.cs.2026.graduation.total-credits", "rule_sha256": "a" * 64}
+        ]
+        self.assertFalse(self.validator.is_valid(instance))
 
 
 class DSWRunRequestSafetyTest(unittest.TestCase):

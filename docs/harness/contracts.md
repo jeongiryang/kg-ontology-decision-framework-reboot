@@ -12,47 +12,73 @@
 
 ## SourceEntry
 
-문서의 식별·적용·권위와 검토 상태를 기록한다.
+문서의 식별·권위, 입학연도 중심 적용 범위와 사람 검수 상태를 기록한다. 교육과정은 공식
+시행일이 없어도 교육과정 연도와 적용 입학연도가 원문 및 검수로 확인되면 승인할 수 있다.
 
 ```json
 {
-  "schema_version": "1.0.0",
-  "source_id": "cwnu-curriculum-2026",
-  "title": "2026 교육과정 예시",
+  "schema_version": "2.0.0",
+  "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+  "title": "2026 교육과정",
   "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
-  "effective_date": "2026-03-01",
-  "academic_years": [2026],
-  "departments": ["컴퓨터공학과"],
   "authority": "curriculum",
-  "review_state": "approved",
-  "canonical_locator": "sources/cwnu-curriculum-2026.pdf"
+  "applicability": {
+    "basis": "admission_year",
+    "curriculum_years": [2026],
+    "admission_years": [2026],
+    "departments": ["컴퓨터공학과"]
+  },
+  "review": {
+    "status": "approved",
+    "mode": "human",
+    "scope": "full",
+    "reviewer_id": "project_owner",
+    "reviewed_at": "2026-09-18T12:00:00+09:00",
+    "rationale": "2026 교육과정은 2026년도 입학자에게 적용한다."
+  },
+  "canonical_locator": "source://cwnu/curriculum/2026/changwon-campus"
 }
 ```
 
 ## RuleFact
 
-승인된 출처에서 추출한 적용 조건, 판정과 정확한 근거를 표현한다.
+승인된 출처에서 추출한 적용 조건, 규칙 간 관계, 타입화된 판정, 정확한 근거와 사람 검수
+상태를 표현한다. 경과조치·전과·재입학 같은 예외는 별도 규칙으로 분리한다.
 
 ```json
 {
-  "schema_version": "1.0.0",
-  "rule_id": "grad-total-credits-2026-cs",
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.graduation.total-credits",
   "applicability": {
-    "academic_years": [2026],
+    "basis": "admission_year",
+    "curriculum_years": [2026],
+    "admission_years": [2026],
     "departments": ["컴퓨터공학과"],
-    "effective_from": "2026-03-01"
+    "conditions": []
   },
+  "relationship": {"kind": "base", "target_rule_ids": []},
   "decision": {
     "statement": "졸업에 필요한 총 이수학점은 130학점 이상이다.",
-    "outcome": {"minimum_total_credits": 130},
+    "outcome": {
+      "type": "credit_threshold",
+      "metric": "graduation.total_credits",
+      "comparator": "at_least",
+      "credits": 130
+    },
     "operator": "threshold"
   },
-  "evidence": [{"source_id": "cwnu-curriculum-2026", "locator": "p.580"}],
-  "approval_status": "pending"
+  "evidence": [{
+    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+    "locator": "PDF p.577 (printed p.569)",
+    "evidence_type": "table_structure"
+  }],
+  "review": {"status": "needs_review", "mode": "human", "scope": "full"}
 }
 ```
 
-`pending` 규칙은 연구·검토 대상으로 사용할 수 있지만 학생 대상 확정 판정에 단독 사용하지 않는다.
+`needs_review` 규칙은 연구·검토 대상으로 사용할 수 있지만 학생 대상 확정 판정에 사용하지
+않는다. 승인된 규칙을 수정할 때에는 기존 객체를 덮어쓰지 않고 새 `rule_id`와
+`supersedes_rule_id`를 사용한다.
 
 ## EvidencePacket
 
@@ -60,23 +86,58 @@
 
 ```json
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "packet_id": "example-001",
-  "scope": {"academic_year": 2026, "department": "컴퓨터공학과"},
+  "scope": {
+    "admission_year": 2026,
+    "matched_curriculum_year": 2026,
+    "department": "컴퓨터공학과"
+  },
   "student_facts": {"completed_total_credits": 120},
-  "applied_rule_ids": ["grad-total-credits-2026-cs"],
+  "applied_rules": [],
   "evidence": [{
-    "source_id": "cwnu-curriculum-2026",
-    "rule_id": "grad-total-credits-2026-cs",
-    "locator": "p.580",
+    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+    "rule_id": "cwnu.cs.2026.graduation.total-credits",
+    "locator": "PDF p.577 (printed p.569)",
     "claim": "총 이수학점 기준"
   }],
-  "issues": [{"kind": "missing", "message": "이수 과목 목록이 필요하다."}],
+  "issues": [{"kind": "review", "message": "관계 정의에 대한 사람 검수가 필요하다."}],
   "status": "insufficient_evidence"
 }
 ```
 
 이름·학번·원본 성적표는 계약과 로그에 넣지 않는다.
+
+`supported`는 JSON Schema 통과만으로 성립하지 않는다. 저장소 인식 의미 검증기가 적용
+규칙의 존재와 canonical SHA-256, `human/full/approved` 상태, 입학연도·교육과정·학과 범위,
+인용의 규칙·출처·locator 연결을 모두 대조한다. 하나라도 다르면 fail-closed로 거절한다.
+
+## AcademicReviewPacket
+
+출처 적용 관계와 각 RuleFact의 관계·판정·해석을 사람이 전수 검수하기 위한 큐다.
+`overall_status=approved`는 모든 대상을 검수한 뒤에만 사용할 수 있다.
+큐의 subject 상태와 해당 SourceEntry/RuleFact의 `review` 상태, 검수자, 시각, 근거 문구는
+양방향으로 일치해야 한다. `full` 출처 검수는 제목·해시·권위·적용범위를 모두 포함한다.
+
+```json
+{
+  "schema_version": "1.0.0",
+  "review_id": "cwnu.cs.2026.initial-review",
+  "scope": {
+    "curriculum_year": 2026,
+    "admission_year": 2026,
+    "department": "컴퓨터공학과"
+  },
+  "subjects": [{
+    "subject_type": "rule",
+    "subject_id": "cwnu.cs.2026.graduation.total-credits",
+    "status": "pending",
+    "review_question": "26학번 컴퓨터공학과 졸업학점 130학점 관계가 맞습니까?",
+    "evidence_locators": ["PDF p.577 (printed p.569)"]
+  }],
+  "overall_status": "open"
+}
+```
 
 ## DSWRunRequest
 

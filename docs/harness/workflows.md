@@ -41,6 +41,8 @@ python .agents/skills/harness/scripts/run.py --project . start \
 
 ## 실패와 부분 재개
 
+하네스가 기록하는 프로젝트 상대 경로는 운영체제와 관계없이 `/` 구분자를 사용하는 POSIX 형식으로 정규화한다. 따라서 Windows에서 생성한 실행 상태도 Linux/WSL에서 재개할 수 있고, 역방향 재개도 같은 계약을 따른다.
+
 - 일시적 작업 오류는 원인을 확인한 뒤 기본 1회 재시도한다.
 - 필수 작업의 실패·미실행은 완료를 막는다. 선택 작업 생략은 이유와 영향을 기록한다.
 - 첫 네이티브 생성에서 실제 ID 없이 실패하면 추가 생성을 중단하고, 순차 대체 작업과 네이티브 실행 검증을 구분한다.
@@ -68,13 +70,22 @@ CI는 `harness-manifest.yaml`을 구조화된 색인으로 사용해 다음 실�
 
 - manifest의 역할명·경로와 `.codex/agents/*.toml`의 `name`
 - manifest의 스킬명·경로와 각 `SKILL.md` frontmatter의 `name`
-- manifest의 계약명·버전·경로와 `contracts/*.schema.json`의 `title`, `schema_version`, `$id`
+- manifest의 계약별 버전·경로와 `contracts/*.schema.json`의 `title`, `schema_version`, `$id`
 - 모든 JSON Schema의 Draft 2020-12 meta-schema 적합성
 - manifest의 동시 실행 한도와 `.codex/config.toml`
 - manifest에 등록된 설계 문서의 실제 존재 여부
 
 ```bash
 python scripts/validation/validate_harness_sync.py --project .
+```
+
+학사 출처·규칙·관계·검수 큐는 별도 의미 검증기로 확인한다. 스키마 통과만으로 승인된 근거,
+존재하는 관계 대상 또는 전수 검수 완료를 주장하지 않는다.
+또한 학생 답변을 `supported`로 공개하기 전에는 `validate_evidence_packet`으로 규칙 해시,
+승인 상태, 입학연도 범위와 인용 연결을 현재 저장소 지식과 대조한다.
+
+```bash
+python scripts/validation/validate_academic_knowledge.py --project .
 ```
 
 `AGENTS.md`, `harness-manifest.yaml`, `.codex/config.toml`, 에이전트·스킬·계약, 하네스 CI workflow, `scripts/reporting/` 또는 `scripts/validation/`이 바뀌면 같은 변경에서 `docs/harness/` 설명과 ADR을 갱신해야 한다. 이 freshness 정책의 실제 판정은 CI 검사 코드가 담당한다.
@@ -85,4 +96,3 @@ GitHub용 Mermaid는 코드 펜스 개수만 세지 않는다. CI가 고정된 `
 python scripts/validation/render_mermaid.py \
   --project . --output-dir /tmp/harness-mermaid-rendered
 ```
-

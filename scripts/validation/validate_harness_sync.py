@@ -181,22 +181,24 @@ def _validate_skills(project: Path, manifest: dict[str, Any], errors: list[str])
 
 def _validate_contracts(project: Path, manifest: dict[str, Any], errors: list[str]) -> None:
     contracts = _mapping(manifest.get("contracts"), "contracts", errors)
-    version = contracts.get("version")
-    if not isinstance(version, str) or not version:
-        errors.append("contracts.version: expected a non-empty string")
     schemas = _mapping(contracts.get("schemas"), "contracts.schemas", errors)
     declared_paths: list[str] = []
-    for title, raw_path in sorted(schemas.items()):
+    for title, raw_entry in sorted(schemas.items()):
         if not isinstance(title, str) or not title:
             errors.append("contracts.schemas: contract names must be non-empty strings")
             continue
+        entry = _mapping(raw_entry, f"contracts.schemas.{title}", errors)
+        raw_path = entry.get("path")
+        version = entry.get("version")
+        if not isinstance(version, str) or not version:
+            errors.append(f"contracts.schemas.{title}.version: expected a non-empty string")
         if isinstance(raw_path, str):
             declared_paths.append(raw_path.replace("\\", "/"))
-        path = _safe_path(project, raw_path, f"contracts.schemas.{title}", errors)
+        path = _safe_path(project, raw_path, f"contracts.schemas.{title}.path", errors)
         if path is None:
             continue
         if not path.is_file():
-            errors.append(f"contracts.schemas.{title}: missing file: {raw_path}")
+            errors.append(f"contracts.schemas.{title}.path: missing file: {raw_path}")
             continue
         try:
             schema = json.loads(path.read_text(encoding="utf-8"))
@@ -227,7 +229,7 @@ def _validate_contracts(project: Path, manifest: dict[str, Any], errors: list[st
         if schema_version != version:
             errors.append(
                 f"{path.relative_to(project)}: schema_version const {schema_version!r} "
-                f"does not match contracts.version {version!r}"
+                f"does not match contracts.schemas.{title}.version {version!r}"
             )
         schema_id = schema.get("$id")
         expected_suffix = "/" + path.relative_to(project).as_posix()

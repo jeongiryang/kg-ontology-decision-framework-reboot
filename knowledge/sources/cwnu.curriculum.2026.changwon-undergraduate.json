@@ -1,0 +1,23 @@
+{
+  "schema_version": "2.0.0",
+  "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+  "title": "교육과정 2026",
+  "sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+  "authority": "curriculum",
+  "applicability": {
+    "basis": "admission_year",
+    "curriculum_years": [2026],
+    "admission_years": [2026],
+    "departments": ["컴퓨터공학과"],
+    "conditions": ["재입학·전과·편입·경과조치는 별도 예외 근거가 확인될 때까지 이 기본 적용 관계에 포함하지 않는다."]
+  },
+  "review": {
+    "status": "needs_review",
+    "mode": "human",
+    "scope": "full"
+  },
+  "notes": [
+    "원본 PDF는 공개 Git에 포함하지 않는다.",
+    "원문에 명시된 발행일 또는 시행일이 없어 document_dates는 기록하지 않는다."
+  ]
+}

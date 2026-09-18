@@ -2,28 +2,20 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/evidence-packet.schema.json",
   "title": "EvidencePacket",
-  "description": "De-identified facts, applied rules, citations, and support status for one academic-assistant answer.",
+  "description": "De-identified facts, cohort scope, immutable applied-rule snapshots, citations, issues, and support status for one academic-assistant answer.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "packet_id",
-    "scope",
-    "student_facts",
-    "applied_rule_ids",
-    "evidence",
-    "issues",
-    "status"
-  ],
+  "required": ["schema_version", "packet_id", "scope", "student_facts", "applied_rules", "evidence", "issues", "status"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
     "packet_id": { "type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{2,127}$" },
     "scope": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["academic_year", "department"],
+      "required": ["admission_year", "matched_curriculum_year", "department"],
       "properties": {
-        "academic_year": { "type": "integer", "minimum": 1900, "maximum": 2200 },
+        "admission_year": { "type": "integer", "minimum": 1900, "maximum": 2200 },
+        "matched_curriculum_year": { "type": "integer", "minimum": 1900, "maximum": 2200 },
         "department": { "type": "string", "minLength": 1 }
       }
     },
@@ -33,11 +25,20 @@
       "propertyNames": { "$ref": "#/$defs/safeFactName" },
       "additionalProperties": { "$ref": "#/$defs/deidentifiedFact" }
     },
-    "applied_rule_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
-    "evidence": {
+    "applied_rules": {
       "type": "array",
-      "items": { "$ref": "#/$defs/evidenceReference" }
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "rule_sha256"],
+        "properties": {
+          "rule_id": { "type": "string", "minLength": 1 },
+          "rule_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
     },
+    "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidenceReference" } },
     "issues": {
       "type": "array",
       "items": {
@@ -51,21 +52,16 @@
         }
       }
     },
-    "status": {
-      "type": "string",
-      "enum": ["supported", "insufficient_evidence", "conflict", "out_of_scope"]
-    }
+    "status": { "type": "string", "enum": ["supported", "insufficient_evidence", "conflict", "out_of_scope"] }
   },
   "allOf": [
     {
-      "if": {
-        "properties": { "status": { "const": "supported" } },
-        "required": ["status"]
-      },
+      "if": { "properties": { "status": { "const": "supported" } }, "required": ["status"] },
       "then": {
         "properties": {
-          "applied_rule_ids": { "minItems": 1 },
-          "evidence": { "minItems": 1 }
+          "applied_rules": { "minItems": 1 },
+          "evidence": { "minItems": 1 },
+          "issues": { "maxItems": 0 }
         }
       }
     }
@@ -79,28 +75,14 @@
     },
     "deidentifiedFact": {
       "oneOf": [
-        {
-          "type": "string",
-          "not": { "pattern": "[0-9]{6,12}" }
-        },
+        { "type": "string", "not": { "pattern": "[0-9]{6,12}" } },
         { "type": ["boolean", "null"] },
         {
           "type": "integer",
-          "not": {
-            "allOf": [
-              { "minimum": 100000 },
-              { "maximum": 999999999999 }
-            ]
-          }
+          "not": { "allOf": [{ "minimum": 100000 }, { "maximum": 999999999999 }] }
         },
-        {
-          "type": "number",
-          "not": { "type": "integer" }
-        },
-        {
-          "type": "array",
-          "items": { "$ref": "#/$defs/deidentifiedFact" }
-        },
+        { "type": "number", "not": { "type": "integer" } },
+        { "type": "array", "items": { "$ref": "#/$defs/deidentifiedFact" } },
         {
           "type": "object",
           "propertyNames": { "$ref": "#/$defs/safeFactName" },
@@ -111,7 +93,7 @@
     "evidenceReference": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source_id", "locator"],
+      "required": ["source_id", "rule_id", "locator", "claim"],
       "properties": {
         "source_id": { "type": "string", "minLength": 1 },
         "rule_id": { "type": "string", "minLength": 1 },

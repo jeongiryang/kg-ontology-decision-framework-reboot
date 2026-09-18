@@ -2,53 +2,86 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/source-entry.schema.json",
   "title": "SourceEntry",
-  "description": "Identity, applicability, authority, and review state of an academic source without local paths or secrets.",
+  "description": "Identity, cohort applicability, authority, optional document dates, and human review state of an academic source.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "source_id",
-    "title",
-    "sha256",
-    "effective_date",
-    "academic_years",
-    "departments",
-    "authority",
-    "review_state"
-  ],
+  "required": ["schema_version", "source_id", "title", "sha256", "authority", "applicability", "review"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
     "source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
     "title": { "type": "string", "minLength": 1 },
     "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-    "effective_date": { "type": "string", "format": "date" },
     "supersedes_source_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
-    "academic_years": {
-      "type": "array",
-      "minItems": 1,
-      "uniqueItems": true,
-      "items": { "type": "integer", "minimum": 1900, "maximum": 2200 }
+    "authority": { "type": "string", "enum": ["university_statute", "curriculum", "department_guidance", "validation_aid"] },
+    "applicability": { "$ref": "#/$defs/applicability" },
+    "document_dates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "published_on": { "type": "string", "format": "date" },
+        "effective_from": { "type": "string", "format": "date" },
+        "effective_to": { "type": "string", "format": "date" }
+      }
     },
-    "departments": {
-      "type": "array",
-      "minItems": 1,
-      "uniqueItems": true,
-      "items": { "type": "string", "minLength": 1 }
-    },
-    "authority": {
-      "type": "string",
-      "enum": ["university_statute", "curriculum", "department_guidance", "validation_aid"]
-    },
-    "review_state": {
-      "type": "string",
-      "enum": ["pending", "approved", "rejected", "needs_review"]
-    },
+    "review": { "$ref": "#/$defs/review" },
     "canonical_locator": {
       "type": "string",
       "minLength": 1,
       "pattern": "^(?!(?:[A-Za-z]:[\\\\/]|/|\\\\\\\\|[Ff][Ii][Ll][Ee]:)).+",
       "description": "Public or repository-relative locator; Windows, Unix, UNC, and file URI absolute paths are prohibited."
     },
-    "notes": { "type": "array", "items": { "type": "string" } }
+    "notes": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "authority": { "const": "curriculum" } }, "required": ["authority"] },
+      "then": {
+        "properties": {
+          "applicability": {
+            "properties": { "basis": { "const": "admission_year" } },
+            "required": ["curriculum_years", "admission_years", "departments"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "yearList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 1900, "maximum": 2200 }
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis", "departments"],
+      "properties": {
+        "basis": { "type": "string", "enum": ["admission_year", "effective_period", "informational"] },
+        "curriculum_years": { "$ref": "#/$defs/yearList" },
+        "admission_years": { "$ref": "#/$defs/yearList" },
+        "departments": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "conditions": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "mode", "scope"],
+      "properties": {
+        "status": { "type": "string", "enum": ["draft", "needs_review", "approved", "rejected"] },
+        "mode": { "const": "human" },
+        "scope": { "const": "full" },
+        "reviewer_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
+        "reviewed_at": { "type": "string", "format": "date-time" },
+        "rationale": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "enum": ["approved", "rejected"] } }, "required": ["status"] },
+          "then": { "required": ["reviewer_id", "reviewed_at", "rationale"] }
+        }
+      ]
+    }
   }
 }

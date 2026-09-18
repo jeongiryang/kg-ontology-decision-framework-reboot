@@ -351,7 +351,9 @@ def start_task(project: Path, run_id: str, task_id: str, agent_id: str) -> dict:
             result, errors = _accepted(project, directory, _task(plan, identifier))
             if errors:
                 raise ValueError("Dependency changed before start: " + " ".join(errors))
-            dependency_paths.append(str(directory.relative_to(project) / f"task-{identifier}" / "result.json"))
+            dependency_paths.append(
+                (directory.relative_to(project) / f"task-{identifier}" / "result.json").as_posix()
+            )
             dependency_paths.extend(result["artifacts"])
         task["dependency_fingerprints"] = snapshot_inputs(project, list(dict.fromkeys(dependency_paths)))
         task.pop("artifact_fingerprints", None)

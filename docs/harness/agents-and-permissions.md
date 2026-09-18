@@ -7,8 +7,8 @@
 | 메인 오케스트레이터 | 요구 확정, 분해, 의존성·소유권, 통합, 완료 판정 | 공용 설정과 통합 파일 | 실행 계획, 최종 보고 |
 | `harness_explorer` | 코드·문서·경계 조사 | 없음 | 경로·행 근거와 불확실성 |
 | `harness_architect` | 인터페이스, 작업 순서, 완료 조건 설계 | 없음 | 결정 가능한 구현 패킷 |
-| `academic_source_auditor` | 문서 버전·시행일·페이지·충돌·인용 가능성 감사 | 없음 | `SourceEntry` 제안과 감사 결과 |
-| `academic_rule_modeler` | 승인된 원문을 규칙·온톨로지 계약으로 구조화 | 배정된 규칙·계약 경로 | `RuleFact`, 모델링 이슈 |
+| `academic_source_auditor` | 문서 버전·교육과정 연도·적용 입학연도·페이지·충돌 감사 | 없음 | `SourceEntry` 제안과 감사 결과 |
+| `academic_rule_modeler` | 승인된 원문을 입학연도·관계·사람 검수가 있는 규칙으로 구조화 | 배정된 규칙·계약 경로 | `RuleFact`, 검수 큐, 모델링 이슈 |
 | `harness_worker` | 파서·검색·API·UI 등 배정된 제품 구현 | 명시된 소유 파일만 | 코드와 실제 검사 결과 |
 | `harness_reviewer` | 정확성·회귀·보안·개인정보·환각 위험 검토 | 없음 | 심각도·경로·재현 조건이 있는 지적 |
 | `harness_qa` | 테스트, 평가셋, 인용 연결, 거절 동작 검증 | 테스트·검증 산출물만 | 통과·실패·미실행 근거 |
@@ -52,4 +52,3 @@
 | 일반 기능 구현 | 필요 시 `harness_explorer`/`harness_architect` → `harness_worker` → 리뷰·QA |
 | GPU 기반 실험 | `harness_architect` → `dsw_compute_operator` → `harness_qa` |
 | 문서·오탈자 수정 | 메인 또는 워커 → 영향에 비례한 검사 |
-

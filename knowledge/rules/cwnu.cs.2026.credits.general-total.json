@@ -1,0 +1,10 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.credits.general-total",
+  "label": "교양 최소 이수학점 합계",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "decision": {"statement": "교양을 합계 34학점 이상 이수해야 한다.", "outcome": {"type": "credit_threshold", "metric": "credits.general.total", "comparator": "at_least", "credits": 34}, "operator": "threshold"},
+  "evidence": [{"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 소계 열", "evidence_type": "table_structure", "excerpt": "교양 소계 34"}],
+  "review": {"status": "needs_review", "mode": "human", "scope": "full"}
+}

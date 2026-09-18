@@ -2,74 +2,171 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/rule-fact.schema.json",
   "title": "RuleFact",
-  "description": "A versioned academic rule modeled from reviewed evidence.",
+  "description": "A versioned academic rule with cohort applicability, typed relationships and decisions, evidence, and full human review state.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "rule_id",
-    "applicability",
-    "decision",
-    "evidence",
-    "approval_status"
-  ],
+  "required": ["schema_version", "rule_id", "applicability", "relationship", "decision", "evidence", "review"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
     "rule_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
     "label": { "type": "string", "minLength": 1 },
-    "applicability": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["academic_years", "departments", "effective_from"],
-      "properties": {
-        "academic_years": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": { "type": "integer", "minimum": 1900, "maximum": 2200 }
-        },
-        "departments": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
-        },
-        "effective_from": { "type": "string", "format": "date" },
-        "effective_to": { "type": ["string", "null"], "format": "date" },
-        "conditions": { "type": "array", "items": { "type": "string", "minLength": 1 } }
-      }
-    },
+    "supersedes_rule_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
+    "applicability": { "$ref": "#/$defs/applicability" },
+    "relationship": { "$ref": "#/$defs/relationship" },
     "decision": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["statement"],
+      "required": ["statement", "outcome", "operator"],
       "properties": {
         "statement": { "type": "string", "minLength": 1 },
-        "outcome": {},
+        "outcome": { "$ref": "#/$defs/outcome" },
         "operator": { "type": "string", "enum": ["all", "any", "threshold", "direct"] }
       }
     },
-    "evidence": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "$ref": "#/$defs/evidenceReference" }
-    },
-    "approval_status": {
-      "type": "string",
-      "enum": ["pending", "approved", "rejected", "needs_review"]
-    },
-    "review_notes": { "type": "array", "items": { "type": "string" } }
+    "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidenceReference" } },
+    "review": { "$ref": "#/$defs/review" },
+    "review_notes": { "type": "array", "items": { "type": "string", "minLength": 1 } }
   },
   "$defs": {
+    "yearList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 1900, "maximum": 2200 }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact_key", "operator"],
+      "properties": {
+        "fact_key": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+        "operator": { "type": "string", "enum": ["equals", "not_equals", "in", "not_in", "at_least", "at_most", "exists"] },
+        "value": {}
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "operator": { "const": "exists" } }, "required": ["operator"] },
+          "then": { "not": { "required": ["value"] } },
+          "else": { "required": ["value"] }
+        }
+      ]
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis", "departments", "conditions"],
+      "properties": {
+        "basis": { "type": "string", "enum": ["admission_year", "effective_period", "mixed"] },
+        "curriculum_years": { "$ref": "#/$defs/yearList" },
+        "admission_years": { "$ref": "#/$defs/yearList" },
+        "departments": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "effective_from": { "type": "string", "format": "date" },
+        "effective_to": { "type": "string", "format": "date" },
+        "conditions": { "type": "array", "items": { "$ref": "#/$defs/condition" } }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "basis": { "const": "admission_year" } }, "required": ["basis"] },
+          "then": { "required": ["curriculum_years", "admission_years"] }
+        },
+        {
+          "if": { "properties": { "basis": { "const": "effective_period" } }, "required": ["basis"] },
+          "then": { "required": ["effective_from"] }
+        },
+        {
+          "if": { "properties": { "basis": { "const": "mixed" } }, "required": ["basis"] },
+          "then": { "required": ["curriculum_years", "admission_years", "effective_from"] }
+        }
+      ]
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "target_rule_ids"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["base", "exception", "override", "supplement"] },
+        "target_rule_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" } }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "base" } }, "required": ["kind"] },
+          "then": { "properties": { "target_rule_ids": { "maxItems": 0 } } },
+          "else": { "properties": { "target_rule_ids": { "minItems": 1 } } }
+        }
+      ]
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "metric", "comparator", "credits"],
+          "properties": {
+            "type": { "const": "credit_threshold" },
+            "metric": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "comparator": { "const": "at_least" },
+            "credits": { "type": "integer", "minimum": 0, "maximum": 500 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "requirement", "required"],
+          "properties": {
+            "type": { "const": "boolean_requirement" },
+            "requirement": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "required": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "target_requirement", "listing_status"],
+          "properties": {
+            "type": { "const": "substitution_policy" },
+            "target_requirement": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "listing_status": { "type": "string", "enum": ["none_listed", "listed"] },
+            "substitute_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+          },
+          "allOf": [
+            {
+              "if": { "properties": { "listing_status": { "const": "listed" } }, "required": ["listing_status"] },
+              "then": { "required": ["substitute_ids"], "properties": { "substitute_ids": { "minItems": 1 } } },
+              "else": { "properties": { "substitute_ids": { "maxItems": 0 } } }
+            }
+          ]
+        }
+      ]
+    },
     "evidenceReference": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source_id", "locator"],
+      "required": ["source_id", "locator", "evidence_type"],
       "properties": {
         "source_id": { "type": "string", "minLength": 1 },
         "locator": { "type": "string", "minLength": 1 },
-        "excerpt": { "type": "string" }
+        "evidence_type": { "type": "string", "enum": ["explicit_text", "table_structure", "department_confirmation", "interpretation", "derived_calculation"] },
+        "excerpt": { "type": "string", "minLength": 1 }
       }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "mode", "scope"],
+      "properties": {
+        "status": { "type": "string", "enum": ["draft", "needs_review", "approved", "rejected"] },
+        "mode": { "const": "human" },
+        "scope": { "const": "full" },
+        "reviewer_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
+        "reviewed_at": { "type": "string", "format": "date-time" },
+        "rationale": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "enum": ["approved", "rejected"] } }, "required": ["status"] },
+          "then": { "required": ["reviewer_id", "reviewed_at", "rationale"] }
+        }
+      ]
     }
   }
 }

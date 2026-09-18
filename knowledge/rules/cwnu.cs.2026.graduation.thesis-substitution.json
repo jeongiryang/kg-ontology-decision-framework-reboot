@@ -1,0 +1,11 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.graduation.thesis-substitution",
+  "label": "졸업논문 대체요건 기재 상태",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"]},
+  "decision": {"statement": "현재 교육과정 규정집에는 컴퓨터공학과 졸업논문 대체요건이 기재되어 있지 않다.", "outcome": {"type": "substitution_policy", "target_requirement": "graduation.thesis.required", "listing_status": "none_listed", "substitute_ids": []}, "operator": "direct"},
+  "evidence": [{"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.567 (printed p.559): 졸업논문 대체요건 표의 컴퓨터공학과 행", "evidence_type": "table_structure", "excerpt": "해당사항 없음"}],
+  "review": {"status": "needs_review", "mode": "human", "scope": "full"},
+  "review_notes": ["none_listed는 이 출처에 기재된 대체수단이 없다는 뜻이며 졸업논문 면제 또는 대체 금지를 뜻하지 않는다.", "추후 확인되는 학과 운영자료는 별도 출처와 새 규칙 버전으로 반영한다."]
+}

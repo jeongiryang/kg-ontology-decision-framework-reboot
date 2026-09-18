@@ -1,0 +1,10 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.credits.major-total",
+  "label": "전공 최소 이수학점 합계",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "decision": {"statement": "전공을 합계 78학점 이상 이수해야 한다.", "outcome": {"type": "credit_threshold", "metric": "credits.major.total", "comparator": "at_least", "credits": 78}, "operator": "threshold"},
+  "evidence": [{"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공 소계 열", "evidence_type": "table_structure", "excerpt": "전공 소계 78"}],
+  "review": {"status": "needs_review", "mode": "human", "scope": "full"}
+}

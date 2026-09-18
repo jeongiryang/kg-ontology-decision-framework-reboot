@@ -1,0 +1,11 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.graduation.thesis-required",
+  "label": "졸업논문 요구",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "decision": {"statement": "졸업을 위해 졸업논문 요건을 충족해야 한다.", "outcome": {"type": "boolean_requirement", "requirement": "graduation.thesis.required", "required": true}, "operator": "direct"},
+  "evidence": [{"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.565 (printed p.557): 일반 졸업요건의 졸업논문 통과 요구", "evidence_type": "explicit_text", "excerpt": "졸업논문 통과 요구"}],
+  "review": {"status": "needs_review", "mode": "human", "scope": "full"},
+  "review_notes": ["학과별 적용과 원문 표현을 전수 검수한다."]
+}
