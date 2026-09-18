@@ -139,6 +139,97 @@
 }
 ```
 
+## AcademicClarificationPacket
+
+검수 대상의 실질적 모호성을 사용자에게 보여 줄 근거·선택지·영향으로 묶고, 검수 세션
+권한과 정확한 응답을 감사 가능하게 기록한다. 촉진자는 패킷을 제안할 뿐 사용자에게 직접
+질문하거나 규칙을 승인하지 않는다. `department_confirmation`은 같은 세션의
+`authority_granted` 사건 뒤 명시적으로 받은 답변에만 사용할 수 있다.
+
+```json
+{
+  "schema_version": "1.0.0",
+  "clarification_id": "cwnu.cs.2026.example.questions",
+  "review_id": "cwnu.cs.2026.initial-rules",
+  "state": "ready",
+  "coverage_mode": "partial",
+  "scope": {"curriculum_year": 2026, "admission_year": 2026, "department": "컴퓨터공학과"},
+  "input_snapshots": [{
+    "artifact_id": "review:cwnu.cs.2026.initial-rules",
+    "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  }],
+  "session": {
+    "session_id": "cwnu.cs.2026.example-session",
+    "run_id": "example-clarification-v1",
+    "thread_binding": "current_task",
+    "state": "awaiting_authority",
+    "started_at": "2026-09-18T14:30:00+09:00",
+    "authority": {
+      "kind": "department_confirmation",
+      "status": "not_requested",
+      "authorization_prompt": "이번 검수 세션의 명시적 답변을 학과 확인으로 기록해도 됩니까?",
+      "choices": ["grant", "decline"]
+    }
+  },
+  "batches": [{
+    "batch_id": "graduation",
+    "ordinal": 1,
+    "topic": "졸업학점",
+    "status": "queued",
+    "questions": [{
+      "question_id": "graduation.total",
+      "subject_ids": ["cwnu.cs.2026.credits.graduation-total"],
+      "purpose": "review_confirmation",
+      "ambiguity_kind": "applicability",
+      "required_authority": "department_confirmation",
+      "evidence": [{
+        "subject_id": "cwnu.cs.2026.credits.graduation-total",
+        "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+        "authority": "curriculum",
+        "locator": "PDF p.577 컴퓨터공학과 행",
+        "claim": "졸업학점 130"
+      }],
+      "prompt": "26학번 컴퓨터공학과 졸업학점 130학점 적용이 맞습니까?",
+      "impact": "보류하면 이 규칙은 needs_review로 남습니다.",
+      "choices": [
+        {"choice_id": "confirm", "label": "맞음", "disposition": "approve", "impact": "승인 후보로 전달합니다."},
+        {"choice_id": "defer", "label": "보류", "disposition": "pending", "impact": "미승인으로 유지합니다."}
+      ],
+      "recommended_choice_id": "confirm",
+      "blocking_subject_ids": ["cwnu.cs.2026.credits.graduation-total"],
+      "status": "queued"
+    }]
+  }],
+  "suppressed": [],
+  "conflicts": [],
+  "responses": [],
+  "audit_events": [{
+    "event_id": "event.created",
+    "event": "created",
+    "at": "2026-09-18T14:30:00+09:00",
+    "actor": "main",
+    "details": "질문 패킷을 생성했다."
+  }]
+}
+```
+
+실제 패킷은 검수대장뿐 아니라 질문에 포함된 각 SourceEntry·RuleFact의 canonical SHA-256도
+`input_snapshots`에 고정한다. 질문 근거도 subject별 현재 출처 권위·정확한 locator·근거 발췌와
+동일해야 한다. RuleFact 근거의 `claim`은 정규화된 최종 판정문보다 해당 근거의 `excerpt`를
+우선 사용하므로 서로 다른 원문 주장을 가진 충돌도 표현할 수 있다. 의미 검증기는 정확한 1회 포함, 현재 객체 해시, 권한 부여·만료 시각, 필수 권한,
+선택 disposition과 질문 상태, 수정 선택의 별도 설명을 대조한다.
+질문하지 않은 침묵, 권한 만료 뒤 답변, `보류`를 `승인`으로 바꾼 기록은 승인 근거가 될 수 없다.
+자유서술은 명시적 선택으로 정규화되기 전까지 승인되지 않으며, 닫힌 세션은 권한 종료와 세션
+종료 감사 사건을 같은 종료 시각에 남긴다. 제시·응답 사건은 질문 ID와 응답 ID로 연결한다.
+충돌은 관련 subject, 양쪽의 등록 출처·정확한 locator·원문 claim과 권위 우선순위가 모두 현재
+객체와 일치해야 한다. 숫자 뒤의 `학점` 같은 표기 차이를 제거한 claim 서명까지 같으면 실질
+충돌로 보지 않는다. `conflict_triage` 질문은 승인 선택지와 `accepted` 상태를 가질 수 없으며,
+근거 제출·수정·보류 또는 충돌 보존 경로만 허용한다.
+스냅샷에 맞고 양쪽 claim이 실질적으로 달라야 하며, 대응하는 `conflict_triage` 질문 없이 임의로
+만들 수 없다. 모든 감사 사건은 세션 시간 범위 안에 있어야 하고 입력 스냅샷 ID는 중복될 수 없다.
+권한 사건은 미요청 → 부여 → 만료/철회 또는 미요청 → 거절의 단방향 전이만 허용하며,
+감사 사건이 가리키는 질문·응답 ID도 현재 패킷에 실제로 존재해야 한다.
+
 ## DSWRunRequest
 
 연구실 서버에서 허용된 계산 작업의 범위와 승인을 기록한다.

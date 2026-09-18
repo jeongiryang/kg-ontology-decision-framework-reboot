@@ -17,15 +17,21 @@
 - 2026학번 컴퓨터공학과 SourceEntry 1건, 학점·졸업논문 RuleFact 13건과 14개 대상 검수 큐
 - 졸업논문 의무와 현재 규정집의 대체요건 `none_listed`를 구분하는 별도 규칙
 - 승인 규칙 해시·적용범위·인용 연결과 검수 큐 상태를 저장소 지식과 대조하는 의미 검증
+- 근거·선택지·영향을 최대 3개씩 제시하는 읽기 전용 `academic_review_facilitator`와 `academic-clarification` 스킬
+- 세션 범위 권한과 응답 감사를 기록하는 `AcademicClarificationPacket`, 의미 검증기와 최초 14개 대상 질문 패킷
 
 ### Changed
 
 - 교육과정 적용 기준을 임의 시행일이 아닌 교육과정 연도와 입학연도 관계로 명시
 - SourceEntry와 RuleFact의 승인 상태를 검수 큐와 양방향 동기화하고, 전체 검수 전에는 `supported` 답변을 차단
 - Windows와 Linux/WSL에서 실행 상태를 공유하도록 하네스 상대 경로를 POSIX 형식으로 정규화
+- 사용자 검수 답변은 명시적 세션 권한 이후에만 `department_confirmation`으로 반영하도록 학사 모델링 흐름을 변경
+- 충돌 판단은 정규화된 규칙 문장 대신 출처별 원문 발췌와 위치에 결합하도록 변경
 
 ### Security
 
 - 원본 PDF/HWP/XLSX, 학생 데이터, 서버 접속정보와 원시 실행 로그를 Git 추적에서 제외
 - 학사 사실의 학생 식별 필드·중첩 학번 값과 JSON 없는 고아 Markdown/PDF 보고서를 실패 폐쇄 방식으로 차단
 - 존재하지 않거나 미승인인 규칙, 불일치 해시·범위·출처로 `supported` EvidencePacket을 만드는 경로 차단
+- 닫힌 검수 세션에서 거절·만료·철회 종료 사건이 중복되는 권한 전이를 차단
+- 보존된 충돌 질문의 승인 우회와 표기만 다른 주장의 가짜 충돌 등록을 차단

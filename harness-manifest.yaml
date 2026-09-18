@@ -50,6 +50,11 @@ agents:
     permission: assigned_contract_paths
     input: approved_SourceEntry
     output: RuleFact
+  - name: academic_review_facilitator
+    config: .codex/agents/academic-review-facilitator.toml
+    permission: read_only
+    input: SourceEntry_RuleFact_AcademicReviewPacket
+    output: AcademicClarificationPacket
   - name: harness_worker
     config: .codex/agents/harness-worker.toml
     permission: assigned_product_paths
@@ -86,6 +91,9 @@ skills:
   - name: academic-rule-modeling
     path: .agents/skills/academic-rule-modeling/SKILL.md
     trigger: academic_rule_or_ontology_change
+  - name: academic-clarification
+    path: .agents/skills/academic-clarification/SKILL.md
+    trigger: unresolved_academic_review_question_or_review_session
   - name: academic-evaluation
     path: .agents/skills/academic-evaluation/SKILL.md
     trigger: academic_answer_QA
@@ -109,6 +117,9 @@ contracts:
       version: "2.0.0"
     AcademicReviewPacket:
       path: contracts/academic-review-packet.schema.json
+      version: "1.0.0"
+    AcademicClarificationPacket:
+      path: contracts/academic-clarification-packet.schema.json
       version: "1.0.0"
     DSWRunRequest:
       path: contracts/dsw-run-request.schema.json
@@ -172,6 +183,15 @@ validation:
       - approved_authoritative_evidence
       - review_queue_completeness
       - graduation_thesis_fact_separation
+  academic_clarifications:
+    command: python scripts/validation/validate_academic_clarifications.py --project .
+    checks:
+      - exact_review_subject_coverage
+      - evidence_snapshot_integrity
+      - bounded_question_choices
+      - session_scoped_department_confirmation
+      - fail_closed_unanswered_rules
+      - preserved_higher_authority_conflicts
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

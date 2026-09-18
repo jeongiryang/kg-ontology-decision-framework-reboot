@@ -39,6 +39,17 @@ python .agents/skills/harness/scripts/run.py --project . start \
 
 구현 산출물은 생산자와 다른 관점에서 검토한다. 리뷰어는 제품 파일을 고치지 않고 재현 가능한 결함을 반환한다. QA는 실제 사용자 경계의 출력과 오류 동작을 확인하며, 제품 수정은 워커에게 되돌린다. 수정 후 영향받는 검사를 다시 실행한다.
 
+## 사용자 질문형 학사 검수
+
+1. 출처 감사와 규칙 모델링 결과에서 원문으로 해결되지 않는 모호성만 `academic_review_facilitator`에 전달한다.
+2. 촉진자는 읽기 전용으로 근거, 2~3개 선택지, 권장안, 영향과 차단 범위를 만들며 사용자에게 직접 묻지 않는다.
+3. 메인은 세션 시작 시 이번 세션의 명시적 답변을 `department_confirmation`으로 기록할지 한 번 확인한다.
+4. 권한이 부여된 뒤 한 배치 최대 3개 질문을 제시하고 사용자 원문과 선택을 함께 기록한다. 질문 생성 당시 검수대장·SourceEntry·RuleFact 해시와 subject별 권위·정확한 locator·규칙 문장을 고정하며, 변경되면 기존 답변을 적용하지 않고 질문을 재생성한다.
+5. 모델러는 유효한 같은 세션 권한 사건과 응답이 있는 대상만 반영한다. 무응답·모호한 답변·보류는 해당 규칙만 `needs_review`로 남긴다.
+6. 상위 근거 충돌은 사용자 답변으로 덮어쓰지 않고 관련 subject와 양쪽의 등록 출처·locator·claim을 연결한 `conflict`로 보존한다.
+7. 질문 제시와 응답 기록은 질문·응답 ID가 있는 세션 내 감사 사건으로 남기고, `draft`를 포함한 패킷·배치·질문 상태가 실제 권한과 응답 수에 일치하는지 검사한다.
+8. 세션 종료 시 권한을 만료하고 새 대화나 일반 발언에 재사용하지 않는다.
+
 ## 실패와 부분 재개
 
 하네스가 기록하는 프로젝트 상대 경로는 운영체제와 관계없이 `/` 구분자를 사용하는 POSIX 형식으로 정규화한다. 따라서 Windows에서 생성한 실행 상태도 Linux/WSL에서 재개할 수 있고, 역방향 재개도 같은 계약을 따른다.
@@ -86,6 +97,7 @@ python scripts/validation/validate_harness_sync.py --project .
 
 ```bash
 python scripts/validation/validate_academic_knowledge.py --project .
+python scripts/validation/validate_academic_clarifications.py --project .
 ```
 
 `AGENTS.md`, `harness-manifest.yaml`, `.codex/config.toml`, 에이전트·스킬·계약, 하네스 CI workflow, `scripts/reporting/` 또는 `scripts/validation/`이 바뀌면 같은 변경에서 `docs/harness/` 설명과 ADR을 갱신해야 한다. 이 freshness 정책의 실제 판정은 CI 검사 코드가 담당한다.

@@ -38,6 +38,7 @@ class DocumentedContractExamplesTest(unittest.TestCase):
         "RuleFact": "rule-fact.schema.json",
         "EvidencePacket": "evidence-packet.schema.json",
         "AcademicReviewPacket": "academic-review-packet.schema.json",
+        "AcademicClarificationPacket": "academic-clarification-packet.schema.json",
         "DSWRunRequest": "dsw-run-request.schema.json",
         "TaskResult": "task-result.schema.json",
         "CompletionReport": "completion-report.schema.json",

@@ -9,6 +9,7 @@
 | `harness_architect` | 인터페이스, 작업 순서, 완료 조건 설계 | 없음 | 결정 가능한 구현 패킷 |
 | `academic_source_auditor` | 문서 버전·교육과정 연도·적용 입학연도·페이지·충돌 감사 | 없음 | `SourceEntry` 제안과 감사 결과 |
 | `academic_rule_modeler` | 승인된 원문을 입학연도·관계·사람 검수가 있는 규칙으로 구조화 | 배정된 규칙·계약 경로 | `RuleFact`, 검수 큐, 모델링 이슈 |
+| `academic_review_facilitator` | 원문으로 해결되지 않는 모호성을 근거·선택지·영향이 있는 질문으로 구성 | 없음 | `AcademicClarificationPacket` 제안 |
 | `harness_worker` | 파서·검색·API·UI 등 배정된 제품 구현 | 명시된 소유 파일만 | 코드와 실제 검사 결과 |
 | `harness_reviewer` | 정확성·회귀·보안·개인정보·환각 위험 검토 | 없음 | 심각도·경로·재현 조건이 있는 지적 |
 | `harness_qa` | 테스트, 평가셋, 인용 연결, 거절 동작 검증 | 테스트·검증 산출물만 | 통과·실패·미실행 근거 |
@@ -48,7 +49,8 @@
 
 | 상황 | 순서 |
 | --- | --- |
-| 새 학사자료 반영 | `academic_source_auditor` → `academic_rule_modeler` → `harness_worker` → `harness_reviewer` + `harness_qa` |
+| 새 학사자료 반영 | `academic_source_auditor` → 필요 시 `academic_review_facilitator` → 사용자 확인 → `academic_rule_modeler` → `harness_worker` → 리뷰·QA |
+| 기존 검수의 모호성 | `academic_review_facilitator` → 메인 질문 → `academic_rule_modeler` → 리뷰·QA |
 | 일반 기능 구현 | 필요 시 `harness_explorer`/`harness_architect` → `harness_worker` → 리뷰·QA |
 | GPU 기반 실험 | `harness_architect` → `dsw_compute_operator` → `harness_qa` |
 | 문서·오탈자 수정 | 메인 또는 워커 → 영향에 비례한 검사 |
