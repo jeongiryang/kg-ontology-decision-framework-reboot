@@ -248,10 +248,28 @@ def validate_evidence_packet(project: Path, packet: dict[str, Any]) -> list[str]
         if value is not None and isinstance(value.get("rule_id"), str):
             rules[value["rule_id"]] = value
 
+    research_ids: set[str] = set()
+    research_claims: set[str] = set()
+    for path in sorted((project / "reviews" / "academic" / "research").glob("*.json")):
+        value = _load_json(path, errors)
+        if value is None:
+            continue
+        if isinstance(value.get("research_id"), str):
+            research_ids.add(value["research_id"])
+        for claim in value.get("claims", []):
+            if not isinstance(claim, dict):
+                continue
+            if isinstance(claim.get("claim_id"), str):
+                research_ids.add(claim["claim_id"])
+            if isinstance(claim.get("statement"), str):
+                research_claims.add(claim["statement"])
+
     scope = packet["scope"]
     applied_ids: set[str] = set()
     for applied in packet["applied_rules"]:
         rule_id = applied["rule_id"]
+        if rule_id in research_ids:
+            errors.append(f"EvidencePacket: unverified research item cannot be applied: {rule_id}")
         if rule_id in applied_ids:
             errors.append(f"EvidencePacket: duplicate applied rule_id {rule_id}")
             continue
@@ -280,6 +298,12 @@ def validate_evidence_packet(project: Path, packet: dict[str, Any]) -> list[str]
     cited_rule_ids: set[str] = set()
     for evidence in packet["evidence"]:
         rule_id = evidence["rule_id"]
+        if (
+            rule_id in research_ids
+            or evidence["source_id"] in research_ids
+            or evidence["claim"] in research_claims
+        ):
+            errors.append("EvidencePacket: unverified research cannot be used as answer evidence")
         if rule_id not in applied_ids:
             errors.append(f"EvidencePacket: evidence references unapplied rule {rule_id}")
             continue

@@ -61,6 +61,7 @@ class AcademicKnowledgeValidationTest(unittest.TestCase):
             self.make_project(project)
             review_path = next((project / "reviews/academic").glob("*.json"))
             review = json.loads(review_path.read_text(encoding="utf-8"))
+            review["subjects"][0]["status"] = "pending"
             review["overall_status"] = "approved"
             review_path.write_text(json.dumps(review, ensure_ascii=False), encoding="utf-8")
             errors = validate_knowledge(project)
@@ -72,17 +73,10 @@ class AcademicKnowledgeValidationTest(unittest.TestCase):
             self.make_project(project)
             review_path = next((project / "reviews/academic").glob("*.json"))
             review = json.loads(review_path.read_text(encoding="utf-8"))
-            for subject in review["subjects"]:
-                subject.update(
-                    status="approved",
-                    reviewer_id="test_reviewer",
-                    reviewed_at="2026-09-18T12:00:00+09:00",
-                    comment="approved in queue only",
-                )
-            review["overall_status"] = "approved"
+            review["subjects"][0]["comment"] = "queue-only mismatch"
             review_path.write_text(json.dumps(review, ensure_ascii=False), encoding="utf-8")
             errors = validate_knowledge(project)
-            self.assertTrue(any("but object review is" in error for error in errors))
+            self.assertTrue(any("does not match object rationale" in error for error in errors))
 
     def test_supported_packet_rejects_unknown_rule_and_source(self) -> None:
         packet = {

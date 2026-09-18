@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import re
 import sys
@@ -152,12 +153,29 @@ def validate_clarifications(project: Path) -> list[str]:
         snapshot_ids = [item["artifact_id"] for item in packet["input_snapshots"]]
         for duplicate in _duplicates(snapshot_ids):
             errors.append(f"{relative}: duplicate input snapshot artifact_id {duplicate}")
-        if snapshots.get(expected_snapshot) != canonical_sha256(review):
+        verification_snapshots = snapshots
+        if packet["state"] == "applied":
+            output_snapshots = packet["application"]["output_snapshots"]
+            output_ids = [item["artifact_id"] for item in output_snapshots]
+            for duplicate in _duplicates(output_ids):
+                errors.append(f"{relative}: duplicate output snapshot artifact_id {duplicate}")
+            verification_snapshots = {
+                item["artifact_id"]: item["sha256"] for item in output_snapshots
+            }
+        if verification_snapshots.get(expected_snapshot) != canonical_sha256(review):
             errors.append(f"{relative}: review snapshot hash mismatch for {expected_snapshot}")
 
         review_subject_map = {item["subject_id"]: item for item in review["subjects"]}
         review_subjects = set(review_subject_map)
         objects = {**sources, **rules}
+        expected_current_snapshot_ids = {expected_snapshot} | {
+            f"{subject['subject_type']}:{subject_id}"
+            for subject_id, subject in review_subject_map.items()
+        }
+        if packet["state"] == "applied" and set(verification_snapshots) != expected_current_snapshot_ids:
+            errors.append(
+                f"{relative}: applied output snapshots must exactly cover the review and all subjects"
+            )
         covered: list[str] = []
         directly_questioned: set[str] = set()
         questions: dict[str, dict[str, Any]] = {}
@@ -198,15 +216,27 @@ def validate_clarifications(project: Path) -> list[str]:
                     current = objects.get(subject_id)
                     if current is None:
                         errors.append(f"{relative}: missing current object for {artifact_id}")
-                    elif snapshots.get(artifact_id) != canonical_sha256(current):
+                    elif verification_snapshots.get(artifact_id) != canonical_sha256(current):
                         errors.append(f"{relative}: subject snapshot hash mismatch for {artifact_id}")
+                    elif packet["state"] == "applied" and prefix in {"source", "rule"}:
+                        preapproval = copy.deepcopy(current)
+                        preapproval["review"] = {
+                            "status": "needs_review",
+                            "mode": "human",
+                            "scope": "full",
+                        }
+                        if snapshots.get(artifact_id) != canonical_sha256(preapproval):
+                            errors.append(
+                                f"{relative}: approved subject content changed outside review metadata: "
+                                f"{artifact_id}"
+                            )
                 for evidence in question["evidence"]:
                     source_id = evidence["source_id"]
                     source = sources.get(source_id)
                     artifact_id = f"source:{source_id}"
                     if source is None:
                         errors.append(f"{relative}: question {question_id} cites unknown source {source_id}")
-                    elif snapshots.get(artifact_id) != canonical_sha256(source):
+                    elif verification_snapshots.get(artifact_id) != canonical_sha256(source):
                         errors.append(f"{relative}: evidence snapshot hash mismatch for {artifact_id}")
                 expected_evidence: list[dict[str, Any]] = []
                 for subject_id in question["subject_ids"]:
@@ -274,7 +304,7 @@ def validate_clarifications(project: Path) -> list[str]:
                             f"{relative}: pending subject cannot be suppressed as {reason}: {subject_id}"
                         )
                     artifact_id = f"{subject['subject_type']}:{subject_id}"
-                    if snapshots.get(artifact_id) != canonical_sha256(current):
+                    if verification_snapshots.get(artifact_id) != canonical_sha256(current):
                         errors.append(
                             f"{relative}: suppressed subject snapshot mismatch for {artifact_id}"
                         )
@@ -304,6 +334,7 @@ def validate_clarifications(project: Path) -> list[str]:
             "authority_declined": "project_owner",
             "question_presented": "main",
             "answer_recorded": "main",
+            "applied": "academic_rule_modeler",
             "authority_expired": "main",
             "authority_revoked": "main",
             "closed": "main",
@@ -327,6 +358,7 @@ def validate_clarifications(project: Path) -> list[str]:
         revoke_events = [event for event in events if event["event"] == "authority_revoked"]
         created_events = [event for event in events if event["event"] == "created"]
         closed_events = [event for event in events if event["event"] == "closed"]
+        applied_events = [event for event in events if event["event"] == "applied"]
         answered_questions: set[str] = set()
         session_id = packet["session"]["session_id"]
         session_started = _time(packet["session"]["started_at"])
@@ -347,6 +379,7 @@ def validate_clarifications(project: Path) -> list[str]:
             ("authority_expired", expiry_events),
             ("authority_revoked", revoke_events),
             ("closed", closed_events),
+            ("applied", applied_events),
         ):
             if len(matching) > 1:
                 errors.append(f"{relative}: session contains multiple {label} events")
@@ -566,7 +599,7 @@ def validate_clarifications(project: Path) -> list[str]:
                 (conflict["higher_source_id"], higher),
                 (conflict["lower_claim_source"], lower),
             ):
-                if snapshots.get(f"source:{source_id}") != canonical_sha256(source):
+                if verification_snapshots.get(f"source:{source_id}") != canonical_sha256(source):
                     errors.append(f"{relative}: conflict {conflict_id} source snapshot mismatch")
             if authority_rank[higher["authority"]] > authority_rank[lower["authority"]]:
                 errors.append(f"{relative}: conflict {conflict_id} reverses source precedence")
@@ -687,6 +720,72 @@ def validate_clarifications(project: Path) -> list[str]:
             errors.append(f"{relative}: answered packet has unanswered questions")
         if packet_state == "applied" and batch_statuses != {"applied"}:
             errors.append(f"{relative}: applied packet requires every batch to be applied")
+        if packet_state == "applied":
+            application = packet["application"]
+            matching_application_events = [
+                event for event in applied_events
+                if event["event_id"] == application["application_event_id"]
+                and event["at"] == application["applied_at"]
+            ]
+            if len(matching_application_events) != 1:
+                errors.append(f"{relative}: applied packet lacks its matching application audit event")
+            if session_state != "closed":
+                errors.append(f"{relative}: applied packet requires a closed session")
+            if session_ended is not None and _time(application["applied_at"]) > session_ended:
+                errors.append(f"{relative}: application occurred after the session ended")
+            if packet["responses"] and _time(application["applied_at"]) < max(
+                _time(response["answered_at"]) for response in packet["responses"]
+            ):
+                errors.append(f"{relative}: application predates a recorded response")
+            response_snapshots = {
+                item["response_id"]: item["sha256"]
+                for item in application["response_snapshots"]
+            }
+            if len(response_snapshots) != len(application["response_snapshots"]):
+                errors.append(f"{relative}: duplicate applied response snapshot")
+            if set(response_snapshots) != set(response_map):
+                errors.append(f"{relative}: applied response snapshots must exactly cover responses")
+            for response_id, response in response_map.items():
+                if response_snapshots.get(response_id) != canonical_sha256(response):
+                    errors.append(f"{relative}: applied response snapshot mismatch for {response_id}")
+
+            subject_question = {
+                subject_id: question_id
+                for question_id, question in questions.items()
+                for subject_id in question["subject_ids"]
+            }
+            response_by_question = {
+                response["question_id"]: response for response in packet["responses"]
+            }
+            attestations = application["subject_attestations"]
+            attestation_map = {item["subject_id"]: item for item in attestations}
+            if len(attestation_map) != len(attestations):
+                errors.append(f"{relative}: duplicate subject attestation")
+            if set(attestation_map) != review_subjects:
+                errors.append(f"{relative}: subject attestations must exactly cover review subjects")
+            for subject_id in sorted(review_subjects):
+                attestation = attestation_map.get(subject_id)
+                if attestation is None:
+                    continue
+                question_id = subject_question.get(subject_id)
+                response = response_by_question.get(question_id)
+                current = objects.get(subject_id)
+                review_subject = review_subject_map.get(subject_id)
+                if (
+                    question_id is None
+                    or response is None
+                    or attestation["question_id"] != question_id
+                    or attestation["response_id"] != response["response_id"]
+                ):
+                    errors.append(f"{relative}: invalid question/response binding for {subject_id}")
+                if current is not None and attestation["object_review_sha256"] != canonical_sha256(
+                    current.get("review", {})
+                ):
+                    errors.append(f"{relative}: object review attestation mismatch for {subject_id}")
+                if review_subject is not None and attestation[
+                    "review_subject_sha256"
+                ] != canonical_sha256(review_subject):
+                    errors.append(f"{relative}: review queue attestation mismatch for {subject_id}")
         if packet_state == "closed" and session_state != "closed":
             errors.append(f"{relative}: closed packet requires a closed session")
         if packet_state == "awaiting_user" and (

@@ -95,12 +95,7 @@
   },
   "student_facts": {"completed_total_credits": 120},
   "applied_rules": [],
-  "evidence": [{
-    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
-    "rule_id": "cwnu.cs.2026.graduation.total-credits",
-    "locator": "PDF p.577 (printed p.569)",
-    "claim": "총 이수학점 기준"
-  }],
+  "evidence": [],
   "issues": [{"kind": "review", "message": "관계 정의에 대한 사람 검수가 필요하다."}],
   "status": "insufficient_evidence"
 }
@@ -148,7 +143,7 @@
 
 ```json
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "clarification_id": "cwnu.cs.2026.example.questions",
   "review_id": "cwnu.cs.2026.initial-rules",
   "state": "ready",
@@ -229,6 +224,56 @@
 만들 수 없다. 모든 감사 사건은 세션 시간 범위 안에 있어야 하고 입력 스냅샷 ID는 중복될 수 없다.
 권한 사건은 미요청 → 부여 → 만료/철회 또는 미요청 → 거절의 단방향 전이만 허용하며,
 감사 사건이 가리키는 질문·응답 ID도 현재 패킷에 실제로 존재해야 한다.
+
+응답을 규칙에 적용한 패킷은 `state=applied`와 `application`을 함께 기록한다. 질문 당시의
+`input_snapshots`는 감사 증거로 보존하고, `application.output_snapshots`는 승인 반영 뒤의
+검수대장·SourceEntry·RuleFact 해시를 고정한다. 의미 검증기는 적용 완료 상태에서는 출력
+스냅샷을 현재 객체와 비교하므로 질문 당시 기록을 덮어쓰지 않는다.
+또한 적용된 SourceEntry·RuleFact에서 현재 `review`만 승인 전 `needs_review` 형태로 되돌린
+canonical 해시가 질문 당시 `input_snapshots`와 같아야 한다. 따라서 출력 해시를 새로 써도
+판정값·적용범위·관계·근거를 승인 뒤 바꾸는 것은 차단된다.
+`application.response_snapshots`는 사용자 응답 전체의 canonical 해시를, `subject_attestations`는
+각 승인 대상의 질문·응답 ID와 객체 `review`·검수대장 subject 해시를 고정한다. 따라서
+`exact_text`, 검수자, 검수 시각 또는 승인 근거를 출력 해시와 함께 바꿔도 검증에 실패한다.
+
+이 해시는 동일 저장소 안에서 불완전하거나 우발적인 변경을 탐지하는 일관성 장치다. 패킷,
+해시와 검증 코드를 모두 수정할 권한이 있는 악의적 작성자에 대한 암호학적 부인 방지는
+제공하지 않는다. 게시 후 변경 이력은 Git 커밋과 GitHub 이력으로 감사하며, 서명된 외부 승인
+기록이 필요하면 별도의 키 관리와 승인 서비스를 도입해야 한다.
+
+## AcademicResearchItem
+
+사용자 기억이나 비공식 운영 관행처럼 공식 근거가 아직 없는 주장을 답변 지식과 분리해
+조사 대기 상태로 기록한다. 이 객체는 SourceEntry나 RuleFact가 아니며, 공식 출처 감사와 새
+검수 세션을 통과하기 전에는 학사 답변 근거가 될 수 없다.
+
+```json
+{
+  "schema_version": "1.0.0",
+  "research_id": "cwnu.cs.2026.graduation-practices",
+  "scope": {"curriculum_year": 2026, "admission_year": 2026, "department": "컴퓨터공학과"},
+  "origin": "unverified_user_recollection",
+  "status": "awaiting_official_source",
+  "eligible_for_academic_answer": false,
+  "linked_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"],
+  "claims": [{
+    "claim_id": "contest-award-substitution",
+    "statement": "총장상급 이상 외부 공모전 수상이 졸업작품 대체요건일 가능성이 있다.",
+    "verification_question": "공식 학과 자료에 이 대체요건이 명시되어 있는가?",
+    "status": "unverified",
+    "eligible_for_academic_answer": false,
+    "answer_status_until_verified": "insufficient_evidence"
+  }],
+  "required_evidence": ["official_department_guidance", "course_operation_plan", "approved_internal_regulation"],
+  "review_session_id": "cwnu.cs.2026.review-session-001",
+  "created_at": "2026-09-18T16:30:00+09:00",
+  "github_issue_url": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/issues/1"
+}
+```
+
+각 claim은 `eligible_for_academic_answer=false`와 `answer_status_until_verified=insufficient_evidence`
+를 유지한다. CI는 claim ID·문장이 SourceEntry 또는 RuleFact로 복사되면 실패하며, 표현을
+바꾸어 기존 승인 규칙에 주입하는 경우에도 승인 전 의미 해시 잠금이 변경을 차단한다.
 
 ## DSWRunRequest
 

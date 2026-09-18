@@ -120,6 +120,9 @@ contracts:
       version: "1.0.0"
     AcademicClarificationPacket:
       path: contracts/academic-clarification-packet.schema.json
+      version: "1.1.0"
+    AcademicResearchItem:
+      path: contracts/academic-research-item.schema.json
       version: "1.0.0"
     DSWRunRequest:
       path: contracts/dsw-run-request.schema.json
@@ -192,6 +195,16 @@ validation:
       - session_scoped_department_confirmation
       - fail_closed_unanswered_rules
       - preserved_higher_authority_conflicts
+      - immutable_preapproval_subject_content
+      - attested_user_responses_and_review_metadata
+  academic_research:
+    command: python scripts/validation/validate_academic_research.py --project .
+    checks:
+      - unverified_claim_schema
+      - linked_rule_and_review_session
+      - answer_evidence_isolation
+      - insufficient_evidence_until_official_source
+      - paraphrase_injection_blocked_by_preapproval_content_lock
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

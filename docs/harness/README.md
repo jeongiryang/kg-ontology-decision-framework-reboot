@@ -11,7 +11,7 @@
 | [아키텍처](architecture.md) | 구성요소, fan-out/fan-in, 실행 시퀀스 |
 | [에이전트와 권한](agents-and-permissions.md) | 역할, 입력·출력, 파일 소유권 |
 | [워크플로](workflows.md) | 설치, 작업 실행, 실패·재개, 완료 절차 |
-| [계약](contracts.md) | 여섯 JSON 계약과 예시 |
+| [계약](contracts.md) | 출처·규칙·질문·조사·답변·실행·보고 JSON 계약과 예시 |
 | [보고](reporting.md) | 원시 로그, 공개 보고서, PDF 검증 |
 | [DSW 운영](dsw-operations.md) | GPU·디스크·프로세스 안전 계약 |
 | [업스트림](upstream.md) | `codex-harness` 출처, 고정 버전, 갱신 절차 |
@@ -27,4 +27,3 @@
 6. 완료 시 [보고 정책](reporting.md)에 따라 Markdown/JSON과 필요한 경우 PDF를 생성한다.
 
 자세한 명령과 상태 전이는 [워크플로](workflows.md)를 따른다. 하네스를 변경하는 PR은 실제 설정·스키마, `harness-manifest.yaml`, 이 문서와 필요한 ADR을 같은 변경에서 동기화해야 한다.
-

@@ -30,7 +30,64 @@ class AcademicClarificationValidationTest(unittest.TestCase):
         shutil.copytree(ROOT / "contracts", root / "contracts")
         shutil.copytree(ROOT / "knowledge", root / "knowledge")
         shutil.copytree(ROOT / "reviews", root / "reviews")
-        return root / "reviews/academic/clarifications/2026-initial-review-questions.json"
+        path = root / "reviews/academic/clarifications/2026-initial-review-questions.json"
+        packet = json.loads(path.read_text(encoding="utf-8"))
+        review_path = root / "reviews/academic/2026-curriculum-initial-rules.json"
+        review = json.loads(review_path.read_text(encoding="utf-8"))
+        for subject in review["subjects"]:
+            subject["status"] = "pending"
+            for field in ("reviewer_id", "reviewed_at", "comment"):
+                subject.pop(field, None)
+        review["overall_status"] = "open"
+        review_path.write_text(json.dumps(review, ensure_ascii=False), encoding="utf-8")
+
+        snapshots = [{
+            "artifact_id": f"review:{review['review_id']}",
+            "sha256": canonical_sha256(review),
+        }]
+        for directory, prefix, id_field in (
+            ("sources", "source", "source_id"),
+            ("rules", "rule", "rule_id"),
+        ):
+            for object_path in sorted((root / "knowledge" / directory).glob("*.json")):
+                value = json.loads(object_path.read_text(encoding="utf-8"))
+                value["review"] = {"status": "needs_review", "mode": "human", "scope": "full"}
+                object_path.write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
+                snapshots.append({
+                    "artifact_id": f"{prefix}:{value[id_field]}",
+                    "sha256": canonical_sha256(value),
+                })
+
+        packet["state"] = "ready"
+        packet.pop("application", None)
+        packet["input_snapshots"] = sorted(snapshots, key=lambda item: item["artifact_id"])
+        packet["session"] = {
+            "session_id": packet["session"]["session_id"],
+            "run_id": packet["session"]["run_id"],
+            "thread_binding": "current_task",
+            "state": "awaiting_authority",
+            "started_at": packet["session"]["started_at"],
+            "authority": {
+                "kind": "department_confirmation",
+                "status": "not_requested",
+                "authorization_prompt": packet["session"]["authority"]["authorization_prompt"],
+                "choices": ["grant", "decline"],
+            },
+        }
+        for batch in packet["batches"]:
+            batch["status"] = "queued"
+            for question in batch["questions"]:
+                question["status"] = "queued"
+        packet["responses"] = []
+        packet["audit_events"] = [{
+            "event_id": "event.created",
+            "event": "created",
+            "at": packet["session"]["started_at"],
+            "actor": "main",
+            "details": "테스트용 준비 상태를 생성했다.",
+        }]
+        path.write_text(json.dumps(packet, ensure_ascii=False), encoding="utf-8")
+        return path
 
     def mutate(self, callback) -> list[str]:
         with tempfile.TemporaryDirectory() as temp:
@@ -44,6 +101,9 @@ class AcademicClarificationValidationTest(unittest.TestCase):
     def test_repository_packet_has_exact_full_review_coverage(self) -> None:
         self.assertEqual(validate_clarifications(ROOT), [])
         packet = json.loads(PACKET.read_text(encoding="utf-8"))
+        self.assertEqual(packet["state"], "applied")
+        self.assertEqual(packet["session"]["state"], "closed")
+        self.assertEqual(packet["session"]["authority"]["status"], "expired")
         covered = [
             subject
             for batch in packet["batches"]
@@ -52,6 +112,104 @@ class AcademicClarificationValidationTest(unittest.TestCase):
         ]
         self.assertEqual(len(covered), 14)
         self.assertEqual(len(set(covered)), 14)
+
+    def test_applied_output_snapshot_must_match_approved_objects(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            shutil.copytree(ROOT / "contracts", project / "contracts")
+            shutil.copytree(ROOT / "knowledge", project / "knowledge")
+            shutil.copytree(ROOT / "reviews", project / "reviews")
+            path = project / "reviews/academic/clarifications/2026-initial-review-questions.json"
+            packet = json.loads(path.read_text(encoding="utf-8"))
+            packet["application"]["output_snapshots"][0]["sha256"] = "0" * 64
+            path.write_text(json.dumps(packet, ensure_ascii=False), encoding="utf-8")
+            errors = validate_clarifications(project)
+            self.assertTrue(any("snapshot hash mismatch" in error for error in errors))
+
+    def test_applied_rule_decision_cannot_change_with_refreshed_output_hash(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            shutil.copytree(ROOT / "contracts", project / "contracts")
+            shutil.copytree(ROOT / "knowledge", project / "knowledge")
+            shutil.copytree(ROOT / "reviews", project / "reviews")
+            rule_path = project / "knowledge/rules/cwnu.cs.2026.credits.general-foundation.json"
+            rule = json.loads(rule_path.read_text(encoding="utf-8"))
+            rule["decision"]["statement"] = "기초교양을 99학점 이상 이수해야 한다."
+            rule["decision"]["outcome"]["credits"] = 99
+            rule_path.write_text(json.dumps(rule, ensure_ascii=False), encoding="utf-8")
+            packet_path = project / "reviews/academic/clarifications/2026-initial-review-questions.json"
+            packet = json.loads(packet_path.read_text(encoding="utf-8"))
+            artifact_id = "rule:cwnu.cs.2026.credits.general-foundation"
+            for snapshot in packet["application"]["output_snapshots"]:
+                if snapshot["artifact_id"] == artifact_id:
+                    snapshot["sha256"] = canonical_sha256(rule)
+            packet_path.write_text(json.dumps(packet, ensure_ascii=False), encoding="utf-8")
+            errors = validate_clarifications(project)
+            self.assertTrue(any("changed outside review metadata" in error for error in errors))
+
+    def test_unverified_claim_paraphrase_cannot_replace_approved_decision(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            shutil.copytree(ROOT / "contracts", project / "contracts")
+            shutil.copytree(ROOT / "knowledge", project / "knowledge")
+            shutil.copytree(ROOT / "reviews", project / "reviews")
+            rule_path = project / "knowledge/rules/cwnu.cs.2026.graduation.thesis-substitution.json"
+            rule = json.loads(rule_path.read_text(encoding="utf-8"))
+            rule["decision"]["statement"] = "총장상급 이상의 외부 공모전에서 수상하면 졸업작품을 대신할 수 있다."
+            rule_path.write_text(json.dumps(rule, ensure_ascii=False), encoding="utf-8")
+            packet_path = project / "reviews/academic/clarifications/2026-initial-review-questions.json"
+            packet = json.loads(packet_path.read_text(encoding="utf-8"))
+            artifact_id = "rule:cwnu.cs.2026.graduation.thesis-substitution"
+            for snapshot in packet["application"]["output_snapshots"]:
+                if snapshot["artifact_id"] == artifact_id:
+                    snapshot["sha256"] = canonical_sha256(rule)
+            packet_path.write_text(json.dumps(packet, ensure_ascii=False), encoding="utf-8")
+            errors = validate_clarifications(project)
+            self.assertTrue(any("changed outside review metadata" in error for error in errors))
+
+    def test_applied_review_metadata_is_attested(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            shutil.copytree(ROOT / "contracts", project / "contracts")
+            shutil.copytree(ROOT / "knowledge", project / "knowledge")
+            shutil.copytree(ROOT / "reviews", project / "reviews")
+            rule_path = project / "knowledge/rules/cwnu.cs.2026.credits.general-foundation.json"
+            rule = json.loads(rule_path.read_text(encoding="utf-8"))
+            rule["review"]["reviewer_id"] = "replacement_reviewer"
+            rule_path.write_text(json.dumps(rule, ensure_ascii=False), encoding="utf-8")
+            review_path = project / "reviews/academic/2026-curriculum-initial-rules.json"
+            review = json.loads(review_path.read_text(encoding="utf-8"))
+            subject = next(
+                item for item in review["subjects"]
+                if item["subject_id"] == "cwnu.cs.2026.credits.general-foundation"
+            )
+            subject["reviewer_id"] = "replacement_reviewer"
+            review_path.write_text(json.dumps(review, ensure_ascii=False), encoding="utf-8")
+            packet_path = project / "reviews/academic/clarifications/2026-initial-review-questions.json"
+            packet = json.loads(packet_path.read_text(encoding="utf-8"))
+            replacements = {
+                "rule:cwnu.cs.2026.credits.general-foundation": canonical_sha256(rule),
+                "review:cwnu.cs.2026.initial-rules": canonical_sha256(review),
+            }
+            for snapshot in packet["application"]["output_snapshots"]:
+                if snapshot["artifact_id"] in replacements:
+                    snapshot["sha256"] = replacements[snapshot["artifact_id"]]
+            packet_path.write_text(json.dumps(packet, ensure_ascii=False), encoding="utf-8")
+            errors = validate_clarifications(project)
+            self.assertTrue(any("review attestation mismatch" in error for error in errors))
+
+    def test_applied_user_exact_text_is_attested(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            shutil.copytree(ROOT / "contracts", project / "contracts")
+            shutil.copytree(ROOT / "knowledge", project / "knowledge")
+            shutil.copytree(ROOT / "reviews", project / "reviews")
+            packet_path = project / "reviews/academic/clarifications/2026-initial-review-questions.json"
+            packet = json.loads(packet_path.read_text(encoding="utf-8"))
+            packet["responses"][0]["exact_text"] = "사용자가 말하지 않은 조작 문구"
+            packet_path.write_text(json.dumps(packet, ensure_ascii=False), encoding="utf-8")
+            errors = validate_clarifications(project)
+            self.assertTrue(any("response snapshot mismatch" in error for error in errors))
 
     def test_missing_subject_fails_closed(self) -> None:
         errors = self.mutate(lambda packet: packet["batches"][1]["questions"].pop())

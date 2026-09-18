@@ -12,9 +12,12 @@
     "conditions": ["재입학·전과·편입·경과조치는 별도 예외 근거가 확인될 때까지 이 기본 적용 관계에 포함하지 않는다."]
   },
   "review": {
-    "status": "needs_review",
+    "status": "approved",
     "mode": "human",
-    "scope": "full"
+    "scope": "full",
+    "reviewer_id": "project_owner",
+    "reviewed_at": "2026-09-18T16:27:06+09:00",
+    "rationale": "프로젝트 책임자가 원본 신원·SHA-256·교육과정 권위와 2026 교육과정의 2026학번 컴퓨터공학과 적용 관계를 확인했다. [question_id=source.identity-scope; response_id=response.source.identity-scope]"
   },
   "notes": [
     "원본 PDF는 공개 Git에 포함하지 않는다.",

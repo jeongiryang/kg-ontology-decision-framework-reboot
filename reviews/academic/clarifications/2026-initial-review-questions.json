@@ -1,38 +1,92 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "clarification_id": "cwnu.cs.2026.initial-review.questions",
   "review_id": "cwnu.cs.2026.initial-rules",
-  "state": "ready",
+  "state": "applied",
   "coverage_mode": "full_review",
-  "scope": {"curriculum_year": 2026, "admission_year": 2026, "department": "컴퓨터공학과"},
+  "scope": {
+    "curriculum_year": 2026,
+    "admission_year": 2026,
+    "department": "컴퓨터공학과"
+  },
   "input_snapshots": [
-    {"artifact_id": "review:cwnu.cs.2026.initial-rules", "sha256": "01e04bda5cebfc9d2c097dc8562c8fe216198fd84ea10e2f2391baea27eadda3"},
-    {"artifact_id": "source:cwnu.curriculum.2026.changwon-undergraduate", "sha256": "1880a803b2954344ed42fcc24bb7ce074ffe73164705422ec5309a3496a115bd"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.general-balanced", "sha256": "95d09375bd43148dfbabe50cade7a4b81740591f439c960d8163cc8ddb71731d"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.general-foundation", "sha256": "f9681674f9ef960ca5b68456b90259f4dc91a32d287997904bf672b353c44671"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.general-remaining", "sha256": "32a161431c9b031e538bfd4692fde6eb57f87e2256c330f4617d99caf37ece65"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.general-total", "sha256": "e29722b272b889cbd116bf7c297c9e551ff4671a6019f6ffe1af74189571da8e"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.graduation-remaining", "sha256": "6ebffee14d0bd092c7f1bc0b4211538039b82a25ac446b952c5d2f97b1208f54"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.graduation-total", "sha256": "3529e15d099619ee31f01dedaaff3c1fb24d512d0edc30aa8a086d08891ede7c"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.major-advanced", "sha256": "93d1e7cc65d1970cbab1b9aa384b39151f08e471d3807546f679c8a169e64fa0"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.major-elective", "sha256": "9e84f380d9b4004e3fc02f6687c67d198a25acac5809fbb437d7086dde5e60a7"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.major-minimum", "sha256": "b69437d13e2c898c0bb83f5611c80878b7f0a3d79cce69095c0e5f9f807150dc"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.major-required", "sha256": "01dceab9c09773fad787596a03d57161d3880ee2a1caac50001f7b3413a67bda"},
-    {"artifact_id": "rule:cwnu.cs.2026.credits.major-total", "sha256": "0409e7a94b6271150a48436947e9c0e4d13db85805b8951b0a101777bf88cf5a"},
-    {"artifact_id": "rule:cwnu.cs.2026.graduation.thesis-required", "sha256": "c66035a678aef31f5bbd5a1b88eac798eab07bbf06e14b0dd54a8261138f102d"},
-    {"artifact_id": "rule:cwnu.cs.2026.graduation.thesis-substitution", "sha256": "5e539e507262dcd111aaf6a29f57d7ecc6202b83f6bd1ed9ea3fd6d40c2b2796"}
+    {
+      "artifact_id": "review:cwnu.cs.2026.initial-rules",
+      "sha256": "01e04bda5cebfc9d2c097dc8562c8fe216198fd84ea10e2f2391baea27eadda3"
+    },
+    {
+      "artifact_id": "source:cwnu.curriculum.2026.changwon-undergraduate",
+      "sha256": "1880a803b2954344ed42fcc24bb7ce074ffe73164705422ec5309a3496a115bd"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.general-balanced",
+      "sha256": "95d09375bd43148dfbabe50cade7a4b81740591f439c960d8163cc8ddb71731d"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.general-foundation",
+      "sha256": "f9681674f9ef960ca5b68456b90259f4dc91a32d287997904bf672b353c44671"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.general-remaining",
+      "sha256": "32a161431c9b031e538bfd4692fde6eb57f87e2256c330f4617d99caf37ece65"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.general-total",
+      "sha256": "e29722b272b889cbd116bf7c297c9e551ff4671a6019f6ffe1af74189571da8e"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.graduation-remaining",
+      "sha256": "6ebffee14d0bd092c7f1bc0b4211538039b82a25ac446b952c5d2f97b1208f54"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.graduation-total",
+      "sha256": "3529e15d099619ee31f01dedaaff3c1fb24d512d0edc30aa8a086d08891ede7c"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.major-advanced",
+      "sha256": "93d1e7cc65d1970cbab1b9aa384b39151f08e471d3807546f679c8a169e64fa0"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.major-elective",
+      "sha256": "9e84f380d9b4004e3fc02f6687c67d198a25acac5809fbb437d7086dde5e60a7"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.major-minimum",
+      "sha256": "b69437d13e2c898c0bb83f5611c80878b7f0a3d79cce69095c0e5f9f807150dc"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.major-required",
+      "sha256": "01dceab9c09773fad787596a03d57161d3880ee2a1caac50001f7b3413a67bda"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.credits.major-total",
+      "sha256": "0409e7a94b6271150a48436947e9c0e4d13db85805b8951b0a101777bf88cf5a"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.graduation.thesis-required",
+      "sha256": "c66035a678aef31f5bbd5a1b88eac798eab07bbf06e14b0dd54a8261138f102d"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.graduation.thesis-substitution",
+      "sha256": "5e539e507262dcd111aaf6a29f57d7ecc6202b83f6bd1ed9ea3fd6d40c2b2796"
+    }
   ],
   "session": {
     "session_id": "cwnu.cs.2026.review-session-001",
     "run_id": "20260918-academic-clarification-v1",
     "thread_binding": "current_task",
-    "state": "awaiting_authority",
+    "state": "closed",
     "started_at": "2026-09-18T14:30:00+09:00",
+    "ended_at": "2026-09-18T16:27:06+09:00",
+    "end_reason": "completed",
     "authority": {
       "kind": "department_confirmation",
-      "status": "not_requested",
+      "status": "expired",
       "authorization_prompt": "이번 검수 세션에서 사용자의 명시적 답변을 컴퓨터공학과 확인으로 기록해도 됩니까?",
-      "choices": ["grant", "decline"]
+      "choices": [
+        "grant",
+        "decline"
+      ]
     }
   },
   "batches": [
@@ -40,25 +94,53 @@
       "batch_id": "source",
       "ordinal": 1,
       "topic": "출처 신원과 적용 범위",
-      "status": "queued",
+      "status": "applied",
       "questions": [
         {
           "question_id": "source.identity-scope",
-          "subject_ids": ["cwnu.curriculum.2026.changwon-undergraduate"],
+          "subject_ids": [
+            "cwnu.curriculum.2026.changwon-undergraduate"
+          ],
           "purpose": "review_confirmation",
           "ambiguity_kind": "source_identity_and_scope",
           "required_authority": "department_confirmation",
-          "evidence": [{"subject_id": "cwnu.curriculum.2026.changwon-undergraduate", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "원본 PDF 전체와 등록 SHA-256 | PDF p.13 (printed p.5): 교육과정 입학연도 적용 원칙 | PDF p.18 (printed p.10): 2026학년도 교육과정 적용자 안내", "claim": "title=교육과정 2026; sha256=0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471; authority=curriculum; curriculum_years=2026; admission_years=2026; departments=컴퓨터공학과"}],
+          "evidence": [
+            {
+              "subject_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "원본 PDF 전체와 등록 SHA-256 | PDF p.13 (printed p.5): 교육과정 입학연도 적용 원칙 | PDF p.18 (printed p.10): 2026학년도 교육과정 적용자 안내",
+              "claim": "title=교육과정 2026; sha256=0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471; authority=curriculum; curriculum_years=2026; admission_years=2026; departments=컴퓨터공학과"
+            }
+          ],
           "prompt": "등록된 PDF의 제목·SHA-256·교육과정 권위와 '2026 교육과정은 2026학번 컴퓨터공학과에 적용' 관계를 한 묶음으로 승인합니까?",
           "impact": "승인 전에는 SourceEntry와 이를 참조하는 모든 규칙을 학생 대상 supported 답변에 사용할 수 없습니다.",
           "choices": [
-            {"choice_id": "confirm", "label": "모두 맞음", "disposition": "approve", "impact": "출처 전체 검수를 승인 후보로 전달합니다."},
-            {"choice_id": "correct", "label": "수정 필요", "disposition": "needs_revision", "impact": "출처를 보류하고 수정 내용을 다시 질문합니다.", "comment_required": true},
-            {"choice_id": "defer", "label": "판단 보류", "disposition": "pending", "impact": "출처와 하위 규칙을 미승인 상태로 유지합니다."}
+            {
+              "choice_id": "confirm",
+              "label": "모두 맞음",
+              "disposition": "approve",
+              "impact": "출처 전체 검수를 승인 후보로 전달합니다."
+            },
+            {
+              "choice_id": "correct",
+              "label": "수정 필요",
+              "disposition": "needs_revision",
+              "impact": "출처를 보류하고 수정 내용을 다시 질문합니다.",
+              "comment_required": true
+            },
+            {
+              "choice_id": "defer",
+              "label": "판단 보류",
+              "disposition": "pending",
+              "impact": "출처와 하위 규칙을 미승인 상태로 유지합니다."
+            }
           ],
           "recommended_choice_id": "confirm",
-          "blocking_subject_ids": ["cwnu.curriculum.2026.changwon-undergraduate"],
-          "status": "queued"
+          "blocking_subject_ids": [
+            "cwnu.curriculum.2026.changwon-undergraduate"
+          ],
+          "status": "accepted"
         }
       ]
     },
@@ -66,75 +148,217 @@
       "batch_id": "credits",
       "ordinal": 2,
       "topic": "교양·전공·졸업학점",
-      "status": "queued",
+      "status": "applied",
       "questions": [
         {
           "question_id": "credits.general",
-          "subject_ids": ["cwnu.cs.2026.credits.general-foundation", "cwnu.cs.2026.credits.general-balanced", "cwnu.cs.2026.credits.general-remaining", "cwnu.cs.2026.credits.general-total"],
+          "subject_ids": [
+            "cwnu.cs.2026.credits.general-foundation",
+            "cwnu.cs.2026.credits.general-balanced",
+            "cwnu.cs.2026.credits.general-remaining",
+            "cwnu.cs.2026.credits.general-total"
+          ],
           "purpose": "review_confirmation",
           "ambiguity_kind": "table_structure",
           "required_authority": "department_confirmation",
           "evidence": [
-            {"subject_id": "cwnu.cs.2026.credits.general-foundation", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 기초교양 열", "claim": "기초교양 9"},
-            {"subject_id": "cwnu.cs.2026.credits.general-balanced", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 균형교양 열", "claim": "균형교양 12"},
-            {"subject_id": "cwnu.cs.2026.credits.general-remaining", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 잔여학점 열", "claim": "교양 잔여학점 13"},
-            {"subject_id": "cwnu.cs.2026.credits.general-total", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 소계 열", "claim": "교양 소계 34"}
+            {
+              "subject_id": "cwnu.cs.2026.credits.general-foundation",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 기초교양 열",
+              "claim": "기초교양 9"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.general-balanced",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 균형교양 열",
+              "claim": "균형교양 12"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.general-remaining",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 잔여학점 열",
+              "claim": "교양 잔여학점 13"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.general-total",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 소계 열",
+              "claim": "교양 소계 34"
+            }
           ],
           "prompt": "26학번 컴퓨터공학과 교양 기준이 기초 9·균형 12·잔여 13·합계 34학점으로 모두 맞습니까?",
           "impact": "수정 또는 보류 시 이 네 규칙만 needs_review로 남고 다른 묶음 검수는 계속됩니다.",
           "choices": [
-            {"choice_id": "confirm", "label": "모두 맞음", "disposition": "approve", "impact": "교양 규칙 4건을 승인 후보로 전달합니다."},
-            {"choice_id": "correct", "label": "수정 필요", "disposition": "needs_revision", "impact": "교양 규칙 4건을 보류하고 수정값을 다시 확인합니다.", "comment_required": true},
-            {"choice_id": "defer", "label": "판단 보류", "disposition": "pending", "impact": "교양 규칙 4건을 미승인 상태로 유지합니다."}
+            {
+              "choice_id": "confirm",
+              "label": "모두 맞음",
+              "disposition": "approve",
+              "impact": "교양 규칙 4건을 승인 후보로 전달합니다."
+            },
+            {
+              "choice_id": "correct",
+              "label": "수정 필요",
+              "disposition": "needs_revision",
+              "impact": "교양 규칙 4건을 보류하고 수정값을 다시 확인합니다.",
+              "comment_required": true
+            },
+            {
+              "choice_id": "defer",
+              "label": "판단 보류",
+              "disposition": "pending",
+              "impact": "교양 규칙 4건을 미승인 상태로 유지합니다."
+            }
           ],
           "recommended_choice_id": "confirm",
-          "blocking_subject_ids": ["cwnu.cs.2026.credits.general-foundation", "cwnu.cs.2026.credits.general-balanced", "cwnu.cs.2026.credits.general-remaining", "cwnu.cs.2026.credits.general-total"],
-          "status": "queued"
+          "blocking_subject_ids": [
+            "cwnu.cs.2026.credits.general-foundation",
+            "cwnu.cs.2026.credits.general-balanced",
+            "cwnu.cs.2026.credits.general-remaining",
+            "cwnu.cs.2026.credits.general-total"
+          ],
+          "status": "accepted"
         },
         {
           "question_id": "credits.major",
-          "subject_ids": ["cwnu.cs.2026.credits.major-required", "cwnu.cs.2026.credits.major-elective", "cwnu.cs.2026.credits.major-minimum", "cwnu.cs.2026.credits.major-advanced", "cwnu.cs.2026.credits.major-total"],
+          "subject_ids": [
+            "cwnu.cs.2026.credits.major-required",
+            "cwnu.cs.2026.credits.major-elective",
+            "cwnu.cs.2026.credits.major-minimum",
+            "cwnu.cs.2026.credits.major-advanced",
+            "cwnu.cs.2026.credits.major-total"
+          ],
           "purpose": "review_confirmation",
           "ambiguity_kind": "table_structure",
           "required_authority": "department_confirmation",
           "evidence": [
-            {"subject_id": "cwnu.cs.2026.credits.major-required", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공필수 열", "claim": "전공필수 21"},
-            {"subject_id": "cwnu.cs.2026.credits.major-elective", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공선택 열", "claim": "전공선택 24"},
-            {"subject_id": "cwnu.cs.2026.credits.major-minimum", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 최소전공 소계 열", "claim": "최소전공 소계 45"},
-            {"subject_id": "cwnu.cs.2026.credits.major-advanced", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 심화전공 열", "claim": "심화전공 33"},
-            {"subject_id": "cwnu.cs.2026.credits.major-total", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공 소계 열", "claim": "전공 소계 78"}
+            {
+              "subject_id": "cwnu.cs.2026.credits.major-required",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공필수 열",
+              "claim": "전공필수 21"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.major-elective",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공선택 열",
+              "claim": "전공선택 24"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.major-minimum",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 최소전공 소계 열",
+              "claim": "최소전공 소계 45"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.major-advanced",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 심화전공 열",
+              "claim": "심화전공 33"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.major-total",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공 소계 열",
+              "claim": "전공 소계 78"
+            }
           ],
           "prompt": "26학번 컴퓨터공학과 전공 기준이 필수 21·선택 24·최소전공 45·심화 33·합계 78학점으로 모두 맞습니까?",
           "impact": "수정 또는 보류 시 이 다섯 규칙만 needs_review로 남습니다.",
           "choices": [
-            {"choice_id": "confirm", "label": "모두 맞음", "disposition": "approve", "impact": "전공 규칙 5건을 승인 후보로 전달합니다."},
-            {"choice_id": "correct", "label": "수정 필요", "disposition": "needs_revision", "impact": "전공 규칙 5건을 보류하고 수정값을 다시 확인합니다.", "comment_required": true},
-            {"choice_id": "defer", "label": "판단 보류", "disposition": "pending", "impact": "전공 규칙 5건을 미승인 상태로 유지합니다."}
+            {
+              "choice_id": "confirm",
+              "label": "모두 맞음",
+              "disposition": "approve",
+              "impact": "전공 규칙 5건을 승인 후보로 전달합니다."
+            },
+            {
+              "choice_id": "correct",
+              "label": "수정 필요",
+              "disposition": "needs_revision",
+              "impact": "전공 규칙 5건을 보류하고 수정값을 다시 확인합니다.",
+              "comment_required": true
+            },
+            {
+              "choice_id": "defer",
+              "label": "판단 보류",
+              "disposition": "pending",
+              "impact": "전공 규칙 5건을 미승인 상태로 유지합니다."
+            }
           ],
           "recommended_choice_id": "confirm",
-          "blocking_subject_ids": ["cwnu.cs.2026.credits.major-required", "cwnu.cs.2026.credits.major-elective", "cwnu.cs.2026.credits.major-minimum", "cwnu.cs.2026.credits.major-advanced", "cwnu.cs.2026.credits.major-total"],
-          "status": "queued"
+          "blocking_subject_ids": [
+            "cwnu.cs.2026.credits.major-required",
+            "cwnu.cs.2026.credits.major-elective",
+            "cwnu.cs.2026.credits.major-minimum",
+            "cwnu.cs.2026.credits.major-advanced",
+            "cwnu.cs.2026.credits.major-total"
+          ],
+          "status": "accepted"
         },
         {
           "question_id": "credits.graduation",
-          "subject_ids": ["cwnu.cs.2026.credits.graduation-remaining", "cwnu.cs.2026.credits.graduation-total"],
+          "subject_ids": [
+            "cwnu.cs.2026.credits.graduation-remaining",
+            "cwnu.cs.2026.credits.graduation-total"
+          ],
           "purpose": "review_confirmation",
           "ambiguity_kind": "table_structure",
           "required_authority": "department_confirmation",
           "evidence": [
-            {"subject_id": "cwnu.cs.2026.credits.graduation-remaining", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업 잔여학점 열", "claim": "졸업 잔여학점 18"},
-            {"subject_id": "cwnu.cs.2026.credits.graduation-total", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업학점 열", "claim": "졸업학점 130"}
+            {
+              "subject_id": "cwnu.cs.2026.credits.graduation-remaining",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업 잔여학점 열",
+              "claim": "졸업 잔여학점 18"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.credits.graduation-total",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업학점 열",
+              "claim": "졸업학점 130"
+            }
           ],
           "prompt": "26학번 컴퓨터공학과 졸업학점 기준이 잔여 18·총 130학점으로 모두 맞습니까?",
           "impact": "수정 또는 보류 시 졸업학점 규칙 2건만 needs_review로 남습니다.",
           "choices": [
-            {"choice_id": "confirm", "label": "모두 맞음", "disposition": "approve", "impact": "졸업학점 규칙 2건을 승인 후보로 전달합니다."},
-            {"choice_id": "correct", "label": "수정 필요", "disposition": "needs_revision", "impact": "졸업학점 규칙 2건을 보류하고 수정값을 다시 확인합니다.", "comment_required": true},
-            {"choice_id": "defer", "label": "판단 보류", "disposition": "pending", "impact": "졸업학점 규칙 2건을 미승인 상태로 유지합니다."}
+            {
+              "choice_id": "confirm",
+              "label": "모두 맞음",
+              "disposition": "approve",
+              "impact": "졸업학점 규칙 2건을 승인 후보로 전달합니다."
+            },
+            {
+              "choice_id": "correct",
+              "label": "수정 필요",
+              "disposition": "needs_revision",
+              "impact": "졸업학점 규칙 2건을 보류하고 수정값을 다시 확인합니다.",
+              "comment_required": true
+            },
+            {
+              "choice_id": "defer",
+              "label": "판단 보류",
+              "disposition": "pending",
+              "impact": "졸업학점 규칙 2건을 미승인 상태로 유지합니다."
+            }
           ],
           "recommended_choice_id": "confirm",
-          "blocking_subject_ids": ["cwnu.cs.2026.credits.graduation-remaining", "cwnu.cs.2026.credits.graduation-total"],
-          "status": "queued"
+          "blocking_subject_ids": [
+            "cwnu.cs.2026.credits.graduation-remaining",
+            "cwnu.cs.2026.credits.graduation-total"
+          ],
+          "status": "accepted"
         }
       ]
     },
@@ -142,49 +366,517 @@
       "batch_id": "thesis",
       "ordinal": 3,
       "topic": "졸업논문 의무와 대체요건",
-      "status": "queued",
+      "status": "applied",
       "questions": [
         {
           "question_id": "thesis.required",
-          "subject_ids": ["cwnu.cs.2026.graduation.thesis-required"],
+          "subject_ids": [
+            "cwnu.cs.2026.graduation.thesis-required"
+          ],
           "purpose": "ambiguity_resolution",
           "ambiguity_kind": "applicability",
           "required_authority": "department_confirmation",
-          "evidence": [{"subject_id": "cwnu.cs.2026.graduation.thesis-required", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.565 (printed p.557): 일반 졸업요건의 졸업논문 통과 요구", "claim": "졸업논문 통과 요구"}],
+          "evidence": [
+            {
+              "subject_id": "cwnu.cs.2026.graduation.thesis-required",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.565 (printed p.557): 일반 졸업요건의 졸업논문 통과 요구",
+              "claim": "졸업논문 통과 요구"
+            }
+          ],
           "prompt": "일반 졸업논문 통과 요건을 26학번 컴퓨터공학과에도 적용하는 관계가 맞습니까?",
           "impact": "보류하면 논문 의무 규칙을 확정 답변에 사용할 수 없습니다.",
           "choices": [
-            {"choice_id": "confirm", "label": "적용 맞음", "disposition": "approve", "impact": "졸업논문 의무 규칙을 승인 후보로 전달합니다."},
-            {"choice_id": "correct", "label": "수정 필요", "disposition": "needs_revision", "impact": "적용 관계를 보류하고 학과 근거를 다시 확인합니다.", "comment_required": true},
-            {"choice_id": "defer", "label": "판단 보류", "disposition": "pending", "impact": "논문 의무 규칙을 미승인 상태로 유지합니다."}
+            {
+              "choice_id": "confirm",
+              "label": "적용 맞음",
+              "disposition": "approve",
+              "impact": "졸업논문 의무 규칙을 승인 후보로 전달합니다."
+            },
+            {
+              "choice_id": "correct",
+              "label": "수정 필요",
+              "disposition": "needs_revision",
+              "impact": "적용 관계를 보류하고 학과 근거를 다시 확인합니다.",
+              "comment_required": true
+            },
+            {
+              "choice_id": "defer",
+              "label": "판단 보류",
+              "disposition": "pending",
+              "impact": "논문 의무 규칙을 미승인 상태로 유지합니다."
+            }
           ],
           "recommended_choice_id": "confirm",
-          "blocking_subject_ids": ["cwnu.cs.2026.graduation.thesis-required"],
-          "status": "queued"
+          "blocking_subject_ids": [
+            "cwnu.cs.2026.graduation.thesis-required"
+          ],
+          "status": "accepted"
         },
         {
           "question_id": "thesis.substitution",
-          "subject_ids": ["cwnu.cs.2026.graduation.thesis-substitution"],
+          "subject_ids": [
+            "cwnu.cs.2026.graduation.thesis-substitution"
+          ],
           "purpose": "ambiguity_resolution",
           "ambiguity_kind": "table_structure",
           "required_authority": "department_confirmation",
-          "evidence": [{"subject_id": "cwnu.cs.2026.graduation.thesis-substitution", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.567 (printed p.559): 졸업논문 대체요건 표의 컴퓨터공학과 행", "claim": "해당사항 없음"}],
+          "evidence": [
+            {
+              "subject_id": "cwnu.cs.2026.graduation.thesis-substitution",
+              "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+              "authority": "curriculum",
+              "locator": "PDF p.567 (printed p.559): 졸업논문 대체요건 표의 컴퓨터공학과 행",
+              "claim": "해당사항 없음"
+            }
+          ],
           "prompt": "현재 규정집의 '해당사항 없음'을 '기재된 대체요건 없음(none_listed)'으로만 해석하고, 논문 면제나 대체 금지로 확장하지 않는 것이 맞습니까?",
           "impact": "보류하면 대체요건 관련 질문에 insufficient_evidence로 답합니다.",
           "choices": [
-            {"choice_id": "confirm", "label": "해석 맞음", "disposition": "approve", "impact": "none_listed 규칙을 승인 후보로 전달합니다."},
-            {"choice_id": "provide", "label": "학과 대체요건 있음", "disposition": "provide_evidence", "impact": "새 학과 안내 SourceEntry와 별도 규칙 근거가 필요합니다.", "comment_required": true},
-            {"choice_id": "defer", "label": "판단 보류", "disposition": "pending", "impact": "대체요건 규칙을 미승인 상태로 유지합니다."}
+            {
+              "choice_id": "confirm",
+              "label": "해석 맞음",
+              "disposition": "approve",
+              "impact": "none_listed 규칙을 승인 후보로 전달합니다."
+            },
+            {
+              "choice_id": "provide",
+              "label": "학과 대체요건 있음",
+              "disposition": "provide_evidence",
+              "impact": "새 학과 안내 SourceEntry와 별도 규칙 근거가 필요합니다.",
+              "comment_required": true
+            },
+            {
+              "choice_id": "defer",
+              "label": "판단 보류",
+              "disposition": "pending",
+              "impact": "대체요건 규칙을 미승인 상태로 유지합니다."
+            }
           ],
           "recommended_choice_id": "confirm",
-          "blocking_subject_ids": ["cwnu.cs.2026.graduation.thesis-substitution"],
-          "status": "queued"
+          "blocking_subject_ids": [
+            "cwnu.cs.2026.graduation.thesis-substitution"
+          ],
+          "status": "accepted"
         }
       ]
     }
   ],
   "suppressed": [],
   "conflicts": [],
-  "responses": [],
-  "audit_events": [{"event_id": "event.created", "event": "created", "at": "2026-09-18T14:30:00+09:00", "actor": "main", "details": "초기 검수 대상 14건을 사용자용 3개 배치, 6개 질문으로 구성했다."}]
+  "responses": [
+    {
+      "response_id": "response.source.identity-scope",
+      "question_id": "source.identity-scope",
+      "session_id": "cwnu.cs.2026.review-session-001",
+      "answer_mode": "choice",
+      "selected_choice_id": "confirm",
+      "exact_text": "모두 맞음",
+      "answered_by": "project_owner",
+      "answered_at": "2026-09-18T16:26:10+09:00",
+      "authority_used": "department_confirmation",
+      "authorization_event_id": "event.authority-granted",
+      "normalization_status": "accepted"
+    },
+    {
+      "response_id": "response.credits.general",
+      "question_id": "credits.general",
+      "session_id": "cwnu.cs.2026.review-session-001",
+      "answer_mode": "choice",
+      "selected_choice_id": "confirm",
+      "exact_text": "모두 맞음",
+      "answered_by": "project_owner",
+      "answered_at": "2026-09-18T16:26:20+09:00",
+      "authority_used": "department_confirmation",
+      "authorization_event_id": "event.authority-granted",
+      "normalization_status": "accepted"
+    },
+    {
+      "response_id": "response.credits.major",
+      "question_id": "credits.major",
+      "session_id": "cwnu.cs.2026.review-session-001",
+      "answer_mode": "choice",
+      "selected_choice_id": "confirm",
+      "exact_text": "모두 맞음",
+      "answered_by": "project_owner",
+      "answered_at": "2026-09-18T16:26:30+09:00",
+      "authority_used": "department_confirmation",
+      "authorization_event_id": "event.authority-granted",
+      "normalization_status": "accepted"
+    },
+    {
+      "response_id": "response.credits.graduation",
+      "question_id": "credits.graduation",
+      "session_id": "cwnu.cs.2026.review-session-001",
+      "answer_mode": "choice",
+      "selected_choice_id": "confirm",
+      "exact_text": "모두 맞음",
+      "answered_by": "project_owner",
+      "answered_at": "2026-09-18T16:26:40+09:00",
+      "authority_used": "department_confirmation",
+      "authorization_event_id": "event.authority-granted",
+      "normalization_status": "accepted"
+    },
+    {
+      "response_id": "response.thesis.required",
+      "question_id": "thesis.required",
+      "session_id": "cwnu.cs.2026.review-session-001",
+      "answer_mode": "choice",
+      "selected_choice_id": "confirm",
+      "exact_text": "똑같이 적용하되 졸업작품 통과 대체는 내가 추후에 학과에 물어보고 알려줄게",
+      "answered_by": "project_owner",
+      "answered_at": "2026-09-18T16:26:50+09:00",
+      "authority_used": "department_confirmation",
+      "authorization_event_id": "event.authority-granted",
+      "comment": "일반 졸업논문 요건 적용은 승인하고, 졸업작품 대체요건은 공식 학과 근거 조사 전까지 별도 미검증 항목으로 둔다.",
+      "normalization_status": "accepted"
+    },
+    {
+      "response_id": "response.thesis.substitution",
+      "question_id": "thesis.substitution",
+      "session_id": "cwnu.cs.2026.review-session-001",
+      "answer_mode": "choice",
+      "selected_choice_id": "confirm",
+      "exact_text": "26교육과정은 26학번(입학학번) 기준, 24교육과정은 24년도 입학자(24학번) 기준 이런식으로 적용이 되는거야. 그리고 졸업논문 대체요건은 있는데 아직 규정집에 없는거임. 따라서 내가 추후에 조사한 다음에 갱신해도 무방해. 우선은 졸업논문 대체요건은 규정집 대로라면 없는거지.",
+      "answered_by": "project_owner",
+      "answered_at": "2026-09-18T16:27:00+09:00",
+      "authority_used": "department_confirmation",
+      "authorization_event_id": "event.authority-granted",
+      "comment": "후속 설명에서 현재 PDF의 none_listed 해석을 승인하고 공모전·캡스톤·졸업작품·PCCP 기억은 조사 대기로 확정했다.",
+      "normalization_status": "accepted"
+    }
+  ],
+  "audit_events": [
+    {
+      "event_id": "event.created",
+      "event": "created",
+      "at": "2026-09-18T14:30:00+09:00",
+      "actor": "main",
+      "details": "초기 검수 대상 14건을 사용자용 3개 배치, 6개 질문으로 구성했다."
+    },
+    {
+      "event_id": "event.authority-granted",
+      "event": "authority_granted",
+      "at": "2026-09-18T16:26:00+09:00",
+      "actor": "project_owner",
+      "details": "이 세션의 명시적 답변을 컴퓨터공학과 확인으로 기록하도록 권한을 부여했다."
+    },
+    {
+      "event_id": "event.presented.source",
+      "event": "question_presented",
+      "at": "2026-09-18T16:26:05+09:00",
+      "actor": "main",
+      "question_id": "source.identity-scope",
+      "details": "출처 신원과 적용 범위 질문을 제시했다."
+    },
+    {
+      "event_id": "event.answered.source",
+      "event": "answer_recorded",
+      "at": "2026-09-18T16:26:10+09:00",
+      "actor": "main",
+      "question_id": "source.identity-scope",
+      "response_id": "response.source.identity-scope",
+      "details": "출처 승인 응답을 기록했다."
+    },
+    {
+      "event_id": "event.presented.general",
+      "event": "question_presented",
+      "at": "2026-09-18T16:26:15+09:00",
+      "actor": "main",
+      "question_id": "credits.general",
+      "details": "교양 학점 질문을 제시했다."
+    },
+    {
+      "event_id": "event.answered.general",
+      "event": "answer_recorded",
+      "at": "2026-09-18T16:26:20+09:00",
+      "actor": "main",
+      "question_id": "credits.general",
+      "response_id": "response.credits.general",
+      "details": "교양 학점 승인 응답을 기록했다."
+    },
+    {
+      "event_id": "event.presented.major",
+      "event": "question_presented",
+      "at": "2026-09-18T16:26:25+09:00",
+      "actor": "main",
+      "question_id": "credits.major",
+      "details": "전공 학점 질문을 제시했다."
+    },
+    {
+      "event_id": "event.answered.major",
+      "event": "answer_recorded",
+      "at": "2026-09-18T16:26:30+09:00",
+      "actor": "main",
+      "question_id": "credits.major",
+      "response_id": "response.credits.major",
+      "details": "전공 학점 승인 응답을 기록했다."
+    },
+    {
+      "event_id": "event.presented.graduation",
+      "event": "question_presented",
+      "at": "2026-09-18T16:26:35+09:00",
+      "actor": "main",
+      "question_id": "credits.graduation",
+      "details": "졸업학점 질문을 제시했다."
+    },
+    {
+      "event_id": "event.answered.graduation",
+      "event": "answer_recorded",
+      "at": "2026-09-18T16:26:40+09:00",
+      "actor": "main",
+      "question_id": "credits.graduation",
+      "response_id": "response.credits.graduation",
+      "details": "졸업학점 승인 응답을 기록했다."
+    },
+    {
+      "event_id": "event.presented.thesis-required",
+      "event": "question_presented",
+      "at": "2026-09-18T16:26:45+09:00",
+      "actor": "main",
+      "question_id": "thesis.required",
+      "details": "졸업논문 의무 질문을 제시했다."
+    },
+    {
+      "event_id": "event.answered.thesis-required",
+      "event": "answer_recorded",
+      "at": "2026-09-18T16:26:50+09:00",
+      "actor": "main",
+      "question_id": "thesis.required",
+      "response_id": "response.thesis.required",
+      "details": "졸업논문 의무 승인 응답을 기록했다."
+    },
+    {
+      "event_id": "event.presented.thesis-substitution",
+      "event": "question_presented",
+      "at": "2026-09-18T16:26:55+09:00",
+      "actor": "main",
+      "question_id": "thesis.substitution",
+      "details": "졸업논문 대체요건 해석 질문을 제시했다."
+    },
+    {
+      "event_id": "event.answered.thesis-substitution",
+      "event": "answer_recorded",
+      "at": "2026-09-18T16:27:00+09:00",
+      "actor": "main",
+      "question_id": "thesis.substitution",
+      "response_id": "response.thesis.substitution",
+      "details": "none_listed 해석 승인 응답을 기록했다."
+    },
+    {
+      "event_id": "event.application-applied",
+      "event": "applied",
+      "at": "2026-09-18T16:27:06+09:00",
+      "actor": "academic_rule_modeler",
+      "details": "승인 응답을 SourceEntry, RuleFact와 AcademicReviewPacket에 적용했다."
+    },
+    {
+      "event_id": "event.authority-expired",
+      "event": "authority_expired",
+      "at": "2026-09-18T16:27:06+09:00",
+      "actor": "main",
+      "details": "검수 적용 완료로 세션 권한을 만료했다."
+    },
+    {
+      "event_id": "event.closed",
+      "event": "closed",
+      "at": "2026-09-18T16:27:06+09:00",
+      "actor": "main",
+      "details": "검수 세션을 완료 상태로 닫았다."
+    }
+  ],
+  "application": {
+    "applied_at": "2026-09-18T16:27:06+09:00",
+    "applied_by": "academic_rule_modeler",
+    "application_event_id": "event.application-applied",
+    "output_snapshots": [
+      {
+        "artifact_id": "review:cwnu.cs.2026.initial-rules",
+        "sha256": "30e05c87ea392c6576384742153e072c935e2e564a9102baad444e0b7c077595"
+      },
+      {
+        "artifact_id": "source:cwnu.curriculum.2026.changwon-undergraduate",
+        "sha256": "4ab5cc759a95407c999863b65fe73580c70966da885494fb8c8bff15b9bdea97"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.general-balanced",
+        "sha256": "7164a0d14ac16bcb1bc0e5df974a518c4155bc9e9d1d1f12a49b50c55946e0af"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.general-foundation",
+        "sha256": "cd17456a0dd09c9d2f00ec0ac75145d144d4983e06859dd6aff2129f981264aa"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.general-remaining",
+        "sha256": "16d7a7dbab93236d717f11f7e343551e0cbeba7178b98b4edf063d38e1a9d336"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.general-total",
+        "sha256": "869c43b174b0369472676d63f9551eb20e45a1895992b8a89ba60c538c68a2b0"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.graduation-remaining",
+        "sha256": "3fe2a6b2d580fe73daa09b04d30276e9f2a624eb5c23efa35e1ce80d9b0391f0"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.graduation-total",
+        "sha256": "849706fe43aecab95aaeb9b57d95b1a637d03a3627a2bd9f8060a63d34b8a005"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.major-advanced",
+        "sha256": "bc94e8cf2fd3f9807a0bcc65f7431c8fae63e69f421e3d537e8a0751808949a9"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.major-elective",
+        "sha256": "1a670bb62d2a2017a3fc2728eead142bb9fda6520ebb231a4c1d465ac1b19e3b"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.major-minimum",
+        "sha256": "2c5b890a2e09fa6fa82c2615f9bd03fdbb14b1cd066c52e3d367bb9120455bde"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.major-required",
+        "sha256": "4d1f13d3a77d19af70bc3472acdcad48151ff23709e757175a9595896d65c490"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.credits.major-total",
+        "sha256": "8273ff94f4c194f765c5209f4928f8f8182d092966e005a79a0774ac9a7cdc1a"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.graduation.thesis-required",
+        "sha256": "af2d1dffb8eace9d5691f948e65700ae52498bb710204ac11465c38c98974c7b"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.graduation.thesis-substitution",
+        "sha256": "ae38e4f3833c9833d60511d4e5b74282b6c92923ec58a3b9324cec0f4749f82e"
+      }
+    ],
+    "response_snapshots": [
+      {
+        "response_id": "response.source.identity-scope",
+        "sha256": "94bba0ba6fd77e9a3c78e7be3f1b9b1320783a1aec4fa05ad4923d05a8635973"
+      },
+      {
+        "response_id": "response.credits.general",
+        "sha256": "338d43cb91ae951fc21f6a12c61f1716f6e0fc285ac11d149f897f7f5a3ee5d5"
+      },
+      {
+        "response_id": "response.credits.major",
+        "sha256": "6f68926ee99f0765e8d55750abb02c614507ec4f7213c264f9a3186390c15668"
+      },
+      {
+        "response_id": "response.credits.graduation",
+        "sha256": "8196f0988aacfa219e1e595efed46295baea3a119f34b445768589b049e256cb"
+      },
+      {
+        "response_id": "response.thesis.required",
+        "sha256": "b896d6c40a299149261297bab9d0f6b85b22338d371f6a743fd6b20a3873309f"
+      },
+      {
+        "response_id": "response.thesis.substitution",
+        "sha256": "5367111ee8e42c366f17ea161631d85438564c95d9d11f81e9c21c4a96d9f2e1"
+      }
+    ],
+    "subject_attestations": [
+      {
+        "subject_id": "cwnu.cs.2026.credits.general-balanced",
+        "question_id": "credits.general",
+        "response_id": "response.credits.general",
+        "object_review_sha256": "e4e609880f4f4c550035cbeac6545f26069fbe0be81f88b4c81fdc068144bca4",
+        "review_subject_sha256": "f1253b6825c44b0c0eb553dd51459190f62492134620d3daeeaba1d0b2e6cba9"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.general-foundation",
+        "question_id": "credits.general",
+        "response_id": "response.credits.general",
+        "object_review_sha256": "3c55ee328a0824db9ad9bfda7755f99b452297926b6f73b803a0edb64046900c",
+        "review_subject_sha256": "680faaa0fa15f603882ccec2bc02773d8a56934a5e0b267e8b75b438561f3843"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.general-remaining",
+        "question_id": "credits.general",
+        "response_id": "response.credits.general",
+        "object_review_sha256": "97bc82d6cc6262bf9da53eab38524686608935b111e9106f7f6f4cc147542c60",
+        "review_subject_sha256": "a57d134ee9626d2f7dfc909d5f8b403756f5c9328d38647d70917975e94c534c"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.general-total",
+        "question_id": "credits.general",
+        "response_id": "response.credits.general",
+        "object_review_sha256": "788b5e1aea2dd2a63237019b94b20a2042628fb936c3884cefb0a07b1781edd3",
+        "review_subject_sha256": "40a5c25903f688afde70371591a161f7df7643d6d7a4a67b14b12cfd50975261"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.graduation-remaining",
+        "question_id": "credits.graduation",
+        "response_id": "response.credits.graduation",
+        "object_review_sha256": "305e3f226f86a1a895f470f2cff4d28592aed2bbf775c54fafe8c3efa0d9c6ed",
+        "review_subject_sha256": "690a5c004c561b60cf817fad53351df6871cf226c00287c9018de4ee7feb665a"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.graduation-total",
+        "question_id": "credits.graduation",
+        "response_id": "response.credits.graduation",
+        "object_review_sha256": "48f384e8cac1eccf8fdc5529a7357614f2bf440e6761353a9bb4e4c4fb20e23a",
+        "review_subject_sha256": "eb246530ddfa70c63ab52a795fce0ae8909a02a77fdc10a2466d1601052c1305"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.major-advanced",
+        "question_id": "credits.major",
+        "response_id": "response.credits.major",
+        "object_review_sha256": "4c5cb2f26596e47b197dbe179440b50907a96015267ae6be3b6a2ad5324f045b",
+        "review_subject_sha256": "3b35eae191699f2aca3ee3aff07a4d112717d903378d9ab38daccd0c002f236c"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.major-elective",
+        "question_id": "credits.major",
+        "response_id": "response.credits.major",
+        "object_review_sha256": "68f68b864fb0902e85206fcb5cd9f9b2df0215e569728fa3412de01d62863250",
+        "review_subject_sha256": "ae996b973b40090902b34ab6a2e7b27481b8e0499b39072a414367e6ff7b4ffb"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.major-minimum",
+        "question_id": "credits.major",
+        "response_id": "response.credits.major",
+        "object_review_sha256": "a77b64bedb9cc1b1cb4fe003c785ca24ecf57146c685881ae628617fcabf4899",
+        "review_subject_sha256": "a45335a4e108fa744275458c98f1721a8c1ad2a7d8eede3df947cf683d3eb542"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.major-required",
+        "question_id": "credits.major",
+        "response_id": "response.credits.major",
+        "object_review_sha256": "d0ae4549d7878624081066b8af00da72df2ae85355b228d86fc86e869c6573f8",
+        "review_subject_sha256": "be74b031bdc715d24efc0852b49cdcb11dd523557cc52518ce9e2a7cf19c3a57"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.credits.major-total",
+        "question_id": "credits.major",
+        "response_id": "response.credits.major",
+        "object_review_sha256": "a34de77680eea8557eb4bc7a9814f5724c731a615e920ca8525cd61b4174e6ee",
+        "review_subject_sha256": "164f5e360d5a527840c340f03c11fad68c362df33fe8198bd66bfdcfd4f5b4ae"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.graduation.thesis-required",
+        "question_id": "thesis.required",
+        "response_id": "response.thesis.required",
+        "object_review_sha256": "9abfb2629b0edecd222114a5ea21aab48690794a50bbd1bbaa600c29ed328cfb",
+        "review_subject_sha256": "d96bbb4c7416d5782a23465df3314411b3821cd3bf59d2b7e8bf6e64ba169e1a"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.graduation.thesis-substitution",
+        "question_id": "thesis.substitution",
+        "response_id": "response.thesis.substitution",
+        "object_review_sha256": "10f6949f14c63dd5d52bf1b053a51d43425707820979f5f62b84b7cafc7c39af",
+        "review_subject_sha256": "3a7d7868e74239b34db2f6e2702e99a31045d4bd774941cc1b2d85ec426c025b"
+      },
+      {
+        "subject_id": "cwnu.curriculum.2026.changwon-undergraduate",
+        "question_id": "source.identity-scope",
+        "response_id": "response.source.identity-scope",
+        "object_review_sha256": "80570099bbe3401f6cf312698b521313c885461b04cd8c36fb7b4766a291a6cb",
+        "review_subject_sha256": "520917f7464a74400a4600c0836d34311d32271a44af2fdcbae0ada4865510cd"
+      }
+    ]
+  }
 }

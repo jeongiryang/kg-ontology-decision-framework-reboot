@@ -13,3 +13,4 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 | [0007](0007-admission-cohort-and-human-review.md) | 교육과정은 입학연도로 적용하고 학사 관계를 사람 전수 검수 | 채택 |
 | [0008](0008-portable-run-state-paths.md) | 실행 상태의 프로젝트 상대 경로를 POSIX 형식으로 정규화 | 채택 |
 | [0009](0009-session-scoped-academic-clarification.md) | 사용자 학사 확인을 검수 세션과 명시적 응답 범위로 제한 | 채택 |
+| [0010](0010-isolate-unverified-academic-practices.md) | 미확인 운영요건을 답변 지식에서 격리하고 공개 조사 이슈로 추적 | 채택 |

@@ -39,6 +39,7 @@ class DocumentedContractExamplesTest(unittest.TestCase):
         "EvidencePacket": "evidence-packet.schema.json",
         "AcademicReviewPacket": "academic-review-packet.schema.json",
         "AcademicClarificationPacket": "academic-clarification-packet.schema.json",
+        "AcademicResearchItem": "academic-research-item.schema.json",
         "DSWRunRequest": "dsw-run-request.schema.json",
         "TaskResult": "task-result.schema.json",
         "CompletionReport": "completion-report.schema.json",
@@ -198,6 +199,16 @@ class EvidencePacketSecurityTest(unittest.TestCase):
         instance["status"] = "supported"
         instance["applied_rules"] = [
             {"rule_id": "cwnu.cs.2026.graduation.total-credits", "rule_sha256": "a" * 64}
+        ]
+        self.assertFalse(self.validator.is_valid(instance))
+
+    def test_insufficient_evidence_packet_cannot_apply_rules_or_citations(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["status"] = "insufficient_evidence"
+        instance["issues"] = [{"kind": "missing", "message": "공식 근거 조사 대기"}]
+        self.validator.validate(instance)
+        instance["applied_rules"] = [
+            {"rule_id": "unverified.claim", "rule_sha256": "a" * 64}
         ]
         self.assertFalse(self.validator.is_valid(instance))
 

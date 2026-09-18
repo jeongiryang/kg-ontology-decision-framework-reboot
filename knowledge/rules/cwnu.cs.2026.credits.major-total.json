@@ -6,5 +6,5 @@
   "relationship": {"kind": "base", "target_rule_ids": []},
   "decision": {"statement": "전공을 합계 78학점 이상 이수해야 한다.", "outcome": {"type": "credit_threshold", "metric": "credits.major.total", "comparator": "at_least", "credits": 78}, "operator": "threshold"},
   "evidence": [{"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공 소계 열", "evidence_type": "table_structure", "excerpt": "전공 소계 78"}],
-  "review": {"status": "needs_review", "mode": "human", "scope": "full"}
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "rationale": "프로젝트 책임자가 교육과정 학점표의 전공 소계 78학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"}
 }

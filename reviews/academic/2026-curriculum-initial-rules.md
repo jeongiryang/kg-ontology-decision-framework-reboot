@@ -5,30 +5,30 @@
 - 교육과정 연도: 2026
 - 적용 입학연도: 2026
 - 학과: 컴퓨터공학과
-- 출처 상태: 입학연도 관계는 확인됨, SourceEntry 전체 검수는 대기
-- 규칙 상태: 13건 모두 `needs_review`
-- 사용 제한: 승인 전에는 학생 대상 `supported` 답변의 근거로 사용하지 않음
+- 출처 상태: `approved` (`project_owner`, 2026-09-18)
+- 규칙 상태: 13건 모두 `approved`
+- 승인 범위: 현재 교육과정 PDF에 명시된 출처·학점·졸업논문 관계
 
-사용자가 “2026 교육과정은 2026년도 입학자에게 적용한다”는 관계를 확인했다. 다만 `full` 검수는 제목·SHA-256·권위·적용범위를 모두 포함하므로 SourceEntry 전체 상태는 대기로 유지한다. 원문 PDF는 공개 Git에 포함하지 않으며, 발행일이나 시행일은 원문에서 확인되지 않아 기록하지 않았다.
+프로젝트 책임자가 원본 제목·SHA-256·권위·적용범위와 RuleFact 13건을 전수 검수해 승인했다. 원문 PDF는 공개 Git에 포함하지 않으며, 발행일이나 시행일은 원문에서 확인되지 않아 기록하지 않았다. 공모전·캡스톤디자인/졸업작품·PCCP 관련 기억은 승인 범위가 아니며 별도 미검증 조사 항목으로 격리한다.
 
 ## 전수 검수 큐
 
 | 상태 | 대상 | 시스템 해석 | 확인 위치 | 검수 질문 |
 |---|---|---|---|---|
-| 대기 | `cwnu.curriculum.2026.changwon-undergraduate` | 2026 교육과정 → 2026년도 입학자 | 원본 전체·SHA-256, PDF 13·18쪽 | 제목·해시·권위·적용범위가 모두 맞는가? |
-| 대기 | `credits.general.foundation` | 기초교양 ≥ 9학점 | PDF 23·261·577쪽 | 학과 행과 기초교양 열의 교차점이 맞는가? |
-| 대기 | `credits.general.balanced` | 균형교양 ≥ 12학점 | PDF 23·261·577쪽 | 학과 행과 균형교양 열의 교차점이 맞는가? |
-| 대기 | `credits.general.remaining` | 교양 잔여학점 ≥ 13학점 | PDF 23·261·577쪽 | 잔여학점의 의미와 값이 맞는가? |
-| 대기 | `credits.general.total` | 교양 합계 ≥ 34학점 | PDF 23·261·577쪽 | 교양 소계 열과 값이 맞는가? |
-| 대기 | `credits.major.required` | 전공필수 ≥ 21학점 | PDF 23·261·577쪽 | 전공필수 열과 값이 맞는가? |
-| 대기 | `credits.major.elective` | 전공선택 ≥ 24학점 | PDF 23·261·577쪽 | 전공선택 열과 값이 맞는가? |
-| 대기 | `credits.major.minimum` | 최소전공 합계 ≥ 45학점 | PDF 23·261·577쪽 | 최소전공 소계 열과 값이 맞는가? |
-| 대기 | `credits.major.advanced` | 심화전공 ≥ 33학점 | PDF 23·261·577쪽 | 심화전공 열과 값이 맞는가? |
-| 대기 | `credits.major.total` | 전공 합계 ≥ 78학점 | PDF 23·261·577쪽 | 전공 소계 열과 값이 맞는가? |
-| 대기 | `credits.graduation.remaining` | 졸업 잔여학점 ≥ 18학점 | PDF 23·261·577쪽 | 잔여학점의 의미와 값이 맞는가? |
-| 대기 | `credits.graduation.total` | 졸업학점 ≥ 130학점 | PDF 23·261·577쪽 | 졸업학점 열과 값이 맞는가? |
-| 대기 | `graduation.thesis.required` | 졸업논문 요건 충족 필요 | PDF 565쪽 | 일반 요건을 컴퓨터공학과에 적용하는 관계가 맞는가? |
-| 대기 | `graduation.thesis.substitution` | 규정집에 대체요건 없음(`none_listed`) | PDF 567쪽 | 면제·금지로 확장하지 않은 해석이 맞는가? |
+| 승인 | `cwnu.curriculum.2026.changwon-undergraduate` | 2026 교육과정 → 2026년도 입학자 | 원본 전체·SHA-256, PDF 13·18쪽 | 제목·해시·권위·적용범위 확인 |
+| 승인 | `credits.general.foundation` | 기초교양 ≥ 9학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.general.balanced` | 균형교양 ≥ 12학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.general.remaining` | 교양 잔여학점 ≥ 13학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.general.total` | 교양 합계 ≥ 34학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.major.required` | 전공필수 ≥ 21학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.major.elective` | 전공선택 ≥ 24학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.major.minimum` | 최소전공 합계 ≥ 45학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.major.advanced` | 심화전공 ≥ 33학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.major.total` | 전공 합계 ≥ 78학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.graduation.remaining` | 졸업 잔여학점 ≥ 18학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `credits.graduation.total` | 졸업학점 ≥ 130학점 | PDF 23·261·577쪽 | 원문 표 확인 |
+| 승인 | `graduation.thesis.required` | 졸업논문 요건 충족 필요 | PDF 565쪽 | 적용 관계 확인 |
+| 승인 | `graduation.thesis.substitution` | 규정집에 대체요건 없음(`none_listed`) | PDF 567쪽 | 면제·금지로 확장하지 않는 해석 확인 |
 
 ## 검수 원칙
 

@@ -38,6 +38,8 @@ jobs:
         run: python scripts/validation/validate_academic_knowledge.py --project .
       - name: Validate academic clarification coverage and session authority
         run: python scripts/validation/validate_academic_clarifications.py --project .
+      - name: Validate unverified academic research isolation
+        run: python scripts/validation/validate_academic_research.py --project .
       - name: Render every harness Mermaid block
         run: >-
           python scripts/validation/render_mermaid.py

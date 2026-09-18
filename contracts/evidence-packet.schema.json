@@ -64,6 +64,16 @@
           "issues": { "maxItems": 0 }
         }
       }
+    },
+    {
+      "if": { "properties": { "status": { "const": "insufficient_evidence" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "applied_rules": { "maxItems": 0 },
+          "evidence": { "maxItems": 0 },
+          "issues": { "minItems": 1 }
+        }
+      }
     }
   ],
   "$defs": {

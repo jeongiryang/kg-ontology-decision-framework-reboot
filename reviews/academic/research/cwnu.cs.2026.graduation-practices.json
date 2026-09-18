@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "research_id": "cwnu.cs.2026.graduation-practices",
+  "scope": {
+    "curriculum_year": 2026,
+    "admission_year": 2026,
+    "department": "컴퓨터공학과"
+  },
+  "origin": "unverified_user_recollection",
+  "status": "awaiting_official_source",
+  "eligible_for_academic_answer": false,
+  "linked_rule_ids": [
+    "cwnu.cs.2026.graduation.thesis-required",
+    "cwnu.cs.2026.graduation.thesis-substitution"
+  ],
+  "claims": [
+    {
+      "claim_id": "president-level-competition-award",
+      "statement": "총장상급 이상 외부 공모전 수상이 졸업작품 대체요건일 가능성이 있다.",
+      "verification_question": "총장상급 이상 외부 공모전 수상을 졸업작품 대체요건으로 인정하는 공식 학과 자료가 있는가?",
+      "status": "unverified",
+      "eligible_for_academic_answer": false,
+      "answer_status_until_verified": "insufficient_evidence"
+    },
+    {
+      "claim_id": "capstone-sequence",
+      "statement": "캡스톤디자인 1 통과, 캡스톤디자인 2 통과, 졸업작품 순서의 선후관계가 있을 가능성이 있다.",
+      "verification_question": "캡스톤디자인 1·2와 졸업작품의 공식 선수·통과 관계와 적용 학번을 명시한 자료가 있는가?",
+      "status": "unverified",
+      "eligible_for_academic_answer": false,
+      "answer_status_until_verified": "insufficient_evidence"
+    },
+    {
+      "claim_id": "pccp-400-before-junior-fall-grading",
+      "statement": "3학년 2학기 성적 산출 전 PCCP 400점이 캡스톤디자인 1 통과 조건일 가능성이 있다.",
+      "verification_question": "PCCP 400점, 제출 시점과 캡스톤디자인 1 통과의 공식 관계를 명시한 학과 또는 교과목 자료가 있는가?",
+      "status": "unverified",
+      "eligible_for_academic_answer": false,
+      "answer_status_until_verified": "insufficient_evidence"
+    }
+  ],
+  "required_evidence": [
+    "official_department_guidance",
+    "course_operation_plan",
+    "approved_internal_regulation"
+  ],
+  "review_session_id": "cwnu.cs.2026.review-session-001",
+  "created_at": "2026-09-18T16:27:06+09:00",
+  "github_issue_url": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/issues/1",
+  "notes": [
+    "이 파일의 세 주장은 공식 근거 확보 전까지 SourceEntry, RuleFact 또는 학생 대상 답변 근거로 사용할 수 없다.",
+    "현재 승인된 none_listed는 2026 교육과정 PDF에 기재된 졸업논문 대체요건이 없다는 뜻만 가진다."
+  ]
+}

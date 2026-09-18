@@ -10,106 +10,122 @@
     {
       "subject_type": "source",
       "subject_id": "cwnu.curriculum.2026.changwon-undergraduate",
-      "status": "pending",
+      "status": "approved",
       "review_question": "원본 PDF의 제목·SHA-256·교육과정 권위와 2026 교육과정→2026년도 입학자 적용 범위가 모두 올바른가?",
-      "evidence_locators": ["원본 PDF 전체와 등록 SHA-256", "PDF p.13 (printed p.5): 교육과정 입학연도 적용 원칙", "PDF p.18 (printed p.10): 2026학년도 교육과정 적용자 안내"]
+      "evidence_locators": ["원본 PDF 전체와 등록 SHA-256", "PDF p.13 (printed p.5): 교육과정 입학연도 적용 원칙", "PDF p.18 (printed p.10): 2026학년도 교육과정 적용자 안내"],
+      "reviewer_id": "project_owner",
+      "reviewed_at": "2026-09-18T16:27:06+09:00",
+      "comment": "프로젝트 책임자가 원본 신원·SHA-256·교육과정 권위와 2026 교육과정의 2026학번 컴퓨터공학과 적용 관계를 확인했다. [question_id=source.identity-scope; response_id=response.source.identity-scope]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.general-foundation",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 기초교양 최소학점이 9학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 기초교양 9"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 기초교양 9"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 기초교양 9학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.general-balanced",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 균형교양 최소학점이 12학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 균형교양 12"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 균형교양 12"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 균형교양 12학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.general-remaining",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 교양 잔여학점이 13학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 교양 잔여학점 13"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 교양 잔여학점 13"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 교양 잔여학점 13학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.general-total",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 교양 최소 합계가 34학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 교양 소계 34"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 교양 소계 34"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 교양 소계 34학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.major-required",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 전공필수 최소학점이 21학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 전공필수 21"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 전공필수 21"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 전공필수 21학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.major-elective",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 전공선택 최소학점이 24학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 전공선택 24"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 전공선택 24"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 전공선택 24학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.major-minimum",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 최소전공 합계가 45학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 최소전공 소계 45"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 최소전공 소계 45"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 최소전공 소계 45학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.major-advanced",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 심화전공 최소학점이 33학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 심화전공 33"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 심화전공 33"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 심화전공 33학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.major-total",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 전공 최소 합계가 78학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 전공 소계 78"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 전공 소계 78"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 전공 소계 78학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.graduation-remaining",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 졸업 잔여학점이 18학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 졸업 잔여학점 18"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 졸업 잔여학점 18"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 졸업 잔여학점 18학점을 확인했다. [question_id=credits.graduation; response_id=response.credits.graduation]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.credits.graduation-total",
-      "status": "pending",
+      "status": "approved",
       "review_question": "26학번 컴퓨터공학과 졸업 최소학점이 130학점으로 올바르게 연결되었는가?",
-      "evidence_locators": ["PDF p.23, p.261, p.577: 졸업학점 130"]
+      "evidence_locators": ["PDF p.23, p.261, p.577: 졸업학점 130"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 교육과정 학점표의 졸업학점 130학점을 확인했다. [question_id=credits.graduation; response_id=response.credits.graduation]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.graduation.thesis-required",
-      "status": "pending",
+      "status": "approved",
       "review_question": "일반 졸업논문 통과 요건이 26학번 컴퓨터공학과에도 요구되는 것으로 모델링되어야 하는가?",
-      "evidence_locators": ["PDF p.565 (printed p.557): 일반 졸업요건"]
+      "evidence_locators": ["PDF p.565 (printed p.557): 일반 졸업요건"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 일반 졸업논문 통과 요건의 2026학번 컴퓨터공학과 적용을 확인했다. [question_id=thesis.required; response_id=response.thesis.required]"
     },
     {
       "subject_type": "rule",
       "subject_id": "cwnu.cs.2026.graduation.thesis-substitution",
-      "status": "pending",
+      "status": "approved",
       "review_question": "컴퓨터공학과의 '해당사항 없음'을 현재 규정집에 기재된 대체요건이 없음(none_listed)으로 모델링했으며, 면제나 대체 금지로 확장하지 않았는가?",
-      "evidence_locators": ["PDF p.567 (printed p.559): 졸업논문 대체요건 표의 컴퓨터공학과 행"]
+      "evidence_locators": ["PDF p.567 (printed p.559): 졸업논문 대체요건 표의 컴퓨터공학과 행"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-18T16:27:06+09:00", "comment": "프로젝트 책임자가 none_listed를 현재 PDF에 기재된 졸업논문 대체요건이 없다는 의미로만 확인했다. [question_id=thesis.substitution; response_id=response.thesis.substitution]"
     }
   ],
-  "overall_status": "open",
+  "overall_status": "approved",
   "notes": [
-    "project_owner가 입학연도 적용 관계를 확인했지만 SourceEntry의 신원·해시·권위·전체 적용범위는 전수 검수 대기 상태다.",
-    "모든 RuleFact는 사람 전수 검수 전까지 supported 답변의 근거로 사용할 수 없다.",
+    "project_owner가 SourceEntry의 신원·해시·권위·전체 적용범위와 RuleFact 13건을 전수 검수해 승인했다.",
+    "승인 범위는 현재 교육과정 PDF에 명시된 내용이며 미검증 학과 운영 관행은 포함하지 않는다.",
     "재입학·전과·편입·경과조치는 별도 예외 규칙이 생기기 전까지 범위에 포함하지 않는다."
   ]
 }

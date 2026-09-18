@@ -49,6 +49,23 @@ python .agents/skills/harness/scripts/run.py --project . start \
 6. 상위 근거 충돌은 사용자 답변으로 덮어쓰지 않고 관련 subject와 양쪽의 등록 출처·locator·claim을 연결한 `conflict`로 보존한다.
 7. 질문 제시와 응답 기록은 질문·응답 ID가 있는 세션 내 감사 사건으로 남기고, `draft`를 포함한 패킷·배치·질문 상태가 실제 권한과 응답 수에 일치하는지 검사한다.
 8. 세션 종료 시 권한을 만료하고 새 대화나 일반 발언에 재사용하지 않는다.
+9. 적용이 끝나면 질문 당시 `input_snapshots`를 보존하고 승인 반영 뒤 객체 해시를
+   `application.output_snapshots`에 별도로 기록한다.
+10. 적용 검증은 현재 SourceEntry·RuleFact의 `review`만 승인 전 상태로 복원한 해시를 입력
+    스냅샷과 대조한다. 승인 뒤 판정·수치·적용범위·관계·근거를 바꾸면 출력 해시를 함께
+    갱신해도 실패한다.
+11. 사용자 응답 전체와 각 대상의 검수 메타데이터는 별도 적용 attestation으로 고정한다.
+    사용자 원문, 검수자, 시각 또는 승인 근거가 바뀌면 해당 attestation과 불일치해 실패한다.
+
+## 미확인 운영요건 조사
+
+공식 자료가 없는 사용자 기억은 `AcademicResearchItem`으로만 기록한다. 해당 claim에는
+`unverified_user_recollection`, `awaiting_official_source`, `eligible_for_academic_answer=false`를
+고정하고 공개 GitHub 조사 이슈와 상호 연결한다. 이 상태에서는 RuleFact·SourceEntry·인용으로
+승격하지 않으며 질문에는 `insufficient_evidence`를 반환한다. 공식 학과 안내, 교과목 운영계획
+또는 승인된 내부 규정을 확보하면 별도 출처 감사와 새 검수 세션을 시작한다.
+기존 승인 RuleFact에 같은 주장을 패러프레이즈해 넣는 변경도 승인 전 의미 해시 잠금으로
+차단한다. 새 규칙은 기존 질문 패킷에 없는 대상이므로 새 검수 세션 없이 승인될 수 없다.
 
 ## 실패와 부분 재개
 
@@ -98,6 +115,7 @@ python scripts/validation/validate_harness_sync.py --project .
 ```bash
 python scripts/validation/validate_academic_knowledge.py --project .
 python scripts/validation/validate_academic_clarifications.py --project .
+python scripts/validation/validate_academic_research.py --project .
 ```
 
 `AGENTS.md`, `harness-manifest.yaml`, `.codex/config.toml`, 에이전트·스킬·계약, 하네스 CI workflow, `scripts/reporting/` 또는 `scripts/validation/`이 바뀌면 같은 변경에서 `docs/harness/` 설명과 ADR을 갱신해야 한다. 이 freshness 정책의 실제 판정은 CI 검사 코드가 담당한다.
