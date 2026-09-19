@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.course-counting.retake",
+  "label": "재수강 학점 중복 계산 방지",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "재수강 시 기이수 과목은 삭제되므로 학점을 중복 계산하지 않는다.", "outcome": {"type": "course_counting_policy", "scenario": "retake", "action": "delete_prior_completion", "double_counted": false, "individual_determination": "not_required"}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치", "evidence_type": "explicit_text", "excerpt": "재수강과 동일·대체교과목 처리"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.3, section 5: 재수강 필기와 사용자 정정", "evidence_type": "department_confirmation", "excerpt": "재수강시 기이수 과목은 삭제하므로 중복 카운트하지 않음"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:25+09:00", "rationale": "사용자의 정확한 재수강 설명을 같은 세션의 학과 확인으로 승인했다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"}
+}

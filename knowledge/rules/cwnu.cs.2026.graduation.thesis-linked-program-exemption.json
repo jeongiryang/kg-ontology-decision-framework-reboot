@@ -1,0 +1,15 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.graduation.thesis-linked-program-exemption",
+  "label": "학·석사 연계과정생 졸업논문 면제 가능성",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": [{"fact_key": "student.program.bachelors_masters_linked", "operator": "equals", "value": true}]},
+  "relationship": {"kind": "exception", "target_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"]},
+  "answer_policy": "record_only",
+  "decision": {"statement": "학·석사 연계과정생은 졸업논문 이수 면제가 가능하지만 자동 면제로 판정하지 않는다.", "outcome": {"type": "exception_eligibility", "target_requirement": "graduation.thesis.required", "eligible_group": "student.program.bachelors_masters_linked", "eligibility": "may_be_exempt", "automatic": false}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.565 (printed p.557): 졸업논문 통과 일반요건", "evidence_type": "explicit_text", "excerpt": "졸업논문 통과 요구"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.3, section 4: 오른쪽 필기와 사용자 정정", "evidence_type": "department_confirmation", "excerpt": "학석사연계과정생은 면제 가능"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:20+09:00", "rationale": "오른쪽 필기를 학·석사 연계과정생의 면제 가능성으로 정정 승인했다. 가능성만 기록하며 개인의 자동 면제 판정에는 쓰지 않는다. [question_id=thesis.zero-credit-result; response_id=response.thesis.zero-credit-result]"},
+  "review_notes": ["면제 가능은 자동 면제를 뜻하지 않으며 실제 적용에는 공식 절차와 학생 상태 확인이 필요하다."]
+}

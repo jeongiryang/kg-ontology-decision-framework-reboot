@@ -20,6 +20,7 @@
     "conflicts": {"type": "array", "items": {"$ref": "#/$defs/conflict"}},
     "responses": {"type": "array", "items": {"$ref": "#/$defs/response"}},
     "audit_events": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/auditEvent"}},
+    "withheld": {"type": "array", "items": {"$ref": "#/$defs/withheld"}},
     "application": {"$ref": "#/$defs/application"}
   },
   "$defs": {
@@ -175,6 +176,19 @@
         "subject_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "reason": {"enum": ["resolved_by_higher_authority", "already_approved", "duplicate_grouped", "out_of_scope"]},
         "evidence_locators": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "withheld": {
+      "type": "object", "additionalProperties": false,
+      "required": ["boundary_id", "subjects", "reason", "status", "answer_status", "eligible_for_academic_answer", "details"],
+      "properties": {
+        "boundary_id": {"$ref": "#/$defs/id"},
+        "subjects": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "reason": {"enum": ["awaiting_official_source", "individual_determination_required", "outside_confirmed_cohort_rule"]},
+        "status": {"const": "pending"},
+        "answer_status": {"const": "insufficient_evidence"},
+        "eligible_for_academic_answer": {"const": false},
+        "details": {"type": "string", "minLength": 1}
       }
     },
     "conflict": {

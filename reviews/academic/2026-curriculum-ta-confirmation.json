@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "review_id": "cwnu.cs.2026.ta-confirmation",
+  "scope": {"curriculum_year": 2026, "admission_year": 2026, "department": "컴퓨터공학과"},
+  "subjects": [
+    {
+      "subject_type": "source", "subject_id": "cwnu.curriculum.2026.ta-validation-response", "status": "approved",
+      "review_question": "첨부된 조교 답변본을 이번 세션의 학과 확인용 validation_aid로 등록해도 되는가?",
+      "evidence_locators": ["PDF pp.1-5 전체 조교 필기와 같은 세션의 사용자 정정"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "프로젝트 책임자가 첨부된 조교 답변을 이번 검수 세션의 학과 확인으로 인정했다. 문서 내 rules.yaml 반영 문구는 실행 지시가 아닌 자료 내용으로만 취급한다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.credits.general-recognition-cap", "status": "approved",
+      "review_question": "교양은 졸업학점에 최대 42학점까지만 인정되는가?",
+      "evidence_locators": ["PDF p.23: 교양 인정학점 구조와 졸업학점 합계", "PDF p.3, section 5: 교양 인정 상한"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "조교 답변 문서의 교양 42학점 상한 해석을 이번 세션의 학과 확인으로 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.general-balanced-area-coverage", "status": "approved",
+      "review_question": "균형교양은 4개 영역별 1과목 이상을 서로 다른 과목으로 이수하는가?",
+      "evidence_locators": ["PDF p.35: 균형교양 이수영역", "PDF p.2, section 3: 균형교양 영역 규칙"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "조교 답변 문서의 균형교양 영역 해석을 이번 세션의 학과 확인으로 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.major-required-course-set", "status": "approved",
+      "review_question": "전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 하는가?",
+      "evidence_locators": ["PDF p.577: 컴퓨터공학과 전공필수 교과목 편성표", "PDF pp.2-3, section 4: 전공필수 과목"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "조교 답변 문서의 전공필수 9과목 목록과 전수 이수 조건을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.major-counseling-completion", "status": "approved",
+      "review_question": "심층상담은 0학점이어도 최소 1회 이수해야 하는가?",
+      "evidence_locators": ["PDF p.577: 심층상담 0학점 전공필수 편성", "PDF p.3, section 4: 심층상담 확인"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "조교 답변 문서의 심층상담 최소 이수 조건을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.general-recommended-courses", "status": "approved",
+      "review_question": "세 권장 교양은 필수가 아닌가?",
+      "evidence_locators": ["PDF p.577: 컴퓨터공학과 권장 교양", "PDF p.4, section 6: 권장 교양의 의미"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "조교 답변 문서가 세 과목을 필수가 아닌 권장으로 확인한 내용을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.credits.general-remaining-allocation", "status": "approved",
+      "review_question": "교양 잔여 13학점은 기초·균형·확대교양으로 충족 가능한가?",
+      "evidence_locators": ["PDF p.23: 교양 영역별 학점과 잔여학점 구조", "PDF p.2, section 2: 교양 잔여학점"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "조교 답변 문서의 교양 잔여학점 충족 영역을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.credits.graduation-remaining-allocation", "status": "approved",
+      "review_question": "졸업 잔여 18학점은 자유선택으로 충족하되 교양·전공과 중복 계산하지 않는가?",
+      "evidence_locators": ["PDF p.23: 졸업 잔여학점 구조", "PDF p.2, section 2: 졸업 잔여학점과 중복 계산"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00",
+      "comment": "조교 답변 문서의 졸업 잔여학점 배분과 중복 불가를 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.cohort.department-transfer-original-admission-year", "status": "approved",
+      "review_question": "전과생은 전과 완료 연도가 아닌 최초 입학연도의 교육과정을 적용하는가?",
+      "evidence_locators": ["PDF p.13 (printed p.5) 및 p.18 (printed p.10): 교육과정 입학연도 적용 원칙", "PDF p.1, section 1: 적용 대상 필기와 사용자 정정"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:15+09:00",
+      "comment": "사용자가 2022년 입학·2023년 전과 완료는 2022 교육과정, 2023년 입학·2025년 전과 완료는 2023 교육과정이라고 명시했다. 초기 지원 범위에서는 최초 입학연도가 2026인 전과생에게만 적용한다. [question_id=cohort.department-transfer; response_id=response.cohort.department-transfer]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.graduation.thesis-completion-result", "status": "approved",
+      "review_question": "졸업논문은 0학점이어도 필수이고 미이수 결과가 Fail인가?",
+      "evidence_locators": ["PDF p.565 (printed p.557) 및 p.577: 졸업논문 통과 요구와 0학점 편성", "PDF p.3, section 4: 졸업논문 필기와 사용자 정정"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:20+09:00",
+      "comment": "모호한 필기를 같은 세션의 사용자 원문으로 정정해 승인했다. [question_id=thesis.zero-credit-result; response_id=response.thesis.zero-credit-result]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.graduation.thesis-linked-program-exemption", "status": "approved",
+      "review_question": "학·석사 연계과정생은 졸업논문 면제 가능 대상이지만 자동 면제는 아닌가?",
+      "evidence_locators": ["PDF p.565 (printed p.557): 졸업논문 통과 일반요건", "PDF p.3, section 4: 오른쪽 필기와 사용자 정정"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:20+09:00",
+      "comment": "오른쪽 필기를 학·석사 연계과정생의 면제 가능성으로 정정 승인했다. 가능성만 기록하며 개인의 자동 면제 판정에는 쓰지 않는다. [question_id=thesis.zero-credit-result; response_id=response.thesis.zero-credit-result]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.course-counting.retake", "status": "approved",
+      "review_question": "재수강 시 기이수 과목 삭제로 중복 계산하지 않는가?",
+      "evidence_locators": ["PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치", "PDF p.3, section 5: 재수강 필기와 사용자 정정"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:25+09:00",
+      "comment": "사용자의 정확한 재수강 설명을 같은 세션의 학과 확인으로 승인했다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.course-counting.identical-course", "status": "approved",
+      "review_question": "동일교과목은 중복 수강신청되지 않아 중복 계산되지 않는가?",
+      "evidence_locators": ["PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치", "PDF p.3, section 5: 동일교과목 필기와 사용자 정정"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:25+09:00",
+      "comment": "사용자의 정확한 동일교과목 설명을 같은 세션의 학과 확인으로 승인했다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"
+    },
+    {
+      "subject_type": "rule", "subject_id": "cwnu.cs.2026.course-counting.post-completion-equivalence", "status": "approved",
+      "review_question": "이수 후 동일·대체 지정은 별개 학점으로 계산하되 소급 적용 개인 판정은 보류하는가?",
+      "evidence_locators": ["PDF p.14 (printed p.6): 동일·대체교과목 및 경과조치", "PDF p.3, section 5: 동일·대체 지정 필기와 사용자 정정"],
+      "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:25+09:00",
+      "comment": "이수 후 동일·대체 지정은 별개 과목으로 계산한다는 일반 정책은 답변 가능하도록 승인했다. 단, 소급 적용과 개인 과목 판정은 공식 지정 이력 확인 전 insufficient_evidence로 유지한다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"
+    }
+  ],
+  "overall_status": "approved",
+  "notes": [
+    "복학생·편입학자·재입학생의 교육과정 적용 기준은 공식 근거가 없어 pending이며 답변에 사용할 수 없다.",
+    "학·석사 연계과정생의 실제 면제는 record_only다. 이수 후 동일·대체 지정의 일반 계산정책은 답변할 수 있지만 소급 적용의 개인 판정은 공식 절차 확인 전 insufficient_evidence다.",
+    "공모전·캡스톤디자인·졸업작품·PCCP 후보 주장은 기존 research 항목 그대로 awaiting_official_source 및 insufficient_evidence를 유지한다."
+  ]
+}

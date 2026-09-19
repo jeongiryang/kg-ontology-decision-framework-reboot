@@ -115,12 +115,12 @@
 네 상태 중 하나, 한국어 답변, 선택된 intent, 개별 metric 계산과 같은 상태·ID의 EvidencePacket을
 포함한다. 질문 원문과 로컬 경로는 응답하지 않는다.
 
-레지스트리는 명시적으로 등록한 13개 RuleFact, 출처 1개와 미검증 연구 항목 1개만 한 번씩 읽어
+레지스트리는 명시적으로 등록한 26개 RuleFact, 출처 2개와 미검증 연구 항목 1개만 한 번씩 읽어
 스키마, 범위, 관계, `human/full/approved` 상태와 canonical SHA-256을 검증한다. canonical 형식은
 UTF-8 JSON, 정렬된 키, 공백 없는 구분자와 `ensure_ascii=false`다. 일부 파일이라도 손상되면 전체
 레지스트리를 사용할 수 없는 것으로 처리한다.
 
-승인 기준선은 `config/academic-registry-pins.json`에 RuleFact 13건, SourceEntry, 연구 항목과
+승인 기준선은 `config/academic-registry-pins.json`에 RuleFact 26건, SourceEntry 2건, 연구 항목과
 intent profile의 canonical digest로 고정한다. 각 객체가 스키마에는 맞더라도 판정값·문장·검수·
 적용범위·근거·별칭이 바뀌어 pin과 달라지면 레지스트리 전체가 닫힌다. Intent profile 자체도
 `AcademicIntentProfile` 스키마와 정확한 intent/rule coverage를 통과해야 한다.

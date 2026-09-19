@@ -2,21 +2,37 @@
   "schema_version":"1.0.0",
   "algorithm":"sha256-canonical-json-v1",
   "rules":{
+    "cwnu.cs.2026.cohort.department-transfer-original-admission-year":"6da104f85ab14dcf87e23e56106df4653658a34c075ff3734347a95e8e93e885",
+    "cwnu.cs.2026.course-counting.identical-course":"b40e2f2cc04101f789c7989e552908b8df65e6e15c8afda66aa92bb7b2261164",
+    "cwnu.cs.2026.course-counting.post-completion-equivalence":"2a16a4709e51f0a93ad7ee37130a34611dc85e01207a3f5aac8dee27e24b12b1",
+    "cwnu.cs.2026.course-counting.retake":"ae7daed8382390355452b5572e1b526768fc82913d4f86089d3bc349ef5d6a3c",
     "cwnu.cs.2026.credits.general-balanced":"7164a0d14ac16bcb1bc0e5df974a518c4155bc9e9d1d1f12a49b50c55946e0af",
     "cwnu.cs.2026.credits.general-foundation":"cd17456a0dd09c9d2f00ec0ac75145d144d4983e06859dd6aff2129f981264aa",
+    "cwnu.cs.2026.credits.general-recognition-cap":"2796f2d1178248bf380b2c097015188cf63315999607f92925174d85f67f667b",
+    "cwnu.cs.2026.credits.general-remaining-allocation":"a164188a0cc98db64583450f9ab0a5eabe759d7820c88d39be2fcf11ff9ecbaa",
     "cwnu.cs.2026.credits.general-remaining":"16d7a7dbab93236d717f11f7e343551e0cbeba7178b98b4edf063d38e1a9d336",
     "cwnu.cs.2026.credits.general-total":"869c43b174b0369472676d63f9551eb20e45a1895992b8a89ba60c538c68a2b0",
     "cwnu.cs.2026.credits.graduation-remaining":"3fe2a6b2d580fe73daa09b04d30276e9f2a624eb5c23efa35e1ce80d9b0391f0",
+    "cwnu.cs.2026.credits.graduation-remaining-allocation":"89ef3c4cfede182d764cdf042ead828d7ca5cef4befac24a6e1c2aa48ba0b3a4",
     "cwnu.cs.2026.credits.graduation-total":"849706fe43aecab95aaeb9b57d95b1a637d03a3627a2bd9f8060a63d34b8a005",
     "cwnu.cs.2026.credits.major-advanced":"bc94e8cf2fd3f9807a0bcc65f7431c8fae63e69f421e3d537e8a0751808949a9",
     "cwnu.cs.2026.credits.major-elective":"1a670bb62d2a2017a3fc2728eead142bb9fda6520ebb231a4c1d465ac1b19e3b",
     "cwnu.cs.2026.credits.major-minimum":"2c5b890a2e09fa6fa82c2615f9bd03fdbb14b1cd066c52e3d367bb9120455bde",
     "cwnu.cs.2026.credits.major-required":"4d1f13d3a77d19af70bc3472acdcad48151ff23709e757175a9595896d65c490",
     "cwnu.cs.2026.credits.major-total":"8273ff94f4c194f765c5209f4928f8f8182d092966e005a79a0774ac9a7cdc1a",
+    "cwnu.cs.2026.general-balanced-area-coverage":"5de3112df3430b0e7952a80656fcf4bdf5cfd40680d991243dca4a740e9351fe",
+    "cwnu.cs.2026.general-recommended-courses":"a47a4b67f88b10903d644a801e99b209b3bc16ad96562c2e5b3af9984541c6d7",
+    "cwnu.cs.2026.graduation.thesis-completion-result":"031a6f89d6b01fcc75464df12c3c14e04d1360b245a6e07d44cf69dba7d09fe0",
+    "cwnu.cs.2026.graduation.thesis-linked-program-exemption":"ca4673156dd92f4d76a7442ecc168cb97ff3e2cb3f3a323d504e0a33ef982482",
     "cwnu.cs.2026.graduation.thesis-required":"af2d1dffb8eace9d5691f948e65700ae52498bb710204ac11465c38c98974c7b",
-    "cwnu.cs.2026.graduation.thesis-substitution":"ae38e4f3833c9833d60511d4e5b74282b6c92923ec58a3b9324cec0f4749f82e"
+    "cwnu.cs.2026.graduation.thesis-substitution":"ae38e4f3833c9833d60511d4e5b74282b6c92923ec58a3b9324cec0f4749f82e",
+    "cwnu.cs.2026.major-counseling-completion":"6dab0a6035d3ac497cbbd370a6f730c215afa397cb08610318e39dd55f29c423",
+    "cwnu.cs.2026.major-required-course-set":"9a7bf9cdd69803d3245759bc8e0a5b03c15bc70595a541c8bcf6ea9448327c12"
   },
-  "source":{"id":"cwnu.curriculum.2026.changwon-undergraduate","digest":"4ab5cc759a95407c999863b65fe73580c70966da885494fb8c8bff15b9bdea97"},
+  "sources":{
+    "cwnu.curriculum.2026.changwon-undergraduate":"4ab5cc759a95407c999863b65fe73580c70966da885494fb8c8bff15b9bdea97",
+    "cwnu.curriculum.2026.ta-validation-response":"5e56af9cbb0e8dd5708ce63ee40b389c22946ad7c7a86081f39304478568d18c"
+  },
   "research":{"id":"cwnu.cs.2026.graduation-practices","digest":"e08f502b7ab9387386ea4059cbb20ce007526ac62f8435bda7901361b473622c"},
-  "intents":{"id":"academic-intents","digest":"f1761e48eb6241a52575065741e3d5ae374b4268fe54275dc0239ad12be695ea"}
+  "intents":{"id":"academic-intents","digest":"bf277449e62afe3175e74e2474477cadeb534b4b57f7e94e87f67ead2f0f9f84"}
 }

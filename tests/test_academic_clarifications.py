@@ -30,6 +30,10 @@ class AcademicClarificationValidationTest(unittest.TestCase):
         shutil.copytree(ROOT / "contracts", root / "contracts")
         shutil.copytree(ROOT / "knowledge", root / "knowledge")
         shutil.copytree(ROOT / "reviews", root / "reviews")
+        # This helper builds a synthetic pre-approval state for the original
+        # 2026 review session.  A later, already-applied TA confirmation packet
+        # must not be revalidated against the deliberately mutated fixtures.
+        (root / "reviews/academic/clarifications/2026-ta-confirmation.json").unlink()
         path = root / "reviews/academic/clarifications/2026-initial-review-questions.json"
         packet = json.loads(path.read_text(encoding="utf-8"))
         review_path = root / "reviews/academic/2026-curriculum-initial-rules.json"

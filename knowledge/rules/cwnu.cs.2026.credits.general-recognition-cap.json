@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+  "label": "교양 졸업학점 인정 상한",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.credits.general-total", "cwnu.cs.2026.credits.graduation-total"]},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "교양은 실제 취득학점과 별개로 졸업학점에는 최대 42학점까지만 인정된다.", "outcome": {"type": "credit_recognition_cap", "metric": "credits.general.recognized", "maximum_recognized_credits": 42, "excess_counts_toward_graduation": false}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.23: 교양 인정학점 구조와 졸업학점 합계", "evidence_type": "table_structure", "excerpt": "교양 졸업 인정 상한 42학점"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.3, section 5: 교양 인정 상한", "evidence_type": "department_confirmation", "excerpt": "42학점을 초과한 교양 과목도 총취득학점에는 인정되나, 졸업인정은 42학점까지"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00", "rationale": "조교 답변 문서의 교양 42학점 상한 해석을 이번 세션의 학과 확인으로 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"}
+}

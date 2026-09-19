@@ -38,7 +38,8 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         cls.response_schema = json.loads((ROOT / "contracts/academic-answer-response.schema.json").read_text(encoding="utf-8"))
 
     def test_registry_exact_profile_and_canonical_hashes(self) -> None:
-        self.assertEqual(13, len(self.registry.rules))
+        self.assertEqual(26, len(self.registry.rules))
+        self.assertEqual(2, len(self.registry.sources))
         self.assertEqual({canonical_sha256(rule) for rule in self.registry.rules.values()}, set(self.registry.rule_hashes.values()))
         self.assertEqual(set(), set(self.registry.conflicts))
 
@@ -137,11 +138,459 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         self.assertEqual("insufficient_evidence", result.status)
 
     def test_source_scope_exceptions_fail_closed(self) -> None:
-        for phrase in ("재입학", "재입학생", "전과", "전과생", "편입", "편입생", "경과조치", "경과 조치 대상"):
+        for phrase in ("복학", "복학생", "재입학", "재입학생", "편입", "편입생", "경과조치", "경과 조치 대상"):
             with self.subTest(phrase=phrase):
                 result = self.engine.answer(request(f"{phrase} 졸업학점 기준"))
                 self.assertEqual("insufficient_evidence", result.status)
                 self.assertEqual([], result.evidence_packet.applied_rules)
+
+    def test_ta_confirmed_rules_are_grounded_and_specific(self) -> None:
+        cases = {
+            "전과하면 어느 입학연도의 교육과정을 적용하나요?": ("cohort.department-transfer.original-admission-year", "최초 입학연도"),
+            "재수강하면 기이수 과목 학점이 중복 계산되나요?": ("course-counting.retake", "기이수 과목은 삭제"),
+            "동일교과목은 학점이 중복 계산되나요?": ("course-counting.identical-course", "중복 수강신청되지 않으므로"),
+            "이수 후 동일/대체 지정된 과목은 학점을 어떻게 계산하나요?": ("course-counting.post-completion-equivalence", "별개의 과목"),
+            "교양 인정 상한": ("credits.general.recognition-cap", "최대 42학점"),
+            "교양 잔여 배분": ("credits.general.remaining-allocation", "기초교양, 균형교양 또는 확대교양"),
+            "졸업 잔여 배분": ("credits.graduation.remaining-allocation", "자유선택 교과목"),
+            "균형교양 4개 영역": ("general.balanced-area-coverage", "4개 영역"),
+            "권장 교양 과목": ("general.recommended-courses", "필수가 아닌 권장"),
+            "졸업논문이 0학점인데 안 들으면 Fail인가요?": ("graduation.thesis.completion-result", "미이수하면 Fail"),
+            "학석사 연계과정 논문 면제": ("graduation.thesis.linked-program-exemption", "자동 면제로 판정하지 않는다"),
+            "심층상담 0학점": ("major.counseling-completion", "최소 1회"),
+            "전공필수 9과목": ("major.required-course-set", "9개 과목"),
+        }
+        for question, (intent_id, phrase) in cases.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertIn(phrase, result.answer)
+                self.assertTrue(result.evidence_packet.applied_rules)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ta_confirmed_individual_boundaries_fail_closed(self) -> None:
+        for question in (
+            "학석사 연계과정이면 제가 면제되나요",
+            "저는 학석사 연계과정 논문 면제 대상인가요?",
+            "제가 학석사 연계과정생인데 졸업논문 면제인가요?",
+            "제가 들은 두 과목이 동일교과목인가요?",
+            "제가 예전에 들은 과목도 소급 적용돼요?",
+            "본인은 학석사 연계과정 논문 면제 대상인가요?",
+            "제게도 학석사 연계과정 논문 면제가 적용되나요?",
+            "저의 두 과목이 동일교과목인가요?",
+            "나의 두 과목이 동일교과목인가요?",
+            "본인이 들은 두 과목이 동일교과목인가요?",
+            "이수 후 대체 지정 소급 적용 결과가 제 경우 어떻게 되나요",
+            "제 학점으로 졸업 가능한가요",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+    def test_linked_program_policy_is_possible_only_and_specific(self) -> None:
+        for question in (
+            "학석사 연계과정생은 졸업논문 면제 가능성이 있나요?",
+            "학·석사 연계과정생은 졸업논문 면제 가능성이 있나요?",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual(["graduation.thesis.linked-program-exemption"], result.intent_ids)
+                self.assertIn("면제가 가능하지만 자동 면제로 판정하지 않는다", result.answer)
+
+    def test_personal_detection_is_intent_aware(self) -> None:
+        personal = (
+            "저한테도 학석사 연계과정 논문 면제가 적용되나요?",
+            "나한테도 학석사 연계과정 논문 면제가 적용되나요?",
+            "본인한테도 학석사 연계과정 논문 면제가 적용되나요?",
+            "저에게는 학석사 연계과정 논문 면제가 적용되나요?",
+            "제게는 학석사 연계과정 논문 면제가 적용되나요?",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        general = {
+            "저는 재수강 학점 정책을 알고 싶어요": "course-counting.retake",
+            "제가 전과하면 어느 입학연도 교육과정을 적용하나요?": "cohort.department-transfer.original-admission-year",
+            "제 질문은 동일교과목의 일반 계산 정책입니다.": "course-counting.identical-course",
+            "저는 2026년에 입학했는데 졸업학점 기준이 몇 학점인가요?": "credits.graduation.total",
+        }
+        for question, intent_id in general.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_personal_components_are_order_independent_and_token_bounded(self) -> None:
+        personal = (
+            "학석사 연계과정 논문 면제가 저한테도 적용되나요?",
+            "학석사 연계과정 논문 면제 적용 대상에 저도 포함되나요?",
+            "학석사 연계과정 논문 면제는 본인에게도 적용되나요?",
+            "학석사 연계과정생 논문 면제 대상인지 나한테 알려줘",
+            "이수 후 동일 지정된 과목이 저한테 소급 적용되나요?",
+            "이수 후 동일 지정된 과목이 소급 적용되는지 저는 알고 싶어요",
+            "두 과목이 동일교과목인지 제가 확인받을 수 있나요?",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "제도상 학석사 연계과정생은 졸업논문 면제 가능성이 있나요?": "graduation.thesis.linked-program-exemption",
+            "문제없이 동일교과목의 일반 계산 정책을 알려줘": "course-counting.identical-course",
+            "주제는 동일교과목의 일반 계산 정책입니다.": "course-counting.identical-course",
+            "과제 관련 질문은 동일교과목의 일반 계산 정책입니다.": "course-counting.identical-course",
+            "이수 후 동일 지정된 과목이 소급 적용되면 어떻게 계산하나요?": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir11_benefit_predicates_and_course_nouns_are_bounded(self) -> None:
+        personal = (
+            "저한테는 학석사 연계과정 논문 면제가 적용되나요?",
+            "나한테는 학석사 연계과정 논문 면제가 적용되나요?",
+            "본인한테는 학석사 연계과정 논문 면제가 적용되나요?",
+            "학석사 연계과정 논문 면제가 저한테는 적용되나요?",
+            "저도 학석사 연계과정 논문 면제를 받을 수 있나요?",
+            "학석사 연계과정 논문 면제를 저도 받을 수 있나요?",
+            "학석사 연계과정 논문 면제 혜택에 저도 해당되나요?",
+            "이 과목들이 동일교과목인지 제게 알려주세요",
+            "두 교과목이 동일과목인지 저는 확인하고 싶어요",
+            "이 두 수업이 동일교과목인지 본인에게 알려주세요",
+            "이수 후 동일 지정된 수업이 저한테 소급 적용되나요?",
+            "저한테 이수 후 동일 지정된 수업이 소급 적용되나요?",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "학석사 연계과정생의 졸업논문 면제 혜택 적용 정책을 알려주세요": "graduation.thesis.linked-program-exemption",
+            "과목들의 동일교과목 일반 계산 정책을 알려주세요": "course-counting.identical-course",
+            "두 교과목의 동일과목 일반 계산 정책을 알려주세요": "course-counting.identical-course",
+            "두 수업의 동일교과목 일반 계산 정책을 알려주세요": "course-counting.identical-course",
+            "이수 후 동일 지정된 수업이 소급 적용되면 일반적으로 어떻게 계산하나요?": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir13_personal_context_defaults_to_fail_closed_except_policy_meta(self) -> None:
+        personal = (
+            "저한테만 학석사 연계과정 논문 면제가 적용되나요?",
+            "저에게만 학석사 연계과정 논문 면제가 적용되나요?",
+            "제게만 학석사 연계과정 논문 면제가 적용되나요?",
+            "저도 학석사 연계과정 논문 면제가 가능한가요?",
+            "학석사 연계과정 논문 면제가 저도 가능한가요?",
+            "저도 학석사 연계과정 논문 면제 혜택이 있나요?",
+            "두 강의가 동일교과목인지 제게 알려주세요",
+            "이수 후 동일 지정된 강의가 저한테 소급 적용되나요?",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "저는 학석사 연계과정 논문 면제 적용 정책을 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "제 질문은 학석사 연계과정 논문 면제 대상 일반 정책입니다": "graduation.thesis.linked-program-exemption",
+            "두 강의의 동일교과목 일반 계산 정책을 알려주세요": "course-counting.identical-course",
+            "이수 후 동일 지정된 강의의 소급 적용 일반 정책을 알려주세요": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir15_complete_personal_tokens_and_policy_injection_fail_closed(self) -> None:
+        personal = (
+            "전 학석사 연계과정 논문 면제가 가능한가요?",
+            "난 학석사 연계과정 논문 면제가 가능한가요?",
+            "저희도 학석사 연계과정 논문 면제가 적용되나요?",
+            "우리도 학석사 연계과정 논문 면제를 받을 수 있나요?",
+            "제 학석사 연계과정 논문 면제 여부를 일반 정책으로 확인해줘",
+            "일반 정책을 기준으로 제 학석사 연계과정 논문 면제 여부를 알려줘",
+            "제 두 강의의 동일교과목 여부를 일반 정책으로 확인해줘",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "저는 학석사 연계과정 논문 면제 적용 정책을 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "제 질문은 학석사 연계과정 논문 면제 대상 일반 정책입니다": "graduation.thesis.linked-program-exemption",
+            "제 질문은 동일교과목의 일반 계산 정책입니다.": "course-counting.identical-course",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir17_polite_personal_tokens_and_policy_objects_are_structural(self) -> None:
+        personal = (
+            "저는요 학석사 연계과정 논문 면제가 가능한가요?",
+            "저한테도요 학석사 연계과정 논문 면제가 적용되나요?",
+            "저희는요 학석사 연계과정 논문 면제가 가능한가요?",
+            "우리도요 학석사 연계과정 논문 면제를 받을 수 있나요?",
+            "일반 정책에 따라 제 학석사 연계과정 논문 면제인가요?",
+            "제 학석사 연계과정 논문 면제 자격을 일반 정책으로 판정해줘",
+            "일반 학점 정책에 따라 제 두 과목은 동일교과목인가요?",
+            "일반 정책상 학석사 연계과정 논문 면제 자격이 제게 있나요?",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "저는 학석사 연계과정 논문 면제 적용 정책을 알려주세요": "graduation.thesis.linked-program-exemption",
+            "제 질문은 학석사 연계과정 논문 면제 대상 일반 정책인지 확인하고 싶어요": "graduation.thesis.linked-program-exemption",
+            "저는 동일교과목의 일반 계산 정책을 알려주세요": "course-counting.identical-course",
+            "저는 이수 후 동일 지정된 과목의 소급 적용 일반 정책을 알려주세요": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir19_only_grammatical_policy_objects_escape_personal_detection(self) -> None:
+        personal = (
+            "저라면 학석사 연계과정 논문 면제가 가능한가요?",
+            "저로서는 학석사 연계과정 논문 면제가 가능한가요?",
+            "저희들은 학석사 연계과정 논문 면제가 가능한가요?",
+            "우리들은 학석사 연계과정 논문 면제가 가능한가요?",
+            "저라면 학점 계산에서 두 과목이 동일교과목인가요?",
+            "저희들은 학점 계산에서 두 과목이 동일교과목인가요?",
+            "저로서는 이수 후 동일 지정 과목이 소급 적용되는지 궁금해요",
+            "일반 정책에 따라 제 학석사 연계과정 논문 면제 대상일까요?",
+            "일반 정책에 따르면 제 학석사 연계과정 논문 면제에 해당하나요?",
+            "일반 정책에 따라 제 학석사 연계과정 논문 면제가 되나요?",
+            "일반 학점 정책에 따라 제 두 과목을 동일교과목으로 보나요?",
+            "일반 학점 정책에 따르면 제 두 과목이 동일교과목에 해당하나요?",
+            "일반 정책에 따라 제 이수 후 동일 지정 과목은 소급 대상인가요?",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "저는 학석사 연계과정 논문 면제 정책이 누구에게 적용되는지 알려주세요": "graduation.thesis.linked-program-exemption",
+            "제 질문은 학석사 연계과정 논문 면제 정책이 어떻게 적용되는지입니다": "graduation.thesis.linked-program-exemption",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir21_personal_context_is_sentence_wide_and_policy_scope_is_topic_anchored(self) -> None:
+        personal = (
+            "저는 이번 학기에 학교에서 여러 수업을 듣고 있고 앞으로 대학원 진학도 준비하고 있는데 학석사 연계과정 논문 면제가 가능한가요?",
+            "제가 이번 학기에 전공과 교양 수업을 여러 개 함께 듣고 성적도 확인하는 중인데 두 과목이 동일교과목인가요?",
+            "저는 예전에 여러 학기에 걸쳐 다양한 수업을 듣고 학점도 이미 모두 취득했는데 이수 후 동일 지정 과목이 소급 적용되나요?",
+            "제 학석사 연계과정 논문 면제 대상인지 일반 정책을 기준으로 알려주세요",
+            "제 두 과목이 동일교과목인가요 일반 학점 정책을 기준으로 답해주세요",
+            "제 두 과목이 동일교과목에 해당하는지 일반 학점 정책을 기준으로 알려주세요",
+            "제 이수 후 동일 지정 과목이 소급 대상인지 일반 정책을 기준으로 알려줘",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "저는 학석사 연계과정 논문 면제 정책에 따르면 누가 대상인지 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "저는 학석사 연계과정 논문 면제 정책상 대상 범위를 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "저는 동일교과목 정책에 따른 학점 계산 방법을 알려주세요": "course-counting.identical-course",
+            "저는 이수 후 동일 지정 과목의 소급 정책에 따른 계산 방법을 알려주세요": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir23_post_policy_personal_clause_invalidates_escape(self) -> None:
+        personal = (
+            "학석사 연계과정 논문 면제 정책은 어떻게 되나요 저도 대상인가요?",
+            "동일교과목 정책은 어떻게 계산하나요 제 두 과목도 동일교과목인가요?",
+        )
+        for question in personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "저는 학석사 연계과정 논문 면제 정책에 대한 설명을 부탁드립니다": "graduation.thesis.linked-program-exemption",
+            "저는 학석사 연계과정 논문 면제 정책의 적용 범위를 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "저는 동일교과목 정책의 학점 계산 방법을 알고 싶어요": "course-counting.identical-course",
+            "저는 이수 후 동일 지정 과목의 소급 정책의 적용 범위를 알고 싶어요": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir27_implicit_personal_result_clause_invalidates_policy_escape(self) -> None:
+        for question in (
+            "저는 학석사 연계과정 논문 면제 정책은 어떻게 되나요 그리고 대상인가요?",
+            "저는 동일교과목 정책은 어떻게 계산하나요 그리고 두 과목도 동일교과목인가요?",
+            "저는 이수 후 동일 지정 과목의 소급 정책은 어떻게 적용되나요 그리고 이 과목도 소급 대상인가요?",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        for question, intent_id in {
+            "저는 학석사 연계과정 논문 면제 정책은 어떻게 적용되는지 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "저는 동일교과목 정책에 따른 학점 계산 방법을 알려주세요": "course-counting.identical-course",
+            "저는 이수 후 동일 지정 과목의 소급 정책의 적용 범위를 알고 싶어요": "course-counting.post-completion-equivalence",
+        }.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_ir29_personal_result_tail_is_punctuation_independent(self) -> None:
+        for question in (
+            "저는 학석사 연계과정 논문 면제 정책은 어떻게 되나요? 대상인가요?",
+            "저는 동일교과목 정책은 어떻게 계산하나요? 두 과목도 동일교과목인가요?",
+            "저는 이수 후 동일 지정 과목의 소급 정책은 어떻게 적용되나요? 이 과목도 소급 대상인가요?",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.intent_ids)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        controls = {
+            "저는 학석사 연계과정 논문 면제 정책에 따르면 누가 대상인지 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "저는 학석사 연계과정 논문 면제 정책상 대상 범위를 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "저는 동일교과목 정책에 따른 학점 계산 방법을 알려주세요": "course-counting.identical-course",
+            "저는 이수 후 동일 지정 과목의 소급 정책은 어떻게 적용되는지 알고 싶어요": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+        variant_personal = (
+            "저라면요 학석사 연계과정 논문 면제가 가능한가요?",
+            "우리들은요 일반 정책에 따라 학석사 연계과정 논문 면제 대상일까요?",
+            "일반 정책으로 제 두 과목을 동일교과목으로 판정해줘",
+            "제 학석사 연계과정 논문 면제 자격을 일반 정책에 따라 확인해줘",
+            "제 학석사 연계과정 논문 면제 자격을 일반 정책의 기준으로 확인해줘",
+        )
+        for question in variant_personal:
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.evidence_packet.evidence)
+
+        variant_controls = {
+            "저는 학석사 연계과정 논문 면제 정책은 어떻게 적용되는지 알고 싶어요": "graduation.thesis.linked-program-exemption",
+            "제 질문은 동일교과목 일반 계산 정책에 대해 알고 싶어요": "course-counting.identical-course",
+        }
+        for question, intent_id in variant_controls.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
+    def test_post_completion_designation_outranks_identical_course_alias(self) -> None:
+        for question in (
+            "이수 후 동일/대체 지정된 과목은 학점을 어떻게 계산하나요?",
+            "이수 후 동일 지정된 과목은 어떻게 계산하나요?",
+            "이수 후 대체 지정된 과목은 어떻게 계산하나요?",
+            "이수 후 동일교과목으로 지정되면 학점은 어떻게 계산하나요?",
+            "이수 후 대체교과목으로 지정된 경우 학점 계산",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual(["course-counting.post-completion-equivalence"], result.intent_ids)
+        personal = self.engine.answer(request("이수 후 동일교과목 지정의 소급 적용 결과가 제 경우 어떻게 되나요"))
+        self.assertEqual("insufficient_evidence", personal.status)
+        self.assertEqual([], personal.evidence_packet.applied_rules)
+        self.assertEqual([], personal.evidence_packet.evidence)
+        exact_personal = self.engine.answer(request("제 과목이 소급 적용되면 어떻게 계산되나요?"))
+        self.assertEqual("insufficient_evidence", exact_personal.status)
+        self.assertEqual([], exact_personal.evidence_packet.applied_rules)
+        self.assertEqual([], exact_personal.evidence_packet.evidence)
+
+    def test_department_transfer_policy_does_not_enable_unresolved_cohorts(self) -> None:
+        for question in ("전과", "전과생 교육과정", "전과하면 어느 입학연도 교육과정을 적용하나요"):
+            with self.subTest(question=question):
+                supported = self.engine.answer(request(question))
+                self.assertEqual("supported", supported.status)
+                self.assertEqual(["cohort.department-transfer.original-admission-year"], supported.intent_ids)
+        for question in ("복학생 교육과정", "편입생 교육과정", "재입학생 교육과정"):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.evidence_packet.evidence)
 
     def test_negation_and_lexical_embedding_are_ambiguous(self) -> None:
         for question in ("비전공필수 기준", "전공필수 말고 전공선택"):
@@ -308,11 +757,18 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         self.assertEqual(SANITIZED_DEPARTMENT, response.json()["evidence_packet"]["scope"]["department"])
 
     def test_cli_and_core_canonical_json_match(self) -> None:
-        expected = canonical_response_json(self.engine.answer(request("졸업학점")))
-        command = [sys.executable, "-m", "academic_assistant", "ask", "--question", "졸업학점", "--admission-year", "2026", "--curriculum-year", "2026", "--department", "컴퓨터공학과", "--json"]
-        completed = subprocess.run(command, cwd=ROOT, env={**__import__("os").environ, "PYTHONPATH": str(ROOT / "src")}, capture_output=True, text=True, encoding="utf-8")
-        self.assertEqual(0, completed.returncode, completed.stderr)
-        self.assertEqual(expected, completed.stdout.strip())
+        client = TestClient(app)
+        for question in ("졸업학점", "재수강하면 기이수 과목 학점이 중복 계산되나요?", "졸업논문 0학점", "전과 교육과정 연도"):
+            with self.subTest(question=question):
+                academic_request = request(question)
+                expected = canonical_response_json(self.engine.answer(academic_request))
+                command = [sys.executable, "-m", "academic_assistant", "ask", "--question", question, "--admission-year", "2026", "--curriculum-year", "2026", "--department", "컴퓨터공학과", "--json"]
+                completed = subprocess.run(command, cwd=ROOT, env={**__import__("os").environ, "PYTHONPATH": str(ROOT / "src")}, capture_output=True, text=True, encoding="utf-8")
+                self.assertEqual(0, completed.returncode, completed.stderr)
+                self.assertEqual(expected, completed.stdout.strip())
+                response = client.post("/v1/academic/answers", json=academic_request.model_dump(mode="json"))
+                self.assertEqual(200, response.status_code)
+                self.assertEqual(expected, response.text)
 
     def test_cli_documented_year_and_credits_contract(self) -> None:
         command = [

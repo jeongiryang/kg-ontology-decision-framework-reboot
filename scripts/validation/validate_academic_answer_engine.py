@@ -9,15 +9,26 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 
-EXPECTED = {"canonical":13,"paraphrase":13,"credit-gap":11,"unverified-practice":3,"scope-unsupported":4,"ambiguity-conflict":2,"privacy-invalid":2}
+EXPECTED = {
+    "canonical": 13,
+    "paraphrase": 13,
+    "credit-gap": 11,
+    "unverified-practice": 3,
+    "scope-unsupported": 4,
+    "ambiguity-conflict": 2,
+    "ta-confirmed": 47,
+    "fail-closed-boundary": 87,
+    "privacy-invalid": 2,
+}
 
 
 def validate(project: Path) -> list[str]:
     errors: list[str] = []
     evaluation = json.loads((project / "evaluations/academic-answer-mvp.json").read_text(encoding="utf-8"))
     cases = evaluation.get("cases", [])
-    if len(cases) != 48:
-        errors.append(f"evaluation case count is {len(cases)}, expected 48")
+    expected_count = sum(EXPECTED.values())
+    if len(cases) != expected_count:
+        errors.append(f"evaluation case count is {len(cases)}, expected {expected_count}")
     if Counter(case.get("category") for case in cases) != Counter(EXPECTED):
         errors.append("evaluation category counts do not match the contract")
     if len({case.get("id") for case in cases}) != len(cases):
@@ -50,6 +61,8 @@ def validate(project: Path) -> list[str]:
                 errors.append(f"{case['id']}: intent mismatch")
             if "expected_gap" in case and (not result.calculations or result.calculations[0].gap != case["expected_gap"]):
                 errors.append(f"{case['id']}: gap mismatch")
+            if result.status != "supported" and (result.evidence_packet.applied_rules or result.evidence_packet.evidence):
+                errors.append(f"{case['id']}: unsupported result contains grounding")
         except (ValueError, TypeError):
             if not case.get("expected_error"):
                 errors.append(f"{case['id']}: unexpected invalid request")
@@ -64,7 +77,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("academic answer engine validation passed (48 cases)")
+    print(f"academic answer engine validation passed ({sum(EXPECTED.values())} cases)")
     return 0
 
 

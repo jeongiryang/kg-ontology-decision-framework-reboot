@@ -122,17 +122,17 @@ class AcademicKnowledgeValidationTest(unittest.TestCase):
                         "rationale": rationale,
                     }
                     path.write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
-            review_path = next((project / "reviews/academic").glob("*.json"))
-            review = json.loads(review_path.read_text(encoding="utf-8"))
-            for subject in review["subjects"]:
-                subject.update(
-                    status="approved",
-                    reviewer_id=reviewer,
-                    reviewed_at=reviewed_at,
-                    comment=rationale,
-                )
-            review["overall_status"] = "approved"
-            review_path.write_text(json.dumps(review, ensure_ascii=False), encoding="utf-8")
+            for review_path in (project / "reviews/academic").glob("*.json"):
+                review = json.loads(review_path.read_text(encoding="utf-8"))
+                for subject in review["subjects"]:
+                    subject.update(
+                        status="approved",
+                        reviewer_id=reviewer,
+                        reviewed_at=reviewed_at,
+                        comment=rationale,
+                    )
+                review["overall_status"] = "approved"
+                review_path.write_text(json.dumps(review, ensure_ascii=False), encoding="utf-8")
 
             rule_path = next((project / "knowledge/rules").glob("*.json"))
             rule = json.loads(rule_path.read_text(encoding="utf-8"))

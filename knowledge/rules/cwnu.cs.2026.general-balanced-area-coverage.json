@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+  "label": "균형교양 4개 영역 이수",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.credits.general-balanced"]},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다.", "outcome": {"type": "coverage_requirement", "requirement": "general.balanced.area_coverage", "coverage_kind": "area", "items": [{"item_id": "digital-communication", "label": "디지털커뮤니케이션"}, {"item_id": "humanities-arts", "label": "인문예술"}, {"item_id": "society-culture", "label": "사회와문화"}, {"item_id": "nature-science-technology", "label": "자연·과학·기술의이해"}], "minimum_items": 4, "minimum_courses_per_item": 1, "one_course_may_cover_multiple_items": false, "fixed_credits_per_course": null}, "operator": "all"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.35: 균형교양 이수영역", "evidence_type": "explicit_text", "excerpt": "균형교양 4개 영역별 이수"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.2, section 3: 균형교양 영역 규칙", "evidence_type": "department_confirmation", "excerpt": "각 영역 1과목 이상; 한 과목의 복수 영역 충족 불가; 과목별 3학점 고정 아님"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00", "rationale": "조교 답변 문서의 균형교양 영역 해석을 이번 세션의 학과 확인으로 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"}
+}

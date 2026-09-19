@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.course-counting.identical-course",
+  "label": "동일교과목 중복 계산 방지",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "동일교과목은 중복 수강신청되지 않으므로 중복 계산되지 않는다.", "outcome": {"type": "course_counting_policy", "scenario": "identical_course_registration", "action": "registration_blocked", "double_counted": false, "individual_determination": "not_required"}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치", "evidence_type": "explicit_text", "excerpt": "동일교과목 처리"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.3, section 5: 동일교과목 필기와 사용자 정정", "evidence_type": "department_confirmation", "excerpt": "동일교과목은 수강신청되지 않으므로 중복 카운트되지 않음"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:25+09:00", "rationale": "사용자의 정확한 동일교과목 설명을 같은 세션의 학과 확인으로 승인했다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"}
+}

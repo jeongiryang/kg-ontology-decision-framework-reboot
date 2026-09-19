@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+  "label": "0학점 졸업논문 미이수 결과",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"]},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.", "outcome": {"type": "completion_requirement", "requirement": "graduation.thesis.required", "credit_value": 0, "required": true, "result_if_incomplete": "fail"}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.565 (printed p.557) 및 p.577: 졸업논문 통과 요구와 0학점 편성", "evidence_type": "explicit_text", "excerpt": "졸업논문 통과 요구; 졸업논문 0학점"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.3, section 4: 졸업논문 필기와 사용자 정정", "evidence_type": "department_confirmation", "excerpt": "졸업논문은 0학점이어도 반드시 이수해야 함. -> 미이수면 Fail임."}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:20+09:00", "rationale": "모호한 필기를 같은 세션의 사용자 원문으로 정정해 승인했다. [question_id=thesis.zero-credit-result; response_id=response.thesis.zero-credit-result]"}
+}

@@ -220,7 +220,7 @@ validation:
       - explicit_registry_profile
       - deterministic_intent_matching
       - evidence_packet_grounding
-      - exact_48_case_evaluation
+      - exact_182_case_evaluation
       - API_CLI_core_parity
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json

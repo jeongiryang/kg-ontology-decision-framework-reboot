@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+  "label": "졸업 잔여학점 충족 영역",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.credits.graduation-remaining"]},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "졸업 잔여 18학점은 자유선택 교과목으로 충족할 수 있으며 이미 교양·전공으로 산입된 학점을 다시 중복 계산하지 않는다.", "outcome": {"type": "allocation_policy", "source_metric": "credits.graduation.remaining", "allowed_allocations": ["자유선택 교과목"], "double_counting_allowed": false}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.23: 졸업 잔여학점 구조", "evidence_type": "table_structure", "excerpt": "졸업 잔여학점 18"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.2, section 2: 졸업 잔여학점과 중복 계산", "evidence_type": "department_confirmation", "excerpt": "자유선택 교과목; 교양·전공과 중복 계산하지 않음"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00", "rationale": "조교 답변 문서의 졸업 잔여학점 배분과 중복 불가를 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"}
+}

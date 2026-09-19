@@ -13,6 +13,11 @@
     "supersedes_rule_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
     "applicability": { "$ref": "#/$defs/applicability" },
     "relationship": { "$ref": "#/$defs/relationship" },
+    "answer_policy": {
+      "type": "string",
+      "enum": ["policy_statement", "calculation", "record_only"],
+      "description": "Whether this fact may drive a statement, a deterministic calculation, or audit-only storage."
+    },
     "decision": {
       "type": "object",
       "additionalProperties": false,
@@ -135,8 +140,115 @@
               "else": { "properties": { "substitute_ids": { "maxItems": 0 } } }
             }
           ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "metric", "maximum_recognized_credits", "excess_counts_toward_graduation"],
+          "properties": {
+            "type": { "const": "credit_recognition_cap" },
+            "metric": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "maximum_recognized_credits": { "type": "integer", "minimum": 0, "maximum": 500 },
+            "excess_counts_toward_graduation": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "requirement", "coverage_kind", "items", "minimum_items", "minimum_courses_per_item", "one_course_may_cover_multiple_items"],
+          "properties": {
+            "type": { "const": "coverage_requirement" },
+            "requirement": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "coverage_kind": { "enum": ["area", "course_set"] },
+            "items": {
+              "type": "array", "minItems": 1, "uniqueItems": true,
+              "items": { "$ref": "#/$defs/namedItem" }
+            },
+            "minimum_items": { "type": "integer", "minimum": 1 },
+            "minimum_courses_per_item": { "type": "integer", "minimum": 1 },
+            "one_course_may_cover_multiple_items": { "type": "boolean" },
+            "fixed_credits_per_course": { "type": ["integer", "null"], "minimum": 0, "maximum": 30 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "source_metric", "allowed_allocations", "double_counting_allowed"],
+          "properties": {
+            "type": { "const": "allocation_policy" },
+            "source_metric": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "allowed_allocations": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+            "double_counting_allowed": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "requirement", "credit_value", "required", "result_if_incomplete"],
+          "properties": {
+            "type": { "const": "completion_requirement" },
+            "requirement": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "credit_value": { "type": "integer", "minimum": 0, "maximum": 30 },
+            "required": { "type": "boolean" },
+            "result_if_incomplete": { "enum": ["fail", "requirement_unsatisfied"] },
+            "minimum_completions": { "type": "integer", "minimum": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "target_requirement", "eligible_group", "eligibility", "automatic"],
+          "properties": {
+            "type": { "const": "exception_eligibility" },
+            "target_requirement": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "eligible_group": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$" },
+            "eligibility": { "const": "may_be_exempt" },
+            "automatic": { "const": false }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "cohort_kind", "assignment_basis", "completion_year_ignored"],
+          "properties": {
+            "type": { "const": "cohort_assignment_policy" },
+            "cohort_kind": { "enum": ["department_transfer"] },
+            "assignment_basis": { "const": "original_admission_year" },
+            "completion_year_ignored": { "const": true }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "scenario", "action", "double_counted", "individual_determination"],
+          "properties": {
+            "type": { "const": "course_counting_policy" },
+            "scenario": { "enum": ["retake", "identical_course_registration", "post_completion_equivalent_or_substitute"] },
+            "action": { "enum": ["delete_prior_completion", "registration_blocked", "count_as_separate_courses"] },
+            "double_counted": { "type": "boolean" },
+            "individual_determination": { "enum": ["not_required", "required_if_retroactive"] }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "items", "required"],
+          "properties": {
+            "type": { "const": "recommendation" },
+            "items": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/namedItem" } },
+            "required": { "const": false }
+          }
         }
       ]
+    },
+    "namedItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_id", "label"],
+      "properties": {
+        "item_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{1,63}$" },
+        "label": { "type": "string", "minLength": 1 }
+      }
     },
     "evidenceReference": {
       "type": "object",

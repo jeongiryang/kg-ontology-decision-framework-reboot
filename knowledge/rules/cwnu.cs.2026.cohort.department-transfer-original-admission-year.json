@@ -1,0 +1,15 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.cohort.department-transfer-original-admission-year",
+  "label": "전과생 교육과정 적용 학년도",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": [{"fact_key": "student.cohort.kind", "operator": "equals", "value": "department_transfer"}]},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "전과 완료 연도가 아니라 학생의 최초 입학연도에 해당하는 교육과정을 적용한다.", "outcome": {"type": "cohort_assignment_policy", "cohort_kind": "department_transfer", "assignment_basis": "original_admission_year", "completion_year_ignored": true}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.13 (printed p.5) 및 p.18 (printed p.10): 교육과정 입학연도 적용 원칙", "evidence_type": "explicit_text", "excerpt": "교육과정은 입학연도를 기준으로 적용"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.1, section 1: 적용 대상 필기와 사용자 정정", "evidence_type": "department_confirmation", "excerpt": "전과 완료 연도가 아니라 최초 입학연도 교육과정 적용"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:15+09:00", "rationale": "사용자가 2022년 입학·2023년 전과 완료는 2022 교육과정, 2023년 입학·2025년 전과 완료는 2023 교육과정이라고 명시했다. 초기 지원 범위에서는 최초 입학연도가 2026인 전과생에게만 적용한다. [question_id=cohort.department-transfer; response_id=response.cohort.department-transfer]"},
+  "review_notes": ["복학생, 편입학자, 재입학생의 적용 규칙은 이 규칙으로 확장하지 않는다."]
+}

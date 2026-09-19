@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.major-required-course-set",
+  "label": "전공필수 지정 9과목",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.credits.major-required"]},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 한다.", "outcome": {"type": "coverage_requirement", "requirement": "major.required.course_set", "coverage_kind": "course_set", "items": [{"item_id": "CDA0143", "label": "고급자료구조"}, {"item_id": "CDA0016", "label": "컴퓨터구조"}, {"item_id": "CDA0027", "label": "알고리즘"}, {"item_id": "CDA0028", "label": "소프트웨어공학"}, {"item_id": "CDA0065", "label": "데이터베이스개론"}, {"item_id": "CDA0017", "label": "운영체제"}, {"item_id": "CDA0023", "label": "데이터통신"}, {"item_id": "CDA0034", "label": "졸업논문"}, {"item_id": "CDA0088", "label": "심층상담"}], "minimum_items": 9, "minimum_courses_per_item": 1, "one_course_may_cover_multiple_items": false}, "operator": "all"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.577: 컴퓨터공학과 전공필수 교과목 편성표", "evidence_type": "table_structure", "excerpt": "전공필수 9과목"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF pp.2-3, section 4: 전공필수 과목", "evidence_type": "department_confirmation", "excerpt": "위 9과목을 모두 이수해야 함"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00", "rationale": "조교 답변 문서의 전공필수 9과목 목록과 전수 이수 조건을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"}
+}

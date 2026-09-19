@@ -15,6 +15,30 @@ from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
 
+
+TA_RESPONSE_EXPECTATIONS = {
+    "response.ta.response.acceptance": (
+        "ta.response.acceptance",
+        "accept-ta-response",
+        "조교 답변은 인정하는데, 모호한 필기가 뭔데? 그거 확인후에 반영하자 나한테 물어봐봐. 그리고 공모전 캡스톤 pccp는 여전히 보류 상태로 유지해줘",
+    ),
+    "response.cohort.department-transfer": (
+        "cohort.department-transfer",
+        "use-original-admission-year",
+        "2023년에 전과완료 하면, 2023학번이 입학한 년도(예를 들어 2022면) 2022적용, 2025학번이 전과 완료하면 2025학번이 입학한 년도: 2023. 따라서 2023학번 교육과정 년도 적용. 이런식임.",
+    ),
+    "response.thesis.zero-credit-result": (
+        "thesis.zero-credit-result",
+        "thesis-fail-linked-exemption",
+        "졸업논문은 0학점이어도 반드시 이수해야 함. -> 미이수면 Fail임. 그리고 오른쪽 글씨는 학석사연계과정생은 면제 가능 이거임",
+    ),
+    "response.course-counting.retake-equivalence": (
+        "course-counting.retake-equivalence",
+        "apply-counting-clarification",
+        '"재수강시 기이수 과목은 삭제하므로 중복 카운트하지 않음, 동일교과목은 수강신청되지 않으므로 중복 카운트되지 않음. 이수 후 대체 또는 동일 지정된 경우는 별개의 과목으로 학점 수 계산. (단 소급적용 시 다를 수 있음)" 이거임',
+    ),
+}
+
 try:
     from .validate_academic_knowledge import canonical_sha256
 except ImportError:  # Direct script execution from this directory.
@@ -172,10 +196,16 @@ def validate_clarifications(project: Path) -> list[str]:
             f"{subject['subject_type']}:{subject_id}"
             for subject_id, subject in review_subject_map.items()
         }
-        if packet["state"] == "applied" and set(verification_snapshots) != expected_current_snapshot_ids:
-            errors.append(
-                f"{relative}: applied output snapshots must exactly cover the review and all subjects"
-            )
+        if packet["state"] == "applied":
+            missing_current = expected_current_snapshot_ids - set(verification_snapshots)
+            if missing_current:
+                errors.append(
+                    f"{relative}: applied output snapshots omit review subjects: "
+                    f"{', '.join(sorted(missing_current))}"
+                )
+            for extra in set(verification_snapshots) - expected_current_snapshot_ids:
+                if not extra.startswith("source:") or extra.removeprefix("source:") not in sources:
+                    errors.append(f"{relative}: invalid extra evidence snapshot {extra}")
         covered: list[str] = []
         directly_questioned: set[str] = set()
         questions: dict[str, dict[str, Any]] = {}
@@ -255,12 +285,15 @@ def validate_clarifications(project: Path) -> list[str]:
                         f"{relative}: question {question_id} evidence is not canonically bound to current subjects"
                     )
                 canonical_evidence_rows.extend(expected_evidence)
-                cited_pages = _pages([item["locator"] for item in question["evidence"]])
-                cited_sources = {item["source_id"] for item in question["evidence"]}
                 for subject_id in question["subject_ids"]:
                     subject = review_subject_map.get(subject_id)
                     if subject is None:
                         continue
+                    subject_evidence = [
+                        item for item in question["evidence"] if item["subject_id"] == subject_id
+                    ]
+                    cited_pages = _pages([item["locator"] for item in subject_evidence])
+                    cited_sources = {item["source_id"] for item in subject_evidence}
                     if subject["subject_type"] == "rule":
                         rule = rules.get(subject_id, {})
                         registered_evidence = rule.get("evidence", [])
@@ -543,6 +576,35 @@ def validate_clarifications(project: Path) -> list[str]:
                 )
 
         response_map = {response["response_id"]: response for response in packet["responses"]}
+        if packet.get("clarification_id") == "cwnu.cs.2026.ta-confirmation":
+            if packet.get("state") != "applied" or packet.get("session", {}).get("state") != "closed":
+                errors.append(f"{relative}: TA confirmation must remain applied with a closed session")
+            if packet.get("session", {}).get("run_id") != "20260919-ta-confirmation-v1":
+                errors.append(f"{relative}: TA confirmation run binding changed")
+            if set(response_map) != set(TA_RESPONSE_EXPECTATIONS):
+                errors.append(f"{relative}: TA confirmation response set changed")
+            withheld = {item.get("boundary_id"): item for item in packet.get("withheld", [])}
+            if set(withheld) != {
+                "boundary.unresolved-cohorts",
+                "boundary.individual-exception-results",
+                "boundary.protected-research",
+            }:
+                errors.append(f"{relative}: TA pending-boundary set changed")
+            protected = withheld.get("boundary.protected-research", {})
+            if set(protected.get("subjects", [])) != {
+                "공모전 수상", "캡스톤디자인", "졸업작품", "PCCP 400점"
+            }:
+                errors.append(f"{relative}: protected research boundary changed")
+            for response_id, (question_id, choice_id, exact_text) in TA_RESPONSE_EXPECTATIONS.items():
+                response = response_map.get(response_id, {})
+                if (
+                    response.get("question_id") != question_id
+                    or response.get("selected_choice_id") != choice_id
+                    or response.get("exact_text") != exact_text
+                    or response.get("authority_used") != "department_confirmation"
+                    or response.get("normalization_status") != "accepted"
+                ):
+                    errors.append(f"{relative}: exact TA response binding changed for {response_id}")
         for event in events:
             if event["event"] == "question_presented" and event.get("question_id") not in questions:
                 errors.append(

@@ -14,6 +14,18 @@ _PUNCTUATION = re.compile(r"[^0-9a-zA-Z가-힣]+")
 _ACADEMIC_WORDS = ("학점", "졸업", "교양", "전공", "논문", "학사", "이수", "교육과정", "수강", "학기", "재수강", "휴학", "복학", "편입", "전과", "재입학", "캡스톤", "pccp", "공모전", "졸업작품")
 _GAP_WORDS = ("부족", "모자", "남았", "남은", "더 들어", "더 이수")
 _UNSAFE_QUESTION = re.compile(r"(?:이름|성명|학번|학생번호|주민등록|성적표|raw\s*transcript|student\s*(?:name|id|number)|[0-9]{6,12}|01[016789][ -]?[0-9]{3,4}[ -]?[0-9]{4}|[\w.+-]+@[\w.-]+\.[a-z]{2,})", re.IGNORECASE)
+_PERSONAL_TOKEN = re.compile(
+    r"^(?:전|난|"
+    r"저(?:는|도|의|라면|로서는|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
+    r"제(?:가|게|게도|게는|게만|의)?|"
+    r"저희들(?:은|이|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
+    r"저희(?:는|가|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
+    r"나(?:는|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
+    r"내(?:가|게|게도|게는|게만|의)?|"
+    r"우리들(?:은|이|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
+    r"우리(?:는|가|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
+    r"본인(?:은|이|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?)$"
+)
 APPROVED_METRICS = frozenset({
     "credits.general.balanced", "credits.general.foundation", "credits.general.remaining", "credits.general.total",
     "credits.graduation.remaining", "credits.graduation.total", "credits.major.advanced", "credits.major.elective",
@@ -111,6 +123,8 @@ class AnswerEngine:
             return self._unsupported(packet_id, scope, "insufficient_evidence", "해당 운영 관행은 공식 근거가 확인되지 않아 답변할 수 없습니다.", "review")
         if any(alias in compact for alias in config["exception_aliases"]):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "해당 예외 적용에는 별도의 승인된 근거가 필요합니다.", "missing")
+        if self._is_individual_determination(question, compact):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "개인별 이수·면제·소급 적용 결과를 판정하려면 공식 학적 확인이 필요합니다.", "missing")
         if any(alias in compact for alias in config["broad_graduation_aliases"]):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "포괄적인 졸업 인증 여부를 판정할 승인 근거가 충분하지 않습니다.", "missing")
         specific_aliases = [alias for entry in config["intents"] if entry["kind"] == "specific" for alias in entry["aliases"]]
@@ -182,14 +196,105 @@ class AnswerEngine:
 
     def _select_intents(self, compact: str, normalized: str) -> list[dict[str, Any]]:
         intents = self.registry.intents["intents"]
-        specifics = [entry for entry in intents if entry["kind"] == "specific" and self._entry_alias_spans(entry, normalized)]
+        matched = [
+            (entry, self._entry_alias_spans(entry, normalized))
+            for entry in intents
+            if entry["kind"] == "specific"
+        ]
+        matched = [(entry, spans) for entry, spans in matched if spans]
+        specifics = [
+            entry
+            for entry, spans in matched
+            if any(
+                not any(
+                    other_span[0] <= span[0]
+                    and span[1] <= other_span[1]
+                    and other_span != span
+                    for other, other_spans in matched
+                    if other is not entry
+                    for other_span in other_spans
+                )
+                for span in spans
+            )
+        ]
         substitution = {entry["intent_id"] for entry in specifics if entry["intent_id"] == "graduation.thesis.substitution"}
+        linked_exemption = {entry["intent_id"] for entry in specifics if entry["intent_id"] == "graduation.thesis.linked-program-exemption"}
         thesis_conjunction = "졸업논문과" in compact or "논문과" in compact or any(token in {"및", "그리고"} for token in normalized.split())
         if substitution and not thesis_conjunction:
+            specifics = [entry for entry in specifics if entry["intent_id"] != "graduation.thesis.required"]
+        if linked_exemption and not thesis_conjunction:
             specifics = [entry for entry in specifics if entry["intent_id"] != "graduation.thesis.required"]
         if specifics:
             return specifics
         return [entry for entry in intents if entry["kind"] == "bundle" and self._entry_alias_spans(entry, normalized)]
+
+    def _is_individual_determination(self, normalized: str, compact: str) -> bool:
+        aliases = self.registry.intents["individual_determination_aliases"]
+        if any(_alias_matches(alias, normalized) for alias in aliases):
+            return True
+        tokens = normalized.split()
+        marker_indexes = [
+            index
+            for index, token in enumerate(tokens)
+            if _PERSONAL_TOKEN.fullmatch(token[:-1] if token.endswith("요") else token)
+        ]
+        if not marker_indexes:
+            return False
+        token_offsets: list[int] = []
+        offset = 0
+        for token in tokens:
+            token_offsets.append(offset)
+            offset += len(token)
+        marker_offsets = [token_offsets[index] for index in marker_indexes]
+        window = "".join(tokens)
+        linked_exemption_context = (
+            ("학석사연계과정" in window or "연계과정생" in window)
+            and "면제" in window
+        )
+        course_identity_context = "동일교과목" in window or "동일과목" in window
+        retroactive_context = "소급" in window
+
+        def has_scoped_policy_noun(topic_pattern: str, later_result_pattern: str) -> bool:
+            match = re.search(topic_pattern + r"정책", window)
+            if not match:
+                return False
+            if any(marker_offset >= match.end() for marker_offset in marker_offsets):
+                return False
+            tail = window[match.end():]
+            for result_match in re.finditer(later_result_pattern, tail):
+                prefix = tail[:result_match.start()]
+                if not any(prefix.endswith(cue) for cue in ("누가", "누구", "누구에게", "어떻게")):
+                    return False
+            return bool(
+                re.match(r"(?:입니다|인지)", tail)
+                or re.match(r"을(?:알|알려|설명|확인)", tail)
+                or re.match(r"에대해(?:알|알려|설명|확인)", tail)
+                or (re.match(r"에대한", tail) and any(cue in tail for cue in ("설명", "범위", "방법")))
+                or (re.match(r"의", tail) and any(cue in tail for cue in ("설명", "범위", "방법")))
+                or (re.match(r"[이은]", tail) and any(cue in tail for cue in ("누구", "어떻게", "범위", "방법")))
+                or (re.match(r"(?:에따르면|상)", tail) and any(cue in tail for cue in ("누가", "누구", "어떻게", "범위", "방법")))
+                or (re.match(r"에따른", tail) and any(cue in tail for cue in ("계산", "범위", "방법")))
+            )
+
+        linked_policy_object = linked_exemption_context and has_scoped_policy_noun(
+            r"면제(?:(?:혜택)?적용|대상)?(?:일반)?",
+            r"(?:대상(?:인가|인지)|해당|면제인가|가능|자격|적용되)",
+        )
+        course_policy_object = course_identity_context and has_scoped_policy_noun(
+            r"(?:동일교과목|동일과목)(?:의)?(?:(?:일반)?계산)?(?:일반)?",
+            r"(?:동일교과목|동일과목)(?:인가|인지|에해당)",
+        )
+        retroactive_policy_object = retroactive_context and has_scoped_policy_noun(
+            r"소급(?:적용)?(?:일반)?",
+            r"소급(?:대상|적용되|여부|해당)",
+        )
+        if linked_exemption_context and not linked_policy_object:
+            return True
+        if course_identity_context and not course_policy_object:
+            return True
+        if retroactive_context and not retroactive_policy_object:
+            return True
+        return False
 
     def _entry_alias_spans(self, entry: dict[str, Any], normalized: str) -> list[tuple[int, int]]:
         contextual = self.registry.intents["contextual_aliases"]

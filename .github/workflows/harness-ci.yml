@@ -44,7 +44,7 @@ jobs:
         run: python scripts/validation/validate_academic_clarifications.py --project .
       - name: Validate unverified academic research isolation
         run: python scripts/validation/validate_academic_research.py --project .
-      - name: Validate deterministic academic answer engine and evaluation set
+      - name: Validate deterministic academic answer engine and 182-case evaluation set
         run: python scripts/validation/validate_academic_answer_engine.py --project .
       - name: Render every harness Mermaid block
         run: >-

@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.1.0",
+  "clarification_id": "cwnu.cs.2026.ta-confirmation",
+  "review_id": "cwnu.cs.2026.ta-confirmation",
+  "state": "applied",
+  "coverage_mode": "full_review",
+  "scope": {"curriculum_year": 2026, "admission_year": 2026, "department": "컴퓨터공학과"},
+  "input_snapshots": [
+    {"artifact_id": "review:cwnu.cs.2026.ta-confirmation", "sha256": "d6cd7b093d69ae93f0b381db55ea77ac4b45894ee6a741ed30ef4a3c3193bf1f"},
+    {"artifact_id": "source:cwnu.curriculum.2026.changwon-undergraduate", "sha256": "4ab5cc759a95407c999863b65fe73580c70966da885494fb8c8bff15b9bdea97"},
+    {"artifact_id": "source:cwnu.curriculum.2026.ta-validation-response", "sha256": "edd5699ea618d773939a1b98c436befdab9e5720db17f5f6d98edfd42d82b976"},
+    {"artifact_id": "rule:cwnu.cs.2026.credits.general-recognition-cap", "sha256": "b762de883f2b80a8ebcc33f5ee32e36d149cfef8fc4748680b843f595e6b9e1f"},
+    {"artifact_id": "rule:cwnu.cs.2026.general-balanced-area-coverage", "sha256": "0fe0751fc6d169ce907b3bda64373b092ecdf02805bb7bfcba44319f8cf76bf3"},
+    {"artifact_id": "rule:cwnu.cs.2026.major-required-course-set", "sha256": "1810b6c9934916a21b01d6f95863a9779136c53d72f361acd157cc0defee589c"},
+    {"artifact_id": "rule:cwnu.cs.2026.major-counseling-completion", "sha256": "f93638311296d6efc5fa291e88604cc526048a942fabb78ab7d4c30118468417"},
+    {"artifact_id": "rule:cwnu.cs.2026.general-recommended-courses", "sha256": "5d215b43993cc9c66e29da66cfcc8fb569b3b1692d0eb7ee0a71931264c95275"},
+    {"artifact_id": "rule:cwnu.cs.2026.credits.general-remaining-allocation", "sha256": "b9be14b3238a7227ea1cc8d5645e7d65ddde68248570e14755d391eba581fe06"},
+    {"artifact_id": "rule:cwnu.cs.2026.credits.graduation-remaining-allocation", "sha256": "c214eae4774dd6268d6b67297d3b80401afcda941531b4aeb0f0cf66f27cfcab"},
+    {"artifact_id": "rule:cwnu.cs.2026.cohort.department-transfer-original-admission-year", "sha256": "087fb0b328a923a29d7c6eb7da8816f55205777c4deec4a03f9ff3be487f0f7c"},
+    {"artifact_id": "rule:cwnu.cs.2026.graduation.thesis-completion-result", "sha256": "f6a5128822920abdf66bd67c0677e13cdbb831bf127ad60e8f0103543e1b3103"},
+    {"artifact_id": "rule:cwnu.cs.2026.graduation.thesis-linked-program-exemption", "sha256": "71f8efb8d36f6aa4eb011d7d8a2591b05f14a64349ff6f0db77519a04e6c4b98"},
+    {"artifact_id": "rule:cwnu.cs.2026.course-counting.retake", "sha256": "82f66c341c0a4d525a870028bddebef6be037a7872517f8d0a528bd7f56c81c3"},
+    {"artifact_id": "rule:cwnu.cs.2026.course-counting.identical-course", "sha256": "f696cde6016d5135148be03d2d214811145e57528be882f4de3eaa2fe3b80936"},
+    {"artifact_id": "rule:cwnu.cs.2026.course-counting.post-completion-equivalence", "sha256": "de11df432e7744b5a567b2dc86898fe55ec7d30f667c3755d43261d9d74c320f"}
+  ],
+  "session": {
+    "session_id": "cwnu.cs.2026.ta-session-001", "run_id": "20260919-ta-confirmation-v1", "thread_binding": "current_task", "state": "closed",
+    "started_at": "2026-09-19T15:39:00+09:00", "ended_at": "2026-09-19T15:39:31+09:00", "end_reason": "completed",
+    "authority": {"kind": "department_confirmation", "status": "expired", "authorization_prompt": "첨부 조교 답변을 이번 검수 세션의 학과 확인으로 인정하여 반영할 것인지 확인한다.", "choices": ["grant", "decline"]}
+  },
+  "batches": [
+    {
+      "batch_id": "ta.confirmation.batch-1", "ordinal": 1, "topic": "조교 답변본과 적용·학점·교과목 규칙", "status": "applied",
+      "questions": [
+        {
+          "question_id": "ta.response.acceptance",
+          "subject_ids": ["cwnu.curriculum.2026.ta-validation-response", "cwnu.cs.2026.credits.general-recognition-cap", "cwnu.cs.2026.general-balanced-area-coverage", "cwnu.cs.2026.major-required-course-set", "cwnu.cs.2026.major-counseling-completion", "cwnu.cs.2026.general-recommended-courses", "cwnu.cs.2026.credits.general-remaining-allocation", "cwnu.cs.2026.credits.graduation-remaining-allocation"],
+          "purpose": "review_confirmation", "ambiguity_kind": "source_identity_and_scope", "required_authority": "department_confirmation",
+          "evidence": [
+            {"subject_id": "cwnu.curriculum.2026.ta-validation-response", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF pp.1-5 전체 조교 필기와 같은 세션의 사용자 정정", "claim": "title=교육과정 규칙 검증 승인 요청서 조교 답변본; sha256=c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d; authority=validation_aid; curriculum_years=2026; admission_years=2026; departments=컴퓨터공학과"},
+            {"subject_id": "cwnu.cs.2026.credits.general-recognition-cap", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23: 교양 인정학점 구조와 졸업학점 합계", "claim": "교양 졸업 인정 상한 42학점"},
+            {"subject_id": "cwnu.cs.2026.credits.general-recognition-cap", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.3, section 5: 교양 인정 상한", "claim": "42학점을 초과한 교양 과목도 총취득학점에는 인정되나, 졸업인정은 42학점까지"},
+            {"subject_id": "cwnu.cs.2026.general-balanced-area-coverage", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.35: 균형교양 이수영역", "claim": "균형교양 4개 영역별 이수"},
+            {"subject_id": "cwnu.cs.2026.general-balanced-area-coverage", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.2, section 3: 균형교양 영역 규칙", "claim": "각 영역 1과목 이상; 한 과목의 복수 영역 충족 불가; 과목별 3학점 고정 아님"},
+            {"subject_id": "cwnu.cs.2026.major-required-course-set", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.577: 컴퓨터공학과 전공필수 교과목 편성표", "claim": "전공필수 9과목"},
+            {"subject_id": "cwnu.cs.2026.major-required-course-set", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF pp.2-3, section 4: 전공필수 과목", "claim": "위 9과목을 모두 이수해야 함"},
+            {"subject_id": "cwnu.cs.2026.major-counseling-completion", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.577: 심층상담 0학점 전공필수 편성", "claim": "CDA0088 심층상담 0학점"},
+            {"subject_id": "cwnu.cs.2026.major-counseling-completion", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.3, section 4: 심층상담 확인", "claim": "0학점이어도 반드시 이수; 1회 이상; 매학기 수강 권장"},
+            {"subject_id": "cwnu.cs.2026.general-recommended-courses", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.577: 컴퓨터공학과 권장 교양", "claim": "GEA7260, GEA7261, GEA7301 권장 교과목"},
+            {"subject_id": "cwnu.cs.2026.general-recommended-courses", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.4, section 6: 권장 교양의 의미", "claim": "필수가 아닌 권장 과목"},
+            {"subject_id": "cwnu.cs.2026.credits.general-remaining-allocation", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23: 교양 영역별 학점과 잔여학점 구조", "claim": "교양 잔여학점 13"},
+            {"subject_id": "cwnu.cs.2026.credits.general-remaining-allocation", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.2, section 2: 교양 잔여학점", "claim": "기초, 균형, 확대교양으로 충족 가능"},
+            {"subject_id": "cwnu.cs.2026.credits.graduation-remaining-allocation", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.23: 졸업 잔여학점 구조", "claim": "졸업 잔여학점 18"},
+            {"subject_id": "cwnu.cs.2026.credits.graduation-remaining-allocation", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.2, section 2: 졸업 잔여학점과 중복 계산", "claim": "자유선택 교과목; 교양·전공과 중복 계산하지 않음"}
+          ],
+          "prompt": "첨부 조교 답변을 이번 검수 세션의 학과 확인으로 인정하고 명확한 항목을 반영해도 되는가?", "impact": "승인하면 상위 교육과정 근거와 일치하는 항목만 RuleFact로 반영하고 모호한 필기는 후속 질문으로 분리한다.",
+          "choices": [{"choice_id": "accept-ta-response", "label": "조교 답변 인정", "disposition": "approve", "impact": "명확한 항목을 승인 후보로 반영한다."}, {"choice_id": "hold-ta-response", "label": "전체 보류", "disposition": "pending", "impact": "모든 조교 답변 항목을 보류한다."}],
+          "recommended_choice_id": "accept-ta-response", "blocking_subject_ids": ["cwnu.curriculum.2026.ta-validation-response", "cwnu.cs.2026.credits.general-recognition-cap", "cwnu.cs.2026.general-balanced-area-coverage", "cwnu.cs.2026.major-required-course-set", "cwnu.cs.2026.major-counseling-completion", "cwnu.cs.2026.general-recommended-courses", "cwnu.cs.2026.credits.general-remaining-allocation", "cwnu.cs.2026.credits.graduation-remaining-allocation"], "status": "accepted"
+        },
+        {
+          "question_id": "cohort.department-transfer", "subject_ids": ["cwnu.cs.2026.cohort.department-transfer-original-admission-year"], "purpose": "ambiguity_resolution", "ambiguity_kind": "applicability", "required_authority": "department_confirmation",
+          "evidence": [{"subject_id": "cwnu.cs.2026.cohort.department-transfer-original-admission-year", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.13 (printed p.5) 및 p.18 (printed p.10): 교육과정 입학연도 적용 원칙", "claim": "교육과정은 입학연도를 기준으로 적용"}, {"subject_id": "cwnu.cs.2026.cohort.department-transfer-original-admission-year", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.1, section 1: 적용 대상 필기와 사용자 정정", "claim": "전과 완료 연도가 아니라 최초 입학연도 교육과정 적용"}],
+          "prompt": "전과 완료 연도와 최초 입학연도 중 어느 연도를 교육과정 기준으로 사용하는가?", "impact": "전과생의 적용 교육과정이 달라진다.",
+          "choices": [{"choice_id": "use-original-admission-year", "label": "최초 입학연도", "disposition": "approve", "impact": "전과 완료 연도는 무시하고 최초 입학연도를 사용한다."}, {"choice_id": "hold-transfer-rule", "label": "보류", "disposition": "pending", "impact": "전과생 규칙을 답변에 사용하지 않는다."}],
+          "recommended_choice_id": "use-original-admission-year", "blocking_subject_ids": ["cwnu.cs.2026.cohort.department-transfer-original-admission-year"], "status": "accepted"
+        }
+      ]
+    },
+    {
+      "batch_id": "ta.confirmation.batch-2", "ordinal": 2, "topic": "졸업논문과 교과목 계산 필기 정정", "status": "applied",
+      "questions": [
+        {
+          "question_id": "thesis.zero-credit-result", "subject_ids": ["cwnu.cs.2026.graduation.thesis-completion-result", "cwnu.cs.2026.graduation.thesis-linked-program-exemption"], "purpose": "ambiguity_resolution", "ambiguity_kind": "exception_scope", "required_authority": "department_confirmation",
+          "evidence": [{"subject_id": "cwnu.cs.2026.graduation.thesis-completion-result", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.565 (printed p.557) 및 p.577: 졸업논문 통과 요구와 0학점 편성", "claim": "졸업논문 통과 요구; 졸업논문 0학점"}, {"subject_id": "cwnu.cs.2026.graduation.thesis-completion-result", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.3, section 4: 졸업논문 필기와 사용자 정정", "claim": "졸업논문은 0학점이어도 반드시 이수해야 함. -> 미이수면 Fail임."}, {"subject_id": "cwnu.cs.2026.graduation.thesis-linked-program-exemption", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.565 (printed p.557): 졸업논문 통과 일반요건", "claim": "졸업논문 통과 요구"}, {"subject_id": "cwnu.cs.2026.graduation.thesis-linked-program-exemption", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.3, section 4: 오른쪽 필기와 사용자 정정", "claim": "학석사연계과정생은 면제 가능"}],
+          "prompt": "0학점 졸업논문 미이수 결과와 오른쪽 면제 필기의 정확한 대상은 무엇인가?", "impact": "졸업논문 미이수 결과와 예외 대상이 달라진다.",
+          "choices": [{"choice_id": "thesis-fail-linked-exemption", "label": "Fail·연계과정 면제 가능", "disposition": "approve", "impact": "미이수는 Fail로, 학·석사 연계과정생은 자동이 아닌 면제 가능 대상으로 기록한다."}, {"choice_id": "hold-thesis-clarification", "label": "보류", "disposition": "pending", "impact": "추가 확인 전 두 항목을 사용하지 않는다."}],
+          "recommended_choice_id": "thesis-fail-linked-exemption", "blocking_subject_ids": ["cwnu.cs.2026.graduation.thesis-completion-result", "cwnu.cs.2026.graduation.thesis-linked-program-exemption"], "status": "accepted"
+        },
+        {
+          "question_id": "course-counting.retake-equivalence", "subject_ids": ["cwnu.cs.2026.course-counting.retake", "cwnu.cs.2026.course-counting.identical-course", "cwnu.cs.2026.course-counting.post-completion-equivalence"], "purpose": "ambiguity_resolution", "ambiguity_kind": "relationship", "required_authority": "department_confirmation",
+          "evidence": [{"subject_id": "cwnu.cs.2026.course-counting.retake", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치", "claim": "재수강과 동일·대체교과목 처리"}, {"subject_id": "cwnu.cs.2026.course-counting.retake", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.3, section 5: 재수강 필기와 사용자 정정", "claim": "재수강시 기이수 과목은 삭제하므로 중복 카운트하지 않음"}, {"subject_id": "cwnu.cs.2026.course-counting.identical-course", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치", "claim": "동일교과목 처리"}, {"subject_id": "cwnu.cs.2026.course-counting.identical-course", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.3, section 5: 동일교과목 필기와 사용자 정정", "claim": "동일교과목은 수강신청되지 않으므로 중복 카운트되지 않음"}, {"subject_id": "cwnu.cs.2026.course-counting.post-completion-equivalence", "source_id": "cwnu.curriculum.2026.changwon-undergraduate", "authority": "curriculum", "locator": "PDF p.14 (printed p.6): 동일·대체교과목 및 경과조치", "claim": "동일·대체교과목과 소급 경과조치"}, {"subject_id": "cwnu.cs.2026.course-counting.post-completion-equivalence", "source_id": "cwnu.curriculum.2026.ta-validation-response", "authority": "validation_aid", "locator": "PDF p.3, section 5: 동일·대체 지정 필기와 사용자 정정", "claim": "이수 후 대체 또는 동일 지정된 경우는 별개의 과목으로 학점 수 계산. (단 소급적용 시 다를 수 있음)"}],
+          "prompt": "재수강·동일교과목·이수 후 동일 또는 대체 지정의 학점 계산을 어떻게 처리하는가?", "impact": "중복 학점과 소급 적용 개인 판정의 경계가 달라진다.",
+          "choices": [{"choice_id": "apply-counting-clarification", "label": "설명대로 적용", "disposition": "approve", "impact": "재수강·동일교과목은 중복하지 않고 사후 지정은 별개로 기록하되 소급 개인 판정은 보류한다."}, {"choice_id": "hold-counting-clarification", "label": "보류", "disposition": "pending", "impact": "세 계산 정책을 답변에 사용하지 않는다."}],
+          "recommended_choice_id": "apply-counting-clarification", "blocking_subject_ids": ["cwnu.cs.2026.course-counting.retake", "cwnu.cs.2026.course-counting.identical-course", "cwnu.cs.2026.course-counting.post-completion-equivalence"], "status": "accepted"
+        }
+      ]
+    }
+  ],
+  "suppressed": [],
+  "withheld": [
+    {"boundary_id": "boundary.unresolved-cohorts", "subjects": ["복학생", "편입학자", "재입학생"], "reason": "outside_confirmed_cohort_rule", "status": "pending", "answer_status": "insufficient_evidence", "eligible_for_academic_answer": false, "details": "이번 확인은 전과생의 최초 입학연도 기준만 확정했으며 다른 예외 학적의 적용 교육과정은 확정하지 않았다."},
+    {"boundary_id": "boundary.individual-exception-results", "subjects": ["학·석사 연계과정생 졸업논문 실제 면제", "동일·대체교과목 소급 적용 개인 결과"], "reason": "individual_determination_required", "status": "pending", "answer_status": "insufficient_evidence", "eligible_for_academic_answer": false, "details": "면제 가능성과 일반 계산정책은 기록하되 개인 결과는 공식 절차·지정 이력 확인 전 자동 판정하지 않는다."},
+    {"boundary_id": "boundary.protected-research", "subjects": ["공모전 수상", "캡스톤디자인", "졸업작품", "PCCP 400점"], "reason": "awaiting_official_source", "status": "pending", "answer_status": "insufficient_evidence", "eligible_for_academic_answer": false, "details": "기존 연구 대기 항목을 그대로 유지하며 공식 근거 등록 전 학사 답변에 사용하지 않는다."}
+  ],
+  "conflicts": [],
+  "responses": [
+    {"response_id": "response.ta.response.acceptance", "question_id": "ta.response.acceptance", "session_id": "cwnu.cs.2026.ta-session-001", "answer_mode": "choice", "selected_choice_id": "accept-ta-response", "exact_text": "조교 답변은 인정하는데, 모호한 필기가 뭔데? 그거 확인후에 반영하자 나한테 물어봐봐. 그리고 공모전 캡스톤 pccp는 여전히 보류 상태로 유지해줘", "answered_by": "project_owner", "answered_at": "2026-09-19T15:39:10+09:00", "authority_used": "department_confirmation", "authorization_event_id": "event.ta.authority-granted", "normalization_status": "accepted"},
+    {"response_id": "response.cohort.department-transfer", "question_id": "cohort.department-transfer", "session_id": "cwnu.cs.2026.ta-session-001", "answer_mode": "choice", "selected_choice_id": "use-original-admission-year", "exact_text": "2023년에 전과완료 하면, 2023학번이 입학한 년도(예를 들어 2022면) 2022적용, 2025학번이 전과 완료하면 2025학번이 입학한 년도: 2023. 따라서 2023학번 교육과정 년도 적용. 이런식임.", "answered_by": "project_owner", "answered_at": "2026-09-19T15:39:15+09:00", "authority_used": "department_confirmation", "authorization_event_id": "event.ta.authority-granted", "normalization_status": "accepted"},
+    {"response_id": "response.thesis.zero-credit-result", "question_id": "thesis.zero-credit-result", "session_id": "cwnu.cs.2026.ta-session-001", "answer_mode": "choice", "selected_choice_id": "thesis-fail-linked-exemption", "exact_text": "졸업논문은 0학점이어도 반드시 이수해야 함. -> 미이수면 Fail임. 그리고 오른쪽 글씨는 학석사연계과정생은 면제 가능 이거임", "answered_by": "project_owner", "answered_at": "2026-09-19T15:39:20+09:00", "authority_used": "department_confirmation", "authorization_event_id": "event.ta.authority-granted", "normalization_status": "accepted"},
+    {"response_id": "response.course-counting.retake-equivalence", "question_id": "course-counting.retake-equivalence", "session_id": "cwnu.cs.2026.ta-session-001", "answer_mode": "choice", "selected_choice_id": "apply-counting-clarification", "exact_text": "\"재수강시 기이수 과목은 삭제하므로 중복 카운트하지 않음, 동일교과목은 수강신청되지 않으므로 중복 카운트되지 않음. 이수 후 대체 또는 동일 지정된 경우는 별개의 과목으로 학점 수 계산. (단 소급적용 시 다를 수 있음)\" 이거임", "answered_by": "project_owner", "answered_at": "2026-09-19T15:39:25+09:00", "authority_used": "department_confirmation", "authorization_event_id": "event.ta.authority-granted", "normalization_status": "accepted"}
+  ],
+  "audit_events": [
+    {"event_id": "event.ta.created", "event": "created", "at": "2026-09-19T15:39:00+09:00", "actor": "main", "details": "조교 답변 검수 세션을 생성했다."},
+    {"event_id": "event.ta.authority-granted", "event": "authority_granted", "at": "2026-09-19T15:39:05+09:00", "actor": "project_owner", "details": "이번 세션의 조교 답변과 명시적 후속 설명을 department_confirmation으로 기록하도록 승인했다."},
+    {"event_id": "event.ta.presented.acceptance", "event": "question_presented", "at": "2026-09-19T15:39:06+09:00", "actor": "main", "question_id": "ta.response.acceptance", "details": "조교 답변 인정 여부를 제시했다."},
+    {"event_id": "event.ta.answered.acceptance", "event": "answer_recorded", "at": "2026-09-19T15:39:10+09:00", "actor": "main", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "details": "조교 답변 인정과 보호된 연구 주제 보류를 기록했다."},
+    {"event_id": "event.ta.presented.transfer", "event": "question_presented", "at": "2026-09-19T15:39:11+09:00", "actor": "main", "question_id": "cohort.department-transfer", "details": "전과생 적용 연도 질문을 제시했다."},
+    {"event_id": "event.ta.answered.transfer", "event": "answer_recorded", "at": "2026-09-19T15:39:15+09:00", "actor": "main", "question_id": "cohort.department-transfer", "response_id": "response.cohort.department-transfer", "details": "최초 입학연도 적용 설명을 기록했다."},
+    {"event_id": "event.ta.presented.thesis", "event": "question_presented", "at": "2026-09-19T15:39:16+09:00", "actor": "main", "question_id": "thesis.zero-credit-result", "details": "졸업논문 필기 해석 질문을 제시했다."},
+    {"event_id": "event.ta.answered.thesis", "event": "answer_recorded", "at": "2026-09-19T15:39:20+09:00", "actor": "main", "question_id": "thesis.zero-credit-result", "response_id": "response.thesis.zero-credit-result", "details": "Fail과 학·석사 연계과정생 면제 가능을 기록했다."},
+    {"event_id": "event.ta.presented.counting", "event": "question_presented", "at": "2026-09-19T15:39:21+09:00", "actor": "main", "question_id": "course-counting.retake-equivalence", "details": "재수강·동일·대체교과목 계산 질문을 제시했다."},
+    {"event_id": "event.ta.answered.counting", "event": "answer_recorded", "at": "2026-09-19T15:39:25+09:00", "actor": "main", "question_id": "course-counting.retake-equivalence", "response_id": "response.course-counting.retake-equivalence", "details": "정확한 사용자 원문을 기록했다."},
+    {"event_id": "event.ta.applied", "event": "applied", "at": "2026-09-19T15:39:30+09:00", "actor": "academic_rule_modeler", "details": "승인된 응답을 SourceEntry, RuleFact와 검수대장에 적용했다."},
+    {"event_id": "event.ta.authority-expired", "event": "authority_expired", "at": "2026-09-19T15:39:31+09:00", "actor": "main", "details": "적용 완료로 세션 권한을 만료했다."},
+    {"event_id": "event.ta.closed", "event": "closed", "at": "2026-09-19T15:39:31+09:00", "actor": "main", "details": "조교 답변 검수 세션을 닫았다."}
+  ],
+  "application": {
+    "applied_at": "2026-09-19T15:39:30+09:00", "applied_by": "academic_rule_modeler", "application_event_id": "event.ta.applied",
+    "output_snapshots": [
+      {"artifact_id": "review:cwnu.cs.2026.ta-confirmation", "sha256": "d6cd7b093d69ae93f0b381db55ea77ac4b45894ee6a741ed30ef4a3c3193bf1f"},
+      {"artifact_id": "source:cwnu.curriculum.2026.changwon-undergraduate", "sha256": "4ab5cc759a95407c999863b65fe73580c70966da885494fb8c8bff15b9bdea97"},
+      {"artifact_id": "source:cwnu.curriculum.2026.ta-validation-response", "sha256": "5e56af9cbb0e8dd5708ce63ee40b389c22946ad7c7a86081f39304478568d18c"},
+      {"artifact_id": "rule:cwnu.cs.2026.credits.general-recognition-cap", "sha256": "2796f2d1178248bf380b2c097015188cf63315999607f92925174d85f67f667b"},
+      {"artifact_id": "rule:cwnu.cs.2026.general-balanced-area-coverage", "sha256": "5de3112df3430b0e7952a80656fcf4bdf5cfd40680d991243dca4a740e9351fe"},
+      {"artifact_id": "rule:cwnu.cs.2026.major-required-course-set", "sha256": "9a7bf9cdd69803d3245759bc8e0a5b03c15bc70595a541c8bcf6ea9448327c12"},
+      {"artifact_id": "rule:cwnu.cs.2026.major-counseling-completion", "sha256": "6dab0a6035d3ac497cbbd370a6f730c215afa397cb08610318e39dd55f29c423"},
+      {"artifact_id": "rule:cwnu.cs.2026.general-recommended-courses", "sha256": "a47a4b67f88b10903d644a801e99b209b3bc16ad96562c2e5b3af9984541c6d7"},
+      {"artifact_id": "rule:cwnu.cs.2026.credits.general-remaining-allocation", "sha256": "a164188a0cc98db64583450f9ab0a5eabe759d7820c88d39be2fcf11ff9ecbaa"},
+      {"artifact_id": "rule:cwnu.cs.2026.credits.graduation-remaining-allocation", "sha256": "89ef3c4cfede182d764cdf042ead828d7ca5cef4befac24a6e1c2aa48ba0b3a4"},
+      {"artifact_id": "rule:cwnu.cs.2026.cohort.department-transfer-original-admission-year", "sha256": "6da104f85ab14dcf87e23e56106df4653658a34c075ff3734347a95e8e93e885"},
+      {"artifact_id": "rule:cwnu.cs.2026.graduation.thesis-completion-result", "sha256": "031a6f89d6b01fcc75464df12c3c14e04d1360b245a6e07d44cf69dba7d09fe0"},
+      {"artifact_id": "rule:cwnu.cs.2026.graduation.thesis-linked-program-exemption", "sha256": "ca4673156dd92f4d76a7442ecc168cb97ff3e2cb3f3a323d504e0a33ef982482"},
+      {"artifact_id": "rule:cwnu.cs.2026.course-counting.retake", "sha256": "ae7daed8382390355452b5572e1b526768fc82913d4f86089d3bc349ef5d6a3c"},
+      {"artifact_id": "rule:cwnu.cs.2026.course-counting.identical-course", "sha256": "b40e2f2cc04101f789c7989e552908b8df65e6e15c8afda66aa92bb7b2261164"},
+      {"artifact_id": "rule:cwnu.cs.2026.course-counting.post-completion-equivalence", "sha256": "2a16a4709e51f0a93ad7ee37130a34611dc85e01207a3f5aac8dee27e24b12b1"}
+    ],
+    "response_snapshots": [
+      {"response_id": "response.ta.response.acceptance", "sha256": "b117d22c1c0cac91c7aed1cbec579629ca8c905673e3390d153527f49f67cf4d"},
+      {"response_id": "response.cohort.department-transfer", "sha256": "45cd41b0e11ecc9135923161d35c9e239ff23855bb0c17b8c9629d4fd5b9735d"},
+      {"response_id": "response.thesis.zero-credit-result", "sha256": "e3b2192c12b7f90b4367d94191769ae7fec6420d546ea840f073a88347a7393d"},
+      {"response_id": "response.course-counting.retake-equivalence", "sha256": "efa2a57799f01c4e1e03459c825131b51c42542db9f94852e815d2468af34e60"}
+    ],
+    "subject_attestations": [
+      {"subject_id": "cwnu.curriculum.2026.ta-validation-response", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "c2f70680a174d48b8886cd7ef271486b150e9e1b46ca0a0ad18073d08023a192", "review_subject_sha256": "c978f262a3fabfc498620686f73e7e9b0a1ba455b5de32a20fb1b9c0c2603d95"},
+      {"subject_id": "cwnu.cs.2026.credits.general-recognition-cap", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "69ae182d9d643bfc572f69a7e6e9b7353c2a06aafa1e064a1246594a9d9770f3", "review_subject_sha256": "9f0114c28408f30c3c3955916e5609a3b518831a7414164ea84c05f4577c1880"},
+      {"subject_id": "cwnu.cs.2026.general-balanced-area-coverage", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "6c7c01d483af7539ffe908621f1aa3b7b8ad413be2724bfe5e2f0271335e09bb", "review_subject_sha256": "7cedac45ee91289e72e6e5f9bef99451d56a05e0ed628eabf6342dbd0beebddd"},
+      {"subject_id": "cwnu.cs.2026.major-required-course-set", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "56b83c2518ca5105e2f25e292d503fddf942a53557170931bb1946ece1e841d8", "review_subject_sha256": "4ec597fed3dee7dff01c3ec375b2682e1864d20d411d2a18b222aed577c7e0f7"},
+      {"subject_id": "cwnu.cs.2026.major-counseling-completion", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "ab94690d9befd277233b4eb63411b5f8fb1bb4cc220f34ca9054f73cc674ff65", "review_subject_sha256": "dc5bcbf40492fc18a98ae057c7570e946326ce0586b6fb62a1c31bbfdd155e8c"},
+      {"subject_id": "cwnu.cs.2026.general-recommended-courses", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "c649dbdab69bffa1586cc8123e32c96ed184950b23009696befbae254d75f921", "review_subject_sha256": "4d4c38bb45f32429a11cbd3db25e9af157a124a4475c9da70ebac8bbc16da8c4"},
+      {"subject_id": "cwnu.cs.2026.credits.general-remaining-allocation", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "bc0d2b8872a435e9dd7aa0bff9aa72662d2d23471dc25b435fb35877cbf27034", "review_subject_sha256": "004b2f837250d5d9f2cf68b2541ea64815eb8eaec3d5e44e4f2a62aa5207a950"},
+      {"subject_id": "cwnu.cs.2026.credits.graduation-remaining-allocation", "question_id": "ta.response.acceptance", "response_id": "response.ta.response.acceptance", "object_review_sha256": "dab40e087df4329641bd675bb9f8ba85bb46bb89c15c709bac2e299d7adc7e05", "review_subject_sha256": "1c547cace2baac6895afc7217eeac2b1b965d6d310fe7efd169b55d48154819d"},
+      {"subject_id": "cwnu.cs.2026.cohort.department-transfer-original-admission-year", "question_id": "cohort.department-transfer", "response_id": "response.cohort.department-transfer", "object_review_sha256": "2cb836df69e7befe54731bad8a54dbccce76ae9d63122f56c82c98cc95ce1f08", "review_subject_sha256": "83429a8f853a3b7e9a7b37bcd3334d417f6fc1f9af3ee8345be81b6cbab31b2b"},
+      {"subject_id": "cwnu.cs.2026.graduation.thesis-completion-result", "question_id": "thesis.zero-credit-result", "response_id": "response.thesis.zero-credit-result", "object_review_sha256": "320ff3c40fce269b260422e8cfa8d10609364817efa7730ef27abf99e7279719", "review_subject_sha256": "3cf134d502c1529325b97eac0c2cfeb072675a785ac7f115a0d53b4dc2988e0a"},
+      {"subject_id": "cwnu.cs.2026.graduation.thesis-linked-program-exemption", "question_id": "thesis.zero-credit-result", "response_id": "response.thesis.zero-credit-result", "object_review_sha256": "0ffc33bb363b00be01a1190ade1a48061973611f2b9ff197f760a29a34185632", "review_subject_sha256": "bb716e89649cf38e432b400f3abe015ab0ffd52d4c31ee2d91c734c5df888921"},
+      {"subject_id": "cwnu.cs.2026.course-counting.retake", "question_id": "course-counting.retake-equivalence", "response_id": "response.course-counting.retake-equivalence", "object_review_sha256": "68676ba8b4cb61a8b1ab4ad5ca04f0b0fe638344224b7fa43846cfb2d8313556", "review_subject_sha256": "c8d0f6270eb8ec8a4ad3a4f075832f2ae87deeb21798317692b7b3465a7d9688"},
+      {"subject_id": "cwnu.cs.2026.course-counting.identical-course", "question_id": "course-counting.retake-equivalence", "response_id": "response.course-counting.retake-equivalence", "object_review_sha256": "ea7968cf53dc1c7a76526843c68c00d57b316ab9142dae3a1293e4b9390aa8a7", "review_subject_sha256": "55b1f3f1aa0bc72244b2bd94c81eb924dec5233a8d0ff22e2a18b95aa1f6bc8f"},
+      {"subject_id": "cwnu.cs.2026.course-counting.post-completion-equivalence", "question_id": "course-counting.retake-equivalence", "response_id": "response.course-counting.retake-equivalence", "object_review_sha256": "75e13b00b7929fe75977b68ba8d511f7ba7dcf312bea0acc39a933400e0b0e4f", "review_subject_sha256": "1870fca7e0592d846ead34f071f567846d6f8bac64c5f03d85a1c75376e4eb80"}
+    ]
+  }
+}

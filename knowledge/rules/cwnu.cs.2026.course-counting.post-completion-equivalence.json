@@ -1,0 +1,15 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.course-counting.post-completion-equivalence",
+  "label": "이수 후 동일·대체 지정 과목 계산",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "base", "target_rule_ids": []},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "이수 후 대체 또는 동일 과목으로 지정된 경우에는 별개의 과목으로 학점 수를 계산하되, 소급 적용되는 경우 결과가 달라질 수 있어 개인 판정은 보류한다.", "outcome": {"type": "course_counting_policy", "scenario": "post_completion_equivalent_or_substitute", "action": "count_as_separate_courses", "double_counted": false, "individual_determination": "required_if_retroactive"}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.14 (printed p.6): 동일·대체교과목 및 경과조치", "evidence_type": "explicit_text", "excerpt": "동일·대체교과목과 소급 경과조치"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.3, section 5: 동일·대체 지정 필기와 사용자 정정", "evidence_type": "department_confirmation", "excerpt": "이수 후 대체 또는 동일 지정된 경우는 별개의 과목으로 학점 수 계산. (단 소급적용 시 다를 수 있음)"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:25+09:00", "rationale": "이수 후 동일·대체 지정은 별개 과목으로 계산한다는 일반 정책은 답변 가능하도록 승인했다. 단, 소급 적용과 개인 과목 판정은 공식 지정 이력 확인 전 insufficient_evidence로 유지한다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"},
+  "review_notes": ["일반 정책 문장은 답변할 수 있지만 개별 학생의 소급 적용 여부, 동일·대체 지정 시점과 성적표 결과는 판정할 수 없다."]
+}

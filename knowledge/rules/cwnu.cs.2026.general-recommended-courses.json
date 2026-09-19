@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.general-recommended-courses",
+  "label": "권장 교양 3과목",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.credits.general-total"]},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "컴퓨터개론, 컴퓨터프로그래밍, 공업수학은 필수가 아닌 권장 교양이다.", "outcome": {"type": "recommendation", "items": [{"item_id": "GEA7260", "label": "컴퓨터개론"}, {"item_id": "GEA7261", "label": "컴퓨터프로그래밍"}, {"item_id": "GEA7301", "label": "공업수학"}], "required": false}, "operator": "direct"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.577: 컴퓨터공학과 권장 교양", "evidence_type": "table_structure", "excerpt": "GEA7260, GEA7261, GEA7301 권장 교과목"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.4, section 6: 권장 교양의 의미", "evidence_type": "department_confirmation", "excerpt": "필수가 아닌 권장 과목"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00", "rationale": "조교 답변 문서가 세 과목을 필수가 아닌 권장으로 확인한 내용을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"}
+}

@@ -13,6 +13,65 @@ from typing import Any
 from jsonschema import Draft202012Validator, FormatChecker
 
 
+TA_SOURCE_ID = "cwnu.curriculum.2026.ta-validation-response"
+TA_SOURCE_SHA256 = "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d"
+TA_RULE_EXPECTATIONS: dict[str, dict[str, Any]] = {
+    "cwnu.cs.2026.cohort.department-transfer-original-admission-year": {
+        "statement": "전과 완료 연도가 아니라 학생의 최초 입학연도에 해당하는 교육과정을 적용한다.",
+        "answer_policy": "policy_statement",
+        "outcome": {
+            "type": "cohort_assignment_policy",
+            "cohort_kind": "department_transfer",
+            "assignment_basis": "original_admission_year",
+            "completion_year_ignored": True,
+        },
+        "ta_locator": "PDF p.1, section 1: 적용 대상 필기와 사용자 정정",
+    },
+    "cwnu.cs.2026.graduation.thesis-completion-result": {
+        "statement": "졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.",
+        "answer_policy": "policy_statement",
+        "outcome": {
+            "type": "completion_requirement",
+            "requirement": "graduation.thesis.required",
+            "credit_value": 0,
+            "required": True,
+            "result_if_incomplete": "fail",
+        },
+        "ta_locator": "PDF p.3, section 4: 졸업논문 필기와 사용자 정정",
+    },
+    "cwnu.cs.2026.graduation.thesis-linked-program-exemption": {
+        "statement": "학·석사 연계과정생은 졸업논문 이수 면제가 가능하지만 자동 면제로 판정하지 않는다.",
+        "answer_policy": "record_only",
+        "outcome": {
+            "type": "exception_eligibility",
+            "target_requirement": "graduation.thesis.required",
+            "eligible_group": "student.program.bachelors_masters_linked",
+            "eligibility": "may_be_exempt",
+            "automatic": False,
+        },
+        "ta_locator": "PDF p.3, section 4: 오른쪽 필기와 사용자 정정",
+    },
+    "cwnu.cs.2026.course-counting.retake": {
+        "statement": "재수강 시 기이수 과목은 삭제되므로 학점을 중복 계산하지 않는다.",
+        "answer_policy": "policy_statement",
+        "outcome": {"type": "course_counting_policy", "scenario": "retake", "action": "delete_prior_completion", "double_counted": False, "individual_determination": "not_required"},
+        "ta_locator": "PDF p.3, section 5: 재수강 필기와 사용자 정정",
+    },
+    "cwnu.cs.2026.course-counting.identical-course": {
+        "statement": "동일교과목은 중복 수강신청되지 않으므로 중복 계산되지 않는다.",
+        "answer_policy": "policy_statement",
+        "outcome": {"type": "course_counting_policy", "scenario": "identical_course_registration", "action": "registration_blocked", "double_counted": False, "individual_determination": "not_required"},
+        "ta_locator": "PDF p.3, section 5: 동일교과목 필기와 사용자 정정",
+    },
+    "cwnu.cs.2026.course-counting.post-completion-equivalence": {
+        "statement": "이수 후 대체 또는 동일 과목으로 지정된 경우에는 별개의 과목으로 학점 수를 계산하되, 소급 적용되는 경우 결과가 달라질 수 있어 개인 판정은 보류한다.",
+        "answer_policy": "policy_statement",
+        "outcome": {"type": "course_counting_policy", "scenario": "post_completion_equivalent_or_substitute", "action": "count_as_separate_courses", "double_counted": False, "individual_determination": "required_if_retroactive"},
+        "ta_locator": "PDF p.3, section 5: 동일·대체 지정 필기와 사용자 정정",
+    },
+}
+
+
 def _load_json(path: Path, errors: list[str]) -> dict[str, Any] | None:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -106,21 +165,68 @@ def validate_knowledge(project: Path) -> list[str]:
         review = rule.get("review", {})
         if isinstance(review, dict) and review.get("status") == "approved":
             authoritative_evidence = False
+            higher_than_validation_aid = False
             for evidence in rule.get("evidence", []):
                 if not isinstance(evidence, dict):
                     continue
                 source = sources.get(evidence.get("source_id"))
                 if source is not None and source[0].get("review", {}).get("status") == "approved":
-                    if evidence.get("evidence_type") in {
+                    if source[0].get("authority") != "validation_aid" and evidence.get("evidence_type") in {
                         "explicit_text",
                         "table_structure",
                         "department_confirmation",
                     }:
                         authoritative_evidence = True
+                    if source[0].get("authority") != "validation_aid":
+                        higher_than_validation_aid = True
             if not authoritative_evidence:
                 errors.append(
                     f"{relative}: approved rule {rule_id} requires approved authoritative evidence"
                 )
+            if any(
+                isinstance(item, dict) and item.get("source_id") == TA_SOURCE_ID
+                for item in rule.get("evidence", [])
+            ) and not higher_than_validation_aid:
+                errors.append(
+                    f"{relative}: TA validation aid cannot be the only higher-authority basis for {rule_id}"
+                )
+
+        outcome = rule.get("decision", {}).get("outcome", {})
+        if isinstance(outcome, dict) and outcome.get("type") in {
+            "credit_recognition_cap", "coverage_requirement", "allocation_policy",
+            "completion_requirement", "exception_eligibility", "cohort_assignment_policy",
+            "course_counting_policy", "recommendation",
+        } and rule.get("answer_policy") not in {"policy_statement", "calculation", "record_only"}:
+            errors.append(f"{relative}: extended typed outcome requires answer_policy")
+        if outcome.get("type") == "exception_eligibility" and rule.get("answer_policy") != "record_only":
+            errors.append(f"{relative}: individual exception eligibility must be record_only")
+        if outcome.get("individual_determination") == "required_if_retroactive" and rule.get("answer_policy") != "policy_statement":
+            errors.append(f"{relative}: confirmed general course-counting policy must remain answerable")
+
+        expected = TA_RULE_EXPECTATIONS.get(rule_id)
+        if expected is not None:
+            if rule.get("decision", {}).get("statement") != expected["statement"]:
+                errors.append(f"{relative}: approved TA statement does not match exact confirmation")
+            if rule.get("answer_policy") != expected["answer_policy"]:
+                errors.append(f"{relative}: approved TA answer_policy changed")
+            if outcome != expected["outcome"]:
+                errors.append(f"{relative}: approved TA typed outcome changed")
+            if not any(
+                item.get("source_id") == TA_SOURCE_ID
+                and item.get("locator") == expected["ta_locator"]
+                for item in rule.get("evidence", []) if isinstance(item, dict)
+            ):
+                errors.append(f"{relative}: approved TA page locator changed")
+            if rule.get("review", {}).get("status") != "approved":
+                errors.append(f"{relative}: confirmed TA rule must remain approved")
+
+    ta_source = sources.get(TA_SOURCE_ID)
+    if ta_source is not None:
+        source = ta_source[0]
+        if source.get("sha256") != TA_SOURCE_SHA256 or source.get("authority") != "validation_aid":
+            errors.append("knowledge/sources: TA validation source identity or authority changed")
+        if source.get("review", {}).get("status") != "approved":
+            errors.append("knowledge/sources: TA validation source must retain approved human review")
 
     thesis_required = {
         rule.get("decision", {}).get("outcome", {}).get("requirement")

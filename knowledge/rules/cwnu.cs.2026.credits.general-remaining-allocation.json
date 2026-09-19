@@ -1,0 +1,14 @@
+{
+  "schema_version": "2.0.0",
+  "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+  "label": "교양 잔여학점 충족 영역",
+  "applicability": {"basis": "admission_year", "curriculum_years": [2026], "admission_years": [2026], "departments": ["컴퓨터공학과"], "conditions": []},
+  "relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.credits.general-remaining"]},
+  "answer_policy": "policy_statement",
+  "decision": {"statement": "교양 잔여 13학점은 기초교양, 균형교양 또는 확대교양으로 충족할 수 있다.", "outcome": {"type": "allocation_policy", "source_metric": "credits.general.remaining", "allowed_allocations": ["기초교양", "균형교양", "확대교양"], "double_counting_allowed": false}, "operator": "any"},
+  "evidence": [
+    {"source_id": "cwnu.curriculum.2026.changwon-undergraduate", "locator": "PDF p.23: 교양 영역별 학점과 잔여학점 구조", "evidence_type": "table_structure", "excerpt": "교양 잔여학점 13"},
+    {"source_id": "cwnu.curriculum.2026.ta-validation-response", "locator": "PDF p.2, section 2: 교양 잔여학점", "evidence_type": "department_confirmation", "excerpt": "기초, 균형, 확대교양으로 충족 가능"}
+  ],
+  "review": {"status": "approved", "mode": "human", "scope": "full", "reviewer_id": "project_owner", "reviewed_at": "2026-09-19T15:39:10+09:00", "rationale": "조교 답변 문서의 교양 잔여학점 충족 영역을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"}
+}

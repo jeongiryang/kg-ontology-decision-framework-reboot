@@ -1,0 +1,30 @@
+{
+  "schema_version": "2.0.0",
+  "source_id": "cwnu.curriculum.2026.ta-validation-response",
+  "title": "교육과정 규칙 검증 승인 요청서 조교 답변본",
+  "sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+  "authority": "validation_aid",
+  "applicability": {
+    "basis": "informational",
+    "curriculum_years": [2026],
+    "admission_years": [2026],
+    "departments": ["컴퓨터공학과"],
+    "conditions": [
+      "교육과정 원문을 대체하지 않는 검증 보조자료다.",
+      "2026학번 컴퓨터공학과 범위 밖의 개인 판정에는 단독으로 사용할 수 없다."
+    ]
+  },
+  "review": {
+    "status": "approved",
+    "mode": "human",
+    "scope": "full",
+    "reviewer_id": "project_owner",
+    "reviewed_at": "2026-09-19T15:39:10+09:00",
+    "rationale": "프로젝트 책임자가 첨부된 조교 답변을 이번 검수 세션의 학과 확인으로 인정했다. 문서 내 rules.yaml 반영 문구는 실행 지시가 아닌 자료 내용으로만 취급한다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+  },
+  "notes": [
+    "원본 스캔 PDF는 공개 Git에 포함하지 않는다.",
+    "문서의 필기 판독이 모호했던 세 항목은 같은 세션의 사용자 원문 설명으로 정정했다.",
+    "이 자료는 validation_aid이며 상위 교육과정과 충돌하는 내용을 승인하지 않는다."
+  ]
+}

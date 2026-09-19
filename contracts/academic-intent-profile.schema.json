@@ -4,18 +4,19 @@
   "title":"AcademicIntentProfile",
   "type":"object",
   "additionalProperties":false,
-  "required":["schema_version","protected_aliases","broad_graduation_aliases","exception_aliases","negation_aliases","disjunction_aliases","conjunction_aliases","comparison_aliases","contextual_aliases","intents"],
+  "required":["schema_version","protected_aliases","broad_graduation_aliases","exception_aliases","individual_determination_aliases","negation_aliases","disjunction_aliases","conjunction_aliases","comparison_aliases","contextual_aliases","intents"],
   "properties":{
     "schema_version":{"const":"1.0.0"},
     "protected_aliases":{"$ref":"#/$defs/aliases"},
     "broad_graduation_aliases":{"$ref":"#/$defs/aliases"},
     "exception_aliases":{"$ref":"#/$defs/aliases"},
+    "individual_determination_aliases":{"$ref":"#/$defs/aliases"},
     "negation_aliases":{"$ref":"#/$defs/aliases"},
     "disjunction_aliases":{"$ref":"#/$defs/aliases"},
     "conjunction_aliases":{"$ref":"#/$defs/aliases"},
     "comparison_aliases":{"$ref":"#/$defs/aliases"},
     "contextual_aliases":{"type":"object","minProperties":1,"additionalProperties":{"$ref":"#/$defs/aliases"},"propertyNames":{"type":"string","minLength":1,"pattern":"^\\S+$"}},
-    "intents":{"type":"array","minItems":15,"maxItems":15,"items":{"$ref":"#/$defs/intent"}}
+    "intents":{"type":"array","minItems":28,"maxItems":28,"items":{"$ref":"#/$defs/intent"}}
   },
   "$defs":{
     "aliases":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","minLength":1,"pattern":"^\\S+$"}},
