@@ -121,6 +121,12 @@ contracts:
     AcademicAnswerResponse:
       path: contracts/academic-answer-response.schema.json
       version: "1.0.0"
+    AcademicFeedbackRequest:
+      path: contracts/academic-feedback-request.schema.json
+      version: "1.0.0"
+    AcademicFeedbackResponse:
+      path: contracts/academic-feedback-response.schema.json
+      version: "1.0.0"
     AcademicIntentProfile:
       path: contracts/academic-intent-profile.schema.json
       version: "1.0.0"
@@ -234,6 +240,17 @@ validation:
       - security_response_headers
       - packaged_web_assets
       - openapi_docs_compatibility
+      - optional_credit_input_and_gap_calculation
+      - explicit_consent_local_feedback
+      - identifying_feedback_rejection
+  academic_usability_pilot:
+    command: python scripts/validation/validate_academic_usability.py --project .
+    checks:
+      - exact_30_realistic_question_scenarios
+      - supported_answers_have_approved_evidence
+      - unsupported_answers_have_no_rules_or_evidence
+      - four_credit_gap_calculations
+      - protected_and_scope_boundaries
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

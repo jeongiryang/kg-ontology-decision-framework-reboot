@@ -129,6 +129,20 @@ HTTP 400/422와 CLI exit 64는 고정된 `invalid request`만 반환하며 입�
 세부정보를 포함하지 않는다. 범위 밖 또는 레지스트리 장애 EvidencePacket은 사용자가 제출한
 학과 문자열 대신 고정된 `지원범위외` 표지를 사용한다.
 
+## AcademicFeedbackRequest와 AcademicFeedbackResponse
+
+근거 부족·충돌 답변을 보완 대상으로 남길 때만 사용하는 명시적 동의 계약이다. 범위 밖 응답은
+사용자가 제출한 원래 학과 값을 반향하지 않는 정책 때문에 저장 대상으로 받지 않는다.
+요청은 실제 답변의 `packet_id`, 비지원 상태, 질문, 당시의 비식별 학점 합계, 보완 유형과
+`consent_to_store=true`를 요구한다. 서버는 현재 엔진으로 답변을 다시 계산해 packet ID와 상태가
+일치할 때만 저장한다.
+`supported` 상태, 동의하지 않은 요청, 이름·학번·연락처·원본 성적표 표현은 저장하지 않고 422로
+거절한다. 응답은 질문을 반향하지 않고 비식별 `feedback_id`와 `stored=true`만 반환한다.
+
+저장 대상은 `.local/academic-feedback/feedback.jsonl`의 한 줄 JSON이며 공개 Git에서 제외된다.
+일반 답변 API는 계속 비저장이고, 웹 화면도 사용자가 동의 확인란과 저장 버튼을 직접 누르기
+전에는 어떤 질문도 피드백 파일에 기록하지 않는다.
+
 ## AcademicReviewPacket
 
 출처 적용 관계와 각 RuleFact의 관계·판정·해석을 사람이 전수 검수하기 위한 큐다.

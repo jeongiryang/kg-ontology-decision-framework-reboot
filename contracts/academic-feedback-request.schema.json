@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/academic-feedback-request.schema.json",
+  "title": "AcademicFeedbackRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "packet_id", "status", "question", "earned_credits", "category", "consent_to_store"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "packet_id": {"type": "string", "pattern": "^academic-[0-9a-f]{32}$"},
+    "status": {"enum": ["insufficient_evidence", "conflict"]},
+    "question": {"type": "string", "minLength": 1, "maxLength": 500},
+    "earned_credits": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0, "maximum": 500}
+    },
+    "category": {"enum": ["missing_evidence", "unclear_question", "scope_request", "other"]},
+    "consent_to_store": {"const": true}
+  }
+}

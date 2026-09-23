@@ -120,7 +120,22 @@ UI는 `supported`, `insufficient_evidence`, `conflict`, `out_of_scope`를 서로
 인터페이스가 아닌 `127.0.0.1`에 바인딩한다.
 
 웹 회귀 검사는 접근 가능한 입력 label과 live region, 고정 요청 범위, 네 상태 표현, 안전한
-`textContent` 렌더링, 근거 표시, 비저장 동작과 wheel 자산 포함을 확인한다.
+`textContent` 렌더링, 근거 표시, 선택적 학점 입력, 명시적 피드백 동의와 wheel 자산 포함을 확인한다.
+
+학점 입력은 승인된 11개 credit metric의 비식별 합계만 선택적으로 받는다. 빈 항목은 전송하지
+않고 질문에서 선택된 규칙과 관계없는 metric은 기존 엔진이 422로 거절한다. 부족분은 기존
+결정적 코어의 `max(0, required-earned)` 계산을 그대로 사용하며 UI가 별도 합계를 추론하지 않는다.
+
+근거 부족·충돌 답변의 보완 요청은 자동 수집하지 않는다. 사용자가 개인정보가 없음을 확인하고 저장
+버튼을 누를 때만 `POST /v1/academic/feedback`이 호출되며, 서버는 PII 패턴과 상태·동의 계약을
+검증하고 현재 엔진으로 packet ID와 비지원 상태를 재현한 뒤 Git 제외 경로
+`.local/academic-feedback/feedback.jsonl`에 append-only JSONL로 남긴다.
+응답에는 질문을 되돌려 보내지 않는다. `supported` 답변은 피드백 수집 대상이 아니다.
+
+학생 질문 형태를 재현한 30개 비식별 파일럿은
+`python scripts/validation/validate_academic_usability.py --project .`로 검증한다. 22개 supported는
+승인 규칙과 근거를 필수로 갖고, 6개 insufficient_evidence와 2개 out_of_scope는 규칙·인용이
+비어 있어야 한다. 이는 실제 학생 로그 분석 결과가 아니라 초기 사용성 시나리오다.
 
 학·석사 연계과정의 졸업논문 면제는 가능성만 설명하고 개인의 자동 면제로 확정하지 않는다.
 `저는 연계과정이라 졸업논문 면제인가요?`처럼 개인 토큰과 축약된 연계과정·논문/면제 문맥이

@@ -85,10 +85,14 @@ def _has_final_consonant(text: str) -> bool:
 
 
 def validate_request_safety(payload: AcademicAnswerRequest) -> None:
-    if _UNSAFE_QUESTION.search(payload.question) or any(ord(char) < 32 and char not in "\t\n\r" for char in payload.question):
-        raise ValueError("unsafe or identifying question content")
+    validate_public_text_safety(payload.question)
     if set(payload.earned_credits) - APPROVED_METRICS:
         raise ValueError("unknown earned-credit metric")
+
+
+def validate_public_text_safety(value: str) -> None:
+    if _UNSAFE_QUESTION.search(value) or any(ord(char) < 32 and char not in "\t\n\r" for char in value):
+        raise ValueError("unsafe or identifying question content")
 
 
 class AnswerEngine:

@@ -35,7 +35,7 @@
             <p class="step">01 · 질문</p>
             <h2>무엇이 궁금한가요?</h2>
           </div>
-          <span class="privacy-note">저장하지 않음</span>
+          <span class="privacy-note">자동 저장 안 함</span>
         </div>
 
         <form id="question-form" autocomplete="off" novalidate>
@@ -45,6 +45,24 @@
             <span id="question-help">개인정보나 성적표 내용은 입력하지 마세요.</span>
             <span id="question-count" aria-live="polite">0 / 500</span>
           </div>
+
+          <details class="credits-panel" id="credits-panel">
+            <summary>이수학점 입력해 부족분 계산하기 <span>선택사항</span></summary>
+            <p>질문과 관련된 항목만 입력하세요. 과목명이나 성적표 원문은 입력하지 않습니다.</p>
+            <div class="credits-grid">
+              <label>졸업 총학점<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.graduation.total" placeholder="예: 120"></label>
+              <label>졸업 잔여 영역<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.graduation.remaining" placeholder="예: 10"></label>
+              <label>교양 합계<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.general.total" placeholder="예: 30"></label>
+              <label>기초교양<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.general.foundation" placeholder="예: 6"></label>
+              <label>균형교양<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.general.balanced" placeholder="예: 9"></label>
+              <label>교양 잔여<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.general.remaining" placeholder="예: 10"></label>
+              <label>전공 합계<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.major.total" placeholder="예: 70"></label>
+              <label>전공필수<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.major.required" placeholder="예: 18"></label>
+              <label>전공선택<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.major.elective" placeholder="예: 20"></label>
+              <label>최소전공<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.major.minimum" placeholder="예: 40"></label>
+              <label>심화전공<input type="number" min="0" max="500" inputmode="numeric" data-credit-metric="credits.major.advanced" placeholder="예: 30"></label>
+            </div>
+          </details>
           <button class="submit-button" type="submit">
             <span>승인된 근거로 확인</span>
             <span aria-hidden="true">→</span>
@@ -102,6 +120,20 @@
             <h3>확인 필요</h3>
             <ul id="issues-list" class="detail-list issue-list"></ul>
           </section>
+          <section id="feedback-section" class="feedback-section" hidden aria-labelledby="feedback-title">
+            <h3 id="feedback-title">이 질문을 보완 대상으로 남기기</h3>
+            <p>명시적으로 저장할 때만 현재 질문과 응답 ID가 이 컴퓨터의 비공개 로컬 기록에 추가됩니다.</p>
+            <label for="feedback-category">보완 유형</label>
+            <select id="feedback-category">
+              <option value="missing_evidence">공식 근거가 더 필요함</option>
+              <option value="unclear_question">질문 표현 지원이 필요함</option>
+              <option value="scope_request">지원 범위 확대가 필요함</option>
+              <option value="other">기타</option>
+            </select>
+            <label class="consent-row"><input id="feedback-consent" type="checkbox"> 개인정보가 없는 질문임을 확인했습니다.</label>
+            <button id="feedback-submit" class="secondary-button" type="button" disabled>보완 요청 저장</button>
+            <p id="feedback-message" class="feedback-message" role="status" aria-live="polite"></p>
+          </section>
           <p id="packet-id" class="packet-id"></p>
         </div>
       </div>
@@ -118,7 +150,7 @@
 
   <footer>
     <p>본 서비스는 승인된 2026학년도 컴퓨터공학과 교육과정 근거만 사용합니다.</p>
-    <p>질문과 답변은 브라우저나 서버에 별도로 저장하지 않습니다.</p>
+    <p>질문은 자동 저장하지 않으며, 보완 요청 버튼을 누른 경우에만 비공개 로컬 기록에 저장합니다.</p>
   </footer>
 </body>
 </html>

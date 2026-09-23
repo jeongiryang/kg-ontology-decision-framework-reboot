@@ -11,12 +11,13 @@ import hashlib
 from functools import lru_cache
 
 from .core import AnswerEngine, SANITIZED_DEPARTMENT, canonical_response_json, validate_request_safety
-from .models import AcademicAnswerRequest, AcademicAnswerResponse
+from .feedback import store_feedback
+from .models import AcademicAnswerRequest, AcademicAnswerResponse, AcademicFeedbackRequest, AcademicFeedbackResponse
 from .registry import Registry, RegistryUnavailable
 
 app = FastAPI(
     title="Academic Assistant",
-    version="1.0.0",
+    version="1.1.0",
 )
 
 _SECURITY_HEADERS = {
@@ -112,3 +113,27 @@ def create_answer(request: AcademicAnswerRequest):
     except ValueError:
         return _invalid_response()
     return Response(canonical_response_json(result), status_code=200, media_type="application/json")
+
+
+@app.post("/v1/academic/feedback", response_model=AcademicFeedbackResponse, status_code=201)
+def create_feedback(request: AcademicFeedbackRequest):
+    try:
+        answer_request = AcademicAnswerRequest(
+            question=request.question,
+            admission_year=2026,
+            matched_curriculum_year=2026,
+            department="컴퓨터공학과",
+            earned_credits=request.earned_credits,
+        )
+        validate_request_safety(answer_request)
+        answer = _engine().answer(answer_request)
+        if answer.packet_id != request.packet_id or answer.status != request.status or answer.status == "supported":
+            raise ValueError("feedback does not match a current unsupported answer")
+        result = store_feedback(request)
+    except RegistryUnavailable:
+        return Response('{"detail":"service unavailable"}', status_code=503, media_type="application/json")
+    except ValueError:
+        return _invalid_response()
+    except OSError:
+        return Response('{"detail":"service unavailable"}', status_code=503, media_type="application/json")
+    return result

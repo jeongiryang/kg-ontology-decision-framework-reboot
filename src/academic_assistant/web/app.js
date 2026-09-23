@@ -10,6 +10,14 @@ const badge = document.getElementById("status-badge");
 const emptyState = document.getElementById("empty-state");
 const loadingState = document.getElementById("loading-state");
 const result = document.getElementById("result");
+const creditInputs = Array.from(document.querySelectorAll("[data-credit-metric]"));
+const feedbackSection = document.getElementById("feedback-section");
+const feedbackCategory = document.getElementById("feedback-category");
+const feedbackConsent = document.getElementById("feedback-consent");
+const feedbackSubmit = document.getElementById("feedback-submit");
+const feedbackMessage = document.getElementById("feedback-message");
+let latestResponse = null;
+let latestRequest = null;
 
 const statusLabels = {
   supported: "근거 확인",
@@ -116,6 +124,11 @@ function renderResponse(data) {
   renderList("issues-section", "issues-list", Array.isArray(packet.issues) ? packet.issues : [], (issue) =>
     makeListItem(issue.message || "추가 확인이 필요합니다.", issue.kind ? `분류 · ${issue.kind}` : "")
   );
+  latestResponse = data;
+  feedbackSection.hidden = !["insufficient_evidence", "conflict"].includes(data.status);
+  feedbackConsent.checked = false;
+  feedbackSubmit.disabled = true;
+  feedbackMessage.textContent = "";
   heading.focus();
 }
 
@@ -129,7 +142,27 @@ function renderError() {
   renderList("evidence-section", "evidence-list", [], () => null);
   renderList("rules-section", "rules-list", [], () => null);
   renderList("issues-section", "issues-list", [], () => null);
+  latestResponse = null;
+  latestRequest = null;
+  feedbackSection.hidden = true;
   heading.focus();
+}
+
+function readCredits() {
+  const credits = {};
+  for (const input of creditInputs) {
+    const raw = input.value.trim();
+    if (!raw) continue;
+    const value = Number(raw);
+    if (!Number.isInteger(value) || value < 0 || value > 500) {
+      input.setCustomValidity("0부터 500 사이의 정수 학점을 입력해 주세요.");
+      input.reportValidity();
+      input.setCustomValidity("");
+      return null;
+    }
+    credits[input.dataset.creditMetric] = value;
+  }
+  return credits;
 }
 
 async function askAcademicQuestion(event) {
@@ -141,6 +174,8 @@ async function askAcademicQuestion(event) {
     question.setCustomValidity("");
     return;
   }
+  const earnedCredits = readCredits();
+  if (earnedCredits === null) return;
   showLoading();
   try {
     const response = await fetch("/v1/academic/answers", {
@@ -154,11 +189,12 @@ async function askAcademicQuestion(event) {
         admission_year: 2026,
         matched_curriculum_year: 2026,
         department: "컴퓨터공학과",
-        earned_credits: {},
+        earned_credits: earnedCredits,
       }),
     });
     const data = await response.json();
     if (!data || typeof data !== "object" || !data.status || !data.evidence_packet) throw new Error("invalid response");
+    latestRequest = {question: value, earned_credits: {...earnedCredits}};
     renderResponse(data);
   } catch (_error) {
     renderError();
@@ -185,3 +221,37 @@ document.querySelectorAll("[data-question]").forEach((button) => {
 });
 
 form.addEventListener("submit", askAcademicQuestion);
+
+feedbackConsent.addEventListener("change", () => {
+  feedbackSubmit.disabled = !feedbackConsent.checked;
+});
+
+feedbackSubmit.addEventListener("click", async () => {
+  if (!feedbackConsent.checked || !latestResponse || !latestRequest || !["insufficient_evidence", "conflict"].includes(latestResponse.status)) return;
+  feedbackSubmit.disabled = true;
+  feedbackMessage.textContent = "저장 중입니다.";
+  try {
+    const response = await fetch("/v1/academic/feedback", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      cache: "no-store",
+      credentials: "omit",
+      body: JSON.stringify({
+        schema_version: "1.0.0",
+        packet_id: latestResponse.packet_id,
+        status: latestResponse.status,
+        question: latestRequest.question,
+        earned_credits: latestRequest.earned_credits,
+        category: feedbackCategory.value,
+        consent_to_store: true,
+      }),
+    });
+    if (response.status !== 201) throw new Error("feedback rejected");
+    const data = await response.json();
+    if (!data.feedback_id || data.stored !== true) throw new Error("invalid feedback response");
+    feedbackMessage.textContent = "보완 요청을 비공개 로컬 기록에 저장했습니다.";
+  } catch (_error) {
+    feedbackMessage.textContent = "저장하지 못했습니다. 개인정보 포함 여부를 확인한 뒤 다시 시도해 주세요.";
+    feedbackSubmit.disabled = false;
+  }
+});

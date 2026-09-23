@@ -60,6 +60,8 @@ jobs:
         run: python scripts/validation/validate_academic_research.py --project .
       - name: Validate deterministic academic answer engine and 184-case evaluation set
         run: python scripts/validation/validate_academic_answer_engine.py --project .
+      - name: Validate 30-case academic web usability pilot
+        run: python scripts/validation/validate_academic_usability.py --project .
       - name: Render every harness Mermaid block
         run: >-
           python scripts/validation/render_mermaid.py

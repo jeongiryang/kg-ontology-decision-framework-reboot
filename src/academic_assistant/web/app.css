@@ -30,7 +30,7 @@ body {
   min-height: 100vh;
 }
 
-button, textarea { font: inherit; }
+button, textarea, input, select { font: inherit; }
 button { color: inherit; }
 
 .skip-link {
@@ -116,6 +116,14 @@ textarea {
 textarea:focus { border-color: var(--green); box-shadow: 0 0 0 .22rem rgba(23, 76, 60, .13); }
 textarea::placeholder { color: #8b938c; }
 .field-meta { display: flex; justify-content: space-between; gap: 1rem; margin-top: .45rem; color: var(--muted); font-size: .76rem; }
+.credits-panel { margin-top: 1rem; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: .8rem; background: #fafbf8; }
+.credits-panel summary { cursor: pointer; font-weight: 800; }
+.credits-panel summary span { margin-left: .35rem; color: var(--muted); font-size: .72rem; font-weight: 600; }
+.credits-panel > p { margin: .55rem 0 .85rem; color: var(--muted); font-size: .76rem; }
+.credits-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+.credits-grid label { margin: 0; color: var(--muted); font-size: .74rem; }
+.credits-grid input, .feedback-section select { width: 100%; margin-top: .25rem; padding: .55rem .65rem; color: var(--ink); background: white; border: 1px solid #bfc4ba; border-radius: .55rem; }
+.credits-grid input:focus, .feedback-section select:focus { border-color: var(--green); box-shadow: 0 0 0 .18rem rgba(23,76,60,.12); outline: none; }
 .submit-button {
   width: 100%;
   display: flex;
@@ -163,6 +171,15 @@ textarea::placeholder { color: #8b938c; }
 .detail-list strong, .detail-list span { display: block; overflow-wrap: anywhere; }
 .detail-list span { margin-top: .18rem; color: var(--muted); font-size: .78rem; }
 .issue-list li { border-left: .22rem solid var(--amber); }
+.feedback-section { margin-top: 1.4rem; padding: 1rem; border: 1px dashed #c7b98f; border-radius: .75rem; background: #fffaf0; }
+.feedback-section h3 { margin: 0 0 .35rem; font-size: .88rem; }
+.feedback-section > p { margin: 0 0 .8rem; color: var(--muted); font-size: .76rem; }
+.feedback-section > label:not(.consent-row) { margin-bottom: .3rem; font-size: .76rem; }
+.consent-row { display: flex; align-items: flex-start; gap: .45rem; margin: .8rem 0; font-size: .76rem; font-weight: 650; }
+.consent-row input { margin-top: .25rem; }
+.secondary-button { padding: .6rem .8rem; color: var(--green); background: white; border: 1px solid var(--green); border-radius: .6rem; font-weight: 800; cursor: pointer; }
+.secondary-button:disabled { color: var(--muted); border-color: var(--line); cursor: not-allowed; }
+.feedback-message { margin: .55rem 0 0 !important; min-height: 1.2rem; }
 .calculation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .55rem; }
 .calculation { padding: .85rem; background: white; border: 1px solid var(--line); border-radius: .65rem; }
 .calculation span { display: block; color: var(--muted); font-size: .72rem; overflow-wrap: anywhere; }
@@ -194,4 +211,5 @@ footer p { margin: 0; }
   .hero { padding-top: 3.5rem; }
   .panel-heading { flex-direction: column; }
   .field-meta { flex-direction: column; gap: .15rem; }
+  .credits-grid { grid-template-columns: 1fr; }
 }

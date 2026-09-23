@@ -91,3 +91,39 @@ class AcademicAnswerResponse(BaseModel):
     intent_ids: list[str]
     calculations: list[Calculation]
     evidence_packet: EvidencePacket
+
+
+class AcademicFeedbackRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    packet_id: str = Field(pattern=r"^academic-[0-9a-f]{32}$")
+    status: Literal["insufficient_evidence", "conflict"]
+    question: str = Field(min_length=1, max_length=500)
+    earned_credits: dict[str, StrictInt] = Field(default_factory=dict)
+    category: Literal["missing_evidence", "unclear_question", "scope_request", "other"]
+    consent_to_store: Literal[True]
+
+    @field_validator("question")
+    @classmethod
+    def trim_feedback_question(cls, value: str) -> str:
+        trimmed = value.strip()
+        if not trimmed:
+            raise ValueError("must not be blank")
+        return trimmed
+
+    @field_validator("earned_credits")
+    @classmethod
+    def validate_feedback_credits(cls, value: dict[str, int]) -> dict[str, int]:
+        for metric, credits in value.items():
+            if not metric or credits < 0 or credits > 500:
+                raise ValueError("invalid earned-credit metric or value")
+        return dict(sorted(value.items()))
+
+
+class AcademicFeedbackResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    feedback_id: str
+    stored: Literal[True] = True

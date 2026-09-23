@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/academic-feedback-response.schema.json",
+  "title": "AcademicFeedbackResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "feedback_id", "stored"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "feedback_id": {"type": "string", "pattern": "^feedback-[0-9a-f]{24}$"},
+    "stored": {"const": true}
+  }
+}
