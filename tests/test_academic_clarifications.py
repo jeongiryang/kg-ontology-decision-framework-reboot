@@ -327,7 +327,7 @@ class AcademicClarificationValidationTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             project = Path(temp)
             self.make_project(project)
-            review_path = next((project / "reviews/academic").glob("*.json"))
+            review_path = project / "reviews/academic/2026-curriculum-initial-rules.json"
             review = json.loads(review_path.read_text(encoding="utf-8"))
             review["notes"].append("changed")
             review_path.write_text(json.dumps(review, ensure_ascii=False), encoding="utf-8")
