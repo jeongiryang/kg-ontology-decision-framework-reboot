@@ -4,7 +4,7 @@
     {
       "role": "main_orchestrator",
       "status": "completed",
-      "summary": "서브에이전트 스레드 한도로 새 자식을 만들 수 없어 메인 세션이 탐색, 구현, 브라우저 검증과 전체 회귀 검사를 순차 수행했다.",
+      "summary": "스레드 한도로 새 자식을 만들 수 없어 메인 세션이 구현, 브라우저 검증과 전체 회귀 검사를 순차 수행했다.",
       "task_id": "sequential-implementation-and-verification"
     }
   ],
@@ -32,7 +32,7 @@
     {
       "kind": "security",
       "path": "src/academic_assistant/api.py",
-      "summary": "피드백 저장 전에 현재 엔진으로 질문을 다시 판정해 packet ID와 비지원 상태를 검증하고 PII·동의 누락·supported·범위 밖 요청을 거절한다."
+      "summary": "질문 재판정 후 packet ID·상태가 일치할 때만 저장하며 PII·동의 누락·지원·범위 밖 요청을 거절한다."
     },
     {
       "kind": "added",
@@ -53,6 +53,11 @@
       "kind": "documentation",
       "path": "docs/harness/decisions/0011-opt-in-local-feedback.md",
       "summary": "자동 수집을 금지하고 명시적 동의가 있는 근거 부족·충돌 질문만 로컬 저장하는 결정을 기록했다."
+    },
+    {
+      "kind": "fixed",
+      "path": "tests/test_academic_clarifications.py",
+      "summary": "검수 스냅샷 변조 테스트가 운영체제별 파일 열거 순서에 의존하지 않도록 대상 검수 파일을 명시했다."
     }
   ],
   "checks": [
@@ -117,17 +122,17 @@
   "git": {
     "base_commit": "58739b456ebcfb38b4e4ba370e59ca9b24523272",
     "branch": "main",
-    "head_commit": "b61bc9bd3f15ea7d90d7036c85ee824094aa3b82"
+    "head_commit": "4fc50f706cf9c86de6b8aa9210516451d0d0f1aa"
   },
   "harness_version": "1.0.0+codex-harness.79b82281",
   "issues": [
     {
-      "message": "30개 질문은 실제 학생 대화 로그가 아니라 학생 표현을 재현한 비식별 초기 시나리오이며, 명시적 피드백이 축적되면 별도 검수 후 평가셋을 갱신해야 한다.",
+      "message": "30개 질문은 실제 학생 로그가 아닌 비식별 초기 시나리오이며, 피드백 축적 후 별도 검수해 평가셋을 갱신해야 한다.",
       "owner": "project_owner",
       "severity": "info"
     },
     {
-      "message": "공모전·캡스톤·졸업작품·PCCP는 계속 공식 근거가 없어 insufficient_evidence로 유지하며 피드백 기록 자체는 학사 근거가 아니다.",
+      "message": "공모전·캡스톤·졸업작품·PCCP는 근거 부족 상태이며 피드백 기록은 학사 근거가 아니다.",
       "owner": "academic_assistant",
       "severity": "warning"
     },

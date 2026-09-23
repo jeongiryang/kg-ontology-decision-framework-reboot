@@ -5,7 +5,7 @@
 - 하네스 버전: `1.0.0+codex-harness.79b82281`
 - 브랜치: `main`
 - 기준 커밋: `58739b456ebcfb38b4e4ba370e59ca9b24523272`
-- 결과 커밋: `b61bc9bd3f15ea7d90d7036c85ee824094aa3b82`
+- 결과 커밋: `4fc50f706cf9c86de6b8aa9210516451d0d0f1aa`
 
 ## 요청
 
@@ -23,17 +23,18 @@
 | added | `scripts/validation/validate_academic_usability.py` | 30개 시나리오의 상태·의도·근거 유무와 4개 학점 부족분을 결정적으로 검증한다. |
 | changed | `src/academic_assistant/web/` | 11개 비식별 이수학점 입력, 부족분 표시와 근거 부족·충돌 답변의 명시적 피드백 동의 화면을 추가했다. |
 | added | `src/academic_assistant/feedback.py` | 사용자가 동의한 보완 질문만 Git 제외 로컬 JSONL에 append-only 방식으로 저장한다. |
-| security | `src/academic_assistant/api.py` | 피드백 저장 전에 현재 엔진으로 질문을 다시 판정해 packet ID와 비지원 상태를 검증하고 PII·동의 누락·supported·범위 밖 요청을 거절한다. |
+| security | `src/academic_assistant/api.py` | 질문 재판정 후 packet ID·상태가 일치할 때만 저장하며 PII·동의 누락·지원·범위 밖 요청을 거절한다. |
 | added | `contracts/academic-feedback-request.schema.json` | 동의, 질문, 당시 학점 합계, packet ID, 비지원 상태와 보완 유형을 제한하는 피드백 요청 계약을 추가했다. |
 | added | `contracts/academic-feedback-response.schema.json` | 질문을 반향하지 않고 feedback ID와 저장 여부만 반환하는 응답 계약을 추가했다. |
 | documentation | `reports/evaluations/2026-web-usability-pilot.md` | 30개 질문 파일럿의 구성, 결과 분포와 재현 명령을 공개용으로 정리했다. |
 | documentation | `docs/harness/decisions/0011-opt-in-local-feedback.md` | 자동 수집을 금지하고 명시적 동의가 있는 근거 부족·충돌 질문만 로컬 저장하는 결정을 기록했다. |
+| fixed | `tests/test_academic_clarifications.py` | 검수 스냅샷 변조 테스트가 운영체제별 파일 열거 순서에 의존하지 않도록 대상 검수 파일을 명시했다. |
 
 ## 에이전트 결과
 
 | 역할 | 작업 | 상태 | 결과 |
 |---|---|---|---|
-| main_orchestrator | sequential-implementation-and-verification | completed | 서브에이전트 스레드 한도로 새 자식을 만들 수 없어 메인 세션이 탐색, 구현, 브라우저 검증과 전체 회귀 검사를 순차 수행했다. |
+| main_orchestrator | sequential-implementation-and-verification | completed | 스레드 한도로 새 자식을 만들 수 없어 메인 세션이 구현, 브라우저 검증과 전체 회귀 검사를 순차 수행했다. |
 
 ## 검사 결과
 
@@ -55,8 +56,8 @@
 
 ## 이슈 및 남은 작업
 
-- **info**: 30개 질문은 실제 학생 대화 로그가 아니라 학생 표현을 재현한 비식별 초기 시나리오이며, 명시적 피드백이 축적되면 별도 검수 후 평가셋을 갱신해야 한다.
-- **warning**: 공모전·캡스톤·졸업작품·PCCP는 계속 공식 근거가 없어 insufficient_evidence로 유지하며 피드백 기록 자체는 학사 근거가 아니다.
+- **info**: 30개 질문은 실제 학생 로그가 아닌 비식별 초기 시나리오이며, 피드백 축적 후 별도 검수해 평가셋을 갱신해야 한다.
+- **warning**: 공모전·캡스톤·졸업작품·PCCP는 근거 부족 상태이며 피드백 기록은 학사 근거가 아니다.
 - **info**: 범위 밖 응답은 원래 학과 값을 반향하지 않는 보안 정책 때문에 피드백 저장 대상으로 받지 않는다.
 
 ## 공개 정보
