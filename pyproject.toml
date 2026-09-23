@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "academic-assistant"
-version = "0.1.0"
+version = "0.2.0"
 description = "Deterministic, evidence-grounded 2026 Computer Engineering academic answer engine"
 requires-python = ">=3.12,<3.13"
 dependencies = [
@@ -22,4 +22,3 @@ academic-assistant = "academic_assistant.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/academic_assistant"]
-

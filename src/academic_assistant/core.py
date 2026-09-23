@@ -247,6 +247,14 @@ class AnswerEngine:
             offset += len(token)
         marker_offsets = [token_offsets[index] for index in marker_indexes]
         window = "".join(tokens)
+        linked_exemption_shorthand = (
+            "연계과정" in window
+            and "학석사연계과정" not in window
+            and "연계과정생" not in window
+            and ("논문" in window or "면제" in window)
+        )
+        if linked_exemption_shorthand:
+            return True
         linked_exemption_context = (
             ("학석사연계과정" in window or "연계과정생" in window)
             and "면제" in window

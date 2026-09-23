@@ -20,9 +20,10 @@
 - 근거·선택지·영향을 최대 3개씩 제시하는 읽기 전용 `academic_review_facilitator`와 `academic-clarification` 스킬
 - 세션 범위 권한과 응답 감사를 기록하는 `AcademicClarificationPacket`, 의미 검증기와 최초 14개 대상 질문 패킷
 - 미확인 학사 운영요건을 답변 지식과 분리하는 `AcademicResearchItem`, 조사 대기목록과 공개 GitHub 이슈
-- 승인된 26개 규칙을 사용하는 결정론적 학사 답변 코어, FastAPI/CLI 어댑터와 182개 회귀 평가셋
+- 승인된 26개 규칙을 사용하는 결정론적 학사 답변 코어, FastAPI/CLI 어댑터와 184개 회귀 평가셋
 - 26개 규칙·출처 2건·연구 항목·intent profile의 신뢰 digest pin과 완전한 intent profile 계약
 - 학과 확인용 SourceEntry 1건과 교양·전공·0학점·전과·재수강·동일/대체교과목 RuleFact 13건
+- 고정된 2026학번·2026 교육과정·컴퓨터공학과 범위를 표시하고 답변 상태·계산·규칙·근거 위치를 안전하게 렌더링하는 localhost no-build 웹 프로토타입
 
 ### Changed
 
@@ -54,6 +55,8 @@
 - `전선`의 일반 `기준` 문맥과 더 큰 단어에 포함된 접속사 문자열을 승인 신호에서 제외
 - 다중 intent 사이의 전체 연결 구간이 정확한 승인 접속사일 때만 규칙을 함께 적용
 - CLI에 `--year`와 반복 가능한 `--credits` 단축 옵션을 추가하고 기존 옵션과의 충돌을 차단
+- 웹/API/정적 자산 응답에 CSP, `no-store`, `nosniff`, `no-referrer`를 적용하고 외부 자산·추적·브라우저 저장을 사용하지 않도록 제한
+- 축약된 `연계과정` 표현도 개인 토큰과 논문·면제 문맥이 함께 있으면 근거 없는 개인 면제 판정을 차단하고, OpenAPI·Swagger·ReDoc 호환 경로를 복원
 
 ### Known limitations
 

@@ -190,6 +190,8 @@
     {"id":"ir29-negative-01","category":"fail-closed-boundary","question":"저는 학석사 연계과정 논문 면제 정책은 어떻게 되나요? 대상인가요?","expected_status":"insufficient_evidence"},
     {"id":"ir29-negative-02","category":"fail-closed-boundary","question":"저는 동일교과목 정책은 어떻게 계산하나요? 두 과목도 동일교과목인가요?","expected_status":"insufficient_evidence"},
     {"id":"ir29-negative-03","category":"fail-closed-boundary","question":"저는 이수 후 동일 지정 과목의 소급 정책은 어떻게 적용되나요? 이 과목도 소급 대상인가요?","expected_status":"insufficient_evidence"},
+    {"id":"web-v2-personal-01","category":"fail-closed-boundary","question":"저는 연계과정이라 졸업논문 면제인가요?","expected_status":"insufficient_evidence"},
+    {"id":"web-v2-control-01","category":"ta-confirmed","question":"연계과정 논문 면제 정책은 무엇인가요?","expected_status":"supported","expected_intents":["graduation.thesis.linked-program-exemption"]},
 
     {"id":"invalid-01","category":"privacy-invalid","question":"학번 2026123456의 졸업학점","expected_error":"invalid_request"},
     {"id":"invalid-02","category":"privacy-invalid","question":"졸업학점","earned_credits":{"unknown.metric":10},"expected_error":"invalid_request"}

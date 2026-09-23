@@ -14,6 +14,17 @@ academic-assistant ask --year 2026 --department 컴퓨터공학과 --question "�
 uvicorn academic_assistant.api:app --host 127.0.0.1 --port 8000
 ```
 
+서버를 실행한 뒤 `http://127.0.0.1:8000/`에서 빌드 도구가 필요 없는 한국어 웹
+프로토타입을 사용할 수 있습니다. 화면의 범위는 `2026학번 · 2026 교육과정 · 컴퓨터공학과`로
+고정되어 있으며 사용자가 편집할 수 있는 값은 질문뿐입니다. 답변은 네 상태와 함께 계산,
+적용 규칙, 실제 API가 반환한 근거 위치와 확인 필요 사항을 구분해 표시합니다.
+
+웹 자산은 설치 패키지에 포함되며 외부 스크립트·글꼴·추적기를 불러오지 않습니다. 질문과
+응답을 브라우저 저장소에 보존하지 않고 모든 웹/API 응답에 `no-store`, CSP, `nosniff`,
+`no-referrer` 보호 헤더를 적용합니다. 기존 `/openapi.json`, `/docs`, `/redoc` API 문서 경로도
+유지하며 문서 화면에만 필요한 CDN 출처를 제한적으로 허용합니다. localhost 전용 실행을 유지하려면 예시처럼
+`--host 127.0.0.1`로 바인딩하세요.
+
 `--credits METRIC=VALUE`는 여러 번 사용할 수 있습니다. 기존 `--admission-year`,
 `--curriculum-year`, `--earned-credit`도 호환되지만 `--year`와 값이 충돌하거나 같은 metric이
 중복되면 입력 오류로 종료합니다.
@@ -69,8 +80,8 @@ docs/harness/        하네스 설계와 ADR
 scripts/reporting/   정제 Markdown/PDF 보고서 생성
 reports/             공개 가능한 실행 보고서
 tests/               하네스·계약·보고 검증
-src/academic_assistant/ 결정론적 코어와 FastAPI/CLI 어댑터
-evaluations/         182개 학사 답변 회귀 사례
+src/academic_assistant/ 결정론적 코어, FastAPI/CLI 어댑터와 no-build 웹 UI
+evaluations/         184개 학사 답변 회귀 사례
 ```
 
 ## 공개 범위와 라이선스

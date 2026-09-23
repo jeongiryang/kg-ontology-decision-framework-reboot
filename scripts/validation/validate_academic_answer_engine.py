@@ -16,8 +16,8 @@ EXPECTED = {
     "unverified-practice": 3,
     "scope-unsupported": 4,
     "ambiguity-conflict": 2,
-    "ta-confirmed": 47,
-    "fail-closed-boundary": 87,
+    "ta-confirmed": 48,
+    "fail-closed-boundary": 88,
     "privacy-invalid": 2,
 }
 

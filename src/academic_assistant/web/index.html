@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>컴퓨터공학과 학사 안내</title>
+  <link rel="stylesheet" href="/assets/app.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#question">질문 입력으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="brand" aria-label="학사 안내 홈">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span>Academic Guide</span>
+    </div>
+    <div class="scope-pill" aria-label="고정 지원 범위">
+      <span class="scope-dot" aria-hidden="true"></span>
+      2026학번 · 2026 교육과정 · 컴퓨터공학과
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">EVIDENCE-GROUNDED ACADEMIC ASSISTANT</p>
+      <h1 id="page-title">학사 기준을<br><em>근거와 함께</em> 확인하세요.</h1>
+      <p class="lede">승인된 교육과정 규칙만 적용하는 결정론적 안내입니다. 답변 근거가 부족하거나 개인 판정이 필요한 경우에는 추정하지 않습니다.</p>
+    </section>
+
+    <section class="workspace" aria-label="학사 질문과 답변">
+      <div class="ask-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="step">01 · 질문</p>
+            <h2>무엇이 궁금한가요?</h2>
+          </div>
+          <span class="privacy-note">저장하지 않음</span>
+        </div>
+
+        <form id="question-form" autocomplete="off" novalidate>
+          <label for="question">학사 질문</label>
+          <textarea id="question" name="question" rows="5" minlength="1" maxlength="500" required placeholder="예: 졸업학점 기준은 몇 학점인가요?" aria-describedby="question-help question-count"></textarea>
+          <div class="field-meta">
+            <span id="question-help">개인정보나 성적표 내용은 입력하지 마세요.</span>
+            <span id="question-count" aria-live="polite">0 / 500</span>
+          </div>
+          <button class="submit-button" type="submit">
+            <span>승인된 근거로 확인</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <p class="shortcut">Windows: Ctrl + Enter · macOS: ⌘ + Enter</p>
+        </form>
+
+        <div class="examples" aria-labelledby="examples-title">
+          <p id="examples-title">질문 예시</p>
+          <div class="example-list">
+            <button type="button" data-question="졸업학점 기준은 몇 학점인가요?">졸업학점 기준</button>
+            <button type="button" data-question="재수강하면 학점이 중복 계산되나요?">재수강 계산</button>
+            <button type="button" data-question="졸업논문이 0학점이어도 필수인가요?">졸업논문 이수</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="answer-panel" id="answer-panel" aria-busy="false">
+        <div class="panel-heading">
+          <div>
+            <p class="step">02 · 답변</p>
+            <h2 id="result-heading" tabindex="-1">근거 확인 결과</h2>
+          </div>
+          <span id="status-badge" class="status-badge status-idle">대기 중</span>
+        </div>
+
+        <div id="empty-state" class="empty-state">
+          <div class="empty-symbol" aria-hidden="true">⌁</div>
+          <p>질문을 입력하면 답변 상태와 적용 규칙,<br>근거 위치를 이곳에서 확인할 수 있습니다.</p>
+        </div>
+
+        <div id="loading-state" class="loading-state" hidden role="status" aria-live="polite">
+          <span class="spinner" aria-hidden="true"></span>
+          승인된 규칙을 확인하고 있습니다.
+        </div>
+
+        <div id="result" class="result" hidden aria-live="polite" aria-atomic="false">
+          <section class="answer-card" aria-labelledby="answer-title">
+            <h3 id="answer-title">안내</h3>
+            <p id="answer-text"></p>
+          </section>
+          <section id="calculations-section" class="detail-section" hidden>
+            <h3>계산</h3>
+            <div id="calculations" class="calculation-grid"></div>
+          </section>
+          <section id="evidence-section" class="detail-section" hidden>
+            <h3>근거 위치</h3>
+            <ul id="evidence-list" class="detail-list"></ul>
+          </section>
+          <section id="rules-section" class="detail-section" hidden>
+            <h3>적용 규칙</h3>
+            <ul id="rules-list" class="detail-list"></ul>
+          </section>
+          <section id="issues-section" class="detail-section" hidden>
+            <h3>확인 필요</h3>
+            <ul id="issues-list" class="detail-list issue-list"></ul>
+          </section>
+          <p id="packet-id" class="packet-id"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="boundary-note" aria-labelledby="boundary-title">
+      <div aria-hidden="true">!</div>
+      <div>
+        <h2 id="boundary-title">답변할 수 없는 범위도 명확히 표시합니다.</h2>
+        <p>PCCP, 캡스톤, 공모전, 졸업작품 운영 관행과 개인별 면제·소급 적용 판정은 현재 공식 근거가 충분하지 않아 보류됩니다.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>본 서비스는 승인된 2026학년도 컴퓨터공학과 교육과정 근거만 사용합니다.</p>
+    <p>질문과 답변은 브라우저나 서버에 별도로 저장하지 않습니다.</p>
+  </footer>
+</body>
+</html>

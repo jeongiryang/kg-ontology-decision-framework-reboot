@@ -34,6 +34,20 @@ jobs:
         run: npm install --global @mermaid-js/mermaid-cli@11.12.0
       - name: Run unit tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Build wheel and verify packaged web assets
+        run: |
+          python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/wheel"
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          wheel = next(Path(__import__('os').environ['RUNNER_TEMP'], 'wheel').glob('*.whl'))
+          with ZipFile(wheel) as archive:
+              names = set(archive.namelist())
+          required = {f'academic_assistant/web/{name}' for name in ('index.html', 'app.css', 'app.js')}
+          missing = required - names
+          if missing:
+              raise SystemExit(f'missing packaged web assets: {sorted(missing)}')
+          PY
       - name: Validate Codex harness structure
         run: python .agents/skills/harness/scripts/validate.py --project .
       - name: Validate harness manifest synchronization and JSON Schema meta-schemas
@@ -44,7 +58,7 @@ jobs:
         run: python scripts/validation/validate_academic_clarifications.py --project .
       - name: Validate unverified academic research isolation
         run: python scripts/validation/validate_academic_research.py --project .
-      - name: Validate deterministic academic answer engine and 182-case evaluation set
+      - name: Validate deterministic academic answer engine and 184-case evaluation set
         run: python scripts/validation/validate_academic_answer_engine.py --project .
       - name: Render every harness Mermaid block
         run: >-

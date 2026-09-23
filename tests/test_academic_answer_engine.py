@@ -201,6 +201,19 @@ class AcademicAnswerEngineTests(unittest.TestCase):
                 self.assertEqual(["graduation.thesis.linked-program-exemption"], result.intent_ids)
                 self.assertIn("면제가 가능하지만 자동 면제로 판정하지 않는다", result.answer)
 
+    def test_linked_program_shorthand_personal_question_fails_closed(self) -> None:
+        personal = self.engine.answer(request("저는 연계과정이라 졸업논문 면제인가요?"))
+        self.assertEqual("insufficient_evidence", personal.status)
+        self.assertEqual([], personal.intent_ids)
+        self.assertEqual([], personal.evidence_packet.applied_rules)
+        self.assertEqual([], personal.evidence_packet.evidence)
+
+        policy = self.engine.answer(request("연계과정 논문 면제 정책은 무엇인가요?"))
+        self.assertEqual("supported", policy.status)
+        self.assertEqual(["graduation.thesis.linked-program-exemption"], policy.intent_ids)
+        self.assertTrue(policy.evidence_packet.applied_rules)
+        self.assertTrue(policy.evidence_packet.evidence)
+
     def test_personal_detection_is_intent_aware(self) -> None:
         personal = (
             "저한테도 학석사 연계과정 논문 면제가 적용되나요?",

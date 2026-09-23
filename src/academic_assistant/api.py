@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException
+from importlib.resources import files
+
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import Response
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -12,7 +14,59 @@ from .core import AnswerEngine, SANITIZED_DEPARTMENT, canonical_response_json, v
 from .models import AcademicAnswerRequest, AcademicAnswerResponse
 from .registry import Registry, RegistryUnavailable
 
-app = FastAPI(title="Academic Assistant", version="1.0.0")
+app = FastAPI(
+    title="Academic Assistant",
+    version="1.0.0",
+)
+
+_SECURITY_HEADERS = {
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": (
+        "default-src 'none'; base-uri 'none'; connect-src 'self'; "
+        "form-action 'self'; frame-ancestors 'none'; img-src 'self'; "
+        "script-src 'self'; style-src 'self'"
+    ),
+    "Referrer-Policy": "no-referrer",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+}
+_DOCS_CSP = (
+    "default-src 'none'; base-uri 'none'; connect-src 'self'; frame-ancestors 'none'; "
+    "font-src https://cdn.jsdelivr.net https://fonts.gstatic.com; "
+    "img-src 'self' data: https://fastapi.tiangolo.com; "
+    "script-src 'unsafe-inline' https://cdn.jsdelivr.net; "
+    "style-src 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com"
+)
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    for name, value in _SECURITY_HEADERS.items():
+        response.headers[name] = value
+    if request.url.path in {"/docs", "/redoc", "/docs/oauth2-redirect"}:
+        response.headers["Content-Security-Policy"] = _DOCS_CSP
+    return response
+
+
+def _web_asset(name: str, media_type: str) -> Response:
+    content = files("academic_assistant").joinpath("web", name).read_bytes()
+    return Response(content, media_type=media_type)
+
+
+@app.get("/", include_in_schema=False)
+def web_prototype() -> Response:
+    return _web_asset("index.html", "text/html; charset=utf-8")
+
+
+@app.get("/assets/app.css", include_in_schema=False)
+def web_styles() -> Response:
+    return _web_asset("app.css", "text/css; charset=utf-8")
+
+
+@app.get("/assets/app.js", include_in_schema=False)
+def web_script() -> Response:
+    return _web_asset("app.js", "text/javascript; charset=utf-8")
 
 
 def _invalid_response(status_code: int = 422) -> Response:

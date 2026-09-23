@@ -220,8 +220,20 @@ validation:
       - explicit_registry_profile
       - deterministic_intent_matching
       - evidence_packet_grounding
-      - exact_182_case_evaluation
+      - exact_184_case_evaluation
       - API_CLI_core_parity
+  academic_web_prototype:
+    command: python -m unittest tests.test_academic_web_prototype -v
+    checks:
+      - fixed_localhost_routes
+      - fixed_visible_scope
+      - four_status_presentation
+      - safe_evidence_rendering
+      - accessibility_and_keyboard
+      - no_browser_persistence
+      - security_response_headers
+      - packaged_web_assets
+      - openapi_docs_compatibility
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

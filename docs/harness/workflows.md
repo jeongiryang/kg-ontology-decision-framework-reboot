@@ -74,7 +74,7 @@ FastAPI와 CLI는 `academic_assistant` 코어를 공동 사용한다. NFKC와 �
 범위 불일치, PCCP·캡스톤·공모전·졸업작품 보호 주제, 포괄적 졸업 인증, 승인 alias 순서로
 판정한다. 부족 학점은 선택된 credit metric마다 `max(0, required-earned)`만 계산하고 합계를
 추론하지 않는다. `python scripts/validation/validate_academic_answer_engine.py --project .`로 정확히
-182개 회귀 사례와 응답 계약을 검사한다. 이 중 새 사례는 조교 확인을 거친 교양·전공·0학점
+184개 회귀 사례와 응답 계약을 검사한다. 이 중 새 사례는 조교 확인을 거친 교양·전공·0학점
 필수·전과·졸업논문·재수강·동일/대체교과목 정책과 개인 판정 실패 폐쇄 경계를 포함한다.
 
 CLI의 MVP 단축 범위는 `--year` 하나를 입학연도와 매칭 교육과정 연도에 함께 적용한다.
@@ -101,7 +101,30 @@ Alias는 독립 token, 공백으로 나뉜 승인 구문 또는 허용된 조사
 임의 문구가 붙은 경우도 승인하지 않는다. 세 개 이상을 연결할 때도 모든 인접 구간이 각각
 이 조건을 충족해야 한다.
 
+### localhost 웹 프로토타입
+
+동일 FastAPI 프로세스가 `/`, `/assets/app.css`, `/assets/app.js`의 고정 UI 경로로 no-build
+웹 UI를 제공한다. 화면은 2026학번·2026 교육과정·컴퓨터공학과를 읽기 전용 범위로 표시하고
+질문만 입력받아 기존 `POST /v1/academic/answers`에 같은 출처의 JSON으로 전달한다. 학점이나
+개인 사실을 임의로 받거나 저장하지 않으며 브라우저 저장소, 쿠키, 분석기, 외부 자산을 쓰지 않는다.
+기존 `/openapi.json`, `/docs`, `/redoc`은 API 호환성을 위해 유지하되 UI·정적 자산 경로는
+OpenAPI `paths`에서 제외한다.
+
+UI는 `supported`, `insufficient_evidence`, `conflict`, `out_of_scope`를 서로 다른 상태로
+표시한다. 계산, 적용 규칙, 문제와 근거 locator는 API 응답에 실제로 존재할 때만 DOM 노드를
+생성해 보여 주며 API 값을 HTML로 해석하지 않는다. PCCP·캡스톤·공모전·졸업작품 및 개인별
+면제·소급 판정은 기존 실패 폐쇄 경계를 유지한다. 모든 페이지·자산·API 응답에는 CSP,
+`Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`를
+적용한다. 프로토타입과 API는 self-only CSP를 유지하고 Swagger/ReDoc 문서 응답에만 해당
+문서가 사용하는 고정 CDN과 inline 초기화 스크립트를 제한적으로 허용한다. 배포 서버는 공개
+인터페이스가 아닌 `127.0.0.1`에 바인딩한다.
+
+웹 회귀 검사는 접근 가능한 입력 label과 live region, 고정 요청 범위, 네 상태 표현, 안전한
+`textContent` 렌더링, 근거 표시, 비저장 동작과 wheel 자산 포함을 확인한다.
+
 학·석사 연계과정의 졸업논문 면제는 가능성만 설명하고 개인의 자동 면제로 확정하지 않는다.
+`저는 연계과정이라 졸업논문 면제인가요?`처럼 개인 토큰과 축약된 연계과정·논문/면제 문맥이
+한 문장에 함께 있으면 공식 학적 확인이 필요한 개인 판정으로 보고 근거 없이 보류한다.
 재수강은 기이수 과목 삭제로, 동일교과목은 중복 수강신청 불가로 각각 중복 계산하지 않는다.
 이수 뒤 동일·대체 지정은 별개 과목으로 계산하지만 소급 적용의 개인 결과는 공식 학적 확인 전
 `insufficient_evidence`로 종료하며, 비지원 응답에는 규칙이나 인용을 싣지 않는다.
