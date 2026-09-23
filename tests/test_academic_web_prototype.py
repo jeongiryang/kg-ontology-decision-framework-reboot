@@ -206,7 +206,10 @@ class AcademicWebPrototypeTests(unittest.TestCase):
         }
         with tempfile.TemporaryDirectory() as directory:
             destination = Path(directory) / "feedback.jsonl"
-            with patch.dict(os.environ, {"ACADEMIC_FEEDBACK_PATH": str(destination)}):
+            with patch.dict(os.environ, {
+                "ACADEMIC_FEEDBACK_PATH": str(destination),
+                "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(Path(directory)),
+            }):
                 response = self.client.post("/v1/academic/feedback", json=payload)
             self.assertEqual(201, response.status_code)
             body = response.json()
@@ -219,7 +222,10 @@ class AcademicWebPrototypeTests(unittest.TestCase):
 
             before = destination.read_text(encoding="utf-8")
             rejected = {**payload, "consent_to_store": False}
-            with patch.dict(os.environ, {"ACADEMIC_FEEDBACK_PATH": str(destination)}):
+            with patch.dict(os.environ, {
+                "ACADEMIC_FEEDBACK_PATH": str(destination),
+                "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(Path(directory)),
+            }):
                 self.assertEqual(422, self.client.post("/v1/academic/feedback", json=rejected).status_code)
                 tampered = self.client.post("/v1/academic/feedback", json={**payload, "packet_id": "academic-" + "f" * 32})
             self.assertEqual(422, tampered.status_code)
@@ -237,7 +243,10 @@ class AcademicWebPrototypeTests(unittest.TestCase):
         }
         with tempfile.TemporaryDirectory() as directory:
             destination = Path(directory) / "feedback.jsonl"
-            with patch.dict(os.environ, {"ACADEMIC_FEEDBACK_PATH": str(destination)}):
+            with patch.dict(os.environ, {
+                "ACADEMIC_FEEDBACK_PATH": str(destination),
+                "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(Path(directory)),
+            }):
                 supported = self.client.post("/v1/academic/feedback", json={**base, "status": "supported"})
                 identifying = self.client.post("/v1/academic/feedback", json={**base, "question": "학번 2026123456의 캡스톤 기준"})
             self.assertEqual(422, supported.status_code)

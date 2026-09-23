@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
+from pathlib import Path
 
 from pydantic import ValidationError
 
 from .core import AnswerEngine, canonical_response_json, validate_request_safety
+from .feedback import FeedbackSummary, FeedbackSummaryError, summarize_feedback
 from .models import AcademicAnswerRequest
 from .registry import RegistryUnavailable
 
@@ -27,6 +30,9 @@ def _parser() -> argparse.ArgumentParser:
     ask.add_argument("--credits", action="append", default=[], metavar="METRIC=VALUE", help="현재 이수학점(반복 가능)")
     ask.add_argument("--earned-credit", action="append", default=[], metavar="METRIC=VALUE", help="--credits의 호환 옵션")
     ask.add_argument("--json", action="store_true", help="canonical JSON 출력")
+    feedback_summary = sub.add_parser("feedback-summary", help="로컬 피드백 JSONL의 비식별 집계를 검증·출력합니다.")
+    feedback_summary.add_argument("--path", type=Path, help="피드백 JSONL 경로(기본값: 환경 설정 또는 로컬 기본 경로)")
+    feedback_summary.add_argument("--json", action="store_true", help="canonical JSON 출력")
     return parser
 
 
@@ -50,12 +56,29 @@ def _years(args: argparse.Namespace) -> tuple[int, int]:
     return args.admission_year, args.curriculum_year
 
 
+def _feedback_summary_output(summary: FeedbackSummary, as_json: bool) -> str:
+    if as_json:
+        return json.dumps(summary.as_dict(), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    statuses = " ".join(f"{name}={count}" for name, count in summary.status_counts.items())
+    categories = " ".join(f"{name}={count}" for name, count in summary.category_counts.items())
+    return "\n".join((
+        f"records={summary.record_count}",
+        f"statuses {statuses}",
+        f"categories {categories}",
+        f"duplicates={summary.duplicate_count}",
+    ))
+
+
 def main(argv: list[str] | None = None) -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")
     try:
         args = _parser().parse_args(argv)
+        if args.command == "feedback-summary":
+            summary = summarize_feedback(args.path)
+            print(_feedback_summary_output(summary, args.json))
+            return 0
         admission_year, curriculum_year = _years(args)
         request = AcademicAnswerRequest(
             question=args.question,
@@ -69,6 +92,9 @@ def main(argv: list[str] | None = None) -> int:
     except RegistryUnavailable:
         print("academic registry unavailable", file=sys.stderr)
         return 3
+    except FeedbackSummaryError:
+        print("invalid feedback file", file=sys.stderr)
+        return 65
     except (ValueError, ValidationError):
         print("invalid request", file=sys.stderr)
         return 64

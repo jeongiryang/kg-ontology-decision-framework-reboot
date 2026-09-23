@@ -27,8 +27,20 @@ uvicorn academic_assistant.api:app --host 127.0.0.1 --port 8000
 
 근거 부족·충돌 답변은 사용자가 동의 확인란과 `보완 요청 저장`을 직접 누른
 경우에만 질문과 응답 ID를 `.local/academic-feedback/feedback.jsonl`에 기록합니다. 이 경로는
-Git에서 제외되며 이름·학번·연락처·원본 성적표 표현은 저장 전에 거절합니다. API는
+Git에서 제외되며 이름 표지·학번·연락처·일반적인 한국인 이름 패턴·원본 성적표 표현은 저장 전에 거절합니다. API는
 `POST /v1/academic/feedback`이며 `supported`와 범위 밖 답변은 피드백 수집 대상으로 받지 않습니다.
+
+로컬 피드백 현황은 질문 원문을 출력하지 않는 집계 명령으로 확인합니다. 파일이 아직 없으면
+0건으로 정상 종료하며 손상되거나 개인정보가 포함된 레코드는 실패 폐쇄합니다.
+
+```bash
+academic-assistant feedback-summary --json
+python scripts/operations/check_pilot_readiness.py --project .
+```
+
+연구실 내부 시험운영 전에는 [내부 시험운영 가이드](docs/operations/internal-pilot.md)의
+시작·종료·보존·접근통제 절차를 확인합니다. 현재 승인 범위는 localhost 실행 준비까지이며,
+DSW 상주 서비스나 `0.0.0.0` 네트워크 공개는 포함하지 않습니다.
 
 초기 사용성 검증은 학생 질문 형태를 재현한 비식별 시나리오 30개로 구성했습니다. 실제 학생
 로그가 아니라 승인 규칙과 보류 범위를 바탕으로 작성한 파일럿이며, 22개 근거 지원, 6개 근거
@@ -77,6 +89,7 @@ Git에서 제외되며 이름·학번·연락처·원본 성적표 표현은 저
 - [공유 계약](docs/harness/contracts.md)
 - [완료 보고](docs/harness/reporting.md)
 - [30개 질문 사용성 파일럿](reports/evaluations/2026-web-usability-pilot.md)
+- [내부 시험운영 가이드](docs/operations/internal-pilot.md)
 - [DSW 운영](docs/harness/dsw-operations.md)
 - [업스트림과 갱신](docs/harness/upstream.md)
 

@@ -131,6 +131,10 @@ UI는 `supported`, `insufficient_evidence`, `conflict`, `out_of_scope`를 서로
 검증하고 현재 엔진으로 packet ID와 비지원 상태를 재현한 뒤 Git 제외 경로
 `.local/academic-feedback/feedback.jsonl`에 append-only JSONL로 남긴다.
 응답에는 질문을 되돌려 보내지 않는다. `supported` 답변은 피드백 수집 대상이 아니다.
+저장 함수는 해석된 경로가 `ACADEMIC_FEEDBACK_PRIVATE_ROOT` 아래의 파일인지 다시 검사하며,
+기본 내부 파일럿은 프로젝트 `.local` 밖의 목적지를 허용하지 않는다. 운영자는
+`academic-assistant feedback-summary --json`으로 질문 원문 없이 상태·분류·중복 건수를
+확인한다. 손상·식별정보 포함 레코드가 하나라도 있으면 부분 집계를 출력하지 않는다.
 
 학생 질문 형태를 재현한 30개 비식별 파일럿은
 `python scripts/validation/validate_academic_usability.py --project .`로 검증한다. 22개 supported는
