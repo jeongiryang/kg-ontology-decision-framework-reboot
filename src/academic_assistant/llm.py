@@ -46,7 +46,7 @@ class LLMSettings:
     max_response_bytes: int = 8192
 
     def __post_init__(self) -> None:
-        if self.provider not in {"ollama", "openai"}:
+        if self.provider not in {"ollama", "openai", "lmstudio"}:
             raise ValueError("unsupported local LLM provider")
         parsed = urlsplit(self.base_url)
         try:
@@ -149,6 +149,30 @@ class LocalLLMClient:
                 "temperature": 0,
                 "max_tokens": 64,
             }
+            if self.settings.provider == "lmstudio":
+                # LM Studio rejects the generic json_object mode. Its strict
+                # schema also confines the response to approved intent IDs.
+                payload["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "academic_intent",
+                        "strict": True,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "intent_id": {
+                                    "anyOf": [
+                                        {"type": "string", "enum": catalog},
+                                        {"type": "null"},
+                                    ]
+                                }
+                            },
+                            "required": ["intent_id"],
+                            "additionalProperties": False,
+                        },
+                    },
+                }
+                payload["reasoning_effort"] = "none"
         endpoint = self.settings.base_url.rstrip("/") + path
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
         if self.settings.api_key:

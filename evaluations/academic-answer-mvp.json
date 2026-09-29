@@ -29,6 +29,8 @@
     {"id":"paraphrase-11","category":"paraphrase","question":"전공총학점 기준","expected_status":"supported","expected_intents":["credits.major.total"]},
     {"id":"paraphrase-12","category":"paraphrase","question":"논문요건이 있나요","expected_status":"supported","expected_intents":["graduation.thesis.required"]},
     {"id":"paraphrase-13","category":"paraphrase","question":"논문대체요건은 무엇인가요","expected_status":"supported","expected_intents":["graduation.thesis.substitution"]},
+    {"id":"paraphrase-cohort-01","category":"paraphrase","question":"2026학번 졸업학점은 몇 학점인가요?","expected_status":"supported","expected_intents":["credits.graduation.total"]},
+    {"id":"paraphrase-cohort-02","category":"paraphrase","question":"26학번 졸업학점은 몇 학점인가요?","expected_status":"supported","expected_intents":["credits.graduation.total"]},
 
     {"id":"gap-01","category":"credit-gap","question":"균형교양 얼마나 부족해","earned_credits":{"credits.general.balanced":7},"expected_status":"supported","expected_gap":5},
     {"id":"gap-02","category":"credit-gap","question":"기초교양 부족 학점","earned_credits":{"credits.general.foundation":9},"expected_status":"supported","expected_gap":0},
@@ -59,7 +61,8 @@
     {"id":"scope-text-01","category":"scope-unsupported","question":"전자공학과 졸업학점","expected_status":"out_of_scope"},
     {"id":"scope-text-02","category":"scope-unsupported","question":"2025년에 입학했는데 컴퓨터공학과 졸업학점은?","expected_status":"out_of_scope"},
     {"id":"scope-text-03","category":"scope-unsupported","question":"25 교육과정 졸업학점","expected_status":"out_of_scope"},
-    {"id":"scope-text-04","category":"privacy-invalid","question":"2025학번 졸업학점","expected_error":"invalid_request"},
+    {"id":"scope-text-04","category":"scope-unsupported","question":"2025학번 졸업학점","expected_status":"out_of_scope"},
+    {"id":"scope-text-05","category":"scope-unsupported","question":"25학번 졸업학점","expected_status":"out_of_scope"},
     {"id":"scope-short-01","category":"scope-unsupported","question":"전자과 졸업학점은 몇 학점인가요?","expected_status":"out_of_scope"},
     {"id":"scope-short-02","category":"scope-unsupported","question":"기계과 전공필수는 몇 학점인가요?","expected_status":"out_of_scope"},
     {"id":"scope-discipline-01","category":"scope-unsupported","question":"전자공학 졸업학점","expected_status":"out_of_scope"},
@@ -135,6 +138,23 @@
     {"id":"boundary-05","category":"fail-closed-boundary","question":"제가 들은 두 과목이 동일교과목인가요?","expected_status":"insufficient_evidence"},
     {"id":"boundary-06","category":"fail-closed-boundary","question":"제가 예전에 들은 과목도 소급 적용돼요?","expected_status":"insufficient_evidence"},
     {"id":"boundary-07","category":"fail-closed-boundary","question":"복학생 전과 교육과정 연도","expected_status":"insufficient_evidence"},
+    {"id":"exemption-unsupported-01","category":"fail-closed-boundary","question":"졸업논문 면제 조건","expected_status":"insufficient_evidence"},
+    {"id":"exemption-unsupported-02","category":"fail-closed-boundary","question":"전공필수 면제 조건","expected_status":"insufficient_evidence"},
+    {"id":"exemption-unsupported-03","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제와 전공필수 면제 조건","expected_status":"insufficient_evidence"},
+    {"id":"exemption-mixed-benefit-01","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제 혜택에 장학금도 포함되나요?","expected_status":"insufficient_evidence"},
+    {"id":"exemption-mixed-benefit-02","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제 혜택에 등록금 감면도 포함되나요?","expected_status":"insufficient_evidence"},
+    {"id":"exemption-mixed-benefit-03","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제와 기숙사 혜택을 함께 받을 수 있나요?","expected_status":"insufficient_evidence"},
+    {"id":"exemption-mixed-benefit-04","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제 혜택에 해외연수도 포함되나요?","expected_status":"insufficient_evidence"},
+    {"id":"exemption-mixed-benefit-05","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제와 해외연수를 함께 받을 수 있나요?","expected_status":"insufficient_evidence"},
+    {"id":"exemption-mixed-benefit-06","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제 혜택에 해외연수도 적용되나요?","expected_status":"insufficient_evidence"},
+    {"id":"exemption-mixed-benefit-07","category":"fail-closed-boundary","question":"학석사연계과정 논문 면제와 해외연수 자격은 어떻게 되나요?","expected_status":"insufficient_evidence"},
+    {"id":"linked-program-unrelated-01","category":"fail-closed-boundary","question":"학석사연계과정 장학금 기준은 무엇인가요?","expected_status":"insufficient_evidence"},
+    {"id":"linked-program-unrelated-02","category":"fail-closed-boundary","question":"학석사연계과정 해외연수 자격은 어떻게 되나요?","expected_status":"insufficient_evidence"},
+    {"id":"linked-program-unrelated-03","category":"fail-closed-boundary","question":"학석사연계과정 입학 요건은 무엇인가요?","expected_status":"insufficient_evidence"},
+    {"id":"linked-program-unrelated-04","category":"fail-closed-boundary","question":"학석사연계과정 현장실습 배정 기준은 무엇인가요?","expected_status":"insufficient_evidence"},
+    {"id":"substitution-unsupported-01","category":"fail-closed-boundary","question":"전공필수 대체 조건","expected_status":"insufficient_evidence"},
+    {"id":"substitution-unsupported-02","category":"fail-closed-boundary","question":"기초교양 대체 과목","expected_status":"insufficient_evidence"},
+    {"id":"substitution-unsupported-03","category":"fail-closed-boundary","question":"졸업논문 대체와 전공필수 대체 조건","expected_status":"insufficient_evidence"},
 
     {"id":"ta-natural-01","category":"ta-confirmed","question":"학석사 연계과정생은 졸업논문 면제 가능성이 있나요?","expected_status":"supported","expected_intents":["graduation.thesis.linked-program-exemption"]},
     {"id":"ta-natural-02","category":"ta-confirmed","question":"학·석사 연계과정생은 졸업논문 면제 가능성이 있나요?","expected_status":"supported","expected_intents":["graduation.thesis.linked-program-exemption"]},
@@ -254,6 +274,7 @@
     {"id":"web-v2-control-01","category":"ta-confirmed","question":"연계과정 논문 면제 정책은 무엇인가요?","expected_status":"supported","expected_intents":["graduation.thesis.linked-program-exemption"]},
 
     {"id":"invalid-01","category":"privacy-invalid","question":"학번 2026123456의 졸업학점","expected_error":"invalid_request"},
+    {"id":"invalid-cohort-id-01","category":"privacy-invalid","question":"2026학번 2026123456의 졸업학점","expected_error":"invalid_request"},
     {"id":"invalid-02","category":"privacy-invalid","question":"졸업학점","earned_credits":{"unknown.metric":10},"expected_error":"invalid_request"}
   ]
 }

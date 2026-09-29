@@ -277,6 +277,23 @@ class LocalLLMClientTests(unittest.TestCase):
         with self.assertRaises(HTTPError):
             _NoRedirects().redirect_request(req, None, 302, "moved", {}, "https://example.org")
 
+    def test_lmstudio_uses_strict_schema_and_disables_reasoning(self) -> None:
+        client = LocalLLMClient(LLMSettings("lmstudio", "http://127.0.0.1:12345", "gemma-4-26b-a4b-it"))
+        fake = FakeOpener(json.dumps({"choices": [{"message": {"content": '{"intent_id":"credits.graduation.total"}'}}]}).encode())
+        client._opener = fake
+        self.assertEqual(
+            "credits.graduation.total",
+            client.suggest_intent("credits|graduation", {"credits.graduation.total": "졸업 학점", "thesis.requirement": "논문"}),
+        )
+        outbound = json.loads(fake.calls[0][0].data)
+        self.assertEqual("json_schema", outbound["response_format"]["type"])
+        self.assertEqual("none", outbound["reasoning_effort"])
+        schema = outbound["response_format"]["json_schema"]["schema"]
+        self.assertEqual(["credits.graduation.total", "thesis.requirement"], schema["properties"]["intent_id"]["anyOf"][0]["enum"])
+        self.assertEqual(["intent_id"], schema["required"])
+        self.assertFalse(schema["additionalProperties"])
+        self.assertNotIn("졸업 학점", json.dumps(outbound, ensure_ascii=False))
+
 
 if __name__ == "__main__":
     unittest.main()

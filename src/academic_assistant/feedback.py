@@ -47,6 +47,7 @@ _LEGACY_EXPLICIT_IDENTIFIER = re.compile(
     r"[\w.+-]+@[\w.-]+\.[a-z]{2,})",
     re.IGNORECASE,
 )
+_ADMISSION_COHORT_PHRASE = re.compile(r"(?<![0-9])(?:(?:19|20|21)[0-9]{2}|[0-9]{2})\s*학번(?![0-9])")
 
 
 class FeedbackSummaryError(ValueError):
@@ -98,13 +99,17 @@ def _approved_feedback_destination() -> Path:
 def _validate_feedback_question_safety(question: str) -> None:
     normalized = unicodedata.normalize("NFKC", question)
     validate_public_text_safety(normalized)
-    _validate_legacy_feedback_question_safety(normalized)
+    _validate_legacy_feedback_question_safety(normalized, allow_cohort_phrase=True)
 
 
-def _validate_legacy_feedback_question_safety(question: str) -> None:
+def _validate_legacy_feedback_question_safety(question: str, *, allow_cohort_phrase: bool = False) -> None:
     """Validate old stored text without applying a later, stricter name heuristic."""
     normalized = unicodedata.normalize("NFKC", question)
-    if _LEGACY_EXPLICIT_IDENTIFIER.search(normalized) or any(
+    # New submissions share the answer API's two- or four-digit cohort exception. Old
+    # v1 records keep their original strict check, and name checks see full text.
+    identifier_text = (_ADMISSION_COHORT_PHRASE.sub(lambda match: match.group().replace("학번", ""), normalized)
+                       if allow_cohort_phrase else normalized)
+    if _LEGACY_EXPLICIT_IDENTIFIER.search(identifier_text) or any(
         ord(char) < 32 and char not in "\t\n\r" for char in normalized
     ):
         raise ValueError("unsafe or identifying question content")

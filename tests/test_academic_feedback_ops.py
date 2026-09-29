@@ -157,6 +157,52 @@ class AcademicFeedbackOpsTests(unittest.TestCase):
             self.assertNotIn(question, path.read_text(encoding="utf-8"))
             self.assertEqual(1, summarize_feedback(path).record_count)
 
+    def test_cohort_phrase_is_allowed_only_for_new_feedback_and_student_ids_stay_blocked(self) -> None:
+        questions = ("2026학번 수강신청 일정은?", "26학번 수강신청 일정은?")
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "feedback.jsonl"
+            environment = {
+                "ACADEMIC_FEEDBACK_PATH": str(path),
+                "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(path.parent),
+            }
+            with patch.dict(os.environ, environment):
+                for index, question in enumerate(questions, start=1):
+                    with self.subTest(question=question):
+                        stored = store_feedback(AcademicFeedbackRequest(
+                            packet_id="academic-" + str(index) * 32,
+                            status="insufficient_evidence",
+                            question=question,
+                            category="missing_evidence",
+                            consent_to_store=True,
+                        ))
+                        self.assertTrue(stored.stored)
+                for identifying_question in (
+                    "2026학번 2026123456 수강신청 일정은?",
+                    "26학번 2026123456 수강신청 일정은?",
+                    "이철수는 수강신청 일정이 궁금해요",
+                ):
+                    with self.subTest(question=identifying_question):
+                        with self.assertRaises(ValueError):
+                            store_feedback(AcademicFeedbackRequest(
+                                packet_id="academic-" + "8" * 32,
+                                status="insufficient_evidence",
+                                question=identifying_question,
+                                category="missing_evidence",
+                                consent_to_store=True,
+                            ))
+            self.assertEqual(2, summarize_feedback(path).record_count)
+            records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+            self.assertTrue(all("question" not in value for value in records))
+            for question in questions:
+                self.assertNotIn(question, path.read_text(encoding="utf-8"))
+
+            legacy_path = Path(directory) / "legacy.jsonl"
+            for question in questions:
+                with self.subTest(legacy_question=question):
+                    write_jsonl(legacy_path, [record("1", question=question)])
+                    with self.assertRaisesRegex(FeedbackSummaryError, "^invalid feedback file$"):
+                        summarize_feedback(legacy_path)
+
     def test_legacy_academic_question_remains_readable_for_summary(self) -> None:
         questions = (
             "수강 신청은 언제인가요?",

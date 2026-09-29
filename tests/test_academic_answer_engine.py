@@ -23,6 +23,7 @@ from academic_assistant.core import AnswerEngine, SANITIZED_DEPARTMENT, canonica
 from academic_assistant.feedback import store_feedback
 from academic_assistant.models import AcademicAnswerRequest, AcademicFeedbackRequest
 from academic_assistant.registry import Registry, RegistryUnavailable, canonical_sha256
+from scripts.validation.validate_academic_knowledge import validate_evidence_packet
 
 
 def request(question: str, **updates) -> AcademicAnswerRequest:
@@ -214,7 +215,14 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         self.assertEqual(9, len(labels))
         for label in labels:
             self.assertIn(label, course.answer)
-        self.assertTrue(all(item.claim == course.answer for item in course.evidence_packet.evidence))
+        self.assertTrue(all(item.claim == rule["decision"]["statement"] for item in course.evidence_packet.evidence))
+        self.assertEqual([], validate_evidence_packet(ROOT, course.evidence_packet.model_dump(mode="json")))
+
+        canonical_course = self.engine.answer(request("전공필수 9과목"))
+        self.assertEqual("supported", canonical_course.status)
+        self.assertEqual([], validate_evidence_packet(ROOT, canonical_course.evidence_packet.model_dump(mode="json")))
+        for label in labels:
+            self.assertIn(label, canonical_course.answer)
 
         counseling = self.engine.answer(request("졸업하려면 심층상담을 몇 번 이수해야 하나요?"))
         self.assertEqual("supported", counseling.status)
@@ -226,6 +234,18 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         self.assertEqual(["graduation.thesis.completion-result"], thesis.intent_ids)
         self.assertIn("0학점이어도 반드시 이수", thesis.answer)
         self.assertIn("미이수하면 Fail", thesis.answer)
+
+    def test_all_supported_evaluation_claims_match_approved_statements(self) -> None:
+        cases = json.loads((ROOT / "evaluations/academic-answer-mvp.json").read_text(encoding="utf-8"))["cases"]
+        for case in cases:
+            if case.get("expected_status") != "supported":
+                continue
+            with self.subTest(case_id=case["id"]):
+                result = self.engine.answer(request(case["question"], earned_credits=case.get("earned_credits", {})))
+                self.assertEqual("supported", result.status)
+                self.assertTrue(result.evidence_packet.evidence)
+                for evidence in result.evidence_packet.evidence:
+                    self.assertEqual(self.registry.rules[evidence.rule_id]["decision"]["statement"], evidence.claim)
 
     def test_ta_confirmed_individual_boundaries_fail_closed(self) -> None:
         for question in (
@@ -746,6 +766,32 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         self.assertIn("현재 교육과정 규정집에는", result.answer)
         self.assertNotIn("면제", result.answer)
 
+    def test_unapproved_substitution_target_does_not_inherit_credit_rule(self) -> None:
+        client = TestClient(app)
+        for question in (
+            "전공필수 대체 조건",
+            "기초교양 대체 과목",
+            "졸업논문 대체와 전공필수 대체 조건",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+                response = client.post("/v1/academic/answers", json=request(question).model_dump(mode="json"))
+                self.assertEqual(200, response.status_code)
+                self.assertEqual("insufficient_evidence", response.json()["status"])
+        approved = {
+            "졸업논문 대체요건": "graduation.thesis.substitution",
+            "이수 후 동일/대체 지정된 과목은 학점을 어떻게 계산하나요?": "course-counting.post-completion-equivalence",
+        }
+        for question, intent_id in approved.items():
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual([intent_id], result.intent_ids)
+                self.assertTrue(result.evidence_packet.evidence)
+
     def test_bare_number_does_not_select_intent(self) -> None:
         result = self.engine.answer(request("130"))
         self.assertEqual("out_of_scope", result.status)
@@ -786,12 +832,106 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         for question in ("교과 졸업학점", "전공과목 졸업학점", "전공과 교양학점"):
             with self.subTest(question=question):
                 self.assertNotEqual("out_of_scope", self.engine.answer(request(question)).status)
-        with self.assertRaises(ValueError):
-            self.engine.answer(request("2025학번 졸업학점"))
+        for question in ("2025학번 졸업학점", "25학번 졸업학점"):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("out_of_scope", result.status)
+                self.assertEqual([], result.evidence_packet.applied_rules)
         response = TestClient(app).post("/v1/academic/answers", json=request("전자공학과 졸업학점").model_dump(mode="json"))
         self.assertEqual(200, response.status_code)
         self.assertEqual("out_of_scope", response.json()["status"])
         self.assertEqual([], response.json()["evidence_packet"]["applied_rules"])
+
+    def test_admission_cohort_phrase_is_allowed_but_student_id_is_not(self) -> None:
+        client = TestClient(app)
+        for question in ("2026학번 졸업학점은 몇 학점인가요?", "26학번 졸업학점은 몇 학점인가요?"):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual(["credits.graduation.total"], result.intent_ids)
+                self.assertIn("130", result.answer)
+                self.assertTrue(result.evidence_packet.evidence)
+                response = client.post("/v1/academic/answers", json=request(question).model_dump(mode="json"))
+                self.assertEqual(200, response.status_code)
+                self.assertEqual("supported", response.json()["status"])
+
+        for identifying_question in (
+            "학번 2026123456의 졸업학점",
+            "2026123456학번 졸업학점",
+            "2026학번 2026123456의 졸업학점",
+            "26학번 2026123456의 졸업학점",
+        ):
+            with self.subTest(question=identifying_question):
+                with self.assertRaises(ValueError):
+                    self.engine.answer(request(identifying_question))
+                response = client.post("/v1/academic/answers", json=request(identifying_question).model_dump(mode="json"))
+                self.assertEqual(422, response.status_code)
+                self.assertNotIn("2026123456", response.text)
+
+    def test_unapproved_general_exemption_does_not_inherit_another_rule(self) -> None:
+        for question in (
+            "졸업논문 면제 조건",
+            "전공필수 면제 조건",
+            "학석사연계과정 논문 면제와 전공필수 면제 조건",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+        approved = self.engine.answer(request("학석사 연계과정 논문 면제 조건"))
+        self.assertEqual("supported", approved.status)
+        self.assertEqual(["graduation.thesis.linked-program-exemption"], approved.intent_ids)
+
+    def test_linked_thesis_exemption_does_not_answer_unrelated_benefits(self) -> None:
+        client = TestClient(app)
+        for question in (
+            "학석사연계과정 논문 면제 혜택에 장학금도 포함되나요?",
+            "학석사연계과정 논문 면제 혜택에 등록금 감면도 포함되나요?",
+            "학석사연계과정 논문 면제와 기숙사 혜택을 함께 받을 수 있나요?",
+            "학석사연계과정 논문 면제 혜택에 해외연수도 포함되나요?",
+            "학석사연계과정 논문 면제와 해외연수를 함께 받을 수 있나요?",
+            "학석사연계과정 논문 면제 혜택에 해외연수도 적용되나요?",
+            "학석사연계과정 논문 면제와 해외연수 자격은 어떻게 되나요?",
+            "학석사연계과정 논문 면제 혜택에 교환학생 자격도 적용되나요?",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+                response = client.post("/v1/academic/answers", json=request(question).model_dump(mode="json"))
+                self.assertEqual(200, response.status_code)
+                self.assertEqual("insufficient_evidence", response.json()["status"])
+        for question in (
+            "학석사 연계과정 논문 면제 조건",
+            "학석사 연계과정생의 졸업논문 면제 혜택 적용 정책을 알려주세요",
+        ):
+            with self.subTest(approved_question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("supported", result.status)
+                self.assertEqual(["graduation.thesis.linked-program-exemption"], result.intent_ids)
+
+    def test_bare_linked_program_alias_does_not_answer_other_topics(self) -> None:
+        client = TestClient(app)
+        for question in (
+            "학석사연계과정 장학금 기준은 무엇인가요?",
+            "학석사연계과정 해외연수 자격은 어떻게 되나요?",
+            "학석사연계과정 입학 요건은 무엇인가요?",
+            "학석사연계과정 현장실습 배정 기준은 무엇인가요?",
+            "학석사연계과정",
+        ):
+            with self.subTest(question=question):
+                result = self.engine.answer(request(question))
+                self.assertEqual("insufficient_evidence", result.status)
+                self.assertEqual([], result.evidence_packet.applied_rules)
+                self.assertEqual([], result.evidence_packet.evidence)
+                response = client.post("/v1/academic/answers", json=request(question).model_dump(mode="json"))
+                self.assertEqual(200, response.status_code)
+                self.assertEqual("insufficient_evidence", response.json()["status"])
+        approved = self.engine.answer(request("학석사 연계과정 논문 면제"))
+        self.assertEqual("supported", approved.status)
+        self.assertEqual(["graduation.thesis.linked-program-exemption"], approved.intent_ids)
 
     def test_one_requirement_does_not_certify_graduation(self) -> None:
         for question in (

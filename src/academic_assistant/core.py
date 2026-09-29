@@ -14,6 +14,7 @@ _PUNCTUATION = re.compile(r"[^0-9a-zA-Z가-힣]+")
 _ACADEMIC_WORDS = ("학점", "졸업", "교양", "전공", "논문", "학사", "이수", "교육과정", "수강", "학기", "재수강", "휴학", "복학", "편입", "전과", "재입학", "캡스톤", "pccp", "공모전", "졸업작품")
 _GAP_WORDS = ("부족", "모자", "남았", "남은", "남아", "더 들어", "더 이수", "더 필요")
 _UNSAFE_QUESTION = re.compile(r"(?:이름|성명|학번|학생번호|주민등록|성적표|raw\s*transcript|student\s*(?:name|id|number)|[0-9]{6,12}|01[016789][\s.-]*[0-9]{3,4}[\s.-]*[0-9]{4}|[\w.+-]+@[\w.-]+\.[a-z]{2,})", re.IGNORECASE)
+_ADMISSION_COHORT_PHRASE = re.compile(r"(?<![0-9])(?:(?:19|20|21)[0-9]{2}|[0-9]{2})\s*학번(?![0-9])")
 _KOREAN_SURNAME = r"(?:김|이|박|최|정|강|조|윤|장|임|한|오|서|신|권|황|안|송|전|홍|유|고|문|양|손|배|백|허|남|심|노|하|곽|성|차|주|우|구|민|진|지|엄|채|원|천|방|공|현|함|변|염|여|추|도|소|석|선|설|마|길|연|위|표|명|기|반|왕|금|옥|육|인|맹|제|모|탁|국|어|은|편|용)"
 _KOREAN_COMPOUND_SURNAME = r"(?:남궁|황보|제갈|선우|사공|독고|동방|서문|남문)"
 _HIGH_PRECISION_SURNAME = r"(?:김|박|정|홍)"
@@ -55,6 +56,31 @@ _ACADEMIC_KWA_STEMS = ("전공", "교양", "졸업", "논문", "학점", "교과
 _UNSUPPORTED_DEPARTMENT_MARKERS = ("다른학과", "타학과", "다른학부", "타학부", "타과", "학과별", "학부별", "타전공", "다른전공")
 _EXPLICIT_YEAR = re.compile(r"(?<![0-9])((?:19|20|21)[0-9]{2})(?![0-9])")
 _EXPLICIT_SHORT_COHORT = re.compile(r"(?<![0-9])([0-9]{2})\s*(?:학번|학년도|년도?\s*입학|교육과정)")
+_APPROVED_SUBSTITUTION_INTENTS = frozenset({
+    "graduation.thesis.substitution", "course-counting.post-completion-equivalence",
+})
+_LINKED_THESIS_INTENT_ID = "graduation.thesis.linked-program-exemption"
+# A linked-program thesis exemption is a narrow approved topic, not a general
+# benefit/eligibility query. Consume the whole question before citing its rule.
+_LINKED_THESIS_TOPIC = r"(?:학석사)?연계과정(?:생(?:은|의))?(?:졸업)?논문면제"
+_LINKED_THESIS_DIRECT_SUFFIX = re.compile(
+    r"(?:가능성이있나요|가능한가요|조건|요건|정책은무엇인가요|"
+    r"(?:혜택)?적용정책을알려주세요)?"
+)
+_LINKED_THESIS_INSTITUTIONAL_SUFFIX = re.compile(r"가능성이있나요")
+_LINKED_THESIS_POLICY_SUFFIX = re.compile(
+    r"(?:적용정책을(?:알고싶어요|알려주세요)|"
+    r"정책(?:이누구에게적용되는지알려주세요|"
+    r"은어떻게적용되는지알고싶어요|"
+    r"에따르면누가대상인지알고싶어요|"
+    r"상대상범위를알고싶어요|"
+    r"에대한설명을부탁드립니다|"
+    r"의적용범위를알고싶어요))"
+)
+_LINKED_THESIS_QUESTION_SUFFIX = re.compile(
+    r"(?:대상일반정책(?:입니다|인지확인하고싶어요)|"
+    r"정책이어떻게적용되는지입니다)"
+)
 APPROVED_METRICS = frozenset({
     "credits.general.balanced", "credits.general.foundation", "credits.general.remaining", "credits.general.total",
     "credits.graduation.remaining", "credits.graduation.total", "credits.major.advanced", "credits.major.elective",
@@ -138,6 +164,25 @@ def _asks_if_one_requirement_is_enough_for_graduation(compact: str) -> bool:
     )
 
 
+def _is_approved_linked_thesis_question(compact: str) -> bool:
+    for prefix, suffix in (
+        ("", _LINKED_THESIS_DIRECT_SUFFIX),
+        ("제도상", _LINKED_THESIS_INSTITUTIONAL_SUFFIX),
+        ("저는", _LINKED_THESIS_POLICY_SUFFIX),
+        ("제질문은", _LINKED_THESIS_QUESTION_SUFFIX),
+    ):
+        if not compact.startswith(prefix):
+            continue
+        topic = re.match(_LINKED_THESIS_TOPIC, compact[len(prefix):])
+        if topic and suffix.fullmatch(compact[len(prefix) + topic.end():]):
+            return True
+    return False
+
+
+def _asks_unapproved_exemption(compact: str) -> bool:
+    return "면제" in compact and not _is_approved_linked_thesis_question(compact)
+
+
 def validate_request_safety(payload: AcademicAnswerRequest) -> None:
     validate_public_text_safety(payload.question)
     if set(payload.earned_credits) - APPROVED_METRICS:
@@ -146,7 +191,10 @@ def validate_request_safety(payload: AcademicAnswerRequest) -> None:
 
 def validate_public_text_safety(value: str) -> None:
     normalized = unicodedata.normalize("NFKC", value)
-    if _UNSAFE_QUESTION.search(normalized) or any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
+    # A two- or four-digit admission cohort is not an individual student identifier.
+    # Keep the full text for every other PII check, including 6-12 digit IDs.
+    without_cohort_label = _ADMISSION_COHORT_PHRASE.sub(lambda match: match.group().replace("학번", ""), normalized)
+    if _UNSAFE_QUESTION.search(without_cohort_label) or any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
         raise ValueError("unsafe or identifying question content")
     if any(pattern.search(normalized) for pattern in (
         _KOREAN_NAME_WITH_HUMAN_SUFFIX,
@@ -205,6 +253,8 @@ class AnswerEngine:
             return self._unsupported(packet_id, scope, "insufficient_evidence", "해당 예외 적용에는 별도의 승인된 근거가 필요합니다.", "missing")
         if self._is_individual_determination(question, compact):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "개인별 이수·면제·소급 적용 결과를 판정하려면 공식 학적 확인이 필요합니다.", "missing")
+        if _asks_unapproved_exemption(compact):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "질문한 면제 관계를 뒷받침할 승인된 근거가 없습니다.", "missing")
         if "재수강" in compact and "소급" in compact:
             return self._unsupported(packet_id, scope, "insufficient_evidence", "재수강의 소급 적용 여부를 판정할 승인 근거가 없습니다.", "missing")
         if _asks_if_one_requirement_is_enough_for_graduation(compact):
@@ -215,6 +265,12 @@ class AnswerEngine:
         if any(alias in compact for alias in config["negation_aliases"]) or any(f"비{alias}" in compact for alias in specific_aliases):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "부정 또는 대비 표현이 포함되어 적용할 규칙을 확정할 수 없습니다.", "missing")
         preliminary = self._select_intents(compact, question)
+        if any(intent["intent_id"] == _LINKED_THESIS_INTENT_ID for intent in preliminary) and not _is_approved_linked_thesis_question(compact):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "질문 전체가 승인된 논문 면제 정책 범위에 해당하지 않습니다.", "missing")
+        if "대체" in compact and (
+            not preliminary or any(intent["intent_id"] not in _APPROVED_SUBSTITUTION_INTENTS for intent in preliminary)
+        ):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "질문한 대체 관계를 뒷받침할 승인된 근거가 없습니다.", "missing")
         if preliminary and any(alias in compact for alias in config["disjunction_aliases"]):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "선택형 표현이 포함되어 적용할 규칙을 확정할 수 없습니다.", "missing")
         if len(preliminary) > 1 and not self._has_explicit_conjunction(preliminary, question):
@@ -270,10 +326,11 @@ class AnswerEngine:
         for rule_id in rule_ids:
             rule = self.registry.rules[rule_id]
             statement = rule["decision"]["statement"]
+            answer_statement = statement
             outcome = rule["decision"]["outcome"]
             if outcome["type"] == "coverage_requirement" and outcome.get("requirement") == "major.required.course_set":
-                statement += " 지정 과목은 " + ", ".join(item["label"] for item in outcome["items"]) + "이다."
-            statements.append(statement)
+                answer_statement += " 지정 과목은 " + ", ".join(item["label"] for item in outcome["items"]) + "이다."
+            statements.append(answer_statement)
             for item in rule["evidence"]:
                 evidence.append({"source_id": item["source_id"], "rule_id": rule_id, "locator": item["locator"], "claim": statement})
         answer_text = " ".join(statements)

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -98,6 +100,40 @@ class AcademicChatAPITests(unittest.TestCase):
         self.assertEqual(422, response.status_code)
         self.assertEqual(0, fake.calls)
         self.assertNotIn("2026123456", response.text)
+
+    def test_cohort_question_feedback_follows_answer_safety_boundary(self) -> None:
+        questions = ("2026학번 수강신청 일정은?", "26학번 수강신청 일정은?")
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory) / "feedback.jsonl"
+            with patch.dict(os.environ, {
+                "ACADEMIC_FEEDBACK_PATH": str(destination),
+                "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(destination.parent),
+            }):
+                for question in questions:
+                    with self.subTest(question=question):
+                        answer = self.client.post("/v1/academic/answers", json=payload(question))
+                        self.assertEqual(200, answer.status_code)
+                        self.assertEqual("insufficient_evidence", answer.json()["status"])
+                        feedback = {
+                            "schema_version": "1.0.0",
+                            "packet_id": answer.json()["packet_id"],
+                            "status": "insufficient_evidence",
+                            "question": question,
+                            "earned_credits": {},
+                            "category": "missing_evidence",
+                            "consent_to_store": True,
+                        }
+                        accepted = self.client.post("/v1/academic/feedback", json=feedback)
+                        self.assertEqual(201, accepted.status_code)
+                        feedback["question"] = question.replace(" 수강신청", " 2026123456 수강신청")
+                        rejected = self.client.post("/v1/academic/feedback", json=feedback)
+                        self.assertEqual(422, rejected.status_code)
+                        self.assertNotIn("2026123456", rejected.text)
+            records = destination.read_text(encoding="utf-8").splitlines()
+            self.assertEqual(2, len(records))
+            self.assertTrue(all("question" not in json.loads(record) for record in records))
+            for question in questions:
+                self.assertTrue(all(question not in record for record in records))
 
 
 if __name__ == "__main__":
