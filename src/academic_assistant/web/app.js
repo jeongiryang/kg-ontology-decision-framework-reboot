@@ -112,6 +112,11 @@ function renderResponse(data) {
   badge.textContent = knownStatus ? statusLabels[data.status] : "응답 오류";
   setText("answer-text", data.answer || "답변을 표시할 수 없습니다.");
   setText("packet-id", data.packet_id ? `응답 ID · ${data.packet_id}` : "");
+  const suggestionSection = document.getElementById("suggestion-section");
+  const suggestion = data.status === "insufficient_evidence" && data.llm_status === "suggested"
+    ? data.suggested_question : null;
+  suggestionSection.hidden = !suggestion;
+  setText("suggestion-text", suggestion || "");
 
   const packet = data.evidence_packet || {};
   renderCalculations(Array.isArray(data.calculations) ? data.calculations : []);
@@ -138,6 +143,8 @@ function renderError() {
   badge.textContent = "연결 오류";
   setText("answer-text", "답변 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.");
   setText("packet-id", "");
+  document.getElementById("suggestion-section").hidden = true;
+  setText("suggestion-text", "");
   renderCalculations([]);
   renderList("evidence-section", "evidence-list", [], () => null);
   renderList("rules-section", "rules-list", [], () => null);
@@ -178,7 +185,7 @@ async function askAcademicQuestion(event) {
   if (earnedCredits === null) return;
   showLoading();
   try {
-    const response = await fetch("/v1/academic/answers", {
+    const response = await fetch("/v1/academic/chat", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       cache: "no-store",

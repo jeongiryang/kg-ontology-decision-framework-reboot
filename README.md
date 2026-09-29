@@ -2,7 +2,7 @@
 
 국립창원대학교 학칙과 교육과정에 근거하여 질문에 답하고, 근거가 부족하거나 충돌하면 답변을 보류하는 학사조교 시스템의 Season 2 프로젝트입니다.
 
-현재 저장소는 Codex 프로젝트 하네스와 승인된 2026학번 컴퓨터공학과 규칙만 사용하는 결정론적 학사 답변 엔진을 제공합니다. Neo4j, PDF 파서, 로컬 LLM 서빙은 구현 범위에 포함되지 않습니다.
+현재 저장소는 Codex 프로젝트 하네스와 승인된 2026학번 컴퓨터공학과 규칙만 사용하는 결정론적 학사 답변 엔진을 제공합니다. 승인 근거의 로컬 지식그래프 투영과 선택적 로컬 LLM 의도 제안 초기 프로토타입도 포함합니다. 별도 로컬 Neo4j 적재·조회와 교수님 모델의 비식별 합성 요청 1건은 검증했지만, PDF 파서·운영용 모델 서빙·실제 학생 질문의 정확도는 검증하지 않았습니다.
 
 ## 학사 답변 엔진
 
@@ -26,8 +26,8 @@ uvicorn academic_assistant.api:app --host 127.0.0.1 --port 8000
 `--host 127.0.0.1`로 바인딩하세요.
 
 근거 부족·충돌 답변은 사용자가 동의 확인란과 `보완 요청 저장`을 직접 누른
-경우에만 질문과 응답 ID를 `.local/academic-feedback/feedback.jsonl`에 기록합니다. 이 경로는
-Git에서 제외되며 이름 표지·학번·연락처·일반적인 한국인 이름 패턴·원본 성적표 표현은 저장 전에 거절합니다. API는
+경우에만 응답 ID·상태·분류를 `.local/academic-feedback/feedback.jsonl`에 기록합니다. 질문 원문은 저장하지 않습니다. 이 경로는
+Git에서 제외되며 이름 표지·학번·연락처·인식 가능한 이름 패턴·원본 성적표 표현은 처리 전에 거절합니다. API는
 `POST /v1/academic/feedback`이며 `supported`와 범위 밖 답변은 피드백 수집 대상으로 받지 않습니다.
 
 로컬 피드백 현황은 질문 원문을 출력하지 않는 집계 명령으로 확인합니다. 파일이 아직 없으면
@@ -50,7 +50,7 @@ DSW 상주 서비스나 `0.0.0.0` 네트워크 공개는 포함하지 않습니�
 `--curriculum-year`, `--earned-credit`도 호환되지만 `--year`와 값이 충돌하거나 같은 metric이
 중복되면 입력 오류로 종료합니다.
 
-답변 API는 `POST /v1/academic/answers`, 명시적 피드백 API는 `POST /v1/academic/feedback`, 준비 상태는 `GET /readyz`입니다. 답변 요청은 질문, 명시적 적용 범위와 승인된 학점 metric별 이수학점만 받으며 이름·학번·원본 성적표는 받지 않습니다. 일반 답변 요청은 질문 또는 근거를 저장하지 않으며 검증 오류와 지원 범위 밖 학과 값도 응답에 되돌려 보내지 않습니다. 복학·재입학·편입·경과조치는 별도 예외 근거가 없어 `insufficient_evidence`로 보류합니다. 전과생은 최초 입학연도의 교육과정을 적용한다는 승인 정책만 지원하며, 학·석사 연계과정 면제나 동일·대체교과목 소급 적용의 개인 판정은 자동화하지 않습니다.
+답변 API는 `POST /v1/academic/answers`, 선택적 의도 제안을 더한 웹용 API는 `POST /v1/academic/chat`, 명시적 피드백 API는 `POST /v1/academic/feedback`, 준비 상태는 `GET /readyz`입니다. 답변 요청은 질문, 명시적 적용 범위와 승인된 학점 metric별 이수학점만 받으며 이름·학번·원본 성적표는 받지 않습니다. 일반 답변 요청은 질문 또는 근거를 저장하지 않으며 검증 오류와 지원 범위 밖 학과 값도 응답에 되돌려 보내지 않습니다. 복학·재입학·편입·경과조치는 별도 예외 근거가 없어 `insufficient_evidence`로 보류합니다. 전과생은 최초 입학연도의 교육과정을 적용한다는 승인 정책만 지원하며, 학·석사 연계과정 면제나 동일·대체교과목 소급 적용의 개인 판정은 자동화하지 않습니다.
 
 ## Season 2 원칙
 
@@ -90,6 +90,8 @@ DSW 상주 서비스나 `0.0.0.0` 네트워크 공개는 포함하지 않습니�
 - [완료 보고](docs/harness/reporting.md)
 - [30개 질문 사용성 파일럿](reports/evaluations/2026-web-usability-pilot.md)
 - [내부 시험운영 가이드](docs/operations/internal-pilot.md)
+- [KG·로컬 LLM 초기 프로토타입](docs/operations/kg-llm-prototype.md)
+- [학과 내규 원본 조사와 검수 대기](reports/source-audits/2026-department-regulations-pending.md)
 - [DSW 운영](docs/harness/dsw-operations.md)
 - [업스트림과 갱신](docs/harness/upstream.md)
 
@@ -103,8 +105,8 @@ docs/harness/        하네스 설계와 ADR
 scripts/reporting/   정제 Markdown/PDF 보고서 생성
 reports/             공개 가능한 실행 보고서
 tests/               하네스·계약·보고 검증
-src/academic_assistant/ 결정론적 코어, FastAPI/CLI 어댑터와 no-build 웹 UI
-evaluations/         184개 회귀 사례와 30개 웹 사용성 파일럿
+src/academic_assistant/ 결정론적 코어, 선택적 LLM 의도 제안, KG 투영, FastAPI/CLI와 웹 UI
+evaluations/         고정 회귀 사례와 30개 웹 사용성 파일럿
 ```
 
 ## 공개 범위와 라이선스

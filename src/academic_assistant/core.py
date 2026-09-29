@@ -12,8 +12,31 @@ from .registry import Registry, canonical_bytes
 
 _PUNCTUATION = re.compile(r"[^0-9a-zA-Z가-힣]+")
 _ACADEMIC_WORDS = ("학점", "졸업", "교양", "전공", "논문", "학사", "이수", "교육과정", "수강", "학기", "재수강", "휴학", "복학", "편입", "전과", "재입학", "캡스톤", "pccp", "공모전", "졸업작품")
-_GAP_WORDS = ("부족", "모자", "남았", "남은", "더 들어", "더 이수")
-_UNSAFE_QUESTION = re.compile(r"(?:이름|성명|학번|학생번호|주민등록|성적표|raw\s*transcript|student\s*(?:name|id|number)|[0-9]{6,12}|01[016789][ -]?[0-9]{3,4}[ -]?[0-9]{4}|[\w.+-]+@[\w.-]+\.[a-z]{2,})", re.IGNORECASE)
+_GAP_WORDS = ("부족", "모자", "남았", "남은", "남아", "더 들어", "더 이수", "더 필요")
+_UNSAFE_QUESTION = re.compile(r"(?:이름|성명|학번|학생번호|주민등록|성적표|raw\s*transcript|student\s*(?:name|id|number)|[0-9]{6,12}|01[016789][\s.-]*[0-9]{3,4}[\s.-]*[0-9]{4}|[\w.+-]+@[\w.-]+\.[a-z]{2,})", re.IGNORECASE)
+_ADMISSION_COHORT_PHRASE = re.compile(r"(?<![0-9])(?:(?:19|20|21)[0-9]{2}|[0-9]{2})\s*학번(?![0-9])")
+_KOREAN_SURNAME = r"(?:김|이|박|최|정|강|조|윤|장|임|한|오|서|신|권|황|안|송|전|홍|유|고|문|양|손|배|백|허|남|심|노|하|곽|성|차|주|우|구|민|진|지|엄|채|원|천|방|공|현|함|변|염|여|추|도|소|석|선|설|마|길|연|위|표|명|기|반|왕|금|옥|육|인|맹|제|모|탁|국|어|은|편|용)"
+_KOREAN_COMPOUND_SURNAME = r"(?:남궁|황보|제갈|선우|사공|독고|동방|서문|남문)"
+_HIGH_PRECISION_SURNAME = r"(?:김|박|정|홍)"
+_NAME_PARTICLE = r"(?:의|은|는|이|가|을|를|도|에)"
+_KOREAN_NAME_WITH_HUMAN_SUFFIX = re.compile(
+    rf"(?<![가-힣]){_KOREAN_SURNAME}[가-힣]{{2}}(?:에게|한테|씨|님)(?![가-힣])"
+)
+_KOREAN_NAME_WITH_PARTICLE = re.compile(
+    rf"(?<![가-힣]){_HIGH_PRECISION_SURNAME}[가-힣]{{2}}{_NAME_PARTICLE}(?![가-힣])"
+)
+_KOREAN_COMPOUND_NAME_WITH_PARTICLE = re.compile(
+    rf"(?<![가-힣]){_KOREAN_COMPOUND_SURNAME}[가-힣]{{2}}(?:에게|한테|씨|님|의|은|는|이|가|을|를|도|에)(?![가-힣])"
+)
+_KOREAN_BARE_NAME_TOKEN = re.compile(r"김[가-힣]{2}")
+_KOREAN_COMPOUND_BARE_NAME_TOKEN = re.compile(rf"(?<![가-힣])(?P<name>{_KOREAN_COMPOUND_SURNAME}[가-힣]{{2}})(?![가-힣])")
+_LATIN_FULL_NAME = re.compile(r"(?<![A-Za-z])[A-Z][a-z]{1,30}[ \t]+[A-Z][a-z]{1,30}(?![A-Za-z])")
+_LATIN_LOWERCASE_NAME = re.compile(
+    r"(?<![A-Za-z])(?:john|jane|james|mary|michael|david|alice|robert|sarah|anna)[ \t]+[a-z]{2,30}(?![A-Za-z])",
+    re.IGNORECASE,
+)
+_BARE_NAME_ACADEMIC_CONTEXT = ("휴학", "복학", "전과", "재입학", "학적", "졸업", "학점", "수강", "성적", "이수")
+_BARE_NAME_GRAMMATICAL_ENDINGS = ("는", "가", "을", "를", "의", "도", "에", "게", "요", "어", "된", "상", "없", "하", "들", "면", "고", "해", "할", "했")
 _PERSONAL_TOKEN = re.compile(
     r"^(?:전|난|"
     r"저(?:는|도|의|라면|로서는|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
@@ -25,6 +48,38 @@ _PERSONAL_TOKEN = re.compile(
     r"우리들(?:은|이|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
     r"우리(?:는|가|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?|"
     r"본인(?:은|이|도|의|에게|에게도|에게는|에게만|한테|한테도|한테는|한테만)?)$"
+)
+_EXPLICIT_DEPARTMENT = re.compile(r"(?<![가-힣])([가-힣]{1,30}(?:학과|학부))")
+_EXPLICIT_DISCIPLINE = re.compile(r"(?<![가-힣])([가-힣]{2,30}공학)(?=(?:은|는|이|가|의|도|만|을|를|에서|으로|로|인|과|와)?(?:\s|$))")
+_EXPLICIT_SHORT_DEPARTMENT = re.compile(r"(?<![가-힣])([가-힣]{2,20}과)(?=(?:은|는|이|가|의|도|만|을|를|에서|으로|로|인|라면|인가요)?(?:\s|$))")
+_ACADEMIC_KWA_STEMS = ("전공", "교양", "졸업", "논문", "학점", "교과", "과목", "이수", "수강", "기준", "요건", "규정", "정책", "학기", "학년", "과정", "교육")
+_UNSUPPORTED_DEPARTMENT_MARKERS = ("다른학과", "타학과", "다른학부", "타학부", "타과", "학과별", "학부별", "타전공", "다른전공")
+_EXPLICIT_YEAR = re.compile(r"(?<![0-9])((?:19|20|21)[0-9]{2})(?![0-9])")
+_EXPLICIT_SHORT_COHORT = re.compile(r"(?<![0-9])([0-9]{2})\s*(?:학번|학년도|년도?\s*입학|교육과정)")
+_APPROVED_SUBSTITUTION_INTENTS = frozenset({
+    "graduation.thesis.substitution", "course-counting.post-completion-equivalence",
+})
+_LINKED_THESIS_INTENT_ID = "graduation.thesis.linked-program-exemption"
+# A linked-program thesis exemption is a narrow approved topic, not a general
+# benefit/eligibility query. Consume the whole question before citing its rule.
+_LINKED_THESIS_TOPIC = r"(?:학석사)?연계과정(?:생(?:은|의))?(?:졸업)?논문면제"
+_LINKED_THESIS_DIRECT_SUFFIX = re.compile(
+    r"(?:가능성이있나요|가능한가요|조건|요건|정책은무엇인가요|"
+    r"(?:혜택)?적용정책을알려주세요)?"
+)
+_LINKED_THESIS_INSTITUTIONAL_SUFFIX = re.compile(r"가능성이있나요")
+_LINKED_THESIS_POLICY_SUFFIX = re.compile(
+    r"(?:적용정책을(?:알고싶어요|알려주세요)|"
+    r"정책(?:이누구에게적용되는지알려주세요|"
+    r"은어떻게적용되는지알고싶어요|"
+    r"에따르면누가대상인지알고싶어요|"
+    r"상대상범위를알고싶어요|"
+    r"에대한설명을부탁드립니다|"
+    r"의적용범위를알고싶어요))"
+)
+_LINKED_THESIS_QUESTION_SUFFIX = re.compile(
+    r"(?:대상일반정책(?:입니다|인지확인하고싶어요)|"
+    r"정책이어떻게적용되는지입니다)"
 )
 APPROVED_METRICS = frozenset({
     "credits.general.balanced", "credits.general.foundation", "credits.general.remaining", "credits.general.total",
@@ -84,6 +139,50 @@ def _has_final_consonant(text: str) -> bool:
     return 0xAC00 <= code <= 0xD7A3 and (code - 0xAC00) % 28 != 0
 
 
+def _question_exceeds_scope(question: str) -> bool:
+    compact = question.replace(" ", "")
+    if any(marker in compact for marker in _UNSUPPORTED_DEPARTMENT_MARKERS):
+        return True
+    if any(int(year) != 2026 for year in _EXPLICIT_YEAR.findall(question)):
+        return True
+    if any(int(year) != 26 for year in _EXPLICIT_SHORT_COHORT.findall(question)):
+        return True
+    if any(department != "컴퓨터공학과" for department in _EXPLICIT_DEPARTMENT.findall(question)):
+        return True
+    if any(discipline != "컴퓨터공학" for discipline in _EXPLICIT_DISCIPLINE.findall(question)):
+        return True
+    return any(
+        department != "컴퓨터공학과" and not any(department[:-1].startswith(stem) for stem in _ACADEMIC_KWA_STEMS)
+        for department in _EXPLICIT_SHORT_DEPARTMENT.findall(question)
+    )
+
+
+def _asks_if_one_requirement_is_enough_for_graduation(compact: str) -> bool:
+    return bool(
+        re.search(r"만.{0,80}졸업(?:되|가능|할수|하나|해)", compact)
+        or re.search(r"졸업하려면.{0,80}만.{0,30}(?:되|충분|가능)", compact)
+    )
+
+
+def _is_approved_linked_thesis_question(compact: str) -> bool:
+    for prefix, suffix in (
+        ("", _LINKED_THESIS_DIRECT_SUFFIX),
+        ("제도상", _LINKED_THESIS_INSTITUTIONAL_SUFFIX),
+        ("저는", _LINKED_THESIS_POLICY_SUFFIX),
+        ("제질문은", _LINKED_THESIS_QUESTION_SUFFIX),
+    ):
+        if not compact.startswith(prefix):
+            continue
+        topic = re.match(_LINKED_THESIS_TOPIC, compact[len(prefix):])
+        if topic and suffix.fullmatch(compact[len(prefix) + topic.end():]):
+            return True
+    return False
+
+
+def _asks_unapproved_exemption(compact: str) -> bool:
+    return "면제" in compact and not _is_approved_linked_thesis_question(compact)
+
+
 def validate_request_safety(payload: AcademicAnswerRequest) -> None:
     validate_public_text_safety(payload.question)
     if set(payload.earned_credits) - APPROVED_METRICS:
@@ -91,8 +190,30 @@ def validate_request_safety(payload: AcademicAnswerRequest) -> None:
 
 
 def validate_public_text_safety(value: str) -> None:
-    if _UNSAFE_QUESTION.search(value) or any(ord(char) < 32 and char not in "\t\n\r" for char in value):
+    normalized = unicodedata.normalize("NFKC", value)
+    # A two- or four-digit admission cohort is not an individual student identifier.
+    # Keep the full text for every other PII check, including 6-12 digit IDs.
+    without_cohort_label = _ADMISSION_COHORT_PHRASE.sub(lambda match: match.group().replace("학번", ""), normalized)
+    if _UNSAFE_QUESTION.search(without_cohort_label) or any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
         raise ValueError("unsafe or identifying question content")
+    if any(pattern.search(normalized) for pattern in (
+        _KOREAN_NAME_WITH_HUMAN_SUFFIX,
+        _KOREAN_NAME_WITH_PARTICLE,
+        _KOREAN_COMPOUND_NAME_WITH_PARTICLE,
+    )):
+        raise ValueError("unsafe or identifying question content")
+    if _LATIN_FULL_NAME.search(normalized) or _LATIN_LOWERCASE_NAME.search(normalized):
+        raise ValueError("unsafe or identifying question content")
+    tokens = re.findall(r"[가-힣]+", normalized)
+    for index, candidate in enumerate(tokens):
+        is_compound_name = _KOREAN_COMPOUND_BARE_NAME_TOKEN.fullmatch(candidate) is not None
+        if not is_compound_name and not _KOREAN_BARE_NAME_TOKEN.fullmatch(candidate):
+            continue
+        if not is_compound_name and candidate.endswith(("생", "자", "과", *_BARE_NAME_GRAMMATICAL_ENDINGS)):
+            continue
+        neighbors = (*tokens[max(0, index - 2):index], *tokens[index + 1:index + 2])
+        if any(context in neighbor for neighbor in neighbors for context in _BARE_NAME_ACADEMIC_CONTEXT):
+            raise ValueError("unsafe or identifying question content")
 
 
 class AnswerEngine:
@@ -122,6 +243,9 @@ class AnswerEngine:
 
         question = normalize_text(request.question)
         compact = question.replace(" ", "")
+        if _question_exceeds_scope(question):
+            safe_scope = {**scope, "department": SANITIZED_DEPARTMENT}
+            return self._unsupported(packet_id, safe_scope, "out_of_scope", "질문에 지정된 학번·학과가 지원 범위와 다릅니다.", "scope")
         config = self.registry.intents
         if any(alias in compact for alias in config["protected_aliases"]):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "해당 운영 관행은 공식 근거가 확인되지 않아 답변할 수 없습니다.", "review")
@@ -129,12 +253,24 @@ class AnswerEngine:
             return self._unsupported(packet_id, scope, "insufficient_evidence", "해당 예외 적용에는 별도의 승인된 근거가 필요합니다.", "missing")
         if self._is_individual_determination(question, compact):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "개인별 이수·면제·소급 적용 결과를 판정하려면 공식 학적 확인이 필요합니다.", "missing")
+        if _asks_unapproved_exemption(compact):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "질문한 면제 관계를 뒷받침할 승인된 근거가 없습니다.", "missing")
+        if "재수강" in compact and "소급" in compact:
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "재수강의 소급 적용 여부를 판정할 승인 근거가 없습니다.", "missing")
+        if _asks_if_one_requirement_is_enough_for_graduation(compact):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "하나의 이수요건만으로 졸업 가능 여부를 판정할 근거가 충분하지 않습니다.", "missing")
         if any(alias in compact for alias in config["broad_graduation_aliases"]):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "포괄적인 졸업 인증 여부를 판정할 승인 근거가 충분하지 않습니다.", "missing")
         specific_aliases = [alias for entry in config["intents"] if entry["kind"] == "specific" for alias in entry["aliases"]]
         if any(alias in compact for alias in config["negation_aliases"]) or any(f"비{alias}" in compact for alias in specific_aliases):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "부정 또는 대비 표현이 포함되어 적용할 규칙을 확정할 수 없습니다.", "missing")
         preliminary = self._select_intents(compact, question)
+        if any(intent["intent_id"] == _LINKED_THESIS_INTENT_ID for intent in preliminary) and not _is_approved_linked_thesis_question(compact):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "질문 전체가 승인된 논문 면제 정책 범위에 해당하지 않습니다.", "missing")
+        if "대체" in compact and (
+            not preliminary or any(intent["intent_id"] not in _APPROVED_SUBSTITUTION_INTENTS for intent in preliminary)
+        ):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "질문한 대체 관계를 뒷받침할 승인된 근거가 없습니다.", "missing")
         if preliminary and any(alias in compact for alias in config["disjunction_aliases"]):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "선택형 표현이 포함되어 적용할 규칙을 확정할 수 없습니다.", "missing")
         if len(preliminary) > 1 and not self._has_explicit_conjunction(preliminary, question):
@@ -170,7 +306,7 @@ class AnswerEngine:
             return self._unsupported(packet_id, scope, "conflict", "승인된 규칙 사이에 충돌이 있어 판정을 보류합니다.", "conflict", sorted(conflict_ids), intent_ids)
 
         credit_rules = [self.registry.rules[rule_id] for rule_id in rule_ids if self.registry.rules[rule_id]["decision"]["outcome"]["type"] == "credit_threshold"]
-        gap_requested = any(word in question for word in _GAP_WORDS) or ("몇 학점" in question and "기준" not in question)
+        gap_requested = any(word in question for word in _GAP_WORDS)
         if gap_requested:
             selected_metrics = [rule["decision"]["outcome"]["metric"] for rule in credit_rules]
             if not selected_metrics or any(metric not in request.earned_credits for metric in selected_metrics):
@@ -189,9 +325,14 @@ class AnswerEngine:
         statements = []
         for rule_id in rule_ids:
             rule = self.registry.rules[rule_id]
-            statements.append(rule["decision"]["statement"])
+            statement = rule["decision"]["statement"]
+            answer_statement = statement
+            outcome = rule["decision"]["outcome"]
+            if outcome["type"] == "coverage_requirement" and outcome.get("requirement") == "major.required.course_set":
+                answer_statement += " 지정 과목은 " + ", ".join(item["label"] for item in outcome["items"]) + "이다."
+            statements.append(answer_statement)
             for item in rule["evidence"]:
-                evidence.append({"source_id": item["source_id"], "rule_id": rule_id, "locator": item["locator"], "claim": rule["decision"]["statement"]})
+                evidence.append({"source_id": item["source_id"], "rule_id": rule_id, "locator": item["locator"], "claim": statement})
         answer_text = " ".join(statements)
         if calculations:
             answer_text += " " + " ".join(f"{c['metric']}은(는) {c['earned']}학점 이수하여 {c['gap']}학점이 부족합니다." for c in calculations)

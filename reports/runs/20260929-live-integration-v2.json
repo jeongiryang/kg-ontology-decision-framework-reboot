@@ -1,0 +1,199 @@
+{
+  "academic_sources_changed": [],
+  "agents": [
+    {
+      "role": "academic_source_auditor",
+      "status": "completed",
+      "summary": "공식 학과 게시물 신원·해시·조항을 대조하고 PCCP·캡스톤·졸업작품 관계의 확인 범위를 분리했다.",
+      "task_id": "official-department-source-audit"
+    },
+    {
+      "role": "harness_worker",
+      "status": "completed",
+      "summary": "학번 범위·근거 문장·혼합 면제 질문을 수정하고 회귀 평가를 추가했다.",
+      "task_id": "answer-boundary-and-evidence-fixes"
+    },
+    {
+      "role": "harness_reviewer",
+      "status": "completed",
+      "summary": "차단 결함을 발견·재수정시킨 뒤 최신본에서 근거 없는 지원 답변과 경계 오류가 없는지 독립 검토했다.",
+      "task_id": "final-review"
+    },
+    {
+      "role": "harness_qa",
+      "status": "completed",
+      "summary": "전체 테스트, 265건 학사 평가, 지원 근거 전수 검사와 보류 경계를 독립 검증했다.",
+      "task_id": "final-qa"
+    },
+    {
+      "role": "main_orchestrator",
+      "status": "completed",
+      "summary": "전용 로컬 Neo4j 적재·조회와 합성 Gemma 1건 연결, 웹 확인, 통합·공개 보고를 담당했다.",
+      "task_id": "integration-and-publication"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "fixed",
+      "path": "src/academic_assistant/core.py",
+      "summary": "타학과·보류 운영관계 및 미확인 혼합 혜택 질문을 실패 폐쇄하고 전공필수 9과목의 EvidencePacket 문장을 승인 규칙과 일치시켰다."
+    },
+    {
+      "kind": "security",
+      "path": "src/academic_assistant/feedback.py",
+      "summary": "동의한 새 피드백에서 학번 표현을 안전하게 허용하되 질문 원문은 저장하지 않는다."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/llm.py",
+      "summary": "LM Studio용 엄격 JSON 스키마와 추론 비활성 의도 제안 어댑터를 추가했다."
+    },
+    {
+      "kind": "changed",
+      "path": "evaluations/academic-answer-mvp.json",
+      "summary": "2026학번·26학번, 근거 없는 운영조건, 혼합 면제·혜택 등 고정 평가를 265건으로 늘렸다."
+    },
+    {
+      "kind": "changed",
+      "path": "scripts/validation/validate_academic_answer_engine.py",
+      "summary": "265건 평가의 분류별 기대 개수를 동기화했다."
+    },
+    {
+      "kind": "changed",
+      "path": "tests/test_academic_answer_engine.py",
+      "summary": "승인 규칙 문장과 EvidencePacket 대조 및 혼합 질문 실패 폐쇄 회귀를 추가했다."
+    },
+    {
+      "kind": "changed",
+      "path": "tests/test_academic_chat_api.py",
+      "summary": "범위 밖·미확인 운영관계 채팅 경계를 검증했다."
+    },
+    {
+      "kind": "changed",
+      "path": "tests/test_academic_feedback_ops.py",
+      "summary": "비식별 학번 표현과 원문 비보존 피드백을 검증했다."
+    },
+    {
+      "kind": "changed",
+      "path": "tests/test_academic_grounded_chat.py",
+      "summary": "LM Studio 엄격 스키마 어댑터의 모델 요청을 모의 검증했다."
+    },
+    {
+      "kind": "documentation",
+      "path": "reviews/academic/clarifications/2026-department-practices-20260929.md",
+      "summary": "검수 세션 권한, 2026년 시범 400점 확인, 캡스톤 I U·차년도 II 불가 확인 및 II→졸업작품 판단 보류를 원답변과 함께 기록했다."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/operations/kg-llm-prototype.md",
+      "summary": "실 Neo4j·저부하 Gemma 연결의 확인 범위, 제한적 질문 해석, 보류 규칙과 후속 운영 안전 조건을 설명했다."
+    },
+    {
+      "kind": "documentation",
+      "path": "README.md",
+      "summary": "초기 프로토타입의 현재 연결 상태와 운영 문서를 연결했다."
+    },
+    {
+      "kind": "documentation",
+      "path": "CHANGELOG.md",
+      "summary": "구현·검증·보류 결정을 누적 변경 이력에 기록했다."
+    }
+  ],
+  "checks": [
+    {
+      "command": "python -m unittest discover -s tests -p test_*.py -q",
+      "evidence": "229건 통과.",
+      "name": "전체 단위 테스트",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "공식 평가 265건과 사용성 30건 통과.",
+      "name": "학사 답변·사용성 평가",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "유효 249건 중 지원 93건의 RuleFact 문장·해시·출처·위치가 일치하고 근거 부족 138건은 규칙·인용이 비어 있다.",
+      "name": "지원 근거 전수 대조",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "PCCP·캡스톤·졸업작품·공모전 질문과 혼합 면제·혜택 질문은 근거 없이 거절했다.",
+      "name": "보류 운영조건·개인정보 경계",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "전용 빈 로컬 DB에 승인 KG 68노드·115관계를 적재하고 수량·단일 그래프 해시를 재조회했다; 시험 서버는 종료했다.",
+      "name": "실 Neo4j 적재·조회",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "나루 게이트웨이 없이 단기 터널로 비식별 합성 의도 1건을 약 1.45초에 처리했다. GPU 이용률은 전후 0%; 터널은 종료했다.",
+      "name": "실 Gemma 저부하 연결",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "localhost 웹·API에서 학점·전공필수 지원 답변과 보류 질문의 근거 없는 거절, 준비 상태를 확인했다.",
+      "name": "최신 웹·API",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "command": "python .agents/skills/harness/scripts/validate.py --project . --run 20260929-prototype-final-v5 --complete",
+      "evidence": "실제 agent ID 등록 및 작업 입력 지문 일치; 최종 리뷰·QA 완료 오류 0건.",
+      "name": "하네스·독립 리뷰·QA",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "공개 보고 사전 검사, Markdown 링크 16개, Mermaid 2개 렌더링, 변경 공백 검사가 통과했다.",
+      "name": "보고·문서 검사",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "PR #2의 Harness CI validate가 코드 커밋 e01c6c8에 대해 성공했다.",
+      "name": "GitHub Actions PR 검사",
+      "required": true,
+      "status": "passed"
+    }
+  ],
+  "git": {
+    "base_commit": "5f26e6edbda81736e7e58aaef02904def039ea39",
+    "branch": "codex/kg-llm-prototype",
+    "head_commit": "e01c6c8e16629b9cc6afcf21db63073c8b86a837"
+  },
+  "harness_version": "1.0.0+codex-harness.79b82281",
+  "issues": [
+    {
+      "message": "2026년 시범 PCCP 400점은 사용자의 학과 확인으로만 기록했고 미래 학번 고정 기준으로 승인하지 않았다. 캡스톤 II→졸업작품과 공모전 졸업작품 대체는 판단 보류다.",
+      "owner": "academic_source_auditor",
+      "severity": "warning"
+    },
+    {
+      "message": "질문 표현 인식은 제한적이다. 실제 학생정보·상시 모델 서빙·외부 공개 전에 추가 평가와 운영 승인이 필요하다.",
+      "owner": "project_owner",
+      "severity": "warning"
+    },
+    {
+      "message": "로컬 Neo4j 적재는 단일 운영자 시험이다. 동시 적재 전 데이터베이스 제약 또는 직렬화가 필요하다.",
+      "owner": "project_owner",
+      "severity": "warning"
+    }
+  ],
+  "publication": {
+    "major": true,
+    "pdf_required": true,
+    "reason": "학사 답변 근거 경계, 실제 KG·LLM 연결, 공개 검수 기록을 바꾼 주요 프로토타입 통합 작업"
+  },
+  "request": "PR 검토·병합, 최신 웹 화면 확인, 교수님 PC Gemma 저부하 연결 시험, 전용 Neo4j 실제 적재·조회, 학과 운영조건의 확인·보류 기록을 완료한다.",
+  "run_id": "20260929-live-integration-v2",
+  "schema_version": "1.0.0",
+  "summary": "승인된 출처 2건과 규칙 26건의 그래프 68노드·115관계를 전용 빈 로컬 Neo4j에 적재·조회했다. 교수님 PC Gemma에는 비식별 합성 의도 요청 1건만 보냈고 모델은 학사 판정을 바꾸지 않는다. 2026년 코딩 테스트 400점은 현재 시범 운영 확인으로만 기록했으며 캡스톤 II와 졸업작품의 관계는 보류했다. 질문 전체가 승인 범위에 없는 학석사 연계과정 혼합 질문은 근거 부족으로 거절한다. 웹 프로토타입과 독립 검증을 통과했다.",
+  "title": "2026학번 학사 프로토타입 실연결·근거 경계 완료 보고"
+}

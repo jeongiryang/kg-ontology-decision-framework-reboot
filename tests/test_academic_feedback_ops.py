@@ -121,6 +121,10 @@ class AcademicFeedbackOpsTests(unittest.TestCase):
                 "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(path.parent),
             }):
                 store_feedback(request)
+                stored_record = json.loads(path.read_text(encoding="utf-8").strip())
+                self.assertEqual("2.0.0", stored_record["schema_version"])
+                self.assertNotIn("question", stored_record)
+                self.assertNotIn(question, path.read_text(encoding="utf-8"))
                 stdout = io.StringIO()
                 with redirect_stdout(stdout):
                     self.assertEqual(0, main(["feedback-summary", "--json"]))
@@ -128,6 +132,94 @@ class AcademicFeedbackOpsTests(unittest.TestCase):
             self.assertEqual(1, payload["record_count"])
             self.assertEqual(1, payload["category_counts"]["scope_request"])
             self.assertNotIn(question, stdout.getvalue())
+
+    def test_new_feedback_record_contains_no_free_text_even_after_consent(self) -> None:
+        question = "수강신청을 하려면 무엇을 확인하나요?"
+        request = AcademicFeedbackRequest(
+            packet_id="academic-" + "9" * 32,
+            status="insufficient_evidence",
+            question=question,
+            category="unclear_question",
+            consent_to_store=True,
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "feedback.jsonl"
+            with patch.dict(os.environ, {
+                "ACADEMIC_FEEDBACK_PATH": str(path),
+                "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(path.parent),
+            }):
+                store_feedback(request)
+            record_value = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                {"schema_version", "feedback_id", "received_at", "scope", "packet_id", "status", "category"},
+                set(record_value),
+            )
+            self.assertNotIn(question, path.read_text(encoding="utf-8"))
+            self.assertEqual(1, summarize_feedback(path).record_count)
+
+    def test_cohort_phrase_is_allowed_only_for_new_feedback_and_student_ids_stay_blocked(self) -> None:
+        questions = ("2026학번 수강신청 일정은?", "26학번 수강신청 일정은?")
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "feedback.jsonl"
+            environment = {
+                "ACADEMIC_FEEDBACK_PATH": str(path),
+                "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(path.parent),
+            }
+            with patch.dict(os.environ, environment):
+                for index, question in enumerate(questions, start=1):
+                    with self.subTest(question=question):
+                        stored = store_feedback(AcademicFeedbackRequest(
+                            packet_id="academic-" + str(index) * 32,
+                            status="insufficient_evidence",
+                            question=question,
+                            category="missing_evidence",
+                            consent_to_store=True,
+                        ))
+                        self.assertTrue(stored.stored)
+                for identifying_question in (
+                    "2026학번 2026123456 수강신청 일정은?",
+                    "26학번 2026123456 수강신청 일정은?",
+                    "이철수는 수강신청 일정이 궁금해요",
+                ):
+                    with self.subTest(question=identifying_question):
+                        with self.assertRaises(ValueError):
+                            store_feedback(AcademicFeedbackRequest(
+                                packet_id="academic-" + "8" * 32,
+                                status="insufficient_evidence",
+                                question=identifying_question,
+                                category="missing_evidence",
+                                consent_to_store=True,
+                            ))
+            self.assertEqual(2, summarize_feedback(path).record_count)
+            records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+            self.assertTrue(all("question" not in value for value in records))
+            for question in questions:
+                self.assertNotIn(question, path.read_text(encoding="utf-8"))
+
+            legacy_path = Path(directory) / "legacy.jsonl"
+            for question in questions:
+                with self.subTest(legacy_question=question):
+                    write_jsonl(legacy_path, [record("1", question=question)])
+                    with self.assertRaisesRegex(FeedbackSummaryError, "^invalid feedback file$"):
+                        summarize_feedback(legacy_path)
+
+    def test_legacy_academic_question_remains_readable_for_summary(self) -> None:
+        questions = (
+            "수강 신청은 언제인가요?",
+            "수강 신청이 가능한가요?",
+            "성적은 학점에 반영되나요?",
+            "졸업 인증은 어떻게 하나요?",
+            "수강 신청한 과목은 몇 학점인가요?",
+            "수강 정원은 몇 명인가요?",
+            "재수강 소급은 되나요?",
+            "학점 차감은 어떻게 하나요?",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "legacy.jsonl"
+            write_jsonl(path, [record(str(index), packet=str(index) * 32, question=question)
+                               for index, question in enumerate(questions, start=1)])
+            summary = summarize_feedback(path)
+            self.assertEqual(len(questions), summary.record_count)
 
     def test_common_korean_name_with_particle_is_rejected_on_store_and_summary(self) -> None:
         identifying_question = "홍길동의 PCCP 기준은 무엇인가요?"

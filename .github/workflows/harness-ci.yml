@@ -29,7 +29,7 @@ jobs:
       - name: Install reporting dependencies
         run: python -m pip install --disable-pip-version-check -r scripts/reporting/requirements.txt
       - name: Install academic answer engine
-        run: python -m pip install --disable-pip-version-check -e ".[test]"
+        run: python -m pip install --disable-pip-version-check -e ".[test,graph]"
       - name: Install pinned Mermaid CLI
         run: npm install --global @mermaid-js/mermaid-cli@11.12.0
       - name: Run unit tests
@@ -58,7 +58,7 @@ jobs:
         run: python scripts/validation/validate_academic_clarifications.py --project .
       - name: Validate unverified academic research isolation
         run: python scripts/validation/validate_academic_research.py --project .
-      - name: Validate deterministic academic answer engine and 184-case evaluation set
+      - name: Validate deterministic academic answer engine and evaluation set
         run: python scripts/validation/validate_academic_answer_engine.py --project .
       - name: Validate 30-case academic web usability pilot
         run: python scripts/validation/validate_academic_usability.py --project .

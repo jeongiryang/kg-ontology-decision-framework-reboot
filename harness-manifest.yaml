@@ -121,6 +121,9 @@ contracts:
     AcademicAnswerResponse:
       path: contracts/academic-answer-response.schema.json
       version: "1.0.0"
+    AcademicChatResponse:
+      path: contracts/academic-chat-response.schema.json
+      version: "1.0.0"
     AcademicFeedbackRequest:
       path: contracts/academic-feedback-request.schema.json
       version: "1.0.0"
@@ -226,7 +229,7 @@ validation:
       - explicit_registry_profile
       - deterministic_intent_matching
       - evidence_packet_grounding
-      - exact_184_case_evaluation
+      - exact_194_case_evaluation
       - API_CLI_core_parity
   academic_web_prototype:
     command: python -m unittest tests.test_academic_web_prototype -v

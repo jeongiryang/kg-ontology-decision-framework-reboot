@@ -17,7 +17,7 @@ from .models import AcademicFeedbackRequest, AcademicFeedbackResponse
 _WRITE_LOCK = threading.Lock()
 _STATUSES = ("insufficient_evidence", "conflict")
 _CATEGORIES = ("missing_evidence", "unclear_question", "scope_request", "other")
-_RECORD_KEYS = {
+_LEGACY_RECORD_KEYS = {
     "schema_version",
     "feedback_id",
     "received_at",
@@ -27,6 +27,7 @@ _RECORD_KEYS = {
     "question",
     "category",
 }
+_RECORD_KEYS = _LEGACY_RECORD_KEYS - {"question"}
 _SCOPE = {
     "admission_year": 2026,
     "matched_curriculum_year": 2026,
@@ -39,6 +40,14 @@ _KOREAN_NAME_WITH_PARTICLE = re.compile(
     r"(?![가-힣])"
 )
 _ACADEMIC_THREE_SYLLABLE_TERMS = frozenset({"공모전", "장학금", "원전공", "한과목", "한학기", "한학점"})
+_LEGACY_EXPLICIT_IDENTIFIER = re.compile(
+    r"(?:이름|성명|학번|학생번호|주민등록|성적표|raw\s*transcript|"
+    r"student\s*(?:name|id|number)|[0-9]{6,12}|"
+    r"01[016789][\s.-]*[0-9]{3,4}[\s.-]*[0-9]{4}|"
+    r"[\w.+-]+@[\w.-]+\.[a-z]{2,})",
+    re.IGNORECASE,
+)
+_ADMISSION_COHORT_PHRASE = re.compile(r"(?<![0-9])(?:(?:19|20|21)[0-9]{2}|[0-9]{2})\s*학번(?![0-9])")
 
 
 class FeedbackSummaryError(ValueError):
@@ -90,6 +99,20 @@ def _approved_feedback_destination() -> Path:
 def _validate_feedback_question_safety(question: str) -> None:
     normalized = unicodedata.normalize("NFKC", question)
     validate_public_text_safety(normalized)
+    _validate_legacy_feedback_question_safety(normalized, allow_cohort_phrase=True)
+
+
+def _validate_legacy_feedback_question_safety(question: str, *, allow_cohort_phrase: bool = False) -> None:
+    """Validate old stored text without applying a later, stricter name heuristic."""
+    normalized = unicodedata.normalize("NFKC", question)
+    # New submissions share the answer API's two- or four-digit cohort exception. Old
+    # v1 records keep their original strict check, and name checks see full text.
+    identifier_text = (_ADMISSION_COHORT_PHRASE.sub(lambda match: match.group().replace("학번", ""), normalized)
+                       if allow_cohort_phrase else normalized)
+    if _LEGACY_EXPLICIT_IDENTIFIER.search(identifier_text) or any(
+        ord(char) < 32 and char not in "\t\n\r" for char in normalized
+    ):
+        raise ValueError("unsafe or identifying question content")
     for match in _KOREAN_NAME_WITH_PARTICLE.finditer(normalized):
         candidate = match.group("name")
         if not candidate.endswith(("생", "자")) and candidate not in _ACADEMIC_THREE_SYLLABLE_TERMS:
@@ -102,13 +125,12 @@ def store_feedback(request: AcademicFeedbackRequest) -> AcademicFeedbackResponse
     identity = {
         "packet_id": request.packet_id,
         "status": request.status,
-        "question": request.question,
         "category": request.category,
         "received_at": received_at,
     }
     feedback_id = "feedback-" + secrets.token_hex(12)
     record = {
-        "schema_version": "1.0.0",
+        "schema_version": "2.0.0",
         "feedback_id": feedback_id,
         "received_at": received_at,
         "scope": {
@@ -129,9 +151,16 @@ def store_feedback(request: AcademicFeedbackRequest) -> AcademicFeedbackResponse
 
 
 def _validated_record(value: Any) -> dict[str, Any]:
-    if not isinstance(value, dict) or set(value) != _RECORD_KEYS:
+    if not isinstance(value, dict):
         raise FeedbackSummaryError()
-    if value.get("schema_version") != "1.0.0":
+    version = value.get("schema_version")
+    if version == "1.0.0":
+        if set(value) != _LEGACY_RECORD_KEYS:
+            raise FeedbackSummaryError()
+    elif version == "2.0.0":
+        if set(value) != _RECORD_KEYS:
+            raise FeedbackSummaryError()
+    else:
         raise FeedbackSummaryError()
     feedback_id = value.get("feedback_id")
     packet_id = value.get("packet_id")
@@ -163,15 +192,16 @@ def _validated_record(value: Any) -> dict[str, Any]:
         raise FeedbackSummaryError()
     status = value.get("status")
     category = value.get("category")
-    question = value.get("question")
     if status not in _STATUSES or category not in _CATEGORIES:
         raise FeedbackSummaryError()
-    if not isinstance(question, str) or question != question.strip() or not 1 <= len(question) <= 500:
-        raise FeedbackSummaryError()
-    try:
-        _validate_feedback_question_safety(question)
-    except ValueError:
-        raise FeedbackSummaryError() from None
+    if version == "1.0.0":
+        question = value["question"]
+        if not isinstance(question, str) or question != question.strip() or not 1 <= len(question) <= 500:
+            raise FeedbackSummaryError()
+        try:
+            _validate_legacy_feedback_question_safety(question)
+        except ValueError:
+            raise FeedbackSummaryError() from None
     return value
 
 
@@ -216,12 +246,12 @@ def summarize_feedback(path: Path | None = None) -> FeedbackSummary:
 
     status_counts = {status: 0 for status in _STATUSES}
     category_counts = {category: 0 for category in _CATEGORIES}
-    identities: set[tuple[str, str, str, str]] = set()
+    identities: set[tuple[str, str, str]] = set()
     duplicate_count = 0
     for record in records:
         status_counts[record["status"]] += 1
         category_counts[record["category"]] += 1
-        identity = (record["packet_id"], record["status"], record["question"], record["category"])
+        identity = (record["packet_id"], record["status"], record["category"])
         if identity in identities:
             duplicate_count += 1
         identities.add(identity)

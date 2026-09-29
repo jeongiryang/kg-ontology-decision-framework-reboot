@@ -11,14 +11,14 @@ from jsonschema import Draft202012Validator
 
 EXPECTED = {
     "canonical": 13,
-    "paraphrase": 13,
-    "credit-gap": 11,
-    "unverified-practice": 3,
-    "scope-unsupported": 4,
+    "paraphrase": 15,
+    "credit-gap": 12,
+    "unverified-practice": 8,
+    "scope-unsupported": 19,
     "ambiguity-conflict": 2,
-    "ta-confirmed": 48,
-    "fail-closed-boundary": 88,
-    "privacy-invalid": 2,
+    "ta-confirmed": 52,
+    "fail-closed-boundary": 128,
+    "privacy-invalid": 16,
 }
 
 

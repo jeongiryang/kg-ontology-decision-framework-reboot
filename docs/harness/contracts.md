@@ -129,6 +129,36 @@ HTTP 400/422와 CLI exit 64는 고정된 `invalid request`만 반환하며 입�
 세부정보를 포함하지 않는다. 범위 밖 또는 레지스트리 장애 EvidencePacket은 사용자가 제출한
 학과 문자열 대신 고정된 `지원범위외` 표지를 사용한다.
 
+## AcademicChatResponse
+
+`POST /v1/academic/chat`은 기존 `AcademicAnswerRequest`를 그대로 받는다. 응답은
+`AcademicAnswerResponse`의 상태·답변·계산·EvidencePacket을 변경하지 않고
+`llm_status`와 선택적인 `suggested_question`만 추가한다. 모델이 꺼져 있으면 `disabled`,
+호출 대상이 아니면 `skipped`, 모델 연결 실패는 `unavailable`, 계약 밖 출력은 `rejected`다.
+`suggested`는 근거 부족 질문에 대해 허용된 의도 ID를 모델이 제안했고, 서버가 해당 의도의
+고정된 질문 표현만 보여 준 경우다. 이 제안은 학사 답변이나 승인 근거가 아니며
+`insufficient_evidence`를 `supported`로 승격하지 않는다. 학사 판정은 항상 결정적 엔진이 한다.
+
+```json
+{
+  "schema_version": "1.0.0",
+  "packet_id": "academic-0123456789abcdef0123456789abcdef",
+  "status": "insufficient_evidence",
+  "answer": "질문에 답할 승인된 학사 근거가 없습니다.",
+  "intent_ids": [],
+  "calculations": [],
+  "evidence_packet": {
+    "schema_version": "2.0.0",
+    "packet_id": "academic-0123456789abcdef0123456789abcdef",
+    "scope": {"admission_year": 2026, "matched_curriculum_year": 2026, "department": "컴퓨터공학과"},
+    "student_facts": {}, "applied_rules": [], "evidence": [],
+    "issues": [{"kind": "missing", "message": "질문에 답할 승인된 학사 근거가 없습니다."}],
+    "status": "insufficient_evidence"
+  },
+  "llm_status": "disabled"
+}
+```
+
 ## AcademicFeedbackRequest와 AcademicFeedbackResponse
 
 근거 부족·충돌 답변을 보완 대상으로 남길 때만 사용하는 명시적 동의 계약이다. 범위 밖 응답은
@@ -140,6 +170,8 @@ HTTP 400/422와 CLI exit 64는 고정된 `invalid request`만 반환하며 입�
 거절한다. 응답은 질문을 반향하지 않고 비식별 `feedback_id`와 `stored=true`만 반환한다.
 
 저장 대상은 `.local/academic-feedback/feedback.jsonl`의 한 줄 JSON이며 공개 Git에서 제외된다.
+새 로컬 기록 `2.0.0`에는 질문 원문을 넣지 않고 응답 ID·상태·유형·고정 범위만 남긴다.
+기존 `1.0.0` 기록은 집계 호환성만 유지하며 새로 작성하지 않는다.
 일반 답변 API는 계속 비저장이고, 웹 화면도 사용자가 동의 확인란과 저장 버튼을 직접 누르기
 전에는 어떤 질문도 피드백 파일에 기록하지 않는다.
 
