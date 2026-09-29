@@ -14,3 +14,6 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 | [0008](0008-portable-run-state-paths.md) | 실행 상태의 프로젝트 상대 경로를 POSIX 형식으로 정규화 | 채택 |
 | [0009](0009-session-scoped-academic-clarification.md) | 사용자 학사 확인을 검수 세션과 명시적 응답 범위로 제한 | 채택 |
 | [0010](0010-isolate-unverified-academic-practices.md) | 미확인 운영요건을 답변 지식에서 격리하고 공개 조사 이슈로 추적 | 채택 |
+| [0011](0011-opt-in-local-feedback.md) | 비지원 질문은 명시적 동의로만 로컬 저장 | 일부 대체 |
+| [0012](0012-kg-and-llm-advisory-boundary.md) | 승인 근거 그래프와 비권위 LLM 의도 제안의 경계 | 채택 |
+| [0013](0013-no-raw-feedback-retention.md) | 동의한 피드백에도 질문 원문을 보존하지 않음 | 채택 |

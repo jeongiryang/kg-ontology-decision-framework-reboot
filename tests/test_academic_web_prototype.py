@@ -46,6 +46,7 @@ class AcademicWebPrototypeTests(unittest.TestCase):
         self.assertEqual(200, redoc.status_code)
         paths = openapi.json()["paths"]
         self.assertIn("/v1/academic/answers", paths)
+        self.assertIn("/v1/academic/chat", paths)
         self.assertIn("/v1/academic/feedback", paths)
         self.assertIn("/readyz", paths)
         self.assertNotIn("/", paths)
@@ -107,7 +108,7 @@ class AcademicWebPrototypeTests(unittest.TestCase):
             'department: "컴퓨터공학과"',
             "earned_credits: earnedCredits",
             "function readCredits()",
-            'fetch("/v1/academic/answers"',
+            'fetch("/v1/academic/chat"',
             'method: "POST"',
         )
         for fragment in expected_fragments:
@@ -165,7 +166,7 @@ class AcademicWebPrototypeTests(unittest.TestCase):
                 self.assertNotIn(forbidden, combined)
         self.assertNotIn(".pdf", combined.lower())
         self.assertIn('cache: "no-store"', self.javascript)
-        self.assertIn("자동 저장하지 않으며", self.html)
+        self.assertIn("질문 원문은 저장하지 않습니다.", self.html)
 
     def test_credit_inputs_send_only_entered_metrics_and_calculate_gap(self) -> None:
         self.assertIn('data-credit-metric="credits.graduation.total"', self.html)
@@ -217,7 +218,9 @@ class AcademicWebPrototypeTests(unittest.TestCase):
             self.assertNotIn("question", body)
             records = [json.loads(line) for line in destination.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(1, len(records))
-            self.assertEqual(payload["question"], records[0]["question"])
+            self.assertEqual("2.0.0", records[0]["schema_version"])
+            self.assertNotIn("question", records[0])
+            self.assertNotIn(payload["question"], destination.read_text(encoding="utf-8"))
             self.assertEqual("컴퓨터공학과", records[0]["scope"]["department"])
 
             before = destination.read_text(encoding="utf-8")

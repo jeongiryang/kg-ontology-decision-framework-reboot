@@ -12,6 +12,7 @@ from functools import lru_cache
 
 from .core import AnswerEngine, SANITIZED_DEPARTMENT, canonical_response_json, validate_request_safety
 from .feedback import store_feedback
+from .grounded_chat import GroundedChatEngine, GroundedChatResponse
 from .models import AcademicAnswerRequest, AcademicAnswerResponse, AcademicFeedbackRequest, AcademicFeedbackResponse
 from .registry import Registry, RegistryUnavailable
 
@@ -91,6 +92,11 @@ def _engine() -> AnswerEngine:
     return AnswerEngine(Registry.load())
 
 
+@lru_cache(maxsize=1)
+def _chat_engine() -> GroundedChatEngine:
+    return GroundedChatEngine(_engine())
+
+
 @app.get("/readyz")
 def readiness() -> dict[str, str]:
     try:
@@ -110,6 +116,18 @@ def create_answer(request: AcademicAnswerRequest):
         scope = {"admission_year": request.admission_year, "matched_curriculum_year": request.matched_curriculum_year, "department": SANITIZED_DEPARTMENT}
         result = AnswerEngine._unsupported(packet_id, scope, "insufficient_evidence", "학사 근거 저장소를 확인할 수 없어 답변할 수 없습니다.", "review")
         return Response(canonical_response_json(result), status_code=503, media_type="application/json")
+    except ValueError:
+        return _invalid_response()
+    return Response(canonical_response_json(result), status_code=200, media_type="application/json")
+
+
+@app.post("/v1/academic/chat", response_model=GroundedChatResponse)
+def create_chat_answer(request: AcademicAnswerRequest):
+    try:
+        validate_request_safety(request)
+        result = _chat_engine().chat(request)
+    except RegistryUnavailable:
+        return Response('{"detail":"service unavailable"}', status_code=503, media_type="application/json")
     except ValueError:
         return _invalid_response()
     return Response(canonical_response_json(result), status_code=200, media_type="application/json")

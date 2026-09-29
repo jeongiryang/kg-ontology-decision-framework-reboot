@@ -74,7 +74,7 @@ FastAPI와 CLI는 `academic_assistant` 코어를 공동 사용한다. NFKC와 �
 범위 불일치, PCCP·캡스톤·공모전·졸업작품 보호 주제, 포괄적 졸업 인증, 승인 alias 순서로
 판정한다. 부족 학점은 선택된 credit metric마다 `max(0, required-earned)`만 계산하고 합계를
 추론하지 않는다. `python scripts/validation/validate_academic_answer_engine.py --project .`로 정확히
-184개 회귀 사례와 응답 계약을 검사한다. 이 중 새 사례는 조교 확인을 거친 교양·전공·0학점
+고정 회귀 사례와 응답 계약을 검사한다. 이 중 새 사례는 조교 확인을 거친 교양·전공·0학점
 필수·전과·졸업논문·재수강·동일/대체교과목 정책과 개인 판정 실패 폐쇄 경계를 포함한다.
 
 CLI의 MVP 단축 범위는 `--year` 하나를 입학연도와 매칭 교육과정 연도에 함께 적용한다.
@@ -129,7 +129,7 @@ UI는 `supported`, `insufficient_evidence`, `conflict`, `out_of_scope`를 서로
 근거 부족·충돌 답변의 보완 요청은 자동 수집하지 않는다. 사용자가 개인정보가 없음을 확인하고 저장
 버튼을 누를 때만 `POST /v1/academic/feedback`이 호출되며, 서버는 PII 패턴과 상태·동의 계약을
 검증하고 현재 엔진으로 packet ID와 비지원 상태를 재현한 뒤 Git 제외 경로
-`.local/academic-feedback/feedback.jsonl`에 append-only JSONL로 남긴다.
+`.local/academic-feedback/feedback.jsonl`에 질문 원문 없는 append-only JSONL로 남긴다.
 응답에는 질문을 되돌려 보내지 않는다. `supported` 답변은 피드백 수집 대상이 아니다.
 저장 함수는 해석된 경로가 `ACADEMIC_FEEDBACK_PRIVATE_ROOT` 아래의 파일인지 다시 검사하며,
 기본 내부 파일럿은 프로젝트 `.local` 밖의 목적지를 허용하지 않는다. 운영자는

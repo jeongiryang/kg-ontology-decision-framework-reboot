@@ -2,7 +2,7 @@
 
 ## 상태
 
-승인됨
+부분 대체됨: 질문 원문 저장 결정은 [ADR 0013](0013-no-raw-feedback-retention.md)으로 대체
 
 ## 배경
 
