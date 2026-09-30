@@ -10,8 +10,6 @@ max_persistent_gpus = 0
 
 [defaults]
 gpu_count = 1
-minimum_free_disk_percent = 20
 require_cuda_visible_devices = true
 allow_kill_other_users_processes = false
 require_persistent_service_approval = true
-

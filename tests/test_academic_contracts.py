@@ -218,6 +218,19 @@ class DSWRunRequestSafetyTest(unittest.TestCase):
         self.validator = validator("dsw-run-request.schema.json")
         self.valid = documented_example("DSWRunRequest")
 
+    def test_gpu_command_requires_explicit_device_selection(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["command"] = "python evaluate.py"
+        self.assertFalse(self.validator.is_valid(instance))
+
+    def test_persistent_service_requires_recorded_approval(self) -> None:
+        instance = copy.deepcopy(self.valid)
+        instance["persistent_service"] = True
+        instance.pop("approval_reference", None)
+        self.assertFalse(self.validator.is_valid(instance))
+        instance["approval_reference"] = "lab-approved-academic-service"
+        self.validator.validate(instance)
+
     def test_gpu_count_must_match_requested_gpu_id_count(self) -> None:
         mismatches = ((0, [0]), (1, [0, 1]), (2, [0]), (3, [0, 1]), (4, [0, 1, 2]))
         for gpu_count, gpu_ids in mismatches:
