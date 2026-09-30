@@ -211,4 +211,9 @@ python scripts/validation/render_mermaid.py \
 ```
 # 성적표 처리 흐름
 
+학사 답변·성적표 항목의 승인된 인용 → 규칙 ID/근거 번호로 원본 선택 → 현재 원본 해시 대조
+→ 정확한 문장 또는 표의 행·연도·열·값 검증 → 빨간 밑줄 또는 정직한 페이지 보기 →
+메모리 표시용 PDF 사본. [PDF 근거 표시 절차](../operations/pdf-evidence-viewer.md)와
+[ADR0016](decisions/0016-hash-bound-pdf-evidence-preview.md)을 따른다.
+
 사용자가 허용한 개인 원본을 로컬 비공개 위치에서 확인 → 추출 → 화면에서 필드/2026학번/이수유형/전체 내역 확인 → 승인 규칙으로 부분 비교 → 근거와 보류 항목 제시 → 독립 리뷰와 자동 QA → 정제 보고. 학생 원문과 과목별 실제 기록은 공개 결과에 포함하지 않는다. [성적표 운영 안내](../operations/transcript-prototype.md)와 [ADR0015](decisions/0015-private-transcript-partial-assessment.md)를 따른다.

@@ -106,6 +106,9 @@ skills:
 
 contracts:
   schemas:
+    EvidencePreview:
+      path: contracts/evidence-preview.schema.json
+      version: "1.0.0"
     TranscriptExtraction:
       path: contracts/transcript-extraction.schema.json
       version: "1.0.0"
@@ -301,6 +304,15 @@ validation:
       - process_wide_single_inference_no_queue
       - bounded_topic_code_cache
       - request_interval_and_failure_cooldown
+  evidence_preview:
+    command: python -m unittest discover -s tests -p test_evidence_pdf.py -v
+    checks:
+      - approved_source_sha256_per_request
+      - cited_pages_only
+      - exact_unique_text_or_table_intersection
+      - page_only_for_ambiguous_or_handwritten_source
+      - immutable_original_and_memory_only_copy
+      - bounded_preview_concurrency
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

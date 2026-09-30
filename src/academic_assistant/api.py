@@ -118,6 +118,16 @@ def transcript_script() -> Response:
     return _web_asset("transcript.js", "text/javascript; charset=utf-8")
 
 
+@app.get("/assets/evidence.js", include_in_schema=False)
+def evidence_script() -> Response:
+    return _web_asset("evidence.js", "text/javascript; charset=utf-8")
+
+
+@app.get("/assets/evidence.css", include_in_schema=False)
+def evidence_styles() -> Response:
+    return _web_asset("evidence.css", "text/css; charset=utf-8")
+
+
 def _invalid_response(status_code: int = 422) -> Response:
     return Response('{"detail":"invalid request"}', status_code=status_code, media_type="application/json")
 
@@ -154,6 +164,27 @@ def readiness() -> dict[str, str]:
     except RegistryUnavailable:
         raise HTTPException(status_code=503, detail="academic registry unavailable") from None
     return {"status": "ready"}
+
+
+@app.get("/v1/academic/runtime")
+def runtime_status():
+    """Separate configuration/inventory from successful inference; expose no connection secrets."""
+    from .llm import LocalLLMClient
+    try:
+        engine = _engine()
+        if engine.evidence_reader is not None:
+            engine.evidence_reader.verify(engine.registry)
+    except RegistryUnavailable:
+        raise HTTPException(status_code=503, detail="service unavailable") from None
+    try:
+        llm = LocalLLMClient.from_env()
+        model_available = llm.model_available() if llm else False
+    except ValueError:
+        llm, model_available = None, False
+    return {"schema_version": "1.0.0", "evidence_backend": "neo4j" if engine.evidence_reader else "registry",
+            "graph_verified": engine.evidence_reader is not None,
+            "llm_configured": llm is not None, "llm_model_available": model_available,
+            "llm_mode": "topic_code_suggestions", "student_records_sent_to_llm": False}
 
 
 @app.post("/v1/academic/answers", response_model=AcademicAnswerResponse)
@@ -248,3 +279,7 @@ def transcript_followup(request: TranscriptFollowupRequest):
         raise HTTPException(status_code=503, detail="service unavailable") from None
     except ValueError:
         return _invalid_response()
+
+
+from .evidence_pdf import create_evidence_router
+app.include_router(create_evidence_router(_engine))

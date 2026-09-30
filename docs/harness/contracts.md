@@ -434,6 +434,20 @@ canonical 해시가 질문 당시 `input_snapshots`와 같아야 한다. 따라�
 ```
 
 공개 보고서는 원시 프롬프트, 숨은 추론, 비밀값, 학생정보, 서버 주소와 로컬 절대 경로를 포함하지 않는다.
+# 근거 미리보기 계약 1.0.0
+
+## EvidencePreview
+
+[계약](../../contracts/evidence-preview.schema.json)은 승인된 규칙과 원본 해시,PDF/인쇄 페이지,
+인용문,위치 검증 정밀도,표시 이미지와 PDF URL을 반환한다. `exact`는 유일한 인용문 또는
+표의 학과·입학년도·열·학점 교차 위치만 표시한다. `page_only`는 수기·중복·병합 등 위치
+불확실성을 뜻하며 학사 근거 부족 상태와 혼동하지 않는다. 원본 파일 위치나 학생 자료는
+응답에 포함하지 않는다. 예시는 아래와 같으며 실제 원본 해시로 교체해 검사한다.
+
+```json
+{"schema_version":"1.0.0","rule_id":"approved.rule.id","source_id":"approved.source.id","source_sha256":"0000000000000000000000000000000000000000000000000000000000000000","pdf_page":1,"printed_page":null,"quote":"승인된 인용문","location":"PDF p.1","precision":"page_only","notice":"정확한 위치는 확인되지 않음","image_url":"/v1/academic/evidence/approved.rule.id/preview.png?evidence_index=0&pdf_page=1","pdf_url":"/v1/academic/evidence/approved.rule.id/preview.pdf?evidence_index=0&pdf_page=1"}
+```
+
 # 성적표 계약 1.0.0
 
 - `TranscriptExtraction`: 식별정보 없는 과목 후보·감지 입학년도·고정 학과·미확인 안내와 확인 필요 표시. 추출 결과는 승인된 학생 사실이 아니다.

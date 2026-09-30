@@ -81,7 +81,8 @@
       const packet=supported ? check.evidence_packet : check.policy_packet;
       if(packet) {
         const evidence=document.createElement("details"); const cap=document.createElement("summary"); cap.textContent=supported ? "규칙 · PDF 근거 보기" : "정책 참고 · PDF 근거 보기 (개인 판정 근거 아님)"; evidence.append(cap);
-        for(const ref of packet.evidence) { const p=document.createElement("p"); p.textContent=`${ref.rule_id} · ${ref.locator} · ${ref.claim}`; evidence.append(p); }
+        const indices=new Map();
+        for(const ref of packet.evidence) { const p=document.createElement("p"); p.textContent=`${ref.rule_id} · ${ref.locator} · ${ref.claim}`; const index=indices.get(ref.rule_id)||0; indices.set(ref.rule_id,index+1); if(window.AcademicEvidence)p.append(window.AcademicEvidence.button(ref,index)); evidence.append(p); }
         for(const rule of packet.applied_rules) { const p=document.createElement("p"); p.className="packet-id"; p.textContent=`${rule.rule_id} · SHA-256 ${rule.rule_sha256}`; evidence.append(p); }
         section.append(evidence);
       }

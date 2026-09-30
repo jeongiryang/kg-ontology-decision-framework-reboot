@@ -119,10 +119,15 @@ function renderResponse(data) {
   setText("suggestion-text", suggestion || "");
 
   const packet = data.evidence_packet || {};
+  const evidenceCounters = new Map();
   renderCalculations(Array.isArray(data.calculations) ? data.calculations : []);
-  renderList("evidence-section", "evidence-list", Array.isArray(packet.evidence) ? packet.evidence : [], (evidence) =>
-    makeListItem(evidence.claim || "근거", `${evidence.source_id || "출처 미상"} · ${evidence.locator || "위치 미상"}`)
-  );
+  renderList("evidence-section", "evidence-list", Array.isArray(packet.evidence) ? packet.evidence : [], (evidence) => {
+    const item = makeListItem(evidence.claim || "근거", `${evidence.source_id || "출처 미상"} · ${evidence.locator || "위치 미상"}`);
+    const index = evidenceCounters.get(evidence.rule_id) || 0;
+    evidenceCounters.set(evidence.rule_id, index + 1);
+    if (window.AcademicEvidence) item.appendChild(window.AcademicEvidence.button(evidence, index));
+    return item;
+  });
   renderList("rules-section", "rules-list", Array.isArray(packet.applied_rules) ? packet.applied_rules : [], (rule) =>
     makeListItem(rule.rule_id || "규칙", rule.rule_sha256 ? `검증값 ${rule.rule_sha256.slice(0, 16)}…` : "")
   );
@@ -228,6 +233,15 @@ document.querySelectorAll("[data-question]").forEach((button) => {
 });
 
 form.addEventListener("submit", askAcademicQuestion);
+
+fetch("/v1/academic/runtime", {cache: "no-store", credentials: "omit"})
+  .then(response => { if (!response.ok) throw new Error("unavailable"); return response.json(); })
+  .then(state => {
+    const graph = state.graph_verified ? "Neo4j 근거 검증됨" : "승인 규칙 저장소 사용";
+    const llm = state.llm_configured && state.llm_model_available ? "LLM 연결 확인 · 질문 표현 제안용" : "LLM 미사용 · 규칙 답변 사용 가능";
+    document.getElementById("runtime-state").textContent = `${graph} · ${llm}`;
+  })
+  .catch(() => { document.getElementById("runtime-state").textContent = "연결 상태를 확인할 수 없습니다."; });
 
 feedbackConsent.addEventListener("change", () => {
   feedbackSubmit.disabled = !feedbackConsent.checked;
