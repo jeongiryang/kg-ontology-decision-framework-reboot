@@ -7,6 +7,7 @@
 - 검증: GPU 장치 지정과 상주 승인 계약의 거절 동작을 회귀 테스트로 보강. 과거 실행 보고서는 수정하지 않음.
 - 범위: 운영 정책만 변경. 이번 작업에서 GPU 추론·모델 다운로드·서비스 실행은 수행하지 않음.
 - 설계: [ADR0017](docs/harness/decisions/0017-remove-fixed-dsw-disk-threshold.md).
+- 보고: [정제된 변경·검사 내역](reports/runs/20261001-dsw-policy.md).
 
 ## 2026-10-01 — 원본 PDF 근거 표시와 연결 상태 구분
 
