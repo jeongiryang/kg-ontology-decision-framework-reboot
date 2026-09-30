@@ -106,6 +106,21 @@ skills:
 
 contracts:
   schemas:
+    TranscriptExtraction:
+      path: contracts/transcript-extraction.schema.json
+      version: "1.0.0"
+    TranscriptAssessmentRequest:
+      path: contracts/transcript-assessment-request.schema.json
+      version: "1.0.0"
+    TranscriptAssessmentResponse:
+      path: contracts/transcript-assessment-response.schema.json
+      version: "1.0.0"
+    TranscriptFollowupRequest:
+      path: contracts/transcript-followup-request.schema.json
+      version: "1.0.0"
+    TranscriptFollowupResponse:
+      path: contracts/transcript-followup-response.schema.json
+      version: "1.0.0"
     SourceEntry:
       path: contracts/source-entry.schema.json
       version: "2.0.0"
@@ -186,6 +201,18 @@ documentation:
   decisions: docs/harness/decisions/
 
 validation:
+  transcript_prototype:
+    command: python scripts/validation/validate_transcript_prototype.py
+    checks:
+      - bounded_memory_only_local_extraction
+      - explicit_human_confirmation
+      - admission_year_and_degree_track_gates
+      - approved_evidence_for_partial_checks
+      - zero_credit_and_duplicate_uncertainty
+      - no_final_graduation_certification_or_LLM_student_records
+      - canonical_nested_evidence_and_separate_policy_reference
+      - full_PDF_process_deadline
+      - latest_followup_response_ordering
   synchronization:
     command: python scripts/validation/validate_harness_sync.py --project .
     compares:

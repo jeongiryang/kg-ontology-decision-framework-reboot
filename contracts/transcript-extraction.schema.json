@@ -1,0 +1,210 @@
+{
+  "$defs": {
+    "ExtractedCourse": {
+      "additionalProperties": false,
+      "properties": {
+        "row_id": {
+          "title": "Row Id",
+          "type": "string"
+        },
+        "course_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Course Code"
+        },
+        "course_name": {
+          "title": "Course Name",
+          "type": "string"
+        },
+        "credits": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Credits"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "enum": [
+                "A+",
+                "A0",
+                "B+",
+                "B0",
+                "C+",
+                "C0",
+                "D+",
+                "D0",
+                "F",
+                "F0",
+                "P",
+                "PASS",
+                "S",
+                "U",
+                "W"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Grade"
+        },
+        "category": {
+          "default": "unknown",
+          "enum": [
+            "foundation",
+            "balanced",
+            "expanded",
+            "major_required",
+            "major_elective",
+            "free",
+            "unknown"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "term": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Term"
+        },
+        "balanced_area": {
+          "anyOf": [
+            {
+              "enum": [
+                "digital-communication",
+                "humanities-arts",
+                "society-culture",
+                "nature-science-technology"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Balanced Area"
+        },
+        "excluded": {
+          "default": false,
+          "title": "Excluded",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "row_id",
+        "course_name"
+      ],
+      "title": "ExtractedCourse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "detected_admission_year": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Detected Admission Year"
+    },
+    "detected_department": {
+      "anyOf": [
+        {
+          "const": "컴퓨터공학과",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Detected Department"
+    },
+    "courses": {
+      "items": {
+        "$ref": "#/$defs/ExtractedCourse"
+      },
+      "maxItems": 250,
+      "title": "Courses",
+      "type": "array"
+    },
+    "reported_earned_credits": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reported Earned Credits"
+    },
+    "issues": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "requires_confirmation": {
+      "const": true,
+      "default": true,
+      "title": "Requires Confirmation",
+      "type": "boolean"
+    },
+    "extraction_method": {
+      "enum": [
+        "pdf_text",
+        "windows_ocr",
+        "manual_required"
+      ],
+      "title": "Extraction Method",
+      "type": "string"
+    }
+  },
+  "required": [
+    "courses",
+    "issues",
+    "extraction_method"
+  ],
+  "title": "TranscriptExtraction",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/transcript-extraction.schema.json"
+}
