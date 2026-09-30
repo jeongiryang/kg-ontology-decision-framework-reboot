@@ -145,6 +145,36 @@ def validate_clarifications(project: Path) -> list[str]:
         if rule is not None and isinstance(rule.get("rule_id"), str):
             rules[rule["rule_id"]] = rule
 
+    # Closed sessions remain immutable. Only a hash-bound locator/excerpt
+    # correction may reconstruct their exact original approval snapshots.
+    current_rules = rules
+    historical_rules: dict[str, dict[str, Any]] = {}
+    correction_path = project / "knowledge" / "evidence-corrections.json"
+    if correction_path.exists():
+        ledger = _load(correction_path, errors)
+        try:
+            if not ledger or set(ledger) != {"schema_version", "kind", "audit_report", "corrections"} or ledger["schema_version"] != "1.0.0" or ledger["kind"] != "locator_only":
+                raise ValueError("invalid correction ledger")
+            audit = Path(ledger["audit_report"])
+            if audit.is_absolute() or ".." in audit.parts or not (project / audit).is_file():
+                raise ValueError("missing correction audit")
+            for entry in ledger["corrections"]:
+                if set(entry) != {"rule_id", "previous_sha256", "current_sha256", "previous_locator", "previous_excerpt"}:
+                    raise ValueError("invalid correction fields")
+                rule_id = entry["rule_id"]
+                if rule_id in historical_rules or canonical_sha256(current_rules[rule_id]) != entry["current_sha256"]:
+                    raise ValueError("correction current hash mismatch")
+                previous = copy.deepcopy(current_rules[rule_id])
+                if previous["evidence"][0]["source_id"] != "cwnu.curriculum.2026.changwon-undergraduate":
+                    raise ValueError("correction source mismatch")
+                previous["evidence"][0]["locator"] = entry["previous_locator"]
+                previous["evidence"][0]["excerpt"] = entry["previous_excerpt"]
+                if canonical_sha256(previous) != entry["previous_sha256"]:
+                    raise ValueError("correction changes non-locator content")
+                historical_rules[rule_id] = previous
+        except (KeyError, TypeError, IndexError, ValueError):
+            errors.append("knowledge/evidence-corrections.json: invalid evidence-only lineage")
+
     packet_dir = project / "reviews" / "academic" / "clarifications"
     packet_paths = sorted(packet_dir.glob("*.json")) if packet_dir.is_dir() else []
     if not packet_paths:
@@ -188,6 +218,11 @@ def validate_clarifications(project: Path) -> list[str]:
             }
         if verification_snapshots.get(expected_snapshot) != canonical_sha256(review):
             errors.append(f"{relative}: review snapshot hash mismatch for {expected_snapshot}")
+
+        rules = dict(current_rules)
+        for rule_id, previous in historical_rules.items():
+            if verification_snapshots.get(f"rule:{rule_id}") == canonical_sha256(previous):
+                rules[rule_id] = previous
 
         review_subject_map = {item["subject_id"]: item for item in review["subjects"]}
         review_subjects = set(review_subject_map)

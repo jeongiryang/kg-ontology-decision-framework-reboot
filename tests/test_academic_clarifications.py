@@ -34,6 +34,8 @@ class AcademicClarificationValidationTest(unittest.TestCase):
         # 2026 review session.  A later, already-applied TA confirmation packet
         # must not be revalidated against the deliberately mutated fixtures.
         (root / "reviews/academic/clarifications/2026-ta-confirmation.json").unlink()
+        # Citation corrections are post-approval lineage, not fixture authority.
+        (root / "knowledge/evidence-corrections.json").unlink()
         path = root / "reviews/academic/clarifications/2026-initial-review-questions.json"
         packet = json.loads(path.read_text(encoding="utf-8"))
         review_path = root / "reviews/academic/2026-curriculum-initial-rules.json"

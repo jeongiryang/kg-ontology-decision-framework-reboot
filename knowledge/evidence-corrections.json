@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "locator_only",
+  "audit_report": "reports/source-audits/2026-department-followup-20260930.md",
+  "corrections": [
+    {"rule_id":"cwnu.cs.2026.major-required-course-set","previous_sha256":"9a7bf9cdd69803d3245759bc8e0a5b03c15bc70595a541c8bcf6ea9448327c12","current_sha256":"66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd","previous_locator":"PDF p.577: 컴퓨터공학과 전공필수 교과목 편성표","previous_excerpt":"전공필수 9과목"},
+    {"rule_id":"cwnu.cs.2026.major-counseling-completion","previous_sha256":"6dab0a6035d3ac497cbbd370a6f730c215afa397cb08610318e39dd55f29c423","current_sha256":"9105a1dc8d53196f07dc782e21aa2e6634b6bf92522e9723b21fa21ff2d324cb","previous_locator":"PDF p.577: 심층상담 0학점 전공필수 편성","previous_excerpt":"CDA0088 심층상담 0학점"},
+    {"rule_id":"cwnu.cs.2026.general-recommended-courses","previous_sha256":"a47a4b67f88b10903d644a801e99b209b3bc16ad96562c2e5b3af9984541c6d7","current_sha256":"e0c28d4fe8370b6a6c663e765251c23335c7b9b71125b57e6394b2c3cdad5ba4","previous_locator":"PDF p.577: 컴퓨터공학과 권장 교양","previous_excerpt":"GEA7260, GEA7261, GEA7301 권장 교과목"},
+    {"rule_id":"cwnu.cs.2026.graduation.thesis-completion-result","previous_sha256":"031a6f89d6b01fcc75464df12c3c14e04d1360b245a6e07d44cf69dba7d09fe0","current_sha256":"e20f1f0f8fbdc028a08eff1abf87f5e5ab41d575de906416905a48ce2a3951ae","previous_locator":"PDF p.565 (printed p.557) 및 p.577: 졸업논문 통과 요구와 0학점 편성","previous_excerpt":"졸업논문 통과 요구; 졸업논문 0학점"}
+  ]
+}

@@ -174,6 +174,10 @@ class AcademicGraphTests(unittest.TestCase):
             def run(self, query: str, **params):
                 if query == "MATCH (n) RETURN count(n) AS count":
                     return FakeResult(counts["nodes"])
+                if query.startswith("CREATE CONSTRAINT"):
+                    return FakeResult()
+                if query.startswith("SHOW CONSTRAINTS"):
+                    return FakeResult(1)
                 if query.startswith("CREATE (n:AcademicKG:"):
                     counts["nodes"] += 1
                     return FakeResult()

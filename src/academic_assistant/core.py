@@ -217,8 +217,9 @@ def validate_public_text_safety(value: str) -> None:
 
 
 class AnswerEngine:
-    def __init__(self, registry: Registry | None = None) -> None:
+    def __init__(self, registry: Registry | None = None, *, evidence_reader=None) -> None:
         self.registry = registry or Registry.load()
+        self.evidence_reader = evidence_reader
 
     def validate_request(self, payload: AcademicAnswerRequest) -> None:
         validate_request_safety(payload)
@@ -334,6 +335,8 @@ class AnswerEngine:
             for item in rule["evidence"]:
                 evidence.append({"source_id": item["source_id"], "rule_id": rule_id, "locator": item["locator"], "claim": statement})
         answer_text = " ".join(statements)
+        if self.evidence_reader is not None:
+            evidence = self.evidence_reader.fetch_evidence(rule_ids, self.registry)
         if calculations:
             answer_text += " " + " ".join(f"{c['metric']}은(는) {c['earned']}학점 이수하여 {c['gap']}학점이 부족합니다." for c in calculations)
         packet = {"schema_version": "2.0.0", "packet_id": packet_id, "scope": scope, "student_facts": dict(request.earned_credits), "applied_rules": applied, "evidence": evidence, "issues": [], "status": "supported"}

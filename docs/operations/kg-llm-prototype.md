@@ -1,5 +1,47 @@
 # 2026학번 학사 KG·로컬 LLM 초기 프로토타입
 
+## 2026-09-30 현재 상태
+
+기본은 승인 Registry다. `ACADEMIC_EVIDENCE_BACKEND=neo4j`를 명시하면 코어·CLI·API가
+실제 Neo4j 근거를 읽는다. 매 지원 답변마다 현재 승인 그래프 전체를 제한된 읽기
+트랜잭션으로 대조하며 누락·변조·중복·오래된 해시는 API503/CLI종료3으로 실패한다.
+활성 그래프 오류를 Registry fallback으로 숨기지 않는다. `/readyz`도 활성 그래프를
+재검사하며 드라이버는 앱/CLI 종료 때 닫는다.
+
+설정은 `NEO4J_URI`(숫자 루프백 주소와 명시적 포트), `NEO4J_DATABASE`, 비공개
+`NEO4J_USER`/`NEO4J_PASSWORD`, `ACADEMIC_NEO4J_TIMEOUT_SECONDS`(기본3초)다.
+기본 Registry 모드는 DB 없이 동작한다. WSL 내부 loopback만 가능한 환경에서는
+앱도 같은 WSL에서 실행한다. Windows localhost forwarding을 검증하지 않고
+연결됐다고 설명하지 않는다. 접속값을 공개 저장소에 넣지 않는다.
+
+별도 빈 시험 DB에서 두 프로세스를 동기화해 모두 빈 상태를 읽게 했다. 고유
+`AcademicKG.node_id` 제약으로 하나만68노드115관계를 커밋했고 다른 적재는 거절됐다.
+중단 롤백, graph/core/API/CLI 응답 동등성, 변조 거절·복구도 실제 검사했다. 이번에
+생성한 fixture만 정확 검증 후 재생성했고 기존 DB는 덮어쓰지 않았다. 인증 비활성
+단기 localhost DB는 시험 후 종료하며 운영 설정이 아니다.
+
+원문 인용4건만 정정하여 기존 판단·사람 승인을 유지했다. 현재 graph SHA-256은
+`fba58ba45ce810a427cda6af7b0b131b237f8fdd9f8bb45c06ecd697c69c1425`다.
+[후속 감사](../../reports/source-audits/2026-department-followup-20260930.md)와
+[ADR0014](../harness/decisions/0014-exact-graph-runtime-and-evidence-lineage.md)에 계보를 남겼다.
+
+LLM은 프로세스 전체 동시1개·대기열없음·기본 간격5초(최저2초), 실패 뒤 냉각60초
+(최저60초), 캐시32개/5분, 출력64토큰이다. `ACADEMIC_LLM_MIN_INTERVAL_SECONDS`와
+`ACADEMIC_LLM_FAILURE_COOLDOWN_SECONDS`로 보수적으로 조정한다. 단일 API 프로세스가
+전제이며 다른 앱/여러 프로세스의 공유 모델 전체 부하를 제어한다고 주장하지 않는다.
+timeout 뒤 원격 추론이 멈췄다고 가정하지 않는다. 준비 검사는 추론을 호출하지 않는다.
+
+사용자 지시로 모델 시험 대상은 **교수님 PC가 아니라 연구실 DSW GPU**다.
+사전점검에서는 비어 있는 계산 GPU가 있었으나 디스크 여유15GB·사용률100%, NAS
+접근 오류였다. 최소20% 여유 정책에 따라 새 GPU 추론·다운로드·상주 서비스는
+미실행이다. 나루 GPU·프로세스·게이트웨이는 변경하지 않았다. 공간과 공유 경로를
+해결한 후 새 DSWRunRequest로 빈 GPU1개·`CUDA_VISIBLE_DEVICES`를 지정한다.
+Ollama의 루프백 터널·확인한 모델ID 어댑터는 구현되어 있지만 새 DSW 실 추론
+성공으로 표시하지 않는다. 이후2026-09-29 교수님 모델 기록은 과거 결과다.
+
+참고 JSON은 질문·답변 없는 평가 요약이다. 새 합성15건과 기존265/30건은 자동
+회귀이며 [실제 사람 UAT](human-uat.md)는 별도 미실행이다.
+
 ## 현재 연결 경계
 
 이 프로토타입은 승인된 SourceEntry 2건과 RuleFact 26건을 검증한 뒤 로컬 지식그래프
@@ -96,6 +138,6 @@ uvicorn academic_assistant.api:app --host 127.0.0.1 --port 8000
 파란 `X` 표시도 있다. 그 표시의 효력은 확인되지 않아 면제 규칙으로 등록하지 않았다.
 졸업논문 내부 기준의 TOPCIT 응시와 코딩 테스트 안내의 PCCP 점수도 서로 다른 항목이다.
 
-다음 단계에서 필요한 것은 학사용 LLM 의도 평가 확대, Neo4j 적재의 다중 운영 안전성,
-그리고 보류된 학과 내규 관계의 출처·적용 범위 확인이다. 그전에는
+다음 단계는 DSW 공간·공유 경로 해결 후 저부하 실 모델 평가, 실제 사람 UAT와
+보류 학과 관계 검수다. Neo4j 다중 적재·런타임 조회는 위 현재 범위로 검증했다. 그전에는
 외부망 공개, DSW 상주 서비스, 실제 학생정보 투입을 하지 않는다.
