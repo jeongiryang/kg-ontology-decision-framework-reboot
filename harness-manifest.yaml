@@ -229,7 +229,7 @@ validation:
       - explicit_registry_profile
       - deterministic_intent_matching
       - evidence_packet_grounding
-      - exact_194_case_evaluation
+      - exact_265_case_evaluation
       - API_CLI_core_parity
   academic_web_prototype:
     command: python -m unittest tests.test_academic_web_prototype -v
@@ -254,6 +254,26 @@ validation:
       - unsupported_answers_have_no_rules_or_evidence
       - four_credit_gap_calculations
       - protected_and_scope_boundaries
+  reference_patterns:
+    command: python scripts/validation/validate_reference_patterns.py --project .
+    checks:
+      - exact_15_new_synthetic_patterns_not_transcript_replay
+      - supported_current_evidence
+      - API_CLI_core_parity
+      - human_UAT_separate_not_run
+  graph_runtime:
+    command: python -m unittest tests.test_neo4j_evidence tests.test_academic_kg -v
+    checks:
+      - exact_current_registry_projection
+      - bounded_read_transaction
+      - activated_backend_failure_closed
+      - atomic_empty_database_unique_key
+  llm_budget:
+    command: python -m unittest tests.test_llm_budget -v
+    checks:
+      - process_wide_single_inference_no_queue
+      - bounded_topic_code_cache
+      - request_interval_and_failure_cooldown
   mermaid:
     command: python scripts/validation/render_mermaid.py --project . --output-dir <temporary-directory> --puppeteer-config scripts/validation/puppeteer-ci.json
     cli_package: "@mermaid-js/mermaid-cli@11.12.0"

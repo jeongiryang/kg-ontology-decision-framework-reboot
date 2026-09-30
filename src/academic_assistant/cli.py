@@ -11,6 +11,7 @@ from .core import AnswerEngine, canonical_response_json, validate_request_safety
 from .feedback import FeedbackSummary, FeedbackSummaryError, summarize_feedback
 from .models import AcademicAnswerRequest
 from .registry import RegistryUnavailable
+from .neo4j_evidence import Neo4jEvidenceReader
 
 
 class SafeArgumentParser(argparse.ArgumentParser):
@@ -88,7 +89,12 @@ def main(argv: list[str] | None = None) -> int:
             earned_credits=_credits([*args.credits, *args.earned_credit]),
         )
         validate_request_safety(request)
-        result = AnswerEngine().answer(request)
+        reader = Neo4jEvidenceReader.from_env()
+        try:
+            result = AnswerEngine(evidence_reader=reader).answer(request)
+        finally:
+            if reader is not None:
+                reader.close()
     except RegistryUnavailable:
         print("academic registry unavailable", file=sys.stderr)
         return 3

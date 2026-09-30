@@ -17,3 +17,4 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 | [0011](0011-opt-in-local-feedback.md) | 비지원 질문은 명시적 동의로만 로컬 저장 | 일부 대체 |
 | [0012](0012-kg-and-llm-advisory-boundary.md) | 승인 근거 그래프와 비권위 LLM 의도 제안의 경계 | 채택 |
 | [0013](0013-no-raw-feedback-retention.md) | 동의한 피드백에도 질문 원문을 보존하지 않음 | 채택 |
+| [0014](0014-exact-graph-runtime-and-evidence-lineage.md) | Neo4j 정확 대조·인용 정정 계보·선택적 LLM 호출 예산 | 채택 |

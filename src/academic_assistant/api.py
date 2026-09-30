@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from importlib.resources import files
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import Response
@@ -8,17 +9,54 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 import hashlib
-from functools import lru_cache
+from functools import lru_cache, wraps
+from threading import RLock
 
 from .core import AnswerEngine, SANITIZED_DEPARTMENT, canonical_response_json, validate_request_safety
 from .feedback import store_feedback
 from .grounded_chat import GroundedChatEngine, GroundedChatResponse
 from .models import AcademicAnswerRequest, AcademicAnswerResponse, AcademicFeedbackRequest, AcademicFeedbackResponse
 from .registry import Registry, RegistryUnavailable
+from .neo4j_evidence import Neo4jEvidenceReader
+
+
+def _single_instance(factory):
+    """lru_cache alone permits duplicate factories during concurrent misses."""
+    cached = lru_cache(maxsize=1)(factory)
+    lock = RLock()
+    @wraps(factory)
+    def get():
+        with lock:
+            return cached()
+    def clear():
+        with lock:
+            cached.cache_clear()
+    def info():
+        with lock:
+            return cached.cache_info()
+    get.cache_clear = clear
+    get.cache_info = info
+    return get
+
+
+@asynccontextmanager
+async def _lifespan(_app):
+    try:
+        yield
+    finally:
+        _chat_engine.cache_clear()
+        try:
+            if _engine.cache_info().currsize:
+                reader = _engine().evidence_reader
+                if reader is not None:
+                    reader.close()
+        finally:
+            _engine.cache_clear()
 
 app = FastAPI(
     title="Academic Assistant",
     version="1.1.0",
+    lifespan=_lifespan,
 )
 
 _SECURITY_HEADERS = {
@@ -87,12 +125,13 @@ async def http_error_handler(_request, exc: StarletteHTTPException) -> Response:
     return Response('{"detail":"service unavailable"}', status_code=exc.status_code, media_type="application/json")
 
 
-@lru_cache(maxsize=1)
+@_single_instance
 def _engine() -> AnswerEngine:
-    return AnswerEngine(Registry.load())
+    registry = Registry.load()
+    return AnswerEngine(registry, evidence_reader=Neo4jEvidenceReader.from_env())
 
 
-@lru_cache(maxsize=1)
+@_single_instance
 def _chat_engine() -> GroundedChatEngine:
     return GroundedChatEngine(_engine())
 
@@ -100,7 +139,9 @@ def _chat_engine() -> GroundedChatEngine:
 @app.get("/readyz")
 def readiness() -> dict[str, str]:
     try:
-        _engine()
+        engine = _engine()
+        if engine.evidence_reader is not None:
+            engine.evidence_reader.verify(engine.registry)
     except RegistryUnavailable:
         raise HTTPException(status_code=503, detail="academic registry unavailable") from None
     return {"status": "ready"}

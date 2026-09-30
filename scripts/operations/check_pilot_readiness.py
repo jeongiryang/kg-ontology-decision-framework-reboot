@@ -57,6 +57,8 @@ def run_checks(project: Path) -> dict[str, object]:
     from academic_assistant.feedback import feedback_path, feedback_private_root
     from academic_assistant.models import AcademicAnswerRequest
     from academic_assistant.registry import Registry
+    from academic_assistant.neo4j_evidence import Neo4jEvidenceReader
+    from academic_assistant.llm import LLMSettings
 
     checks: list[dict[str, object]] = []
 
@@ -100,6 +102,17 @@ def run_checks(project: Path) -> dict[str, object]:
     )
 
     registry = Registry.load(project)
+    reader = Neo4jEvidenceReader.from_env()
+    try:
+        if reader is not None:
+            reader.verify(registry)
+        record("evidence-backend", True, "exact Neo4j mirror verified" if reader else "approved Registry backend")
+    finally:
+        if reader is not None:
+            reader.close()
+    # Configuration validation only: readiness never triggers model inference.
+    settings = LLMSettings.from_env()
+    record("llm-budget-configuration", True, "bounded optional local inference configured" if settings else "optional inference disabled")
     engine = AnswerEngine(registry)
     supported = engine.answer(
         AcademicAnswerRequest(

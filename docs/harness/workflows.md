@@ -173,6 +173,8 @@ python .agents/skills/harness/scripts/run.py --project . resume \
 
 구조 검증 통과는 실제 에이전트 발견·샌드박스 적용·병렬 실행의 증거가 아니다. 실제 네이티브 스모크 결과는 별도로 보고한다.
 
+추가 워커 생성이 세션 한도로 실제 ID 없이 실패하면 메인이 허용된 구현을 수행하고 기존 읽기 전용 역할을 독립 검토에 재사용할 수 있다. 그 대체는 네이티브 워커 완료가 아니다. 최신 입력 패킷을 별도 검증 실행에 등록하고 실제 역할·미실행 작업을 보고한다. [ADR 0014](decisions/0014-exact-graph-runtime-and-evidence-lineage.md)는 그래프 재검증, 객관적 인용 위치 정정과 저부하 모델 경계를 정의한다.
+
 ## 계약·문서 동기화 검사
 
 CI는 `harness-manifest.yaml`을 구조화된 색인으로 사용해 다음 실행 기준을 대조한다.

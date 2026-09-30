@@ -242,7 +242,8 @@ class LocalLLMClientTests(unittest.TestCase):
         fake = FakeOpener(json.dumps({"response": json.dumps({"intent_id": "credits.general.foundation"})}).encode())
         client._opener = fake
         candidates = {"credits.general.foundation": "기초교양"}
-        self.assertEqual("credits.general.foundation", client.suggest_intent("course", candidates))
+        # Transport contract tests bypass admission; budgets have separate tests.
+        self.assertEqual("credits.general.foundation", client._request_intent("course", candidates))
         req, timeout = fake.calls[0]
         self.assertEqual("http://127.0.0.1:11434/api/generate", req.full_url)
         self.assertEqual(3.0, timeout)
@@ -256,19 +257,19 @@ class LocalLLMClientTests(unittest.TestCase):
         self.assertNotIn("question", json.loads(outbound["prompt"]))
         fake.response = json.dumps({"response": json.dumps({"intent_id": "unapproved"})}).encode()
         with self.assertRaises(LLMInvalidResponse):
-            client.suggest_intent("course", candidates)
+            client._request_intent("course", candidates)
         fake.response = b"x" * (settings.max_response_bytes + 1)
         with self.assertRaises(LLMInvalidResponse):
-            client.suggest_intent("course", candidates)
+            client._request_intent("course", candidates)
         with self.assertRaises(ValueError):
-            client.suggest_intent("수강신청 일정은?", candidates)
+            client._request_intent("수강신청 일정은?", candidates)
         self.assertEqual(3, len(fake.calls))
 
     def test_openai_compatible_contract_and_redirect_rejection(self) -> None:
         client = LocalLLMClient(LLMSettings("openai", "http://127.0.0.1:8000", "test-model"))
         fake = FakeOpener(json.dumps({"choices": [{"message": {"content": '{"intent_id":null}'}}]}).encode())
         client._opener = fake
-        self.assertIsNone(client.suggest_intent("course", {"credits.general.foundation": "기초교양"}))
+        self.assertIsNone(client._request_intent("course", {"credits.general.foundation": "기초교양"}))
         req, _ = fake.calls[0]
         self.assertEqual("http://127.0.0.1:8000/v1/chat/completions", req.full_url)
         outbound = json.loads(req.data)
@@ -283,7 +284,7 @@ class LocalLLMClientTests(unittest.TestCase):
         client._opener = fake
         self.assertEqual(
             "credits.graduation.total",
-            client.suggest_intent("credits|graduation", {"credits.graduation.total": "졸업 학점", "thesis.requirement": "논문"}),
+            client._request_intent("credits|graduation", {"credits.graduation.total": "졸업 학점", "thesis.requirement": "논문"}),
         )
         outbound = json.loads(fake.calls[0][0].data)
         self.assertEqual("json_schema", outbound["response_format"]["type"])

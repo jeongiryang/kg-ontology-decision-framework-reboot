@@ -2,7 +2,7 @@
 
 국립창원대학교 학칙과 교육과정에 근거하여 질문에 답하고, 근거가 부족하거나 충돌하면 답변을 보류하는 학사조교 시스템의 Season 2 프로젝트입니다.
 
-현재 저장소는 Codex 프로젝트 하네스와 승인된 2026학번 컴퓨터공학과 규칙만 사용하는 결정론적 학사 답변 엔진을 제공합니다. 승인 근거의 로컬 지식그래프 투영과 선택적 로컬 LLM 의도 제안 초기 프로토타입도 포함합니다. 별도 로컬 Neo4j 적재·조회와 교수님 모델의 비식별 합성 요청 1건은 검증했지만, PDF 파서·운영용 모델 서빙·실제 학생 질문의 정확도는 검증하지 않았습니다.
+현재 저장소는 Codex 프로젝트 하네스와 승인된 2026학번 컴퓨터공학과 규칙만 사용하는 결정론적 학사 답변 엔진을 제공합니다. 선택적 Neo4j 근거 조회를 실제 답변 코어·CLI·API에 연결했으며 승인 Registry와 전체 그래프가 정확히 일치해야 합니다. 선택적 로컬 LLM은 호출 예산이 있는 의도 제안만 수행합니다. 모델 시험 대상은 연구실 DSW로 전환했으나 2026-09-30 저장 공간 사전점검에 막혀 새 실 추론은 미실행입니다. PDF 파서·운영용 모델 서빙·실제 사람 UAT는 완료하지 않았습니다.
 
 ## 학사 답변 엔진
 
@@ -91,6 +91,8 @@ DSW 상주 서비스나 `0.0.0.0` 네트워크 공개는 포함하지 않습니�
 - [30개 질문 사용성 파일럿](reports/evaluations/2026-web-usability-pilot.md)
 - [내부 시험운영 가이드](docs/operations/internal-pilot.md)
 - [KG·로컬 LLM 초기 프로토타입](docs/operations/kg-llm-prototype.md)
+- [실제 사람 UAT 절차와 합성 회귀 구분](docs/operations/human-uat.md)
+- [학과 운영요건 후속 감사·인용 정정](reports/source-audits/2026-department-followup-20260930.md)
 - [학과 내규 원본 조사와 검수 대기](reports/source-audits/2026-department-regulations-pending.md)
 - [DSW 운영](docs/harness/dsw-operations.md)
 - [업스트림과 갱신](docs/harness/upstream.md)

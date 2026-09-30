@@ -1,0 +1,22 @@
+{
+  "schema_version":"1.0.0",
+  "provenance":"new_synthetic_reference_patterns_not_transcript_replay",
+  "scope":{"admission_year":2026,"matched_curriculum_year":2026,"department":"컴퓨터공학과"},
+  "cases":[
+    {"id":"syn-01","question":"전공필수 학점 기준과 심화전공 학점 기준을 함께 알려주세요.","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-02","question":"심층상담은 몇 회 이수해야 하나요?","expected_status":"supported","expected_rule_ids":["cwnu.cs.2026.major-counseling-completion"]},
+    {"id":"syn-03","question":"심층상담 1회를 이수하면 졸업할 수 있나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-04","question":"캡스톤을 통과하고 전공필수 학점도 채우면 되나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-05","question":"PCCP 400점이면 캡디1을 통과하나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-06","question":"130학점을 취득하면 바로 졸업할 수 있나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-07","question":"졸업학점은 얼마나 부족한가요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-08","question":"졸업학점은 얼마나 부족한가요?","earned_credits":{"credits.graduation.total":117},"expected_status":"supported","expected_rule_ids":["cwnu.cs.2026.credits.graduation-total"],"expected_gap":13},
+    {"id":"syn-09","question":"졸업학점이 현재 117학점인데 얼마나 부족한가요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-10","question":"2024학번 컴퓨터공학과 졸업학점 기준을 알려주세요.","expected_status":"out_of_scope","expected_rule_ids":[]},
+    {"id":"syn-11","question":"산업공학과 전공필수 학점 기준을 알려주세요.","expected_status":"out_of_scope","expected_rule_ids":[]},
+    {"id":"syn-12","question":"캡스톤 II를 PASS해야 졸업작품을 수강할 수 있나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-13","question":"외부 공모전 총장상이 졸업작품을 대체하나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-14","question":"그럼 몇 회인가요?","expected_status":"out_of_scope","expected_rule_ids":[]},
+    {"id":"syn-15","question":"전공필수 및 심화전공 기준을 알려주세요.","expected_status":"supported","expected_rule_ids":["cwnu.cs.2026.credits.major-advanced","cwnu.cs.2026.credits.major-required"]}
+  ]
+}

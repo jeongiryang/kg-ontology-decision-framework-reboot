@@ -98,10 +98,30 @@ def load_empty_neo4j(
             raise GraphValidationError("Neo4j load count mismatch")
         return loaded_nodes, loaded_edges
 
-    with GraphDatabase.driver(uri, auth=(username, password)) as driver:
-        driver.verify_connectivity()
-        with driver.session(database=database) as session:
-            return session.execute_write(write_transaction)
+    try:
+        with GraphDatabase.driver(uri, auth=(username, password), max_transaction_retry_time=0) as driver:
+            driver.verify_connectivity()
+            with driver.session(database=database) as session:
+                # Do not even provision schema on an occupied database.
+                count = session.run("MATCH (n) RETURN count(n) AS count").single(strict=True)["count"]
+                if count:
+                    raise GraphValidationError("Neo4j database is not empty")
+                session.run("CREATE CONSTRAINT academic_kg_node_id IF NOT EXISTS "
+                    "FOR (n:AcademicKG) REQUIRE n.node_id IS UNIQUE").consume()
+                constraints = session.run("SHOW CONSTRAINTS YIELD type, labelsOrTypes, properties "
+                    "WHERE type = 'UNIQUENESS' AND labelsOrTypes = ['AcademicKG'] "
+                    "AND properties = ['node_id'] RETURN count(*) AS count").single(strict=True)["count"]
+                if not constraints:
+                    raise GraphValidationError("Neo4j uniqueness constraint unavailable")
+                # All loaders create the same unique cohort node in this atomic
+                # transaction. Competing initial loads cannot both commit.
+                return session.execute_write(write_transaction)
+    except GraphValidationError:
+        raise
+    except Exception:
+        # A network failure may mean the atomic commit was acknowledged late:
+        # inspect the dedicated DB; never blindly delete or retry the load.
+        raise GraphValidationError("Neo4j load failed; verify dedicated database before retry") from None
 
 
 def main(argv: list[str] | None = None) -> int:
