@@ -209,3 +209,6 @@ GitHub용 Mermaid는 코드 펜스 개수만 세지 않는다. CI가 고정된 `
 python scripts/validation/render_mermaid.py \
   --project . --output-dir /tmp/harness-mermaid-rendered
 ```
+# 성적표 처리 흐름
+
+사용자가 허용한 개인 원본을 로컬 비공개 위치에서 확인 → 추출 → 화면에서 필드/2026학번/이수유형/전체 내역 확인 → 승인 규칙으로 부분 비교 → 근거와 보류 항목 제시 → 독립 리뷰와 자동 QA → 정제 보고. 학생 원문과 과목별 실제 기록은 공개 결과에 포함하지 않는다. [성적표 운영 안내](../operations/transcript-prototype.md)와 [ADR0015](decisions/0015-private-transcript-partial-assessment.md)를 따른다.

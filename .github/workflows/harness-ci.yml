@@ -34,6 +34,10 @@ jobs:
         run: npm install --global @mermaid-js/mermaid-cli@11.12.0
       - name: Run unit tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Validate transcript contracts and canonical nested evidence
+        run: python scripts/validation/validate_transcript_prototype.py
+      - name: Validate transcript latest-response ordering
+        run: node tests/transcript_web_ordering.cjs
       - name: Build wheel and verify packaged web assets
         run: |
           python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/wheel"
@@ -44,6 +48,7 @@ jobs:
           with ZipFile(wheel) as archive:
               names = set(archive.namelist())
           required = {f'academic_assistant/web/{name}' for name in ('index.html', 'app.css', 'app.js')}
+          required.update({'academic_assistant/web/transcript.js', 'academic_assistant/ocr_windows.ps1'})
           missing = required - names
           if missing:
               raise SystemExit(f'missing packaged web assets: {sorted(missing)}')

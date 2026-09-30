@@ -7,6 +7,7 @@
   <title>컴퓨터공학과 학사 안내</title>
   <link rel="stylesheet" href="/assets/app.css">
   <script src="/assets/app.js" defer></script>
+  <script src="/assets/transcript.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#question">질문 입력으로 건너뛰기</a>
@@ -26,6 +27,44 @@
       <p class="eyebrow">EVIDENCE-GROUNDED ACADEMIC ASSISTANT</p>
       <h1 id="page-title">학사 기준을<br><em>근거와 함께</em> 확인하세요.</h1>
       <p class="lede">승인된 교육과정 규칙만 적용하는 결정론적 안내입니다. 답변 근거가 부족하거나 개인 판정이 필요한 경우에는 추정하지 않습니다.</p>
+    </section>
+
+    <section class="transcript-workspace" aria-labelledby="transcript-title">
+      <p class="step">성적표 · 개인 이수내역 비교</p>
+      <h2 id="transcript-title">남은 학점과 필수과목 확인</h2>
+      <p>2026학번 컴퓨터공학과만 지원합니다. 성적표는 메모리에서 처리하며 저장하거나 LLM에 보내지 않습니다. 인식 결과를 확인한 뒤 계산하세요.</p>
+      <div class="transcript-controls">
+        <label>성적표 PDF (최대 10MB)<input id="transcript-file" type="file" accept="application/pdf"></label>
+        <label>PDF 안의 성적표 페이지<input id="transcript-page" type="number" min="1" max="10" placeholder="단일 성적표는 비워도 됨"></label>
+        <button id="transcript-extract" type="button" class="secondary-button">과목 인식</button>
+        <button id="transcript-manual" type="button" class="secondary-button">새 이수내역 직접 입력</button>
+        <button id="transcript-demo" type="button" class="secondary-button">2026 가상 예제로 보기</button>
+        <button id="transcript-clear" type="button" class="secondary-button">성적표 지우기</button>
+      </div>
+      <p id="transcript-message" role="status" aria-live="polite"></p>
+      <div id="transcript-review" hidden>
+        <p id="transcript-scope"></p>
+        <label>전공 이수유형<select id="transcript-degree"><option value="unknown">미확인</option><option value="single_major">단일전공</option><option value="minor">부전공</option><option value="multiple_major">복수·연계·융합전공 (미지원)</option></select></label>
+        <p>인식이 불확실한 칸을 고치세요. 이름·학번은 입력하지 마세요. 재수강 전 기록은 제외하고, 균형교양 영역은 공식 과목 안내로 확인하세요. S/P/PASS는 이수, U/F/W는 미이수로 계산합니다.</p>
+        <div class="transcript-table-scroll"><table class="transcript-table">
+          <caption>확인할 이수 기록</caption>
+          <thead><tr><th>과목명</th><th>과목코드 (선택)</th><th>학점</th><th>성적</th><th>이수구분</th><th>균형교양 영역</th><th>제외</th><th>삭제</th></tr></thead>
+          <tbody id="transcript-rows"></tbody>
+        </table></div>
+        <button id="transcript-add" type="button" class="secondary-button">과목 추가</button>
+        <label class="consent-row"><input id="transcript-confirmed" type="checkbox"> 과목명·이수구분·학점·성적과 2026학번 적용을 확인했습니다.</label>
+        <label class="consent-row"><input id="transcript-complete" type="checkbox"> 전체 이수내역입니다. (미체크 시 미등장 과목은 미이수로 단정하지 않음)</label>
+        <button id="transcript-assess" type="button" class="submit-button" disabled>확인한 이수내역 비교</button>
+      </div>
+      <div id="transcript-results" hidden aria-live="polite"></div>
+      <div id="transcript-followups" hidden class="example-list">
+        <button type="button" data-transcript-question="남은 필수과목">남은 필수과목</button>
+        <button type="button" data-transcript-question="졸업학점 부족분">몇 학점 남았나요?</button>
+        <button type="button" data-transcript-question="교양학점 부족분">교양 부족분</button>
+        <button type="button" data-transcript-question="전공학점 부족분">전공 부족분</button>
+      </div>
+      <p id="transcript-chat" role="status" aria-live="polite"></p>
+      <p class="privacy-note">승인된 요건의 부분 비교이며 최종 졸업 인증이 아닙니다. 보류 중인 운영요건·개인 면제·대체·소급 적용을 자동 판정하지 않습니다.</p>
     </section>
 
     <section class="workspace" aria-label="학사 질문과 답변">
@@ -148,7 +187,7 @@
       <div aria-hidden="true">!</div>
       <div>
         <h2 id="boundary-title">답변할 수 없는 범위도 명확히 표시합니다.</h2>
-        <p>PCCP, 캡스톤, 공모전, 졸업작품 운영 관행과 개인별 면제·소급 적용 판정은 현재 공식 근거가 충분하지 않아 보류됩니다.</p>
+        <p>2026년 PCCP 시범 기준과 확인된 코딩 테스트 운영 규정은 안내할 수 있습니다. 캡스톤 II → 졸업작품 관계, 공모전 자동 대체와 개인별 면제·소급 적용은 보류됩니다.</p>
       </div>
     </section>
   </main>

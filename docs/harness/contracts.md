@@ -434,3 +434,25 @@ canonical 해시가 질문 당시 `input_snapshots`와 같아야 한다. 따라�
 ```
 
 공개 보고서는 원시 프롬프트, 숨은 추론, 비밀값, 학생정보, 서버 주소와 로컬 절대 경로를 포함하지 않는다.
+# 성적표 계약 1.0.0
+
+- `TranscriptExtraction`: 식별정보 없는 과목 후보·감지 입학년도·고정 학과·미확인 안내와 확인 필요 표시. 추출 결과는 승인된 학생 사실이 아니다.
+- `TranscriptAssessmentRequest`: 명시적으로 확인한2026 적용·전공 이수유형·전체 내역 여부·과목 배열. 이름/학번 필드는 금지한다.
+- `TranscriptAssessmentResponse`: 취득/졸업인정 학점·미충족/충족/확인 필요 항목·항목별 EvidencePacket. `official_graduation_decision`은 항상 false. 확인 필요 학생 packet은 기존 계약대로 적용규칙·인용을 비운다. 별도의 `policy_packet`은 학생 판정이 아닌 승인된 기준 설명만 지원하며 학생 사실은 비운다.
+- `TranscriptFollowupRequest`: 확인된 동일 이수내역과 제한된 후속 질문.
+- `TranscriptFollowupResponse`: 선택한 항목·근거·부분 안내. 정해진 질문 외 개인 예외는 근거 부족이다.
+
+계약 실행 기준은 각각 `contracts/transcript-*.schema.json`과 제품의 `transcript_models.py`다. [운영 안내](../operations/transcript-prototype.md)에서 입력과 계산 범위를 설명한다. 학사 RuleFact 승인 상태는 성적표 확인으로 바뀌지 않는다.
+
+```json
+{
+  "schema_version": "1.0.0",
+  "admission_year": 2026,
+  "matched_curriculum_year": 2026,
+  "department": "컴퓨터공학과",
+  "degree_track": "single_major",
+  "confirmed": true,
+  "record_complete": false,
+  "courses": [{"row_id":"demo-1","course_code":"CDA0088","course_name":"심층상담","credits":0,"grade":"S","category":"major_required"}]
+}
+```

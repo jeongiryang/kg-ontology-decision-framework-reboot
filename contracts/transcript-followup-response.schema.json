@@ -1,0 +1,371 @@
+{
+  "$defs": {
+    "AppliedRule": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_sha256": {
+          "title": "Rule Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "rule_sha256"
+      ],
+      "title": "AppliedRule",
+      "type": "object"
+    },
+    "EvidenceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "locator": {
+          "title": "Locator",
+          "type": "string"
+        },
+        "claim": {
+          "title": "Claim",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "rule_id",
+        "locator",
+        "claim"
+      ],
+      "title": "EvidenceReference",
+      "type": "object"
+    },
+    "Issue": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "missing",
+            "conflict",
+            "scope",
+            "review"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "related_ids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Related Ids"
+        }
+      },
+      "required": [
+        "kind",
+        "message"
+      ],
+      "title": "Issue",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "admission_year": {
+          "title": "Admission Year",
+          "type": "integer"
+        },
+        "matched_curriculum_year": {
+          "title": "Matched Curriculum Year",
+          "type": "integer"
+        },
+        "department": {
+          "title": "Department",
+          "type": "string"
+        }
+      },
+      "required": [
+        "admission_year",
+        "matched_curriculum_year",
+        "department"
+      ],
+      "title": "Scope",
+      "type": "object"
+    },
+    "TranscriptCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "title": "Check Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "result": {
+          "enum": [
+            "met",
+            "not_met",
+            "needs_review"
+          ],
+          "title": "Result",
+          "type": "string"
+        },
+        "required": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Required"
+        },
+        "earned": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Earned"
+        },
+        "gap": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gap"
+        },
+        "missing_courses": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Courses",
+          "type": "array"
+        },
+        "note": {
+          "title": "Note",
+          "type": "string"
+        },
+        "evidence_packet": {
+          "$ref": "#/$defs/TranscriptEvidencePacket"
+        },
+        "policy_packet": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TranscriptEvidencePacket"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "check_id",
+        "label",
+        "result",
+        "note",
+        "evidence_packet"
+      ],
+      "title": "TranscriptCheck",
+      "type": "object"
+    },
+    "TranscriptEvidencePacket": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "supported"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "applied_rules": {
+                "minItems": 1
+              },
+              "evidence": {
+                "minItems": 1
+              },
+              "issues": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "insufficient_evidence",
+                  "conflict",
+                  "out_of_scope"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "applied_rules": {
+                "maxItems": 0
+              },
+              "evidence": {
+                "maxItems": 0
+              },
+              "issues": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ],
+      "description": "Enforce the existing EvidencePacket status semantics in nested outputs.",
+      "properties": {
+        "schema_version": {
+          "const": "2.0.0",
+          "default": "2.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "packet_id": {
+          "title": "Packet Id",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "student_facts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Student Facts",
+          "type": "object"
+        },
+        "applied_rules": {
+          "items": {
+            "$ref": "#/$defs/AppliedRule"
+          },
+          "title": "Applied Rules",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/EvidenceReference"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "supported",
+            "insufficient_evidence",
+            "conflict",
+            "out_of_scope"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "packet_id",
+        "scope",
+        "student_facts",
+        "applied_rules",
+        "evidence",
+        "issues",
+        "status"
+      ],
+      "title": "TranscriptEvidencePacket",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "supported",
+        "insufficient_evidence",
+        "conflict",
+        "out_of_scope"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "answer": {
+      "title": "Answer",
+      "type": "string"
+    },
+    "selected_checks": {
+      "items": {
+        "$ref": "#/$defs/TranscriptCheck"
+      },
+      "title": "Selected Checks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "status",
+    "answer",
+    "selected_checks"
+  ],
+  "title": "TranscriptFollowupResponse",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/transcript-followup-response.schema.json"
+}

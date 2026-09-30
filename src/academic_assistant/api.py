@@ -3,7 +3,7 @@ from __future__ import annotations
 from importlib.resources import files
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Query
 from fastapi.responses import Response
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -11,6 +11,8 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 import hashlib
 from functools import lru_cache, wraps
 from threading import RLock
+from threading import BoundedSemaphore
+from starlette.concurrency import run_in_threadpool
 
 from .core import AnswerEngine, SANITIZED_DEPARTMENT, canonical_response_json, validate_request_safety
 from .feedback import store_feedback
@@ -18,6 +20,8 @@ from .grounded_chat import GroundedChatEngine, GroundedChatResponse
 from .models import AcademicAnswerRequest, AcademicAnswerResponse, AcademicFeedbackRequest, AcademicFeedbackResponse
 from .registry import Registry, RegistryUnavailable
 from .neo4j_evidence import Neo4jEvidenceReader
+from .transcript_models import TranscriptExtraction, TranscriptAssessmentRequest, TranscriptAssessmentResponse, TranscriptFollowupRequest, TranscriptFollowupResponse
+from .transcript_assessment import TranscriptAssessor
 
 
 def _single_instance(factory):
@@ -109,6 +113,11 @@ def web_script() -> Response:
     return _web_asset("app.js", "text/javascript; charset=utf-8")
 
 
+@app.get("/assets/transcript.js", include_in_schema=False)
+def transcript_script() -> Response:
+    return _web_asset("transcript.js", "text/javascript; charset=utf-8")
+
+
 def _invalid_response(status_code: int = 422) -> Response:
     return Response('{"detail":"invalid request"}', status_code=status_code, media_type="application/json")
 
@@ -196,3 +205,46 @@ def create_feedback(request: AcademicFeedbackRequest):
     except OSError:
         return Response('{"detail":"service unavailable"}', status_code=503, media_type="application/json")
     return result
+
+
+_EXTRACTION_SLOT = BoundedSemaphore(1)
+_MAX_PDF_BYTES = 10 * 1024 * 1024
+
+
+@app.post("/v1/academic/transcripts/extract", response_model=TranscriptExtraction)
+async def extract_transcript_pdf(request: Request, page_number: int | None = Query(default=None, ge=1, le=10)):
+    """Raw PDF body: no filename, multipart spooling, file cache or student logs."""
+    if request.headers.get("content-type", "").split(";", 1)[0].strip() != "application/pdf":
+        return _invalid_response(400)
+    if not _EXTRACTION_SLOT.acquire(blocking=False):
+        raise HTTPException(status_code=429, detail="extraction busy")
+    try:
+        data = bytearray()
+        async for chunk in request.stream():
+            if len(data) + len(chunk) > _MAX_PDF_BYTES:
+                raise HTTPException(status_code=413, detail="file too large")
+            data.extend(chunk)
+        from .transcript_process import extract_isolated
+        return await run_in_threadpool(extract_isolated, bytes(data), page_number=page_number)
+    except ValueError:
+        return _invalid_response()
+    finally:
+        _EXTRACTION_SLOT.release()
+
+
+@app.post("/v1/academic/transcripts/assess", response_model=TranscriptAssessmentResponse)
+def assess_transcript(request: TranscriptAssessmentRequest):
+    try:
+        return TranscriptAssessor(_engine()).assess(request)
+    except RegistryUnavailable:
+        raise HTTPException(status_code=503, detail="service unavailable") from None
+
+
+@app.post("/v1/academic/transcripts/chat", response_model=TranscriptFollowupResponse)
+def transcript_followup(request: TranscriptFollowupRequest):
+    try:
+        return TranscriptAssessor(_engine()).followup(request)
+    except RegistryUnavailable:
+        raise HTTPException(status_code=503, detail="service unavailable") from None
+    except ValueError:
+        return _invalid_response()

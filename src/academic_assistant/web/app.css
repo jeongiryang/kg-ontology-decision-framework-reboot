@@ -213,3 +213,14 @@ footer p { margin: 0; }
   .field-meta { flex-direction: column; gap: .15rem; }
   .credits-grid { grid-template-columns: 1fr; }
 }
+[hidden] { display: none !important; }
+.transcript-workspace { margin: 0 auto 2rem; max-width: 1160px; padding: 2rem; border: 1px solid #d9e2df; border-radius: 22px; background: #fff; }
+.transcript-controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; }
+.transcript-controls label { max-width: 320px; }
+.transcript-table-scroll { overflow-x: auto; margin: 1rem 0; }
+.transcript-table { border-collapse: collapse; min-width: 950px; width: 100%; }
+.transcript-table th, .transcript-table td { padding: .5rem; border-bottom: 1px solid #e0e5e3; text-align: left; }
+.transcript-table input:not([type=checkbox]), .transcript-table select { width: 100%; min-width: 75px; }
+.transcript-table td:first-child { min-width: 160px; }
+.transcript-check { border-bottom: 1px solid #e0e5e3; padding: .75rem 0; }
+.transcript-check .packet-id { overflow-wrap: anywhere; }
