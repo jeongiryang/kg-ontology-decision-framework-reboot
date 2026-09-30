@@ -21,3 +21,4 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 # 추가 결정
 
 - [ADR0015: 비식별 성적표 부분 비교](0015-private-transcript-partial-assessment.md)
+- [ADR0016: 해시가 연결된 원본 PDF 근거 표시](0016-hash-bound-pdf-evidence-preview.md)

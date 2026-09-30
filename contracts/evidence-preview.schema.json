@@ -1,0 +1,23 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/evidence-preview.schema.json",
+  "title":"EvidencePreview",
+  "description":"Approved, hash-bound source-page preview. Exact location is not inferred when evidence is ambiguous.",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","rule_id","source_id","source_sha256","pdf_page","printed_page","quote","location","precision","notice","image_url","pdf_url"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},
+    "rule_id":{"type":"string","pattern":"^[a-z0-9][a-z0-9._-]{2,127}$"},
+    "source_id":{"type":"string","pattern":"^[a-z0-9][a-z0-9._-]{2,127}$"},
+    "source_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "pdf_page":{"type":"integer","minimum":1},
+    "printed_page":{"type":["integer","null"],"minimum":1},
+    "quote":{"type":"string","minLength":1},
+    "location":{"type":"string","minLength":1},
+    "precision":{"enum":["exact","page_only"]},
+    "notice":{"type":"string","minLength":1},
+    "image_url":{"type":"string","pattern":"^/v1/academic/evidence/[a-zA-Z0-9._-]+/preview\\.png\\?"},
+    "pdf_url":{"type":"string","pattern":"^/v1/academic/evidence/[a-zA-Z0-9._-]+/preview\\.pdf\\?"}
+  }
+}

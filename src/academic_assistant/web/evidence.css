@@ -1,0 +1,110 @@
+.evidence-open,
+.evidence-close {
+  padding: .45rem .75rem;
+  border: 1px solid var(--green, #174c3c);
+  border-radius: .55rem;
+  color: var(--green, #174c3c);
+  background: var(--surface, #fffefa);
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.evidence-open { display: inline-block; margin-top: .6rem; }
+.evidence-open:hover,
+.evidence-close:hover { background: var(--green-soft, #dce9e2); }
+.evidence-open:disabled { opacity: .5; cursor: default; }
+.evidence-open:focus-visible,
+.evidence-close:focus-visible,
+.evidence-download:focus-visible { outline: 3px solid var(--blue, #244d72); outline-offset: 3px; }
+
+.academic-evidence-dialog {
+  width: min(1150px, calc(100% - 2rem));
+  max-width: none;
+  max-height: 90vh;
+  max-height: 90dvh;
+  padding: 0;
+  color: var(--ink, #17211b);
+  background: var(--surface, #fffefa);
+  border: 1px solid var(--line, #d8d9d0);
+  border-radius: 1rem;
+  box-shadow: 0 28px 90px rgba(20, 35, 27, .3);
+  overflow: auto;
+}
+
+.academic-evidence-dialog::backdrop { background: rgba(17, 29, 22, .6); }
+.academic-evidence-dialog [hidden] { display: none !important; }
+.evidence-dialog-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  background: var(--surface, #fffefa);
+  border-bottom: 1px solid var(--line, #d8d9d0);
+}
+
+.evidence-dialog-title { margin: 0; font-size: 1.25rem; letter-spacing: -.025em; }
+.evidence-dialog-purpose { margin: .2rem 0 0; color: var(--muted, #647068); font-size: .8rem; }
+.evidence-close { flex: 0 0 auto; }
+.evidence-dialog-body { padding: 1.4rem; }
+.evidence-message { margin: .5rem 0; padding: 1.2rem; border-radius: .7rem; background: #f4f4ee; }
+.evidence-error { color: var(--red, #8d342c); }
+.evidence-layout { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0, 1.8fr); gap: 1.5rem; }
+.evidence-details { min-width: 0; }
+.evidence-precision {
+  display: inline-block;
+  margin: 0 0 .9rem;
+  padding: .3rem .65rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.evidence-exact { color: var(--green, #174c3c); background: var(--green-soft, #dce9e2); }
+.evidence-page-only { color: var(--amber, #8a570d); background: var(--amber-soft, #f7e9cc); }
+.evidence-source { margin: 0 0 .4rem; font-size: .76rem; color: var(--muted, #647068); overflow-wrap: anywhere; }
+.evidence-pages { margin: 0 0 1.1rem; font-size: .86rem; font-weight: 750; }
+.evidence-quote-heading { margin: 0 0 .35rem; font-size: .9rem; }
+.evidence-quote {
+  margin: 0;
+  padding: .75rem .9rem;
+  border-left: 3px solid var(--green, #174c3c);
+  border-radius: 0 .5rem .5rem 0;
+  background: #f0f4ee;
+  font-size: .95rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.evidence-location { margin: .8rem 0; font-size: .75rem; color: var(--muted, #647068); overflow-wrap: anywhere; }
+.evidence-notice { margin: 1rem 0; padding: .8rem; border: 1px solid var(--line, #d8d9d0); border-radius: .6rem; font-size: .82rem; }
+.evidence-boundary { margin: .8rem 0 1rem; font-size: .8rem; color: var(--muted, #647068); }
+.evidence-download {
+  display: inline-block;
+  padding: .65rem .8rem;
+  border-radius: .55rem;
+  color: white;
+  background: var(--green, #174c3c);
+  font-size: .8rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.evidence-download:hover { background: #0f3b2e; }
+.evidence-copy-note { margin: .45rem 0 0; font-size: .73rem; color: var(--muted, #647068); }
+.evidence-figure { min-width: 0; margin: 0; }
+.evidence-image-status { margin: 0 0 .6rem; font-size: .76rem; color: var(--muted, #647068); }
+.evidence-image-status.evidence-error { color: var(--red, #8d342c); }
+.evidence-preview-image { display: block; width: 100%; height: auto; border: 1px solid var(--line, #d8d9d0); background: white; }
+
+@media (max-width: 760px) {
+  .academic-evidence-dialog { width: calc(100% - 1rem); border-radius: .75rem; }
+  .evidence-dialog-header { padding: 1rem; }
+  .evidence-dialog-body { padding: 1rem; }
+  .evidence-layout { grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
+}

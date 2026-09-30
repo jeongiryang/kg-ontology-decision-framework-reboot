@@ -38,6 +38,8 @@ jobs:
         run: python scripts/validation/validate_transcript_prototype.py
       - name: Validate transcript latest-response ordering
         run: node tests/transcript_web_ordering.cjs
+      - name: Validate evidence viewer ordering and safety
+        run: node tests/test_evidence_ui.js
       - name: Build wheel and verify packaged web assets
         run: |
           python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/wheel"
@@ -49,6 +51,7 @@ jobs:
               names = set(archive.namelist())
           required = {f'academic_assistant/web/{name}' for name in ('index.html', 'app.css', 'app.js')}
           required.update({'academic_assistant/web/transcript.js', 'academic_assistant/ocr_windows.ps1'})
+          required.update({'academic_assistant/web/evidence.js', 'academic_assistant/web/evidence.css'})
           missing = required - names
           if missing:
               raise SystemExit(f'missing packaged web assets: {sorted(missing)}')

@@ -136,6 +136,27 @@ class LocalLLMClient:
         settings = LLMSettings.from_env(environ)
         return cls(settings) if settings is not None else None
 
+    def model_available(self) -> bool:
+        """Read-only model inventory. Never loads a model or runs inference."""
+        path = "/api/tags" if self.settings.provider == "ollama" else "/v1/models"
+        headers = {"Accept": "application/json"}
+        if self.settings.api_key:
+            headers["Authorization"] = "Bearer " + self.settings.api_key
+        request = Request(self.settings.base_url.rstrip("/") + path, headers=headers)
+        try:
+            with self._opener.open(request, timeout=min(self.settings.timeout_seconds, 3)) as response:
+                raw = response.read(32769)
+            if len(raw) > 32768:
+                return False
+            payload = json.loads(raw)
+            if self.settings.provider == "ollama":
+                models = payload.get("models", [])
+                return any(isinstance(item, dict) and item.get("name") == self.settings.model for item in models)
+            models = payload.get("data", [])
+            return any(isinstance(item, dict) and item.get("id") == self.settings.model for item in models)
+        except (HTTPError, URLError, TimeoutError, OSError, ValueError, TypeError, AttributeError):
+            return False
+
     def suggest_intent(self, signal: str, candidates: Mapping[str, str]) -> str | None:
         parts = signal.split("|")
         if (not signal or len(signal) > 200 or len(parts) > 12

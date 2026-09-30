@@ -16,6 +16,7 @@
 | [DSW 운영](dsw-operations.md) | GPU·디스크·프로세스 안전 계약 |
 | [업스트림](upstream.md) | `codex-harness` 출처, 고정 버전, 갱신 절차 |
 | [설계 결정](decisions/README.md) | 변경 이유와 대안이 담긴 ADR 색인 |
+| [원본 PDF 근거 표시](../operations/pdf-evidence-viewer.md) | 원본 해시 확인, 빨간 밑줄, 위치 미확인과 표시본 다운로드 |
 
 ## 빠른 시작
 
