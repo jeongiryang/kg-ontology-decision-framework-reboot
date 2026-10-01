@@ -7,7 +7,14 @@
 [2026-10-01 발표용 수정본·남은 작업·재개 기록](presentation-handoff-20261001.md)을 먼저 읽는다.
 실제 Gemma/Neo4j/과목 조회/가상 PDF/근거 표시의 관찰, 성능 설명의 한계,
 복합 질문의 미처리 요구, 발표 후 검사와 재개 순서, 서버 링크, 기록 위치와 파일 지문을 모았다.
-**완료 보고서가 아니며 전체 QA·독립 리뷰·별도 질문 평가·CI·발행은 미완료다.**
+**새 작업본의 검증은 실행했으나 필수 실패가 남아 제품은 미완료다.** 누적5회 수정 뒤 자동으로 다음 제품 수정을 숨겨 진행하지 않는다.
+
+## 최신 구현·검증 결과 (미완료)
+
+- [변경·검사·남은6결함](runs/20261001-purpose-dialogue.md), [구조화 보고](runs/20261001-purpose-dialogue.json), [동일 입력4페이지 PDF](pdf/20261001-purpose-dialogue.pdf).
+- [실제 질문66발화의 통과/실패/대기](evaluations/20261001-purpose-dialogue.md), [실제 답변·기대값·판정·변경61파일](evaluations/20261001-purpose-dialogue.json).
+- Windows780개:774통과·6실패. 실제 모델 평가:36통과·29실패·1대기(수정용25/10/1, 미사용 별도11/19/0). 실패에는 요청/문맥/범위 차이와 수집기·판정기 혼재3건도 포함하며, 모두 틀린 학사 사실로 해석하지 않는다.
+- [Draft PR12](https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/pull/12)와 [구현 커밋 CI 실패](https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/actions/runs/36879345919). 병합/새 공개 승격은 차단하며 기존 서버를 유지한다. 보고서 발행 성공은 제품 완료가 아니다.
 
 ## 기존 완료 보고서
 

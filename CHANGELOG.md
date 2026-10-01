@@ -10,7 +10,9 @@
 - 실제 실행: Gemma API66발화를 모두 관찰했고 추가 브라우저 기본 과목 질문에서 “컴퓨터구조는3학점입니다”와 전용 PDF 버튼을 확인했다. 생성 표시/안전한 원문 대체/처리 실패와 의미 정확도를 구분한다. 보호GPU1의 나루 프로세스 레코드는 처음/끝이 같고, 승인된 기존 학사GPU0서비스와 공개 시연을 유지했다. 성능 영향의 정량 보증은 아니다.
 - 미완료: 독립 원문 기반6경계 검사에서 영역별 최소 개수·복합 요청 누락·개수 목적·상담 권장/의무·졸업작품 선행조건 부정을 잘못 허용했다. 누적5회 뒤 추가 제품 수정을 숨겨 수행하지 않고 필수 실패를 보존한다. 새 수정본은 공개 서버로 승격하지 않으며 CI와 완료 판정에서 실패를 유지한다.
 - 유지: 2026학번 컴퓨터공학과 승인29규칙·3출처·43과목/기존 보류, 학생 성적표·이수내역/부족분의 모델 비전송, 기존 호출·시간·크기 제한. 교수님 챗봇 UATJSON은 이번 제품 평가가 아니며 사람 UAT는 사용자 요청으로 생략했다.
-- 설계/재개: [의미 조회 설계](docs/harness/decisions/0023-semantic-course-retrieval-and-student-evaluation.md), [목적별 대화/누적 상한](docs/harness/decisions/0024-purpose-aware-dialogue-and-resume.md), [실제 관찰과 남은 결함](reports/presentation-handoff-20261001.md). 최종 정제 평가와 Markdown/JSON/PDF 검증 보고는 보고서 목차에 연결한다.
+- 실제 평가:40사례66발화의 독립 판정36통과·29실패·1대기. 수정용25/10/1, 미사용 별도11/19/0. 원시 제품 실패 표시26건과 수집기/판정기 혼재3건을 분리하고, 실패를 통과로 바꾸지 않았다. GitHub Linux780개 중768통과·6실패·플랫폼 생략6으로 같은 핵심6결함을 확인했다.
+- 설계/재개: [의미 조회 설계](docs/harness/decisions/0023-semantic-course-retrieval-and-student-evaluation.md), [목적별 대화/누적 상한](docs/harness/decisions/0024-purpose-aware-dialogue-and-resume.md), [실제 관찰과 남은 결함](reports/presentation-handoff-20261001.md).
+- 보고: [변경·검증 결과(미완료)](reports/runs/20261001-purpose-dialogue.md), [JSON](reports/runs/20261001-purpose-dialogue.json), [4페이지 PDF](reports/pdf/20261001-purpose-dialogue.pdf), [질문별 실제 평가](reports/evaluations/20261001-purpose-dialogue.md). 구현2c644c07와 보고서 발행 커밋은 구분하며 [Draft PR12](https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/pull/12)에 보관한다.
 
 ## 2026-10-01 — 친절한 대화·현재 성적표 재사용 (0.10.0)
 
