@@ -1,0 +1,158 @@
+{
+  "academic_sources_changed": [],
+  "agents": [
+    {
+      "role": "main_session",
+      "status": "completed",
+      "summary": "지침·공개/비공개 설정·현재 문서를 동기화하고 전체 회귀 검사를 수행.",
+      "task_id": "policy-integration"
+    },
+    {
+      "role": "harness_architect",
+      "status": "completed",
+      "summary": "기존 읽기 전용 역할을 독립 리뷰/목표 QA로 재사용. 옛 ADR 잔존 문구를 발견하여 대체 표시 후 재검증. 입력 지문 11개 일치.",
+      "task_id": "policy-review"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "changed",
+      "path": ".agents/skills/dsw-server-operations/SKILL.md",
+      "summary": "비율 차단 제거; 디스크 관찰·나루 보호·실행 오류 기록 유지."
+    },
+    {
+      "kind": "changed",
+      "path": ".codex/agents/dsw-compute-operator.toml",
+      "summary": "동일 정책으로 실행 에이전트 지침 동기화."
+    },
+    {
+      "kind": "removed",
+      "path": "config/dsw.example.toml",
+      "summary": "최소 디스크 여유 비율 설정 제거. 비공개 로컬 설정도 해당 키만 제거했고 다른 값은 보존."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/harness/dsw-operations.md",
+      "summary": "현행 운영 기준·영구 변경 범위·유지되는 안전 조건 명시."
+    },
+    {
+      "kind": "added",
+      "path": "docs/harness/decisions/0017-remove-fixed-dsw-disk-threshold.md",
+      "summary": "정책 결정, 과거 기록 보존과 후속 작업 입력 갱신 기록."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/harness/decisions/README.md",
+      "summary": "ADR0017 색인 추가."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/harness/decisions/0015-private-transcript-partial-assessment.md",
+      "summary": "과거 디스크 차단 문단에 ADR0017 대체 표시; 원래 기록 보존."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/harness/decisions/0016-hash-bound-pdf-evidence-preview.md",
+      "summary": "과거 디스크 예외 승인 조건의 대체 표시; 실제 추론과 목록 확인 구분 유지."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/operations/kg-llm-prototype.md",
+      "summary": "현재 정책과 변경 전 차단 기록을 분리; 실제 추론은 여전히 미실행."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/operations/transcript-prototype.md",
+      "summary": "현재 DSW 조건 동기화; 개발원 직접 평가 생략 유지."
+    },
+    {
+      "kind": "added",
+      "path": "tests/test_academic_contracts.py",
+      "summary": "명시적 GPU 선택과 상주 승인 필수 조건 테스트 2건 추가."
+    },
+    {
+      "kind": "documentation",
+      "path": "README.md",
+      "summary": "정책 변경과 실제 모델 실행 상태 구분."
+    },
+    {
+      "kind": "documentation",
+      "path": "CHANGELOG.md",
+      "summary": "제거·유지·검증·작업 범위 기록; 과거 보고서는 보존."
+    }
+  ],
+  "checks": [
+    {
+      "command": "python -m unittest discover -s tests -p test_*.py",
+      "evidence": "325건 통과, 12.411초. 서버·GPU 실 실행 아님.",
+      "name": "전체 회귀",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_academic_contracts.py -v",
+      "evidence": "23건 통과. GPU 수·장치 명시·상주 승인 경계 보존.",
+      "name": "계약 회귀",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "UTF-8 모드로 quick_validate 통과. 최초 Windows 기본 인코딩 실패는 모드 지정으로 해결.",
+      "name": "스킬 검사",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "9개 에이전트·8개 스킬 정적 검사와 manifest/TOML/스킬/계약/문서 동기화 통과.",
+      "name": "하네스 동기화",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "공개·비공개 설정의 비율 키 제거 확인. 과거 차단 문구는 당시 기록으로만 보존. 계약과 실행 코드에는 기존 수치 게이트가 없어 새 게이트를 만들지 않음.",
+      "name": "현재 정책 확인",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "계약 23건·정적 검사·동기화·diff 검사 독립 통과. ADR0015/0016의 대체 표시와 추가 README 검토 완료. 입력 지문 11개 유지.",
+      "name": "독립 리뷰/QA",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "MD/JSON/PDF 재생성 일치·공개 정제·문서 링크/갱신 검사 통과. PDF 전2페이지 렌더 확인: 한글·표·잘림·겹침·페이지 번호 정상.",
+      "name": "공개 보고·PDF 검사",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "정책 변경 요청 범위 밖. 모델 다운로드·서버 작업·나루 변경 없음.",
+      "name": "실제 GPU 추론",
+      "required": false,
+      "status": "not_run"
+    }
+  ],
+  "git": {
+    "base_commit": "5acc838700e17f2b8e59fc0ccd4c6f1e865df330",
+    "branch": "codex/remove-dsw-disk-threshold",
+    "head_commit": "783e44a785585bd39a192bc2be621e604272630b"
+  },
+  "harness_version": "1.0.0 / upstream 79b82281d305c89181fbb216499d5f1e962c14ed",
+  "issues": [
+    {
+      "message": "후속 LLM 작업은 갱신된 지침과 새 입력 패킷으로 빈 GPU를 확인해 실행한다. 디스크 비율 예외 승인을 요구하지 않는다.",
+      "severity": "info"
+    }
+  ],
+  "publication": {
+    "major": true,
+    "pdf_required": true,
+    "reason": "DSW 실행 에이전트·운영 정책 변경"
+  },
+  "request": "DSW 기존 운영 지침의 고정 디스크 여유 비율 차단 조건 제거",
+  "run_id": "20261001-dsw-policy",
+  "schema_version": "1.0.0",
+  "summary": "프로젝트 에이전트·스킬·설정·문서에서 고정 비율 차단을 영구 제거했다. 디스크 관찰, 나루 보호와 GPU 안전 경계는 유지한다. 서버 실행은 이번 변경 범위가 아니다.",
+  "title": "DSW 디스크 비율 차단 제거"
+}
