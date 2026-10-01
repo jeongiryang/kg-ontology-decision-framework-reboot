@@ -10,15 +10,21 @@ import threading
 
 def relay(client: socket.socket, command: list[str], slots: threading.BoundedSemaphore):
     child = None
+    uploader = None
+    stopping = threading.Event()
     try:
         child = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                 stderr=subprocess.DEVNULL,
+                                 stderr=subprocess.DEVNULL, bufsize=0,
                                  creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
         def upload():
             try:
-                while data := client.recv(65536):
-                    child.stdin.write(data)
-                    child.stdin.flush()
+                while not stopping.is_set() and (data := client.recv(65536)):
+                    pending = memoryview(data)
+                    while pending and not stopping.is_set():
+                        written = child.stdin.write(pending)
+                        if not written:
+                            return
+                        pending = pending[written:]
             except (OSError, ValueError):
                 pass
             finally:
@@ -26,22 +32,46 @@ def relay(client: socket.socket, command: list[str], slots: threading.BoundedSem
                     child.stdin.close()
                 except (OSError, ValueError):
                     pass
-        threading.Thread(target=upload, daemon=True).start()
+        uploader = threading.Thread(target=upload, daemon=True, name="owned-ssh-relay-upload")
+        uploader.start()
         while data := os.read(child.stdout.fileno(), 65536):
             client.sendall(data)
     except (OSError, ValueError):
         pass
     finally:
-        client.close()
-        if child is not None:
-            if child.poll() is None:
-                child.terminate()
+        # close() with another thread blocked in recv can produce a Windows
+        # reset, losing connection-delimited HTTP framing. Send the downstream
+        # FIN first, then wake the uploader before releasing the owned socket.
+        stopping.set()
+        for direction in (socket.SHUT_WR, socket.SHUT_RD):
             try:
-                child.wait(timeout=3)
-            except subprocess.TimeoutExpired:
-                child.kill()
-                child.wait(timeout=3)
-        slots.release()
+                client.shutdown(direction)
+            except OSError:
+                pass
+        try:
+            if child is not None:
+                if child.poll() is None:
+                    child.terminate()
+                try:
+                    child.wait(timeout=3)
+                except subprocess.TimeoutExpired:
+                    child.kill()
+                    child.wait(timeout=3)
+        finally:
+            # Reaping the owned process closes its pipe read end, waking any
+            # blocked unbuffered upload write without buffered close locks.
+            try:
+                if uploader is not None:
+                    uploader.join(timeout=3)
+                if child is not None:
+                    for pipe in (child.stdin, child.stdout):
+                        try:
+                            pipe.close()
+                        except (OSError, ValueError):
+                            pass
+            finally:
+                client.close()
+                slots.release()
 
 
 def main():

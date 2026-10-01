@@ -7,12 +7,13 @@ import re
 import unicodedata
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from .core import AnswerEngine, SANITIZED_DEPARTMENT, normalize_text, validate_public_text_safety
 from .llm import ALLOWED_INTENT_SIGNALS, IntentSuggester, LLMInvalidResponse, LLMUnavailable, LocalLLMClient
 from .models import AcademicAnswerRequest, AcademicAnswerResponse, AcademicChatRequest, ClarificationChoice
 from .registry import canonical_bytes
+from .grounded_generation import GenerationStatus, generate_grounded, grounded_generation_enabled
 
 
 _NO_MATCH_ANSWER = "질문에 답할 승인된 학사 근거가 없습니다."
@@ -57,6 +58,24 @@ class GroundedChatResponse(AcademicAnswerResponse):
     llm_status: Literal["disabled", "skipped", "suggested", "unavailable", "rejected"]
     clarification_choices: list[ClarificationChoice] = Field(default_factory=list, max_length=3)
     context_used: bool = False
+    generation_status: GenerationStatus | None = None
+    generated_claim_ids: list[str] | None = Field(default=None, max_length=5)
+    generated_answer: str | None = Field(default=None, min_length=1, max_length=2400)
+
+    @model_validator(mode="after")
+    def generation_contract(self) -> GroundedChatResponse:
+        if self.generation_status is None:
+            if self.generated_claim_ids is not None or self.generated_answer is not None:
+                raise ValueError("generation fields require a status")
+        elif self.generation_status in {"generated", "cached"}:
+            expected = [item.rule_id for item in self.evidence_packet.applied_rules]
+            if (self.status != "supported" or self.evidence_packet.status != "supported"
+                    or not self.generated_answer or not expected or self.generated_claim_ids != expected
+                    or len(set(expected)) != len(expected)):
+                raise ValueError("generation requires complete supported claim coverage")
+        elif self.generated_answer is not None or self.generated_claim_ids != []:
+            raise ValueError("generation fallback cannot contain generated claims")
+        return self
 
 
 _FOLLOWUP_PREFIX = r"(?:그럼|그러면|그건|그것은|그기준은)?"
@@ -120,8 +139,9 @@ class GroundedChatEngine:
     """Replays one prior question through trusted, current rules and facts.
 
     Context resolves only whitelisted, unit-compatible follow-ups. A model is
-    invoked solely when the trusted engine found no intent, and its output
-    never changes status, answer, calculations, applied rules, or citations.
+    suggests intent only when the trusted engine found no intent. Explicit
+    opt-in generation uses approved public claims and is verified separately;
+    neither path changes status, answer, calculations, rules, or citations.
     """
 
     def __init__(self, engine: AnswerEngine | None = None, llm: IntentSuggester | None = None) -> None:
@@ -152,6 +172,22 @@ class GroundedChatEngine:
             base, context_used, choices = self._followup(request, previous, followup)
         else:
             base = self.engine.answer(request)
+        generation = {}
+        if getattr(request, "generate_answer", False):
+            try:
+                enabled = grounded_generation_enabled()
+            except ValueError:
+                enabled = False
+            if not enabled:
+                generation = {"generation_status": "disabled", "generated_claim_ids": []}
+            elif followup is not None:
+                # Transcript/context follow-ups remain wholly deterministic.
+                generation = {"generation_status": "not_applicable", "generated_claim_ids": []}
+            else:
+                outcome = generate_grounded(base, self.engine.registry, self.llm)
+                generation = {"generation_status": outcome.generation_status,
+                              "generated_claim_ids": list(outcome.generated_claim_ids),
+                              "generated_answer": outcome.generated_answer}
         status: Literal["disabled", "skipped", "suggested", "unavailable", "rejected"] = "skipped"
         suggestion: str | None = None
         signal = _model_signal(request.question)
@@ -188,6 +224,7 @@ class GroundedChatEngine:
             "llm_status": status,
             "clarification_choices": choices,
             "context_used": context_used,
+            **generation,
         })
 
     def _choices(self, intent_ids: list[str], *, gap: bool = False) -> list[dict[str, str]]:

@@ -171,6 +171,7 @@ def readiness() -> dict[str, str]:
 def runtime_status():
     """Separate configuration/inventory from successful inference; expose no connection secrets."""
     from .llm import LocalLLMClient
+    from .grounded_generation import grounded_generation_enabled
     try:
         engine = _engine()
         if engine.evidence_reader is not None:
@@ -179,13 +180,15 @@ def runtime_status():
         raise HTTPException(status_code=503, detail="service unavailable") from None
     try:
         llm = LocalLLMClient.from_env()
+        generation_enabled = grounded_generation_enabled()
         model_available = llm.model_available() if llm else False
     except ValueError:
-        llm, model_available = None, False
+        llm, model_available, generation_enabled = None, False, False
     return {"schema_version": "1.0.0", "evidence_backend": "neo4j" if engine.evidence_reader else "registry",
             "graph_verified": engine.evidence_reader is not None,
             "llm_configured": llm is not None, "llm_model_available": model_available,
-            "llm_mode": "topic_code_suggestions", "student_records_sent_to_llm": False}
+            "llm_mode": "grounded_answer_generation" if generation_enabled else "topic_code_suggestions",
+            "student_records_sent_to_llm": False}
 
 
 @app.post("/v1/academic/answers", response_model=AcademicAnswerResponse)

@@ -140,17 +140,34 @@ HTTP 400/422와 CLI exit 64는 고정된 `invalid request`만 반환하며 입�
 
 ## AcademicChatResponse
 
-`AcademicChatRequest`는 `/chat` 전용 기존 입력과 선택적 `previous_question`(한 질문, 최대500자/null)을 정의한다. `/answers`·CLI는 기존 `AcademicAnswerRequest`를 유지한다. 이전 질문은 현재 scope·earned_credits로 재검증하며 클라이언트가 전달한 status/rule/인용을 받지 않는다.
+`AcademicChatRequest`는 `/chat` 전용 기존 입력과 선택적 `previous_question`(한 질문, 최대500자/null), `generate_answer`(엄격한 boolean, 기본false)를 정의한다. `/answers`·CLI는 기존 `AcademicAnswerRequest`를 유지한다. 이전 질문은 현재 scope·earned_credits로 재검증하며 클라이언트가 전달한 status/rule/인용을 받지 않는다.
 
 응답의 추가 선택 필드 `context_used`와 `clarification_choices`(최대3개의 label/question)는 문맥 사용과 질문 선택을 설명한다. 후보는 판정이 아니며 선택 후 승인 코어로 다시 조회한다. 실행 계약은 `contracts/academic-chat-request.schema.json`과 `contracts/academic-chat-response.schema.json`이다. [대화 안내](../operations/conversation-prototype.md)를 따른다.
 
 `POST /v1/academic/chat`은 기존 `AcademicAnswerRequest`를 그대로 받는다. 응답은
 `AcademicAnswerResponse`의 상태·답변·계산·EvidencePacket을 변경하지 않고
-`llm_status`와 선택적인 `suggested_question`만 추가한다. 모델이 꺼져 있으면 `disabled`,
+`llm_status`와 선택적인 `suggested_question`을 추가한다. 모델이 꺼져 있으면 `disabled`,
 호출 대상이 아니면 `skipped`, 모델 연결 실패는 `unavailable`, 계약 밖 출력은 `rejected`다.
 `suggested`는 근거 부족 질문에 대해 허용된 의도 ID를 모델이 제안했고, 서버가 해당 의도의
 고정된 질문 표현만 보여 준 경우다. 이 제안은 학사 답변이나 승인 근거가 아니며
 `insufficient_evidence`를 `supported`로 승격하지 않는다. 학사 판정은 항상 결정적 엔진이 한다.
+
+2026-10-01 추가: 배포 설정 `ACADEMIC_LLM_GROUNDED_GENERATION=1`과 요청
+`generate_answer=true`가 모두 있을 때만 별도 근거 문장 생성을 요청한다. 기존
+`answer`·계산·EvidencePacket은 바꾸지 않는다. 기본 요청에는 새 생성 필드를 넣지
+않아 기존 응답 형태를 유지한다. 새 기능은 선택 필드 확장이고 계약 버전1.0.0은 유지한다.
+과거의 `additionalProperties:false` 스키마로 새 기능을 검증하려면 스키마도 갱신해야 한다.
+
+- `generation_status`: `generated`, `cached`, `disabled`, `unavailable`, `rejected`, `busy`, `not_applicable`.
+- `generated_answer`: 실제 모델이 작성하고 닫힌 문법 검증을 통과한 안내문. 성공할 때만 반환.
+- `generated_claim_ids`: 순서까지 기존 적용 규칙 전체와 일치해야 한다. 실패 시빈 배열.
+
+`generated/cached`는 기존 상태와 패킷이 모두`supported`이며 모든 근거 문장이 검증된
+경우에만 허용한다. 나머지 상태는 생성 초안을 노출하지 않고 기존 답변을 사용한다.
+승인된 공용 규칙만 모델에 보내며 학생 질문·이수학점·성적표·패킷은 보내지 않는다.
+캐시는 모델·문법·근거 해시에 묶인 공용 문장만 최대5분 보존한다. 구체적 보장과 한계는
+[최소 프로토타입 안내](../operations/minimal-prototype.md)와
+[ADR0021](decisions/0021-verified-gemma-claim-generation.md)에 기록한다.
 
 ```json
 {

@@ -15,6 +15,7 @@ KEYS = {
     "ACADEMIC_LLM_MODEL", "ACADEMIC_LLM_API_KEY", "ACADEMIC_LLM_TIMEOUT_SECONDS",
     "ACADEMIC_LLM_MAX_RESPONSE_BYTES", "ACADEMIC_LLM_MIN_INTERVAL_SECONDS",
     "ACADEMIC_LLM_FAILURE_COOLDOWN_SECONDS", "ACADEMIC_SOURCE_MAP",
+    "ACADEMIC_LLM_GROUNDED_GENERATION",
 }
 
 
@@ -53,8 +54,10 @@ def main() -> int:
         os.environ.update(config)
         sys.path.insert(0, str(ROOT / "src"))
         from academic_assistant.llm import LLMSettings
+        from academic_assistant.grounded_generation import grounded_generation_enabled
         from academic_assistant.neo4j_evidence import Neo4jSettings
         LLMSettings.from_env()
+        grounded_generation_enabled()
         Neo4jSettings.from_env()
     except (OSError, ValueError):
         print("Private prototype configuration unavailable.", file=sys.stderr)

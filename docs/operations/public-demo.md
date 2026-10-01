@@ -7,12 +7,12 @@
 기존 비공개 Neo4j·연구실 모델 연결과 `.local/prototype.json`이 준비된 상태에서 프로젝트 PowerShell에서 실행한다.
 
 ```powershell
-./scripts/operations/public_demo.ps1 -Background
-./scripts/operations/public_demo.ps1 -Status
-./scripts/operations/public_demo.ps1 -Stop
+.\demo.ps1 start
+.\demo.ps1 status
+.\demo.ps1 stop
 ```
 
-첫 명령은 숨겨진 시연 실행을 시작한다. 상태 확인에 나온 `https://…trycloudflare.com` 주소를 교수님께 전달하면 된다. 일반 실행은 `-Background` 없이 사용하고 Ctrl+C로 종료한다. 상태와 주소는 Git에서 제외된 `.local/public-demo-state.json`에만 저장한다. 주소를 GitHub에 자동 게시하지 않는다.
+첫 명령은 숨겨진 시연 실행을 시작하고 주소를 보여 준다. 이미 실행 중이면 기존 주소를 보여 준다. `https://…trycloudflare.com` 주소를 교수님께 전달하면 된다. 기존 하위 실행 도구도 유지한다. 상태와 주소는 Git에서 제외된 `.local/public-demo-state.json`에만 저장한다. 주소를 GitHub에 자동 게시하지 않는다.
 
 시작 준비 중 종료를 요청해도 이전 실행이 아니라 현재 실행을 대상으로 한다. 실행 신원을 게시하는 짧은 구간에서는 종료 요청을 명시적으로 재시도하며, PowerShell 도구는 최대 10회만 재시도한다. 종료 실패를 성공으로 표시하거나 다른 프로그램을 종료하지 않는다. 근거 DB 준비 확인은 회당 최대 3초, 전체 시작은 최대 90초다.
 
@@ -46,7 +46,7 @@ Windows 공개 웹 자식은 기본 Python 런타임의 자동 추가 패키지�
 | PDF 과목 인식 자식 | 120초, 공개 모드 768 MiB |
 | PDF 인용 표시 자식 | 20초, 공개 모드 768 MiB |
 | JSON 본문·응답 | 256 KiB·16 MiB |
-| 모델 제안 | 공개 실행에서 최소 60초 간격 |
+| 모델 문장 생성·의도 제안 | 공용 추론1개, 공개 최소60초 간격; 승인 문장 캐시 최대5분 |
 
 방문자 주소 헤더를 바꿔도 전역 예산을 늘릴 수 없다. 제한이면 429와 재시도 안내, 시간·근거 검증 실패이면 제한된 오류만 반환한다. 학생 자료가 오류에 포함되지 않는다. 이는 소규모 교수님 시연용이며 대규모 익명 서비스·무중단 운영·나루 무영향을 보증하지 않는다.
 
