@@ -5,7 +5,7 @@
 - 하네스 버전: `1.0.0 / upstream79b82281d305c89181fbb216499d5f1e962c14ed`
 - 브랜치: `codex/public-demo`
 - 기준 커밋: `73da9192b296fe33f4086d9b283c68a64e2bea5b`
-- 결과 커밋: `34afce23be313756f3694eecd233892ec66592b5`
+- 결과 커밋: `692480f8b1d80d4e5dd1146c2368526ee081505d`
 
 ## 요청
 
@@ -32,7 +32,7 @@
 | added | `tests/test_public_demo.py` | 공개 경계·시간 제한·늦은 작업 슬롯 유지·안전 거절 회귀. |
 | added | `tests/test_public_demo_integration.py` | 실제 FastAPI와 공개 경계의 학사·개인정보·동시 작업 통합 회귀. |
 | added | `tests/test_public_demo_launcher.py` | 실행 신원·준비 시간·종료·소유권·Windows 실제 의존성 import 회귀38개. |
-| added | `tests/test_public_demo_transport.py` | 실제 소유 웹 자식·TCP 답변·개인정보 경계·타 리스너 보존·정상 종료2개. |
+| added | `tests/test_public_demo_transport.py` | 실제 웹·학사·개인정보·소유 종료3개. TIME_WAIT 바인딩 오인을 실제 연결 거절 검사로 교정. |
 | added | `tests/test_public_resource_bounds.py` | 본문·메모리·출력·환경·PDF·자식 정리 경계 검사. |
 | changed | `tests/test_transcript_allocation.py` | 실제 AbortController를 반영한 기존 브라우저 검사 환경 보완. |
 | changed | `tests/transcript_web_ordering.cjs` | 이전 응답 순서 회귀의 취소 환경 유지. |
@@ -57,22 +57,22 @@
 | harness_worker | browser-lifecycle | completed | 자료 변경·취소·오래된 결과 제거·탭 분리·공개 처리 고지 구현. |
 | harness_worker | launcher | completed | 소유 실행·종료·신원 잠금·총 준비 시간·시작 중 종료 검사. |
 | harness_reviewer | review-v5 | completed | 16입력 일치, 정적 중대 발견 없음. 실행 검사는 안 함. |
-| harness_qa | transport-qa-v1 | completed | TCP2개·영향87개·Node10묶음 통과.11개 입력 지문 전후 일치. |
+| harness_qa | transport-qa-v2 | completed | TCP3개·영향87개·Node10묶음·Linux 소켓1개 통과. TIME_WAIT 재현과11입력 일치. |
 | main_orchestrator | integration/publication | completed | 공용 경계·문서 통합, 실제 외부 접속·종료·화면 검증과 정제 보고. |
 
 ## 검사 결과
 
 | 검사 | 필수 | 상태 | 명령 | 근거 |
 |---|---:|---|---|---|
-| Windows 네이티브 웹 연결 | yes | passed | .venv/Scripts/python.exe -m unittest tests.test_public_demo_transport -v | 2개0.953초. 실제 TCP·130학점·종료·타 리스너 보존. |
-| 독립 영향 구간 회귀 | yes | passed | .venv/Scripts/python.exe -m unittest tests.test_public_demo tests.test_public_resource_bounds tests.test_public_demo_launcher tests.test_public_demo_integration -v | 87개14.244초. 실제 import·종료·API·개인정보·시간·환경. |
+| Windows 네이티브 웹 연결 | yes | passed | .venv/Scripts/python.exe -m unittest tests.test_public_demo_transport -v | 3개7.089초. TCP·130기준·소유 종료·활성 리스너 거절. Linux 소켓1개도 통과. |
+| 독립 영향 구간 회귀 | yes | passed | .venv/Scripts/python.exe -m unittest tests.test_public_demo tests.test_public_resource_bounds tests.test_public_demo_launcher tests.test_public_demo_integration -v | 87개13.647초. 실제 import·종료·API·개인정보·시간·환경. |
 | 성적표 화면 수명 | yes | passed | node tests/web/transcript_lifecycle_test.js | 10개 묶음. 취소·오래된 출력·지우기·교체·탭 분리. |
 | 최종 독립 코드 검토 | yes | passed | - | review-v5의16입력 일치. 의존성·종료·슬롯·환경 중대 발견 없음. |
-| 하네스 실행 완료 장부 | yes | passed | .venv/Scripts/python.exe .agents/skills/harness/scripts/validate.py --project . --run 20261001-public-demo-transport-qa-v1 --complete | bootstrap-v1·review-v5·transport-qa-v1 각각0오류. 실제 완료·유휴 기록. |
-| 실제 외부 HTTPS | yes | passed | - | 15항목씩2회. 실제 그래프·130기준·30부족·범위 거절·exact PDF577·PNG·가상6학점. 추가 추론0회. |
+| 하네스 실행 완료 장부 | yes | passed | .venv/Scripts/python.exe .agents/skills/harness/scripts/validate.py --project . --run 20261001-public-demo-transport-qa-v2 --complete | bootstrap-v1·review-v5·transport-qa-v2 각각0오류. QA 기록 불일치는 교정 후 실제 완료·유휴 등록. |
+| 실제 외부 HTTPS | yes | passed | - | 15항목씩3회. 실제 그래프·130기준·30부족·범위 거절·exact PDF577·PNG·가상6학점. 추가 추론0회. |
 | 실제 소유 종료 | yes | passed | ./scripts/operations/public_demo.ps1 -Stop | 자기 웹·중계·리스너 종료, 이전 링크530. 비공개 연결 보존. 최종 시연 재시작 유지. |
 | 외부 화면 검증 | yes | passed | - | 130기준·논문 인용·가상6학점→124부족·남은 필수과목·보류·지우기·새 탭 분리. PDF577 빨간 밑줄 시각 확인. |
-| GitHub Linux 전체 CI | yes | passed | gh run view 36815449365 --log | 34afce2 success.522개51.064초(6플랫폼skip).265학사·30사용성·15합성·계약·하네스·Node·패키지·Mermaid·보고 통과. Windows는 위 QA. |
+| GitHub Linux 전체 CI | yes | passed | gh run view 36817090896 --log | 692480f success.523개51.751초(6플랫폼skip).265학사·30사용성·15합성·계약·하네스·Node·패키지·Mermaid·보고 통과. 이전 TIME_WAIT 실패 이력 보존. |
 | 다른 물리 PC 수동 접속 | no | not_run | - | 공개 HTTPS 경로는 검증. 별도 장소의 사람이 직접 사용한 것은 아님. 개발원 UAT는 요청대로 생략. |
 
 ## 학사 근거 변경
@@ -83,7 +83,7 @@
 
 - **info**: 임시 주소는 PC·인터넷·앱·근거 연결이 필요하며 재시작 시 변경된다. 가동 보장·자동 부팅·절전 변경은 없다. 링크 보유자 누구나 접속하며 Cloudflare로 중계한다. 사용자 원본 성적표의 기본 공개나 방문자 자료 공유는 없다.
 - **warning**: 전공선택 인정 과목, 면제자의 수강·PASS·학점, 정확한 PCCP 제출 학기는 새 세션 질문으로 유지한다. 성적표 인식은 사용자 확인이 필요하며 최종 졸업 인증이 아니다. 실제 성적표·추가 GPU 추론·개발원 UAT는 이번 검증에 사용하지 않았다.
-- **info**: 최초 NumPy 자동 로딩 실패를 Windows 웹 전용 -S와 명시적 의존성으로 교정했다. 시험 주소의 초기 DNS 지연 후 접속도 확인했다. 시스템 패키지·DNS 설정은 변경하지 않았다. 독립 검수의 종료·시간·환경 결함은 수정과 회귀로 추적한다.
+- **info**: 최초 NumPy 로딩·독립 검수의 종료·시간·환경 결함을 교정했다. Linux TIME_WAIT의 바인딩 오인 검사는 실제 연결 거절로 수정했으며 제품 사전검사는 유지했다. Windows 연결 거절의 관찰시간도 유한3초로 검증했다. 초기 DNS 지연은 해소됐고 시스템 패키지·DNS 설정은 변경하지 않았다.
 
 ## 공개 정보
 

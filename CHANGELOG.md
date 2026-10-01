@@ -11,7 +11,7 @@
 - 검사 교정: Linux에서 정상 종료 뒤 남은 TCP `TIME_WAIT`를 실행 중인 리스너로 오인한 검사 수정. 실제 연결 거절을 확인하며 활성 리스너·시간 초과는 통과시키지 않음. Windows 실제 3개와 Linux 소켓 재현을 검증했고, 제품의 점유 포트 사전검사는 그대로 유지.
 - 유지: 2026학번 컴퓨터공학과의 기존 승인 규칙·출처·보류 항목은 변경하지 않음. 개발원 직접 평가와 추가 GPU 추론은 이번 작업에 포함하지 않음. 버전0.8.0.
 - 안내: [교수님 외부 시연 사용법](docs/operations/public-demo.md), [익명 시연 설계 결정](docs/harness/decisions/0020-anonymous-pc-hosted-demo.md).
-- 검증: Windows 실제 TCP 2개·영향 구간 87개와 GitHub Linux 전체 522개(플랫폼별 6개 생략) 통과. 실제 외부 HTTPS 15항목씩 2회, 소유 종료·기존 연결 보존·화면 자료 분리·PDF 빨간 밑줄 확인. 개발원 직접 UAT와 추가 추론은 실행하지 않음.
+- 검증: Windows 실제 TCP 3개·영향 구간 87개·Linux 소켓 재현 1개와 GitHub Linux 전체 523개(플랫폼별 6개 생략) 통과. 실제 외부 HTTPS 15항목씩 3회, 소유 종료·기존 연결 보존·화면 자료 분리·PDF 빨간 밑줄 확인. 개발원 직접 UAT와 추가 추론은 실행하지 않음.
 - 보고: [변경·검사·남은 확인 사항](reports/runs/20261001-public-demo.md), [구조화 보고](reports/runs/20261001-public-demo.json), [실제 접속 측정](reports/evaluations/20261001-public-demo.json). 동일 입력의 3페이지 PDF를 전 페이지 시각 검수.
 
 ## 2026-10-01 — 대화·성적표 안내와 제한된 운영 복구
