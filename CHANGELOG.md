@@ -11,6 +11,7 @@
 - 연결: 승인 사실은 변경하지 않고 새 의도 카탈로그와 정확히 일치하는 별도 빈 Neo4j에 75노드·124관계 적재·조회.
 - 측정: 기존 DSW GPU0 Gemma에 고정 주제 코드 6개를 순차 요청. 관련 의도4·보류2·다른 의도0, 중앙0.774초·최대11.609초. 전체 챗봇 정답률이 아니며 나루 보호·유휴 해제를 확인.
 - 검수: [새 권한과 확인 질문](reviews/academic/clarifications/20261001-prototype-followup-questions.md)을 제시. 아직 답변받지 않은 과목 인정·면제 학점·정확한 마감은 승인하지 않음. 버전0.7.0.
+- 보고: [변경·검사·남은 확인 사항](reports/runs/20261001-prototype-upgrade.md), [구조화 기록](reports/runs/20261001-prototype-upgrade.json). Windows433개·독립23개와 GitHub Linux CI 통과. 4페이지PDF는 같은 원본으로 생성·전 페이지 검수.
 
 ## 2026-10-01 — 새 검수 세션과 초기 프로토타입 통합
 
