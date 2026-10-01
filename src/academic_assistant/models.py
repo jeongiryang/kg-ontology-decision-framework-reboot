@@ -41,6 +41,29 @@ class Scope(BaseModel):
     department: str
 
 
+class AcademicChatRequest(AcademicAnswerRequest):
+    """One optional question, not client-authored rule/status/session state."""
+
+    previous_question: str | None = Field(default=None, min_length=1, max_length=500)
+
+    @field_validator("previous_question")
+    @classmethod
+    def trim_previous_question(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        if not value:
+            raise ValueError("previous question must not be blank")
+        return value
+
+
+class ClarificationChoice(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    label: str = Field(min_length=1, max_length=100)
+    question: str = Field(min_length=1, max_length=500)
+
+
 class AppliedRule(BaseModel):
     model_config = ConfigDict(extra="forbid")
     rule_id: str

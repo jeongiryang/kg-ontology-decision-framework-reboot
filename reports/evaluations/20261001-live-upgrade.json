@@ -1,0 +1,11 @@
+{
+  "schema_version":"1.0.0",
+  "run_id":"20261001-prototype-upgrade",
+  "synthetic_only":true,
+  "inference_calls":0,
+  "requests_passed":14,
+  "tested_paths":["/v1/academic/answers","/v1/academic/chat","/v1/academic/transcripts/assess","/v1/academic/transcripts/chat"],
+  "checks":["approved Korean question variants and linked evidence","unsupported attached deadline clauses refused","current100credits plus verified preceding question yields30creditgap","unverified preceding question cannot approve followup","conditional credit summary and flagged-row hold","wrongyear/department and mixedoperating/negative transcript questions failclosed","127creditgap from synthetic3creditrecord","verification-only actions retain insufficient_evidence"],
+  "browser_observations":["fresh code reload and Neo4j verified/model inventory badge","one-question followup retains current30creditgap","synthetic transcript shows gaps and missing requiredcourses","verification-only followup shows held advancedcourse mapping","retake flag clears old response and requires reconfirmation"],
+  "limits":["No real student data, permanent transcript storage or model inference used in this API probe.","These are synthetic automated/manual-browser observations by Codex, not developer user acceptance testing or final graduation certification."]
+}

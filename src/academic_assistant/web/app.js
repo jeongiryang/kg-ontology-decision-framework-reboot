@@ -18,6 +18,23 @@ const feedbackSubmit = document.getElementById("feedback-submit");
 const feedbackMessage = document.getElementById("feedback-message");
 let latestResponse = null;
 let latestRequest = null;
+let previousQuestion = null;
+let answerSequence = 0;
+let activeAnswerController = null;
+
+function resetDialogueContext() {
+  previousQuestion = null;
+  answerSequence += 1;
+  if (activeAnswerController) activeAnswerController.abort();
+  activeAnswerController = null;
+}
+
+function isContextLikeQuestion(value) {
+  const compact = value.normalize("NFKC").toLowerCase().replace(/[^0-9a-z가-힣]/g, "");
+  // Feedback replays a standalone core request, not chat context. Conservatively
+  // exclude follow-up-shaped requests even when no anchor was supplied.
+  return /^(?:그럼|그러면|그건|그것은|그기준은)?(?:몇|얼마나|학점기준|다시|무슨뜻)/.test(compact);
+}
 
 const statusLabels = {
   supported: "근거 확인",
@@ -115,8 +132,27 @@ function renderResponse(data) {
   const suggestionSection = document.getElementById("suggestion-section");
   const suggestion = data.status === "insufficient_evidence" && data.llm_status === "suggested"
     ? data.suggested_question : null;
-  suggestionSection.hidden = !suggestion;
-  setText("suggestion-text", suggestion || "");
+  const choices = data.status === "insufficient_evidence" && Array.isArray(data.clarification_choices)
+    ? data.clarification_choices.slice(0, 3).filter((choice) => choice && typeof choice.label === "string"
+      && choice.label.length > 0 && choice.label.length <= 100 && typeof choice.question === "string"
+      && choice.question.length > 0 && choice.question.length <= 500) : [];
+  suggestionSection.hidden = !suggestion && choices.length === 0;
+  const suggestionText = document.getElementById("suggestion-text");
+  clearChildren(suggestionText);
+  if (suggestion) suggestionText.textContent = suggestion;
+  choices.forEach((choice) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "secondary-button";
+    button.textContent = choice.label;
+    button.addEventListener("click", () => {
+      resetDialogueContext();
+      question.value = choice.question;
+      question.dispatchEvent(new Event("input"));
+      question.focus();
+    });
+    suggestionText.appendChild(button);
+  });
 
   const packet = data.evidence_packet || {};
   const evidenceCounters = new Map();
@@ -135,18 +171,20 @@ function renderResponse(data) {
     makeListItem(issue.message || "추가 확인이 필요합니다.", issue.kind ? `분류 · ${issue.kind}` : "")
   );
   latestResponse = data;
-  feedbackSection.hidden = !["insufficient_evidence", "conflict"].includes(data.status);
+  feedbackSection.hidden = !latestRequest || !latestRequest.feedbackCompatible
+    || !["insufficient_evidence", "conflict"].includes(data.status);
   feedbackConsent.checked = false;
   feedbackSubmit.disabled = true;
   feedbackMessage.textContent = "";
   heading.focus();
 }
 
-function renderError() {
+function renderError(message = "답변 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.") {
+  resetDialogueContext();
   finishLoading();
   badge.className = "status-badge status-error";
   badge.textContent = "연결 오류";
-  setText("answer-text", "답변 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.");
+  setText("answer-text", message);
   setText("packet-id", "");
   document.getElementById("suggestion-section").hidden = true;
   setText("suggestion-text", "");
@@ -181,13 +219,22 @@ async function askAcademicQuestion(event) {
   event.preventDefault();
   const value = question.value.trim();
   if (!value) {
+    resetDialogueContext();
     question.setCustomValidity("질문을 입력해 주세요.");
     question.reportValidity();
     question.setCustomValidity("");
     return;
   }
   const earnedCredits = readCredits();
-  if (earnedCredits === null) return;
+  if (earnedCredits === null) {
+    resetDialogueContext();
+    return;
+  }
+  if (activeAnswerController) activeAnswerController.abort();
+  const sequence = ++answerSequence;
+  const anchor = previousQuestion;
+  const controller = new AbortController();
+  activeAnswerController = controller;
   showLoading();
   try {
     const response = await fetch("/v1/academic/chat", {
@@ -195,6 +242,7 @@ async function askAcademicQuestion(event) {
       headers: {"Content-Type": "application/json"},
       cache: "no-store",
       credentials: "omit",
+      signal: controller.signal,
       body: JSON.stringify({
         schema_version: "1.0.0",
         question: value,
@@ -202,16 +250,39 @@ async function askAcademicQuestion(event) {
         matched_curriculum_year: 2026,
         department: "컴퓨터공학과",
         earned_credits: earnedCredits,
+        previous_question: anchor,
       }),
     });
+    if (sequence !== answerSequence) return;
+    if (!response.ok) throw new Error("request rejected");
     const data = await response.json();
+    if (sequence !== answerSequence) return;
     if (!data || typeof data !== "object" || !data.status || !data.evidence_packet) throw new Error("invalid response");
-    latestRequest = {question: value, earned_credits: {...earnedCredits}};
+    previousQuestion = data.status === "supported" && data.evidence_packet.status === "supported"
+      ? (data.context_used ? anchor : value) : null;
+    latestRequest = {
+      question: value,
+      earned_credits: {...earnedCredits},
+      feedbackCompatible: anchor === null && !data.context_used
+        && !(Array.isArray(data.clarification_choices) && data.clarification_choices.length)
+        && !isContextLikeQuestion(value),
+    };
     renderResponse(data);
   } catch (_error) {
+    if (sequence !== answerSequence) return;
     renderError();
+  } finally {
+    if (sequence === answerSequence) activeAnswerController = null;
   }
 }
+
+creditInputs.forEach((input) => input.addEventListener("input", () => {
+  resetDialogueContext();
+  if (latestResponse || panel.getAttribute("aria-busy") === "true") {
+    renderError("이수학점이 변경되었습니다. 현재 입력으로 다시 질문해 주세요.");
+    badge.textContent = "입력 변경";
+  }
+}));
 
 question.addEventListener("input", () => {
   counter.textContent = `${question.value.length} / 500`;
@@ -226,6 +297,7 @@ question.addEventListener("keydown", (event) => {
 
 document.querySelectorAll("[data-question]").forEach((button) => {
   button.addEventListener("click", () => {
+    resetDialogueContext();
     question.value = button.dataset.question || "";
     question.dispatchEvent(new Event("input"));
     question.focus();
@@ -248,7 +320,8 @@ feedbackConsent.addEventListener("change", () => {
 });
 
 feedbackSubmit.addEventListener("click", async () => {
-  if (!feedbackConsent.checked || !latestResponse || !latestRequest || !["insufficient_evidence", "conflict"].includes(latestResponse.status)) return;
+  if (!feedbackConsent.checked || !latestResponse || !latestRequest || !latestRequest.feedbackCompatible
+    || !["insufficient_evidence", "conflict"].includes(latestResponse.status)) return;
   feedbackSubmit.disabled = true;
   feedbackMessage.textContent = "저장 중입니다.";
   try {

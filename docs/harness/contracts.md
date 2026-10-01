@@ -140,6 +140,10 @@ HTTP 400/422와 CLI exit 64는 고정된 `invalid request`만 반환하며 입�
 
 ## AcademicChatResponse
 
+`AcademicChatRequest`는 `/chat` 전용 기존 입력과 선택적 `previous_question`(한 질문, 최대500자/null)을 정의한다. `/answers`·CLI는 기존 `AcademicAnswerRequest`를 유지한다. 이전 질문은 현재 scope·earned_credits로 재검증하며 클라이언트가 전달한 status/rule/인용을 받지 않는다.
+
+응답의 추가 선택 필드 `context_used`와 `clarification_choices`(최대3개의 label/question)는 문맥 사용과 질문 선택을 설명한다. 후보는 판정이 아니며 선택 후 승인 코어로 다시 조회한다. 실행 계약은 `contracts/academic-chat-request.schema.json`과 `contracts/academic-chat-response.schema.json`이다. [대화 안내](../operations/conversation-prototype.md)를 따른다.
+
 `POST /v1/academic/chat`은 기존 `AcademicAnswerRequest`를 그대로 받는다. 응답은
 `AcademicAnswerResponse`의 상태·답변·계산·EvidencePacket을 변경하지 않고
 `llm_status`와 선택적인 `suggested_question`만 추가한다. 모델이 꺼져 있으면 `disabled`,
@@ -458,6 +462,8 @@ canonical 해시가 질문 당시 `input_snapshots`와 같아야 한다. 따라�
 ```
 
 # 성적표 계약 1.0.0
+
+후속 호환 필드: `TranscriptCourse.review_flags=[]`는 재수강·동일/대체·소급·인정 미확인의 보류 신호다. 응답의 `verification_items`는 과목행/체크ID와 확인 행동을 연결하고, `credit_summary`는 입력PASS·조건부졸업인정·미확인PASS학점을 구분한다. 같은 문제 행은 미확인 합계에서 중복 세지 않는다. 후속 응답의 `focus_check_ids`·`verification_items`는 화면 이동용이며 학사 승인 권한이 아니다. 개인 미확인 패킷과 정책 패킷 분리를 유지한다.
 
 - `TranscriptExtraction`: 식별정보 없는 과목 후보·감지 입학년도·고정 학과·미확인 안내와 확인 필요 표시. 추출 결과는 승인된 학생 사실이 아니다.
 - `TranscriptAssessmentRequest`: 명시적으로 확인한2026 적용·전공 이수유형·전체 내역 여부·과목 배열. 이름/학번 필드는 금지한다.

@@ -91,6 +91,24 @@ _OPERATIONAL_QUESTION_PATTERNS = {
         re.compile(_OPERATIONAL_SCOPE_PREFIX + _CAPSTONE_II + r"(?:pass|패스|통과)후졸업작품수강(?:관계|선행조건)" + _POLICY_QUESTION_SUFFIX),
     ),
 }
+_PARAPHRASE_PATTERNS = {
+    "credits.graduation.total": (
+        re.compile(r"졸업(?:하려면|을하려면|에필요한)(?:총)?(?:몇|얼마나많은)학점(?:을|이)?(?:이수해야하나요|필요한가요|필요해요|들어야하나요|채워야하나요)"),
+        re.compile(r"졸업(?:은|에)?총몇학점(?:이|을)?(?:필요한가요|필요해요|이수해야하나요|채워야하나요)"),
+    ),
+    "major.required-course-set": (
+        re.compile(r"(?:전공필수|전필|필수전공)(?:는|가|은)?(?:몇|어떤)과목(?:을)?(?:인가요|이야|있나요|이수해야하나요|들어야하나요)"),
+    ),
+    "major.counseling-completion": (
+        re.compile(r"심층상담(?:은|을)?몇(?:번|회)(?:을)?(?:이수해야하나요|해야하나요|해야해요|해야해|인가요|이야)"),
+    ),
+    "graduation.thesis.required": (
+        re.compile(r"졸논(?:은|이)?(?:필수인가요|필수야|이수해야하나요|들어야하나요)"),
+    ),
+    "graduation.thesis.completion-result": (
+        re.compile(r"졸논(?:이|은)?0학점(?:이어도|인데)(?:반드시)?(?:이수해야하나요|들어야하나요|필수인가요)"),
+    ),
+}
 # A linked-program thesis exemption is a narrow approved topic, not a general
 # benefit/eligibility query. Consume the whole question before citing its rule.
 _LINKED_THESIS_TOPIC = r"(?:학석사)?연계과정(?:생(?:은|의))?(?:졸업)?논문면제"
@@ -123,6 +141,56 @@ _ALIAS_SUFFIXES = frozenset({
     "인가", "인가요", "이라면", "이라도", "요건", "요건은", "요건이", "기준", "기준은", "기준이",
     "학점", "학점은", "학점이",
 })
+# Aliases identify subjects, not entire questions. Once those spans are removed,
+# every remaining character must belong to a known complete query grammar.
+# In particular no arbitrary deadline, location, procedure or extra clause may
+# be discarded merely because an approved subject also appeared.
+_QUERY_PREFIX = re.compile(
+    r"(?:저는|제가|제질문은|주제는|과제관련질문은|문제없이)?"
+    r"(?:(?:2026|26)(?:학번|년도?입학|년에입학했는데|교육과정))?"
+    r"(?:컴퓨터공학과)?(?:현재교육과정에)?"
+)
+_QUERY_PARTICLE = r"(?:은|는|이|가|을|를|의)?"
+_QUERY_META = r"(?:최소)?(?:학점)?(?:기준학점|기준|합계|요건|정책|이수기준|이수결과|결과)?"
+_DIRECT_QUERY = re.compile(
+    _QUERY_PARTICLE + _QUERY_META + _QUERY_PARTICLE
+    + r"(?:알려줘|알려주세요|설명해줘|설명해주세요|궁금해|궁금해요|"
+      r"무엇인가요|무엇인지알려주세요|있나요|적혀있나요|어떻게되나요)?"
+)
+_CREDIT_QUERY = re.compile(
+    _QUERY_PARTICLE + _QUERY_META + _QUERY_PARTICLE
+    + r"(?:(?:최소)?몇학점(?:기준)?(?:인가요|이야|필요해요|필요한가요)?|"
+      r"얼마(?:죠|인가요)|얼마나필요한가요|몇학점더필요|"
+      r"(?:현재[0-9]{1,3}학점인데)?(?:몇학점더필요|얼마나(?:부족해|부족한가요|남았어|남았나요))|"
+      r"부족학점|부족한학점|남은학점)"
+)
+_BOOLEAN_QUERY = re.compile(
+    _QUERY_PARTICLE + r"(?:0학점이어도)?(?:필수야|필수인가요|이수해야하나요|들어야하나요|필요한가요)"
+)
+_COMPLETION_QUERY = re.compile(
+    r"(?:졸업하려면)?" + _QUERY_PARTICLE
+    + r"(?:몇(?:번|회)(?:를|을)?이수해야하나요|0학점(?:이어도)?(?:필요한가요)?|"
+      r"꼭수강해야하나요|안들으면fail인가요|필수야|필수인가요|이수해야하나요)"
+)
+_COVERAGE_QUERY = re.compile(
+    _QUERY_PARTICLE
+    + r"(?:목록|어떤과목이있나요|몇과목(?:인가요|이야|들어야하나요)|"
+      r"무엇인지알려주세요|서로다른영역이어야하나요)"
+)
+_COUNTING_QUERY = re.compile(
+    r"(?:(?:두)?(?:기이수)?(?:과목|교과목|수업|강의)(?:들)?(?:의|은|이)?)?"
+    + _QUERY_PARTICLE + r"(?:으로지정(?:된경우|되면))?(?:"
+      r"(?:학점(?:을|이|은)?)?(?:중복)?(?:어떻게)?계산(?:하나요|되나요)?|"
+      r"예전에받은학점도같이계산되나요|두번들으면학점이중복되나요|"
+      r"별도학점으로보나요|"
+      r"소급적용되면(?:일반적으로)?어떻게계산하나요|"
+      r"(?:소급(?:적용)?(?:일반)?|(?:일반)?(?:계산)?|학점)정책(?:"
+        r"입니다|인지확인하고싶어요|을(?:알려줘|알려주세요|알고싶어요)|"
+        r"에따른(?:학점)?계산방법을알려주세요|"
+        r"의(?:학점계산방법을|적용범위를)알고싶어요|"
+        r"은어떻게적용되는지알고싶어요|에대해알고싶어요))"
+)
+_COHORT_QUERY = re.compile(_QUERY_PARTICLE + r"(?:교육과정|어느입학연도(?:의)?교육과정을적용하나요)")
 
 
 def normalize_text(value: str) -> str:
@@ -298,7 +366,8 @@ class AnswerEngine:
         specific_aliases = [alias for entry in config["intents"] if entry["kind"] == "specific" for alias in entry["aliases"]]
         if any(alias in compact for alias in config["negation_aliases"]) or any(f"비{alias}" in compact for alias in specific_aliases):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "부정 또는 대비 표현이 포함되어 적용할 규칙을 확정할 수 없습니다.", "missing")
-        preliminary = operational or self._select_intents(compact, question)
+        paraphrase = self._select_paraphrase(compact)
+        preliminary = operational or paraphrase or self._select_intents(compact, question)
         if any(intent["intent_id"] == _LINKED_THESIS_INTENT_ID for intent in preliminary) and not _is_approved_linked_thesis_question(compact):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "질문 전체가 승인된 논문 면제 정책 범위에 해당하지 않습니다.", "missing")
         if "대체" in compact and (
@@ -309,6 +378,8 @@ class AnswerEngine:
             return self._unsupported(packet_id, scope, "insufficient_evidence", "선택형 표현이 포함되어 적용할 규칙을 확정할 수 없습니다.", "missing")
         if len(preliminary) > 1 and not self._has_explicit_conjunction(preliminary, question):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "여러 규칙을 연결하는 승인된 접속 표현이 없어 적용 대상을 확정할 수 없습니다.", "missing")
+        if preliminary and not operational and not paraphrase and not self._whole_question_supported(preliminary, question):
+            return self._unsupported(packet_id, scope, "insufficient_evidence", "질문에 승인된 근거로 확인할 수 없는 추가 조건이나 절차가 포함되어 있습니다. 확인하려는 요건을 나누어 질문해 주세요.", "missing")
         selected_metrics = {
             self.registry.rules[rule_id]["decision"]["outcome"]["metric"]
             for intent in preliminary
@@ -383,6 +454,47 @@ class AnswerEngine:
         if len(matched) != 1:
             return []
         return [entry for entry in self.registry.intents["intents"] if entry["intent_id"] == matched[0]]
+
+    def _select_paraphrase(self, compact: str) -> list[dict[str, Any]]:
+        matched = [intent_id for intent_id, patterns in _PARAPHRASE_PATTERNS.items()
+                   if any(pattern.fullmatch(compact) for pattern in patterns)]
+        if len(matched) != 1:
+            return []
+        return [entry for entry in self.registry.intents["intents"] if entry["intent_id"] == matched[0]]
+
+    def _whole_question_supported(self, entries: list[dict[str, Any]], normalized: str) -> bool:
+        compact = normalized.replace(" ", "")
+        if len(entries) == 1 and entries[0]["intent_id"] == _LINKED_THESIS_INTENT_ID:
+            return _is_approved_linked_thesis_question(compact)
+        spans = [span for entry in entries for span in self._entry_alias_spans(entry, normalized)]
+        remainder = "".join(char for offset, char in enumerate(compact)
+                            if not any(start <= offset < end for start, end in spans))
+        prefix = _QUERY_PREFIX.match(remainder)
+        remainder = remainder[prefix.end():]
+        if len(entries) > 1:
+            # Explicit conjunction structure was checked before this method.
+            remainder = re.sub(r"^(?:및|그리고|과|와)+", "", remainder)
+        if len(entries) == 1 and entries[0]["intent_id"] == "credits.major.elective" and "전선" in compact:
+            # The shorthand has an explicit registered academic-context cue.
+            remainder = re.sub(r"^전공", "", remainder)
+        if _DIRECT_QUERY.fullmatch(remainder):
+            return True
+        types = {self.registry.rules[rule_id]["decision"]["outcome"]["type"]
+                 for entry in entries for rule_id in entry["rule_ids"]}
+        patterns = []
+        if types <= {"credit_threshold", "credit_recognition_cap"}:
+            patterns.append(_CREDIT_QUERY)
+        if types == {"boolean_requirement"}:
+            patterns.append(_BOOLEAN_QUERY)
+        if types == {"completion_requirement"}:
+            patterns.append(_COMPLETION_QUERY)
+        if types == {"coverage_requirement"}:
+            patterns.append(_COVERAGE_QUERY)
+        if types == {"course_counting_policy"}:
+            patterns.append(_COUNTING_QUERY)
+        if types == {"cohort_assignment_policy"}:
+            patterns.append(_COHORT_QUERY)
+        return any(pattern.fullmatch(remainder) for pattern in patterns)
 
     def _select_intents(self, compact: str, normalized: str) -> list[dict[str, Any]]:
         intents = self.registry.intents["intents"]

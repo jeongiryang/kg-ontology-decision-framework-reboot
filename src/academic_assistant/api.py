@@ -17,7 +17,7 @@ from starlette.concurrency import run_in_threadpool
 from .core import AnswerEngine, SANITIZED_DEPARTMENT, canonical_response_json, validate_request_safety
 from .feedback import store_feedback
 from .grounded_chat import GroundedChatEngine, GroundedChatResponse
-from .models import AcademicAnswerRequest, AcademicAnswerResponse, AcademicFeedbackRequest, AcademicFeedbackResponse
+from .models import AcademicAnswerRequest, AcademicChatRequest, AcademicAnswerResponse, AcademicFeedbackRequest, AcademicFeedbackResponse
 from .registry import Registry, RegistryUnavailable
 from .neo4j_evidence import Neo4jEvidenceReader
 from .transcript_models import TranscriptExtraction, TranscriptAssessmentRequest, TranscriptAssessmentResponse, TranscriptFollowupRequest, TranscriptFollowupResponse
@@ -203,7 +203,7 @@ def create_answer(request: AcademicAnswerRequest):
 
 
 @app.post("/v1/academic/chat", response_model=GroundedChatResponse)
-def create_chat_answer(request: AcademicAnswerRequest):
+def create_chat_answer(request: AcademicChatRequest):
     try:
         validate_request_safety(request)
         result = _chat_engine().chat(request)

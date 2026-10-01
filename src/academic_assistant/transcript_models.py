@@ -9,6 +9,11 @@ from .models import EvidencePacket, Status
 Category = Literal["foundation", "balanced", "expanded", "major_required", "major_elective", "free", "unknown"]
 Grade = Literal["A+", "A0", "B+", "B0", "C+", "C0", "D+", "D0", "F", "F0", "P", "PASS", "S", "U", "W"]
 Area = Literal["digital-communication", "humanities-arts", "society-culture", "nature-science-technology"]
+ReviewFlag = Literal["retake", "equivalence", "retroactivity", "recognition_unverified"]
+VerificationKind = Literal[
+    "record_completeness", "degree_track", "category", "course_identity",
+    "duplicate_or_retake", "equivalence", "retroactivity", "balanced_area", "advanced_allocation",
+]
 
 
 class TranscriptCourse(BaseModel):
@@ -22,6 +27,7 @@ class TranscriptCourse(BaseModel):
     term: str | None = Field(default=None, pattern=r"^20[0-9]{2}-[12S]$")
     balanced_area: Area | None = None
     excluded: bool = False
+    review_flags: list[ReviewFlag] = Field(default_factory=list, max_length=4)
 
     @field_validator("course_name")
     @classmethod
@@ -116,6 +122,25 @@ class TranscriptCheck(BaseModel):
     policy_packet: TranscriptEvidencePacket | None = None
 
 
+class TranscriptVerificationItem(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    item_id: str
+    kind: VerificationKind
+    severity: Literal["blocking", "advisory"]
+    row_ids: list[str] = Field(default_factory=list)
+    check_ids: list[str] = Field(default_factory=list)
+    message: str
+    action: str
+
+
+class TranscriptCreditSummary(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    input_pass_credits: int = Field(ge=0)
+    conditional_graduation_credits: int | None = Field(default=None, ge=0)
+    unresolved_pass_credits: int = Field(ge=0)
+    recognition_status: Literal["partial_comparison", "needs_review"]
+
+
 class TranscriptAssessmentResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
     schema_version: Literal["1.0.0"] = "1.0.0"
@@ -126,6 +151,8 @@ class TranscriptAssessmentResponse(BaseModel):
     recognized_graduation_credits: int | None
     checks: list[TranscriptCheck]
     issues: list[str]
+    verification_items: list[TranscriptVerificationItem] = Field(default_factory=list)
+    credit_summary: TranscriptCreditSummary | None = None
     official_graduation_decision: Literal[False] = False
 
 
@@ -142,3 +169,5 @@ class TranscriptFollowupResponse(BaseModel):
     status: Status
     answer: str
     selected_checks: list[TranscriptCheck]
+    focus_check_ids: list[str] = Field(default_factory=list)
+    verification_items: list[TranscriptVerificationItem] = Field(default_factory=list)

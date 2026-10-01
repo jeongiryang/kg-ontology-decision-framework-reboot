@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "synthetic_only": true,
+  "raw_questions_sent": false,
+  "catalog_size": 31,
+  "cases": [
+    {"signal":"credits|graduation","expected_intents":["credits.graduation.remaining","credits.graduation.total"],"observed_intent":"credits.graduation.remaining","result":"relevant","elapsed_seconds":11.609},
+    {"signal":"credits|general","expected_intents":["credits.general.bundle","credits.general.total"],"observed_intent":null,"result":"abstained","elapsed_seconds":0.719},
+    {"signal":"credits|major","expected_intents":["credits.major.bundle","credits.major.minimum","credits.major.total"],"observed_intent":null,"result":"abstained","elapsed_seconds":0.766},
+    {"signal":"thesis","expected_intents":["graduation.thesis.completion-result","graduation.thesis.linked-program-exemption","graduation.thesis.required","graduation.thesis.substitution"],"observed_intent":"graduation.thesis.required","result":"relevant","elapsed_seconds":0.750},
+    {"signal":"counseling","expected_intents":["major.counseling-completion"],"observed_intent":"major.counseling-completion","result":"relevant","elapsed_seconds":0.797},
+    {"signal":"retake","expected_intents":["course-counting.retake"],"observed_intent":"course-counting.retake","result":"relevant","elapsed_seconds":0.781}
+  ],
+  "relevant":4,"abstained":2,"different_intent":0,"median_seconds":0.774,"max_seconds":11.609,
+  "method":"LocalLLMClient with full approved31-ID catalog, temperature0, thinkfalse, maximum64 output tokens, sequential6 requests with5.2second interval; existing isolated GPU0 service.",
+  "limitation":"Six coarse topic codes are not natural-language answer accuracy or production load testing. Any accepted ID is a suggestion only, never an approved answer. Two null outputs preserved."
+}
