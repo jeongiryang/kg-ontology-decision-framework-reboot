@@ -297,10 +297,11 @@
       "status": "passed"
     },
     {
-      "evidence": "로컬 검사 통과. GitHub의 이번 최종 커밋 검사는 공개 후 별도 완료 게이트로 확인한다.",
+      "command": "gh pr checks 8 --repo jeongiryang/kg-ontology-decision-framework-reboot",
+      "evidence": "PR #8 코드·보고 커밋 d54f783 검증 성공(1분8초). 실행 36798489718의 단위 테스트·계약·Mermaid·공개 보고 검사 모두 통과. 보고서 상태 갱신 후 최종 커밋도 별도 재검사한다.",
       "name": "GitHub CI",
-      "required": false,
-      "status": "not_run"
+      "required": true,
+      "status": "passed"
     }
   ],
   "git": {

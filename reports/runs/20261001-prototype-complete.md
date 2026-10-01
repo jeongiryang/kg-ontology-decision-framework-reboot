@@ -83,7 +83,7 @@
 | 하네스·Mermaid | yes | passed | - | 9개 역할·8개 스킬 및 manifest/schema 동기화 통과. V3와 UI 실행 완료 게이트 통과; Mermaid 2블록 실제 렌더링. |
 | 개발원 직접 UAT | no | not_run | - | 사용자 지시로 생략. 교수님 챗봇의 기존 JSON 평가 자료를 이 제품의 UAT 통과로 취급하지 않음. |
 | PDF 정제·전 페이지 검수 | yes | passed | - | CompletionReport에서 MD/JSON/PDF 생성·재생성 일치 및 공개 검사 통과. Poppler로 PDF 4페이지 모두 렌더링해 한글, 표, 줄바꿈, 잘림·겹침·페이지 번호를 확인. |
-| GitHub CI | no | not_run | - | 로컬 검사 통과. GitHub의 이번 최종 커밋 검사는 공개 후 별도 완료 게이트로 확인한다. |
+| GitHub CI | yes | passed | gh pr checks 8 --repo jeongiryang/kg-ontology-decision-framework-reboot | PR #8 코드·보고 커밋 d54f783 검증 성공(1분8초). 실행 36798489718의 단위 테스트·계약·Mermaid·공개 보고 검사 모두 통과. 보고서 상태 갱신 후 최종 커밋도 별도 재검사한다. |
 
 ## 학사 근거 변경
 
