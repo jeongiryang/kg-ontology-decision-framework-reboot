@@ -30,3 +30,4 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 - [ADR0022: 친절한 근거 안내와 휘발성 대화](0022-friendly-volatile-conversation.md)
 - [ADR0023: 의미 기반 과목 조회와 학생 질문 검증](0023-semantic-course-retrieval-and-student-evaluation.md)
 - [ADR0024: 질문 목적·별칭·문맥을 보존하는 재개](0024-purpose-aware-dialogue-and-resume.md)
+- [ADR0025: 질문·답변(B) 우선, 성적표 비교(A)와 개발 단계 분리](0025-separate-dialogue-and-transcript-tracks.md)
