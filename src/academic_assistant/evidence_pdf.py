@@ -258,8 +258,8 @@ class EvidencePdfService:
         except Exception:
             raise EvidenceUnavailable() from None
 
-    def preview(self, rule_id: str, *, evidence_index: int = 0, pdf_page: int | None = None,
-                render: bool = False, render_format: Literal["PNG", "PDF"] = "PNG") -> tuple[EvidencePreview, bytes | None]:
+    def _citation(self, rule_id: str, evidence_index: int, pdf_page: int | None):
+        """Resolve approved inputs without reading or parsing the original PDF."""
         rule = self.registry.rules.get(rule_id)
         if rule is None or not _approved(rule) or rule.get("answer_policy") == "record_only":
             raise EvidenceNotFound()
@@ -272,6 +272,11 @@ class EvidencePdfService:
         pages = _cited_pages(evidence["locator"])
         if pdf_page is not None and pdf_page not in pages:
             raise EvidenceNotFound()
+        return rule, evidence, source, pages
+
+    def preview(self, rule_id: str, *, evidence_index: int = 0, pdf_page: int | None = None,
+                render: bool = False, render_format: Literal["PNG", "PDF"] = "PNG") -> tuple[EvidencePreview, bytes | None]:
+        rule, evidence, source, pages = self._citation(rule_id, evidence_index, pdf_page)
         try:
             path = Path(self.source_map[source["source_id"]])
             if not path.is_absolute() or path.suffix.lower() != ".pdf" or not path.is_file():
@@ -327,6 +332,11 @@ def create_evidence_router(engine_provider: Callable, *, environ: Mapping[str, s
             if reader is not None:
                 reader.verify(registry)
             service = EvidencePdfService.from_env(registry, environ)
+            env = os.environ if environ is None else environ
+            if env.get("ACADEMIC_PUBLIC_DEMO") == "1":
+                from .evidence_process import preview_isolated
+                return preview_isolated(service, rule_id, evidence_index=evidence_index,
+                                        pdf_page=pdf_page, render=render, render_format=render_format)
             return service.preview(rule_id, evidence_index=evidence_index, pdf_page=pdf_page,
                                    render=render, render_format=render_format)
         except EvidenceNotFound:

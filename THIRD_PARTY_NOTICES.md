@@ -17,3 +17,9 @@ Codex Harness is itself described as an independent Codex migration based on `re
 - Source and license notices: [pypdfium2](https://github.com/pypdfium2-team/pypdfium2) (Apache-2.0 or BSD-3-Clause).
 - Bundled PDFium has its own BSD-style and third-party notices shipped in the installed distribution. Preserve those notices when redistributing its binary; see [licensing guidance](https://pypdfium2.readthedocs.io/en/stable/readme.html#licensing).
 - Used only for in-memory PDF text extraction and rendering, not to license this project's own code.
+
+## Cloudflared (operator-local executable, not distributed)
+
+- Source/release: [Cloudflare cloudflared 2026.9.3](https://github.com/cloudflare/cloudflared/releases/tag/2026.9.3).
+- License: [Apache-2.0 upstream notice](https://github.com/cloudflare/cloudflared/blob/2026.9.3/LICENSE).
+- The optional public-demo launcher verifies an operator-local Windows binary against the official release SHA-256. The executable and local runtime state are ignored by Git, not vendored in this repository. No project-wide open-source license is assigned by this runtime integration.

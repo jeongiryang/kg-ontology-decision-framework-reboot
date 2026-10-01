@@ -142,7 +142,9 @@ class AcademicDialogueTests(unittest.TestCase):
                     for question in questions:
                         with self.subTest(question=question):
                             chat_value = request(question).model_dump(mode="json")
-                            direct_value = {key: value for key, value in chat_value.items() if key != "previous_question"}
+                            # /answers deliberately rejects both chat-only options.
+                            direct_value = {key: value for key, value in chat_value.items()
+                                            if key not in {"previous_question", "generate_answer"}}
                             for endpoint, payload in (("answers", direct_value), ("chat", chat_value)):
                                 response = client.post("/v1/academic/" + endpoint, json=payload)
                                 self.assertEqual(200, response.status_code)

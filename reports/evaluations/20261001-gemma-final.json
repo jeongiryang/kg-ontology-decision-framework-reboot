@@ -1,0 +1,43 @@
+{
+  "run_id": "20261001-gemma-final",
+  "verified_product_commit": "f0b0e2eef67cfcbdaeebf4ef492073ce9b521a4b",
+  "synthetic_only": true,
+  "scope": {"admission_year": 2026, "department": "컴퓨터공학과"},
+  "rule_count": 29,
+  "source_count": 3,
+  "academic_evidence_changed": false,
+  "model": "gemma4:26b",
+  "actual_inference_attempts": 3,
+  "initial_unavailable_attempts": 1,
+  "post_correction_accepted_generations": 2,
+  "generation_latency_seconds": [12.953, 14.0],
+  "latency_scope": "Two small approved-public-claim requests including initial loading; not a general model quality or load benchmark.",
+  "initial_failure": {
+    "client_outcome": "unavailable",
+    "server_http_status": 200,
+    "server_elapsed_seconds": 12.7215394,
+    "resolution": "Reproduced and corrected owned Windows stdio relay response-end reset; no semantic, framing or timeout relaxation."
+  },
+  "model_budget": {"concurrency": 1, "new_request_interval_seconds": 60, "max_output_tokens": 512, "total_transport_deadline_seconds": 30, "keep_alive_seconds": 60},
+  "live_requests_verified": 13,
+  "verified": {
+    "actual_generated_credit_guidance": true,
+    "actual_generated_operational_caveat_retained": true,
+    "same_public_plan_reuses_verified_cache": true,
+    "busy_preserves_trusted_answer": true,
+    "canonical_answer_packet_calculations_unchanged": true,
+    "out_of_scope_and_held_exemption_refusals": true,
+    "neo4j_basis_verified": true,
+    "external_https_html_and_cached_api": true,
+    "source_pdf_png_and_pdf_signature": true,
+    "student_records_sent_to_llm": false
+  },
+  "synthetic_calculations": {"graduation_credits": 100, "required_credits": 130, "gap": 30, "transcript_earned_credits": 6, "official_graduation_decision": false},
+  "pdf_evidence": {"pdf_page": 577, "printed_page": 569, "precision": "exact", "browser_red_underlining_visually_verified": true},
+  "browser_checks": {"generated_cache_label_and_text": true, "separate_credit_gap": true, "question_first_layout": true, "transcript_collapsed_by_default": true, "technical_details_collapsed": true, "synthetic_transcript_comparison": true, "synthetic_missing_required_courses": 7, "zero_credit_counseling_pass_detected": true, "clear_removes_transcript_and_results": true},
+  "postflight": {"observed_utc": "2026-10-01T05:40:40Z", "own_gpu_index": 0, "own_gpu_memory_mib": 16, "own_gpu_utilization_percent": 0, "active_model_count": 0, "owned_model_service_preserved": true, "naru_process_preserved": true, "naru_gpu_memory_mib": 18510, "graph_relay_and_private_web_preserved": true},
+  "regression": {"platform": "Windows", "tests": 580, "skipped": 0, "elapsed_seconds": 72.995, "passed": true, "independent_relay_tests": 8, "independent_generation_tests": 33, "independent_boundary_tests": 16, "independent_ui_groups": 9},
+  "github_product_ci": {"run_id": 36821029175, "conclusion": "success", "head_commit": "f0b0e2eef67cfcbdaeebf4ef492073ce9b521a4b", "tests": 580, "platform_skips": 6, "elapsed_seconds": 54.779, "url": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/actions/runs/36821029175"},
+  "public_report_visual_qa": {"pages": 3, "every_page_rendered_and_inspected": true, "korean_text_readable": true, "clipping_or_overlap_found": false, "orphan_final_page": false, "page_numbers_verified": true, "renderer": "Poppler120dpi; local Korean font substitution used", "pdf_sha256": "84a6e5024dea37400e1d18c0dc2949520272508b720d55100c488aaa8f03415b", "markdown_sha256": "2a3a67d1c5631636bcb0e154cb4a0599a544a2f525a4001eff7c7d7dc232e3cd", "json_sha256": "c2748eec0b2f59d585465a6423df12a4250dd489b15f6ee7ca8cf1be3d2c141d"},
+  "limits": ["Closed approved-claim wording, not unrestricted academic reasoning.", "No claim of zero factual errors in underlying approved rules or no impact on all shared resources.", "Existing three academic holds and non-final individual graduation comparisons remain.", "Human developer UAT skipped by explicit user request; no original transcripts or live endpoint included."]
+}

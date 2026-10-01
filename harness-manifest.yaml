@@ -142,6 +142,7 @@ contracts:
     AcademicChatResponse:
       path: contracts/academic-chat-response.schema.json
       version: "1.0.0"
+      # Optional verified generation fields are emitted only after explicit opt-in.
     AcademicChatRequest:
       path: contracts/academic-chat-request.schema.json
       version: "1.0.0"
@@ -205,8 +206,18 @@ documentation:
   dsw_operations: docs/harness/dsw-operations.md
   upstream: docs/harness/upstream.md
   decisions: docs/harness/decisions/
+  minimal_prototype: docs/operations/minimal-prototype.md
 
 validation:
+  grounded_generation:
+    command: python -m unittest discover -s tests -p test_gemma_final_qa.py
+    checks:
+      - approved_public_claims_only
+      - exact_semantic_grammar_and_complete_coverage
+      - immutable_core_and_explicit_opt_in
+      - no_student_question_transcript_or_personal_credits
+      - shared_bounded_inference_and_public_cache
+      - truthful_generated_cached_or_trusted_fallback
   transcript_prototype:
     command: python scripts/validation/validate_transcript_prototype.py
     checks:

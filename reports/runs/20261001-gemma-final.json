@@ -1,0 +1,310 @@
+{
+  "academic_sources_changed": [],
+  "agents": [
+    {
+      "role": "harness_worker",
+      "status": "completed",
+      "summary": "생성·검증·공유 예산과 절대 기한 구현.",
+      "task_id": "20261001-llm-final-implementation-v3/backend"
+    },
+    {
+      "role": "harness_worker",
+      "status": "completed",
+      "summary": "실제 연결 종료 오류 재현·교정; 제품 경계 유지.",
+      "task_id": "20261001-llm-final-relay-v1/relay"
+    },
+    {
+      "role": "harness_reviewer",
+      "status": "completed",
+      "summary": "기한 지적 후 수정 재검토; 추가 지적 없음.",
+      "task_id": "20261001-llm-final-review-v2/review"
+    },
+    {
+      "role": "harness_reviewer",
+      "status": "completed",
+      "summary": "연결·정리·사용법 읽기 전용 검토 통과.",
+      "task_id": "20261001-llm-final-relay-verification-v1/review"
+    },
+    {
+      "role": "harness_qa",
+      "status": "completed",
+      "summary": "학사 의미·개인정보·기본 호환·화면 소비자 독립 검사.",
+      "task_id": "20261001-llm-final-qa-v2/qa"
+    },
+    {
+      "role": "harness_qa",
+      "status": "completed",
+      "summary": "8+33+16개 검사와 화면9그룹 재실행 통과.",
+      "task_id": "20261001-llm-final-relay-verification-v1/qa"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "added",
+      "path": "src/academic_assistant/grounded_generation.py",
+      "summary": "승인 공용 주장·해시·전체 문장 보존 검증."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/llm.py",
+      "summary": "실제 생성·제한 캐시·공유 예산·절대 전송 기한."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/grounded_chat.py",
+      "summary": "검증된 문장만 선택적으로 추가; 코어 응답 불변."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/models.py",
+      "summary": "명시 생성 요청과 선택 출력 필드."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/api.py",
+      "summary": "생성 설정·런타임 상태 구분."
+    },
+    {
+      "kind": "changed",
+      "path": "contracts/academic-chat-request.schema.json",
+      "summary": "기본 비활성 생성 요청 계약."
+    },
+    {
+      "kind": "changed",
+      "path": "contracts/academic-chat-response.schema.json",
+      "summary": "지원·주장 범위·생성/캐시 조건 검사."
+    },
+    {
+      "kind": "added",
+      "path": "demo.ps1",
+      "summary": "기존 소유 실행기를 쓰는 시작·상태·종료 진입점."
+    },
+    {
+      "kind": "changed",
+      "path": "scripts/operations/start_prototype.py",
+      "summary": "생성 설정만 명시 허용·검증."
+    },
+    {
+      "kind": "fixed",
+      "path": "scripts/operations/ssh_loopback_bridge.py",
+      "summary": "실제 응답 끝 reset 교정·소유 자식/스레드 정리."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/web/index.html",
+      "summary": "질문 우선·성적표/기술 상세 접기."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/web/app.css",
+      "summary": "간결한 질문 중심 배치."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/web/app.js",
+      "summary": "검증한 모델 문장·재사용·실패를 사실대로 표시."
+    },
+    {
+      "kind": "changed",
+      "path": "pyproject.toml",
+      "summary": "프로토타입0.9.0."
+    },
+    {
+      "kind": "changed",
+      "path": "harness-manifest.yaml",
+      "summary": "생성·개인정보·예산 경계 색인 동기화."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/harness/contracts.md",
+      "summary": "기존 소비자 호환과 생성 검증 경계."
+    },
+    {
+      "kind": "added",
+      "path": "docs/harness/decisions/0021-verified-gemma-claim-generation.md",
+      "summary": "판정/계산과 모델 안내를 분리한 설계 결정."
+    },
+    {
+      "kind": "added",
+      "path": "docs/operations/minimal-prototype.md",
+      "summary": "사용·최소 구성·실제 모델 역할과 제한."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/operations/kg-llm-prototype.md",
+      "summary": "의도 제안에서 승인 안내 생성으로 구분."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/operations/public-demo.md",
+      "summary": "한 진입점·생성 상태·학생자료 비전송."
+    },
+    {
+      "kind": "documentation",
+      "path": "README.md",
+      "summary": "빠른 시작과 검증된 안내 설명."
+    },
+    {
+      "kind": "documentation",
+      "path": "CHANGELOG.md",
+      "summary": "실제 추가·교정·한계·검사 기록."
+    },
+    {
+      "kind": "changed",
+      "path": ".github/workflows/harness-ci.yml",
+      "summary": "실제 화면 소비자 회귀 검사 추가."
+    },
+    {
+      "kind": "fixed",
+      "path": "tests/test_academic_dialogue.py",
+      "summary": "채팅 전용 필드를 제거한 기존 API 동등성 검사."
+    },
+    {
+      "kind": "added",
+      "path": "tests/test_grounded_generation.py",
+      "summary": "의미·개인정보·캐시·실제 전송 기한33검사."
+    },
+    {
+      "kind": "added",
+      "path": "tests/test_gemma_final_qa.py",
+      "summary": "독립 의미/기본 계약/실패 폐쇄16검사."
+    },
+    {
+      "kind": "added",
+      "path": "tests/test_ssh_loopback_bridge.py",
+      "summary": "실제 EOF·수명·부분 쓰기8검사."
+    },
+    {
+      "kind": "added",
+      "path": "tests/web/gemma_final_ui_test.cjs",
+      "summary": "실제 app.js 소비자9개 그룹."
+    },
+    {
+      "kind": "added",
+      "path": "reports/evaluations/20261001-gemma-final.json",
+      "summary": "실제3시도·2검증·접속/자원 측정; 원문·주소 제외."
+    }
+  ],
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -p test_*.py",
+      "evidence": "수정 통합본580개, 생략0, 72.995초 통과.",
+      "name": "Windows 전체 회귀",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "기한 지적 수정 후 재검토. 최신57개 및 화면9그룹, 실제 ID/입력/수명 확인.",
+      "name": "독립 검토와 QA",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe scripts/validation/validate_harness_sync.py --project .",
+      "evidence": "설정/스킬/계약/문서 일치, 최신2개 실행 완료 검사 통과.",
+      "name": "하네스 동기화",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "지식/권한/조사 격리 통과. 승인29규칙, 3출처, 3보류 불변.",
+      "name": "학사 근거/검수/격리",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "고정265사례, 성적표5계약/모델 및 중첩 근거95건 통과.",
+      "name": "코어/성적표 계약",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "초기 unavailable1건 교정. 합성 공용 안내2건, 전체 주의문구 유지. 12.953초/14.000초.",
+      "name": "실제 Gemma 안내",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "캐시/busy 복귀 및 코어 불변. 가상100학점에서 부족30은 로컬 계산.",
+      "name": "캐시/점유/판정 보존",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "2025학번과 면제 학점 거절 유지, 모델 문장 없음.",
+      "name": "범위/보류 거절",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "외부 응답/화면 확인. 가상6학점, 남은 필수7과목, 0학점 상담 및 지우기 확인.",
+      "name": "실제 외부 HTTPS/화면",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "그래프 검증, PDF577/인쇄569쪽 exact 밑줄과 PNG/PDF 사본 확인.",
+      "name": "Neo4j/원본 위치",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "05:40:40UTC GPU0 16MiB/0%, 활성 모델0. 나루GPU1 18510MiB, 기존 연결 보존.",
+      "name": "GPU 유휴/나루 보존",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "링크/계약 통과. Mermaid11.12.0 실제2블록 렌더.",
+      "name": "문서/Mermaid",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "실행36821029175 success. Ubuntu580개, 플랫폼별6개 생략, 54.779초. 모든 단계 통과.",
+      "name": "제품 GitHub CI",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "사용자 요청으로 생략. 합성 검사를 사람 평가로 표시하지 않음.",
+      "name": "개발원 직접 UAT",
+      "required": false,
+      "status": "not_run"
+    }
+  ],
+  "git": {
+    "base_commit": "3e568b63ac0fb619c82f657418594bcad582f889",
+    "branch": "codex/public-demo",
+    "head_commit": "f0b0e2eef67cfcbdaeebf4ef492073ce9b521a4b"
+  },
+  "harness_version": "1.0.0 / upstream79b82281d305c89181fbb216499d5f1e962c14ed / prototype0.9.0",
+  "issues": [
+    {
+      "message": "심화 인정·배분 과목 범위, 면제자의 수강/학점 처리, 정확한 PCCP 제출 학기는 기존 검수 보류. 자동 확정하지 않음.",
+      "severity": "warning"
+    },
+    {
+      "message": "학생 이수 비교는 승인 요건의 부분 비교이며 최종 졸업 인증이 아님. 제한된 문장 생성으로 자유 대화·모든 근거의 절대 정확성을 보증하지 않음.",
+      "severity": "info"
+    },
+    {
+      "message": "임시 외부 시연은 PC·인터넷·앱·근거/모델 연결이 유지되는 동안만 제공. 재시작 시 주소 변경 가능; 공개 보고서에 주소·접속값·학생자료를 넣지 않음.",
+      "severity": "info"
+    },
+    {
+      "message": "보고서 Git 기준점은 검증한 제품 커밋. 보고서 산출물은 별도 후속 커밋이며 제품을 변경하지 않음.",
+      "severity": "info"
+    }
+  ],
+  "publication": {
+    "major": true,
+    "pdf_required": true,
+    "reason": "실제 LLM 안내·API 출력·외부 시연과 개인정보 경계 변경 마일스톤."
+  },
+  "request": "실제 연구실 LLM까지 연결하고 불필요한 화면·실행 구조를 줄여 초기 프로토타입을 완성한다.",
+  "run_id": "20261001-gemma-final",
+  "schema_version": "1.0.0",
+  "summary": "질문 중심 화면·단일 실행 진입점·검증된 Gemma 안내를 통합했다. 실제 안내2건, 외부 HTTPS, Neo4j 근거, 학점·가상 성적표 비교와 PDF577쪽 밑줄을 확인했다. 승인29규칙·3출처·기존3보류는 변경하지 않았다.",
+  "title": "실제 Gemma 안내와 최소 학사조교 프로토타입"
+}

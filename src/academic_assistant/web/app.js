@@ -16,6 +16,8 @@ const feedbackCategory = document.getElementById("feedback-category");
 const feedbackConsent = document.getElementById("feedback-consent");
 const feedbackSubmit = document.getElementById("feedback-submit");
 const feedbackMessage = document.getElementById("feedback-message");
+const demoHostname = typeof location !== "undefined" ? location.hostname.toLowerCase() : "localhost";
+const publicDemo = !["localhost", "[::1]", "::1"].includes(demoHostname) && !/^127(?:\.\d{1,3}){3}$/.test(demoHostname);
 let latestResponse = null;
 let latestRequest = null;
 let previousQuestion = null;
@@ -127,7 +129,24 @@ function renderResponse(data) {
   const knownStatus = Object.prototype.hasOwnProperty.call(statusLabels, data.status);
   badge.className = `status-badge status-${knownStatus ? data.status : "error"}`;
   badge.textContent = knownStatus ? statusLabels[data.status] : "응답 오류";
-  setText("answer-text", data.answer || "답변을 표시할 수 없습니다.");
+  const packetForGeneration = data.evidence_packet || {};
+  const expectedClaims = Array.isArray(packetForGeneration.applied_rules)
+    ? packetForGeneration.applied_rules.map(rule => rule.rule_id) : [];
+  const generatedClaims = data.generated_claim_ids;
+  const generated = data.status === "supported" && packetForGeneration.status === "supported"
+    && ["generated", "cached"].includes(data.generation_status)
+    && typeof data.generated_answer === "string" && data.generated_answer.length > 0
+    && data.generated_answer.length <= 2400 && expectedClaims.length > 0
+    && Array.isArray(generatedClaims) && generatedClaims.length === expectedClaims.length
+    && generatedClaims.every((id, index) => id === expectedClaims[index]);
+  setText("answer-text", generated ? data.generated_answer : data.answer || "답변을 표시할 수 없습니다.");
+  const generationNote = document.getElementById("generation-note");
+  if (generationNote) {
+    generationNote.hidden = false;
+    generationNote.textContent = generated
+      ? (data.generation_status === "cached" ? "Gemma 작성 · 검증된 문장 재사용" : "Gemma 작성 · 근거 문장 검증 통과")
+      : "검증된 규칙 답변 · 모델 문장 미사용";
+  }
   setText("packet-id", data.packet_id ? `응답 ID · ${data.packet_id}` : "");
   const suggestionSection = document.getElementById("suggestion-section");
   const suggestion = data.status === "insufficient_evidence" && data.llm_status === "suggested"
@@ -171,7 +190,7 @@ function renderResponse(data) {
     makeListItem(issue.message || "추가 확인이 필요합니다.", issue.kind ? `분류 · ${issue.kind}` : "")
   );
   latestResponse = data;
-  feedbackSection.hidden = !latestRequest || !latestRequest.feedbackCompatible
+  feedbackSection.hidden = publicDemo || !latestRequest || !latestRequest.feedbackCompatible
     || !["insufficient_evidence", "conflict"].includes(data.status);
   feedbackConsent.checked = false;
   feedbackSubmit.disabled = true;
@@ -185,6 +204,8 @@ function renderError(message = "답변 서비스에 연결할 수 없습니다. 
   badge.className = "status-badge status-error";
   badge.textContent = "연결 오류";
   setText("answer-text", message);
+  const generationNote = document.getElementById("generation-note");
+  if (generationNote) { generationNote.hidden = true; generationNote.textContent = ""; }
   setText("packet-id", "");
   document.getElementById("suggestion-section").hidden = true;
   setText("suggestion-text", "");
@@ -251,6 +272,7 @@ async function askAcademicQuestion(event) {
         department: "컴퓨터공학과",
         earned_credits: earnedCredits,
         previous_question: anchor,
+        generate_answer: true,
       }),
     });
     if (sequence !== answerSequence) return;
@@ -310,17 +332,19 @@ fetch("/v1/academic/runtime", {cache: "no-store", credentials: "omit"})
   .then(response => { if (!response.ok) throw new Error("unavailable"); return response.json(); })
   .then(state => {
     const graph = state.graph_verified ? "Neo4j 근거 검증됨" : "승인 규칙 저장소 사용";
-    const llm = state.llm_configured && state.llm_model_available ? "LLM 연결 확인 · 질문 표현 제안용" : "LLM 미사용 · 규칙 답변 사용 가능";
+    const llm = state.llm_configured && state.llm_model_available
+      ? (state.llm_mode === "grounded_answer_generation" ? "Gemma 문장 생성 연결 준비됨" : "LLM 질문 표현 제안용")
+      : "모델 미연결 · 근거 답변 사용 가능";
     document.getElementById("runtime-state").textContent = `${graph} · ${llm}`;
   })
   .catch(() => { document.getElementById("runtime-state").textContent = "연결 상태를 확인할 수 없습니다."; });
 
 feedbackConsent.addEventListener("change", () => {
-  feedbackSubmit.disabled = !feedbackConsent.checked;
+  feedbackSubmit.disabled = publicDemo || !feedbackConsent.checked;
 });
 
 feedbackSubmit.addEventListener("click", async () => {
-  if (!feedbackConsent.checked || !latestResponse || !latestRequest || !latestRequest.feedbackCompatible
+  if (publicDemo || !feedbackConsent.checked || !latestResponse || !latestRequest || !latestRequest.feedbackCompatible
     || !["insufficient_evidence", "conflict"].includes(latestResponse.status)) return;
   feedbackSubmit.disabled = true;
   feedbackMessage.textContent = "저장 중입니다.";

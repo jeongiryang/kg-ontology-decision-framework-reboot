@@ -9,6 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 import hashlib
+import asyncio
 from functools import lru_cache, wraps
 from threading import RLock
 from threading import BoundedSemaphore
@@ -170,6 +171,7 @@ def readiness() -> dict[str, str]:
 def runtime_status():
     """Separate configuration/inventory from successful inference; expose no connection secrets."""
     from .llm import LocalLLMClient
+    from .grounded_generation import grounded_generation_enabled
     try:
         engine = _engine()
         if engine.evidence_reader is not None:
@@ -178,13 +180,15 @@ def runtime_status():
         raise HTTPException(status_code=503, detail="service unavailable") from None
     try:
         llm = LocalLLMClient.from_env()
+        generation_enabled = grounded_generation_enabled()
         model_available = llm.model_available() if llm else False
     except ValueError:
-        llm, model_available = None, False
+        llm, model_available, generation_enabled = None, False, False
     return {"schema_version": "1.0.0", "evidence_backend": "neo4j" if engine.evidence_reader else "registry",
             "graph_verified": engine.evidence_reader is not None,
             "llm_configured": llm is not None, "llm_model_available": model_available,
-            "llm_mode": "topic_code_suggestions", "student_records_sent_to_llm": False}
+            "llm_mode": "grounded_answer_generation" if generation_enabled else "topic_code_suggestions",
+            "student_records_sent_to_llm": False}
 
 
 @app.post("/v1/academic/answers", response_model=AcademicAnswerResponse)
@@ -240,6 +244,7 @@ def create_feedback(request: AcademicFeedbackRequest):
 
 _EXTRACTION_SLOT = BoundedSemaphore(1)
 _MAX_PDF_BYTES = 10 * 1024 * 1024
+UPLOAD_RECEIVE_TIMEOUT_SECONDS = 30
 
 
 @app.post("/v1/academic/transcripts/extract", response_model=TranscriptExtraction)
@@ -251,14 +256,18 @@ async def extract_transcript_pdf(request: Request, page_number: int | None = Que
         raise HTTPException(status_code=429, detail="extraction busy")
     try:
         data = bytearray()
-        async for chunk in request.stream():
-            if len(data) + len(chunk) > _MAX_PDF_BYTES:
-                raise HTTPException(status_code=413, detail="file too large")
-            data.extend(chunk)
+        # One absolute deadline covers the whole upload, including trickled chunks.
+        async with asyncio.timeout(UPLOAD_RECEIVE_TIMEOUT_SECONDS):
+            async for chunk in request.stream():
+                if len(data) + len(chunk) > _MAX_PDF_BYTES:
+                    raise HTTPException(status_code=413, detail="file too large")
+                data.extend(chunk)
         from .transcript_process import extract_isolated
         return await run_in_threadpool(extract_isolated, bytes(data), page_number=page_number)
     except ValueError:
         return _invalid_response()
+    except TimeoutError:
+        raise HTTPException(status_code=408, detail="upload timed out") from None
     finally:
         _EXTRACTION_SLOT.release()
 

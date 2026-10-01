@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, field_validator
 
 Status = Literal["supported", "insufficient_evidence", "conflict", "out_of_scope"]
 
@@ -45,6 +45,7 @@ class AcademicChatRequest(AcademicAnswerRequest):
     """One optional question, not client-authored rule/status/session state."""
 
     previous_question: str | None = Field(default=None, min_length=1, max_length=500)
+    generate_answer: StrictBool = False
 
     @field_validator("previous_question")
     @classmethod

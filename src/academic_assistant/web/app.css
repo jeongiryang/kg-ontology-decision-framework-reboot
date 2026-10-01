@@ -79,9 +79,9 @@ button { color: inherit; }
 .scope-dot { width: .48rem; height: .48rem; border-radius: 50%; background: #3c9a70; box-shadow: 0 0 0 .22rem rgba(60,154,112,.12); }
 
 main { width: min(1180px, calc(100% - 2.5rem)); margin: 0 auto; }
-.hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3rem, 6vw, 5rem); max-width: 860px; }
+.hero { padding: 2rem 0 2rem; max-width: 860px; }
 .eyebrow, .step { color: var(--green); font-size: .72rem; font-weight: 850; letter-spacing: .14em; }
-.hero h1 { margin: .7rem 0 1.25rem; font-family: Georgia, "Batang", serif; font-size: clamp(3rem, 7vw, 6.6rem); line-height: .98; letter-spacing: -.055em; font-weight: 500; }
+.hero h1 { margin: .7rem 0 1rem; font-family: Georgia, "Batang", serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -.055em; font-weight: 500; }
 .hero h1 em { color: var(--green); font-weight: 500; }
 .lede { max-width: 680px; margin: 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.18rem); }
 
@@ -224,3 +224,7 @@ footer p { margin: 0; }
 .transcript-table td:first-child { min-width: 160px; }
 .transcript-check { border-bottom: 1px solid #e0e5e3; padding: .75rem 0; }
 .transcript-check .packet-id { overflow-wrap: anywhere; }
+.transcript-workspace { margin-top: 1.5rem; }
+.transcript-workspace > summary, .detail-section > summary { cursor: pointer; font-weight: 800; }
+.transcript-workspace > summary { color: var(--green); font-size: 1.15rem; }
+.generation-note { color: var(--green); font-size: .74rem; margin-bottom: .65rem !important; }

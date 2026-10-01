@@ -16,9 +16,14 @@
     "llm_status": {"enum": ["disabled", "skipped", "suggested", "unavailable", "rejected"]},
     "suggested_question": {"type": ["string", "null"], "minLength": 1},
     "context_used": {"type": "boolean"},
+    "generation_status": {"enum": ["generated", "cached", "disabled", "unavailable", "rejected", "busy", "not_applicable"]},
+    "generated_answer": {"type": ["string", "null"], "minLength": 1, "maxLength": 2400},
+    "generated_claim_ids": {"type": "array", "uniqueItems": true, "maxItems": 5, "items": {"type": "string", "minLength": 1}},
     "clarification_choices": {"type": "array", "maxItems": 3, "items": {"type": "object", "additionalProperties": false, "required": ["label", "question"], "properties": {"label": {"type": "string", "minLength": 1, "maxLength": 100}, "question": {"type": "string", "minLength": 1, "maxLength": 500}}}}
   },
   "allOf": [
-    {"if": {"properties": {"llm_status": {"const": "suggested"}}, "required": ["llm_status"]}, "then": {"required": ["suggested_question"], "properties": {"suggested_question": {"type": "string"}, "status": {"const": "insufficient_evidence"}}}}
+    {"if": {"properties": {"llm_status": {"const": "suggested"}}, "required": ["llm_status"]}, "then": {"required": ["suggested_question"], "properties": {"suggested_question": {"type": "string"}, "status": {"const": "insufficient_evidence"}}}},
+    {"if": {"required": ["generation_status"]}, "then": {"required": ["generated_claim_ids"]}},
+    {"if": {"required": ["generation_status"], "properties": {"generation_status": {"enum": ["generated", "cached"]}}}, "then": {"required": ["generated_answer", "generated_claim_ids"], "properties": {"status": {"const": "supported"}, "evidence_packet": {"properties": {"status": {"const": "supported"}}}, "generated_answer": {"type": "string"}, "generated_claim_ids": {"minItems": 1}}}, "else": {"properties": {"generated_answer": {"type": "null"}, "generated_claim_ids": {"maxItems": 0}}}}
   ]
 }

@@ -2,11 +2,26 @@
 
 국립창원대학교 학칙과 교육과정에 근거하여 질문에 답하고, 근거가 부족하거나 충돌하면 답변을 보류하는 학사조교 시스템의 Season 2 프로젝트입니다.
 
-현재 저장소는 Codex 프로젝트 하네스와 승인된 2026학번 컴퓨터공학과 규칙 29건·출처 3건을 사용하는 근거 기반 초기 프로토타입입니다. 성적표 PDF의 로컬 인식·수정 확인·부족 학점과 남은 필수과목의 부분 비교, 실제 Neo4j 근거 조회와 원본 PDF의 빨간 밑줄 표시를 제공합니다. DSW에서 나루와 다른 GPU 0에 Gemma를 분리 실행해 실제 추론과 유휴 GPU 메모리 반환을 확인했습니다. LLM은 의도 제안만 수행하며 학생 질문 원문·성적표는 전달하지 않습니다. 고정 디스크 비율 차단은 제거했으며([DSW 운영 기준](docs/harness/dsw-operations.md)), 장치·프로세스 확인은 유지합니다. 개발원 직접 평가는 사용자 요청으로 생략했습니다. 이 결과는 외부 공개 운영 서비스나 최종 졸업 인증이 아닙니다.
+현재 저장소는 Codex 프로젝트 하네스와 승인된 2026학번 컴퓨터공학과 규칙 29건·출처 3건을 사용하는 근거 기반 초기 프로토타입입니다. 성적표 PDF의 로컬 인식·수정 확인·부족 학점과 남은 필수과목의 부분 비교, 실제 Neo4j 근거 조회와 원본 PDF의 빨간 밑줄 표시를 제공합니다. DSW에서 나루와 다른 GPU 0에 Gemma를 분리 실행해 실제 추론과 유휴 GPU 메모리 반환을 확인했습니다. Gemma는 승인된 근거의 안내 문장을 실제 작성하며, 닫힌 문법 검사에 통과한 문장만 표시합니다. 판정·학점 계산·근거는 결정적 코어가 유지하며 학생 질문 원문·성적표는 모델에 전달하지 않습니다. 고정 디스크 비율 차단은 제거했으며([DSW 운영 기준](docs/harness/dsw-operations.md)), 장치·프로세스 확인은 유지합니다. 개발원 직접 평가는 사용자 요청으로 생략했습니다. 이 결과는 외부 공개 운영 서비스나 최종 졸업 인증이 아닙니다.
 
 새 검수 세션에서 현재 시범 PCCP 400점 이상, 미통과 시 캡스톤 I U·다음 연도 II 수강 불가, 캡스톤 II PASS 후 졸업작품 수강을 확인했습니다. 이 세 정책은 **PDF가 아닌 학과 확인 기록**으로 표시합니다. 공모전·우수자 면제의 수강/학점 처리, 고정 600점 기준, 미래 점수 기준과 정확한 제출 학기는 계속 보류합니다. [확인 원문과 수정 경계](reviews/academic/clarifications/2026-operational-confirmation-20261001.md), [관계 교정 이력](reports/source-audits/2026-operational-relationships-20261001.md)을 확인하세요.
 
+## 바로 사용하기
+
+[최소 프로토타입 사용법](docs/operations/minimal-prototype.md)에 시작·종료·화면 사용을 모았습니다.
+
+```powershell
+.\demo.ps1 start
+.\demo.ps1 status
+.\demo.ps1 stop
+```
+
+질문을 입력하고 근거를 확인하세요. 성적표 비교와 기술 상세는 필요할 때 펼칩니다.
+하네스는 개발 도구이며 질문마다 여러 에이전트를 실행하지 않습니다.
+
 ## 성적표 프로토타입
+
+외부 교수님 시연: [로그인 없는 HTTPS 링크 실행](docs/operations/public-demo.md)을 추가했습니다. 사용자 PC와 시연 프로그램이 실행 중이면 다른 네트워크에서 접속할 수 있습니다. 주소 보유자가 누구나 사용할 수 있는 임시 시연이며, 질문·성적표는 HTTPS 중계를 거쳐 호스팅 PC에서 처리합니다. 기존 localhost 실행·비공개 DB·LLM은 그대로 유지합니다.
 
 후속 고도화: [다양한 질문과 한 단계 후속 질문](docs/operations/conversation-prototype.md), 성적표의 과목별 검수 신호·확인 체크리스트·조건부 학점 요약, [localhost 감독·복구 절차](docs/operations/runtime-stability.md)를 제공합니다. 보류 사실은 [새 검수 질문](reviews/academic/clarifications/20261001-prototype-followup-questions.md)으로 분리하며 학사 사실을 자동 승인하지 않습니다.
 
@@ -15,7 +30,7 @@
 구분합니다. 표시된 한 페이지 PDF 사본을 다운로드할 수 있고 원본은 변경하지 않습니다.
 [근거 표시 사용법](docs/operations/pdf-evidence-viewer.md)을 확인하세요.
 
-웹 상단에서 PDF 선택 → 과목 인식 → 불확실한 값 수정 → 2026 적용·전공 이수유형 확인 → 이수내역 비교 순서로 사용합니다. 이름·학번은 입력하지 않으며, 다른 학번과 다전공 유형은 기본 기준으로 자동 계산하지 않습니다. 스캔 인식이 일부 누락되면 직접 보완해야 합니다. [사용법과 지원 경계](docs/operations/transcript-prototype.md)를 확인하세요.
+화면의 성적표 비교를 펼쳐 PDF 선택 → 과목 인식 → 불확실한 값 수정 → 2026 적용·전공 이수유형 확인 → 이수내역 비교 순서로 사용합니다. 이름·학번은 입력하지 않으며, 다른 학번과 다전공 유형은 기본 기준으로 자동 계산하지 않습니다. 스캔 인식이 일부 누락되면 직접 보완해야 합니다. [사용법과 지원 경계](docs/operations/transcript-prototype.md)를 확인하세요.
 
 부족 학점, 미이수 필수과목,0학점 논문·상담 이수,균형교양 영역,교양 인정 상한을 구분합니다. 각 지원 항목에는 PDF 위치와 승인 규칙 해시가 있으며, 미확인 심화 배분·개인 예외·보류 운영관계는 확인 필요로 남깁니다. 결과는 최종 졸업 인증이 아닙니다.
 
@@ -64,7 +79,7 @@ python scripts/operations/check_pilot_readiness.py --project .
 `--curriculum-year`, `--earned-credit`도 호환되지만 `--year`와 값이 충돌하거나 같은 metric이
 중복되면 입력 오류로 종료합니다.
 
-답변 API는 `POST /v1/academic/answers`, 선택적 의도 제안을 더한 웹용 API는 `POST /v1/academic/chat`, 명시적 피드백 API는 `POST /v1/academic/feedback`, 준비 상태는 `GET /readyz`입니다. 답변 요청은 질문, 명시적 적용 범위와 승인된 학점 metric별 이수학점만 받으며 이름·학번·원본 성적표는 받지 않습니다. 일반 답변 요청은 질문 또는 근거를 저장하지 않으며 검증 오류와 지원 범위 밖 학과 값도 응답에 되돌려 보내지 않습니다. 복학·재입학·편입·경과조치는 별도 예외 근거가 없어 `insufficient_evidence`로 보류합니다. 전과생은 최초 입학연도의 교육과정을 적용한다는 승인 정책만 지원하며, 학·석사 연계과정 면제나 동일·대체교과목 소급 적용의 개인 판정은 자동화하지 않습니다.
+답변 API는 `POST /v1/academic/answers`, 선택적 검증 문장 생성을 더한 웹용 API는 `POST /v1/academic/chat`, 명시적 피드백 API는 `POST /v1/academic/feedback`, 준비 상태는 `GET /readyz`입니다. 답변 요청은 질문, 명시적 적용 범위와 승인된 학점 metric별 이수학점만 받으며 이름·학번·원본 성적표는 받지 않습니다. 일반 답변 요청은 질문 또는 근거를 저장하지 않으며 검증 오류와 지원 범위 밖 학과 값도 응답에 되돌려 보내지 않습니다. 복학·재입학·편입·경과조치는 별도 예외 근거가 없어 `insufficient_evidence`로 보류합니다. 전과생은 최초 입학연도의 교육과정을 적용한다는 승인 정책만 지원하며, 학·석사 연계과정 면제나 동일·대체교과목 소급 적용의 개인 판정은 자동화하지 않습니다.
 
 ## Season 2 원칙
 
@@ -121,7 +136,7 @@ docs/harness/        하네스 설계와 ADR
 scripts/reporting/   정제 Markdown/PDF 보고서 생성
 reports/             공개 가능한 실행 보고서
 tests/               하네스·계약·보고 검증
-src/academic_assistant/ 결정론적 코어, 선택적 LLM 의도 제안, KG 투영, FastAPI/CLI와 웹 UI
+src/academic_assistant/ 결정론적 코어, 검증된 Gemma 안내문, KG 투영, FastAPI/CLI와 웹 UI
 evaluations/         고정 회귀 사례와 30개 웹 사용성 파일럿
 ```
 

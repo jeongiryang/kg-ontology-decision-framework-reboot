@@ -25,3 +25,4 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 - [ADR0017: DSW 고정 디스크 여유 비율 차단 제거](0017-remove-fixed-dsw-disk-threshold.md)
 - [ADR0018: 현행 시범 운영정책과 비PDF 학과 확인](0018-current-trial-operational-confirmations.md)
 - [ADR0019: 제한된 대화 문맥·성적표 검수 신호·로컬 감독](0019-bounded-dialogue-transcript-and-supervision.md)
+- [ADR0020: 사용자 PC의 익명 외부 HTTPS 시연](0020-anonymous-pc-hosted-demo.md)
