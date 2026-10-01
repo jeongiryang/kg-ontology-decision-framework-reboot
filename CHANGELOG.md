@@ -9,6 +9,8 @@
 - 검증: Windows 전체580개 테스트(생략 없음), 독립 의미·개인정보·전송 기한·중계 수명 검사와 브라우저 소비자9개 그룹 통과. 초기 실패와 수정 경로는 원시 실행 기록에 보존.
 - 유지: 2026학번 컴퓨터공학과29규칙·3출처와 기존3개 보류는 변경하지 않음. 개발원 직접 UAT는 생략하며, 개인 비교는 최종 졸업 인증이 아님.
 - 안내: [최소 사용법과 모델 경계](docs/operations/minimal-prototype.md), [설계 결정](docs/harness/decisions/0021-verified-gemma-claim-generation.md).
+- 실제 연결: Gemma 총3시도(초기 중계 실패1건 기록), 수정 후 안내2건 검증 통과. 가상100학점 부족30, 성적표6학점·남은 필수7과목, Neo4j·외부 HTTPS·PDF577쪽 표시 확인. 시험 후 GPU0 유휴 해제와 나루 보존 확인.
+- 보고: [완료 내역](reports/runs/20261001-gemma-final.md), [구조화 보고](reports/runs/20261001-gemma-final.json), [실제 측정](reports/evaluations/20261001-gemma-final.json). 같은 입력의3페이지 PDF 전 페이지 검수. 제품 기준점 GitHub CI580개(플랫폼별6개 생략) 통과.
 
 ## 2026-10-01 — 사용자 PC의 로그인 없는 외부 시연
 
