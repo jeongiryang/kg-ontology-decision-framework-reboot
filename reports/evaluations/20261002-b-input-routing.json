@@ -1,0 +1,5146 @@
+{
+  "schema_version": 1,
+  "run_id": "20261002-b-input-routing-c2",
+  "task_id": "qa",
+  "classification": "PUBLIC-safe synthetic evaluation projection after final cycle2 producer freeze; not a runtime dump",
+  "frozen_product_raw_sha256": {
+    "src/academic_assistant/assistant.py": "df71a010a762f39a064658abc5589bd2d76a4d5127586be3dee66f725c8b0bd2",
+    "src/academic_assistant/semantic_llm.py": "0a0e81593ac041e5037e1724f542d68f2650c6f41106957ac0e23a2e537e72c7",
+    "src/academic_assistant/core.py": "1e7d0df6a6e138bb726ad14ebb680c7011f389ae30c8abc1d49844c649779c1e"
+  },
+  "approved_source_sha256": {
+    "cwnu.cs.2026.department-confirmation-20261001": "d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6",
+    "cwnu.curriculum.2026.changwon-undergraduate": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+    "cwnu.curriculum.2026.ta-validation-response": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d"
+  },
+  "expected_course_facts": {
+    "CDA0163": {
+      "course_id": "cwnu.cs.2026.course.cda0163",
+      "course_name": "웹프로그래밍",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "1학년 1학기",
+      "fact_sha256": "8866757e287284e4c553abd5b4d6922438472f032c0982bbd445d083d2269fec",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0163 row",
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0174": {
+      "course_id": "cwnu.cs.2026.course.cda0174",
+      "course_name": "피지컬AI입문",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "1학년 1학기",
+      "fact_sha256": "4e66ca16504b2891c55ed71807115cd22977bd1a72b792b5a07eb89f8ce206ea",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0174 row",
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0157": {
+      "course_id": "cwnu.cs.2026.course.cda0157",
+      "course_name": "이산수학",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "1학년 2학기",
+      "fact_sha256": "cb961eb4160a14e2a836134a269bc53f960210c5d784c3aef24141dddf5e1c76",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0157 row",
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0170": {
+      "course_id": "cwnu.cs.2026.course.cda0170",
+      "course_name": "컴퓨터공학기술세미나",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "1학년 2학기",
+      "fact_sha256": "71981acd50373210acf4180a176217f8a1d5e4380f7a9885b435a652601b3fc3",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0170 row",
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0008": {
+      "course_id": "cwnu.cs.2026.course.cda0008",
+      "course_name": "자료구조",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 1학기",
+      "fact_sha256": "d2506a7f4d755efe9dce2096df7fd58e369dbbba915c0739d10eb724bf3fa8c4",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0008 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0010": {
+      "course_id": "cwnu.cs.2026.course.cda0010",
+      "course_name": "논리설계",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 1학기",
+      "fact_sha256": "fae2dbc0662c31a86db6e4ce88ddd65cc169f2d1adb5bdaf6d21ff66ae200b47",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0010 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0014": {
+      "course_id": "cwnu.cs.2026.course.cda0014",
+      "course_name": "컴퓨터그래픽스",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 1학기",
+      "fact_sha256": "b021901122f6bb4d0425011f8be5eb4b2421d31fabe5a60c3f376d21f4282965",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0014 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0143": {
+      "course_id": "cwnu.cs.2026.course.cda0143",
+      "course_name": "고급자료구조",
+      "credits": 3,
+      "category": "major_required",
+      "offering_label": "2학년 2학기",
+      "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0006": {
+      "course_id": "cwnu.cs.2026.course.cda0006",
+      "course_name": "시스템프로그래밍",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 2학기",
+      "fact_sha256": "c5755f2482dda0e2ed4aea7e6ce976d4b50e5fbfd48c60e53b57043d069ede25",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0006 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0013": {
+      "course_id": "cwnu.cs.2026.course.cda0013",
+      "course_name": "프로그래밍언어론",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 2학기",
+      "fact_sha256": "b0179a2ec73ab437f12c8f68ce13de8801a761535ba7ef52945d6de0dbddb99d",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0013 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0125": {
+      "course_id": "cwnu.cs.2026.course.cda0125",
+      "course_name": "모바일프로그래밍",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 2학기",
+      "fact_sha256": "6f5ee01f05aa23be74c0e0d9948696972b56c513a1e22128c071d8a443a6d822",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0125 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0176": {
+      "course_id": "cwnu.cs.2026.course.cda0176",
+      "course_name": "임베디드시스템",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 2학기",
+      "fact_sha256": "f11379de5c93fefd4206bb4750346704eb0612566954cc2c44e6b1ba7ee10a18",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0176 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0155": {
+      "course_id": "cwnu.cs.2026.course.cda0155",
+      "course_name": "객체지향프로그래밍",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 1·2학기",
+      "fact_sha256": "7bdd2447f7a6f73f03b50be89be587baee6008835ef96347bf9eed707cce49e4",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0155 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    },
+    "CDA0156": {
+      "course_id": "cwnu.cs.2026.course.cda0156",
+      "course_name": "오픈소스소프트웨어",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2학년 1·2학기",
+      "fact_sha256": "79707645a8171c39c4a33de87c689f86f4865b7454adcbe991efbee5fb95bcd5",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0156 row",
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    },
+    "CDA0016": {
+      "course_id": "cwnu.cs.2026.course.cda0016",
+      "course_name": "컴퓨터구조",
+      "credits": 3,
+      "category": "major_required",
+      "offering_label": "3학년 1학기",
+      "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0027": {
+      "course_id": "cwnu.cs.2026.course.cda0027",
+      "course_name": "알고리즘",
+      "credits": 3,
+      "category": "major_required",
+      "offering_label": "3학년 1학기",
+      "fact_sha256": "2835454b2bb19545712bff12550fdaf3c5b94b552bf18871a9d2acee7f993ef5",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0028": {
+      "course_id": "cwnu.cs.2026.course.cda0028",
+      "course_name": "소프트웨어공학",
+      "credits": 3,
+      "category": "major_required",
+      "offering_label": "3학년 1학기",
+      "fact_sha256": "bab2d77f17749ae3e35ec7fe4b540a5d2af6de9837869baa6f8fd8e0bc98628b",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0028 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0065": {
+      "course_id": "cwnu.cs.2026.course.cda0065",
+      "course_name": "데이타베이스개론",
+      "credits": 3,
+      "category": "major_required",
+      "offering_label": "3학년 1학기",
+      "fact_sha256": "d76c200957e2ac071a57490047f5ffde6374707780435fb0d1319f9bb1e3dd55",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0065 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0164": {
+      "course_id": "cwnu.cs.2026.course.cda0164",
+      "course_name": "빅데이터",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "3학년 1학기",
+      "fact_sha256": "1dc60ba2db4ee1932634d4199207d185d802959d186bb2865133b64c40f372ec",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0164 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0165": {
+      "course_id": "cwnu.cs.2026.course.cda0165",
+      "course_name": "네트워크프로그래밍",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "3학년 1학기",
+      "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0017": {
+      "course_id": "cwnu.cs.2026.course.cda0017",
+      "course_name": "운영체제",
+      "credits": 3,
+      "category": "major_required",
+      "offering_label": "3학년 2학기",
+      "fact_sha256": "8cc569a2e57540e4f4ed2af9f6ace77ebc267cda6cfd0c38e03777fc165b1c83",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0023": {
+      "course_id": "cwnu.cs.2026.course.cda0023",
+      "course_name": "데이타통신",
+      "credits": 3,
+      "category": "major_required",
+      "offering_label": "3학년 2학기",
+      "fact_sha256": "e7d78dd4bc6d8ad328763c964f057dbecc208c438f24a8b0f1f743611a916391",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0023 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0139": {
+      "course_id": "cwnu.cs.2026.course.cda0139",
+      "course_name": "영상처리",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "3학년 2학기",
+      "fact_sha256": "1ece85c5223fb9e42e92fc7d630c548a4a5211320950f7fb23294077c4f9de11",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0139 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0154": {
+      "course_id": "cwnu.cs.2026.course.cda0154",
+      "course_name": "소프트웨어설계",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "3학년 2학기",
+      "fact_sha256": "06d4d1289b349b49417bd9a1d1b058066185055a7bb73b7cd4b47cc8fe64d8fb",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0154 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0169": {
+      "course_id": "cwnu.cs.2026.course.cda0169",
+      "course_name": "데이터마이닝",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "3학년 2학기",
+      "fact_sha256": "ad7fb1fb2a50f40d61be891ff67adf49b59ff88793a188a13450f32f345983c2",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0169 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0167": {
+      "course_id": "cwnu.cs.2026.course.cda0167",
+      "course_name": "산학캡스톤디자인1",
+      "credits": 0,
+      "category": "major_elective",
+      "offering_label": "3학년 1·2학기",
+      "fact_sha256": "5e63a4288b409385dd97f3b17aa03cda316e7188c946a76256e3e6a4561cc262",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0167 row",
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    },
+    "CDA0030": {
+      "course_id": "cwnu.cs.2026.course.cda0030",
+      "course_name": "인공지능",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 1학기",
+      "fact_sha256": "630e1f0dd3285f4796684cc7dcafb0e312af019a62d8b5b4f491cd26e785d38d",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0030 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0031": {
+      "course_id": "cwnu.cs.2026.course.cda0031",
+      "course_name": "컴퓨터네트워크",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 1학기",
+      "fact_sha256": "03b759ed480f138f571dbb1b458225617e53db179ca1166b5891357f8b541cd9",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0031 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0119": {
+      "course_id": "cwnu.cs.2026.course.cda0119",
+      "course_name": "컴파일러",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 1학기",
+      "fact_sha256": "073b7b51262eb060a6c27a9ea7b1df2d14b20b527b84cda494007723aa521172",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0119 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0177": {
+      "course_id": "cwnu.cs.2026.course.cda0177",
+      "course_name": "클라우드컴퓨팅",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 1학기",
+      "fact_sha256": "74cb0b2d1a527deae48fd62a3b3e4ba1eaba90637ac9a1438b5156149015400b",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0177 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ]
+    },
+    "CDA0150": {
+      "course_id": "cwnu.cs.2026.course.cda0150",
+      "course_name": "사물인터넷",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 2학기",
+      "fact_sha256": "c379f8d82fdf372eb7dc600e4cc928aaa5421803479828d4021c91532c8ab2f4",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0150 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0153": {
+      "course_id": "cwnu.cs.2026.course.cda0153",
+      "course_name": "정보보안",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 2학기",
+      "fact_sha256": "83da14c2e3273fc7371c4f3f0f362a565e54b8a8c73203c95763e833bc5922bf",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0153 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0166": {
+      "course_id": "cwnu.cs.2026.course.cda0166",
+      "course_name": "딥러닝과자연어처리",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 2학기",
+      "fact_sha256": "263c2b0d3ad5ec0f901bccc4154bc99370806f86d66b6bb638a69027e1c24116",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0166 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0175": {
+      "course_id": "cwnu.cs.2026.course.cda0175",
+      "course_name": "컴퓨터비전",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 2학기",
+      "fact_sha256": "7eb704585ef52d9724fad87abbc22b415fe894e0081f1057849369c974834d0f",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0175 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ]
+    },
+    "CDA0034": {
+      "course_id": "cwnu.cs.2026.course.cda0034",
+      "course_name": "졸업논문",
+      "credits": 0,
+      "category": "major_required",
+      "offering_label": "4학년 1·2학기",
+      "fact_sha256": "c4f497aba2f4cce4b2bbeece6a105787ece1f51158ea04c8a5e29c4f806b2d87",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0034 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    },
+    "CDA0168": {
+      "course_id": "cwnu.cs.2026.course.cda0168",
+      "course_name": "산학캡스톤디자인2",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "4학년 1·2학기",
+      "fact_sha256": "61f8083d6f0bdb6450b85471ce653bc2a93ca85ddd5f5a5f407ff3933d168e81",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0168 row",
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    },
+    "CDA0147": {
+      "course_id": "cwnu.cs.2026.course.cda0147",
+      "course_name": "현장실습4",
+      "credits": 12,
+      "category": "major_elective",
+      "offering_label": "2·3·4학년 1·2학기",
+      "fact_sha256": "328bd7650b3a01b7d728a640313a2aca36d9ef80b30a083fe2c7b10beb2afe39",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0147 row",
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    },
+    "CDA0173": {
+      "course_id": "cwnu.cs.2026.course.cda0173",
+      "course_name": "표준현장실습4",
+      "credits": 12,
+      "category": "major_elective",
+      "offering_label": "2·3·4학년 1·2학기",
+      "fact_sha256": "76f45c0a5fbf806e6b207e411a0997a12c6c0ef56b69afb88bee9aae15f19bb2",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0173 row",
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    },
+    "CDA0144": {
+      "course_id": "cwnu.cs.2026.course.cda0144",
+      "course_name": "현장실습1",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2·3·4학년 하계·동계",
+      "fact_sha256": "0dac220ad65056fc4d5bfbb723617eab71b2a33420ae06d16ec14971735bcb39",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0144 row",
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ]
+    },
+    "CDA0145": {
+      "course_id": "cwnu.cs.2026.course.cda0145",
+      "course_name": "현장실습3",
+      "credits": 6,
+      "category": "major_elective",
+      "offering_label": "2·3·4학년 하계·동계",
+      "fact_sha256": "79eeaa55fc8bc5c2d15a055efdde4bbf70df8dfed07158594784b04719bfd377",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0145 row",
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ]
+    },
+    "CDA0171": {
+      "course_id": "cwnu.cs.2026.course.cda0171",
+      "course_name": "표준현장실습1",
+      "credits": 3,
+      "category": "major_elective",
+      "offering_label": "2·3·4학년 하계·동계",
+      "fact_sha256": "136e5d85f83e7bd3bc16df725cd7dcbcc107cbf3d4138dc24fa3a11c86432d18",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0171 row",
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ]
+    },
+    "CDA0172": {
+      "course_id": "cwnu.cs.2026.course.cda0172",
+      "course_name": "표준현장실습3",
+      "credits": 6,
+      "category": "major_elective",
+      "offering_label": "2·3·4학년 하계·동계",
+      "fact_sha256": "2e2ea1c889394aa1019e0abfae9af22a2721ddf2812ee7fb93681f6d6b0a5cd4",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0172 row",
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ]
+    },
+    "CDA0088": {
+      "course_id": "cwnu.cs.2026.course.cda0088",
+      "course_name": "심층상담",
+      "credits": 0,
+      "category": "major_required",
+      "offering_label": "전 학년 1·2학기",
+      "fact_sha256": "71b537e0c85c26bb667b773fc2dab735532600bdb7cfab03cb3e22a6206d1e73",
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0088 row",
+      "offering_years": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ]
+    }
+  },
+  "expected_rule_facts": {
+    "cwnu.cs.2026.cohort.department-transfer-original-admission-year": {
+      "statement": "전과 완료 연도가 아니라 학생의 최초 입학연도에 해당하는 교육과정을 적용한다.",
+      "outcome": {
+        "type": "cohort_assignment_policy",
+        "cohort_kind": "department_transfer",
+        "assignment_basis": "original_admission_year",
+        "completion_year_ignored": true
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.13 (printed p.5) 및 p.18 (printed p.10): 교육과정 입학연도 적용 원칙"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.1, section 1: 적용 대상 필기와 사용자 정정"
+        }
+      ]
+    },
+    "cwnu.cs.2026.course-counting.identical-course": {
+      "statement": "동일교과목은 중복 수강신청되지 않으므로 중복 계산되지 않는다.",
+      "outcome": {
+        "type": "course_counting_policy",
+        "scenario": "identical_course_registration",
+        "action": "registration_blocked",
+        "double_counted": false,
+        "individual_determination": "not_required"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 동일교과목 필기와 사용자 정정"
+        }
+      ]
+    },
+    "cwnu.cs.2026.course-counting.post-completion-equivalence": {
+      "statement": "이수 후 대체 또는 동일 과목으로 지정된 경우에는 별개의 과목으로 학점 수를 계산하되, 소급 적용되는 경우 결과가 달라질 수 있어 개인 판정은 보류한다.",
+      "outcome": {
+        "type": "course_counting_policy",
+        "scenario": "post_completion_equivalent_or_substitute",
+        "action": "count_as_separate_courses",
+        "double_counted": false,
+        "individual_determination": "required_if_retroactive"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.14 (printed p.6): 동일·대체교과목 및 경과조치"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 동일·대체 지정 필기와 사용자 정정"
+        }
+      ]
+    },
+    "cwnu.cs.2026.course-counting.retake": {
+      "statement": "재수강 시 기이수 과목은 삭제되므로 학점을 중복 계산하지 않는다.",
+      "outcome": {
+        "type": "course_counting_policy",
+        "scenario": "retake",
+        "action": "delete_prior_completion",
+        "double_counted": false,
+        "individual_determination": "not_required"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 재수강 필기와 사용자 정정"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.general-balanced": {
+      "statement": "균형교양을 12학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.general.balanced",
+        "comparator": "at_least",
+        "credits": 12
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 균형교양 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.general-foundation": {
+      "statement": "기초교양을 9학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.general.foundation",
+        "comparator": "at_least",
+        "credits": 9
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 기초교양 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.general-recognition-cap": {
+      "statement": "교양은 실제 취득학점과 별개로 졸업학점에는 최대 42학점까지만 인정된다.",
+      "outcome": {
+        "type": "credit_recognition_cap",
+        "metric": "credits.general.recognized",
+        "maximum_recognized_credits": 42,
+        "excess_counts_toward_graduation": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23: 교양 인정학점 구조와 졸업학점 합계"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 교양 인정 상한"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.general-remaining-allocation": {
+      "statement": "교양 잔여 13학점은 기초교양, 균형교양 또는 확대교양으로 충족할 수 있다.",
+      "outcome": {
+        "type": "allocation_policy",
+        "source_metric": "credits.general.remaining",
+        "allowed_allocations": [
+          "기초교양",
+          "균형교양",
+          "확대교양"
+        ],
+        "double_counting_allowed": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23: 교양 영역별 학점과 잔여학점 구조"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.2, section 2: 교양 잔여학점"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.general-remaining": {
+      "statement": "교양 잔여학점을 13학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.general.remaining",
+        "comparator": "at_least",
+        "credits": 13
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 잔여학점 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.general-total": {
+      "statement": "교양을 합계 34학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.general.total",
+        "comparator": "at_least",
+        "credits": 34
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 소계 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.graduation-remaining-allocation": {
+      "statement": "졸업 잔여 18학점은 자유선택 교과목으로 충족할 수 있으며 이미 교양·전공으로 산입된 학점을 다시 중복 계산하지 않는다.",
+      "outcome": {
+        "type": "allocation_policy",
+        "source_metric": "credits.graduation.remaining",
+        "allowed_allocations": [
+          "자유선택 교과목"
+        ],
+        "double_counting_allowed": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23: 졸업 잔여학점 구조"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.2, section 2: 졸업 잔여학점과 중복 계산"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.graduation-remaining": {
+      "statement": "졸업 잔여학점을 18학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.graduation.remaining",
+        "comparator": "at_least",
+        "credits": 18
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업 잔여학점 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.graduation-total": {
+      "statement": "졸업을 위해 총 130학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.graduation.total",
+        "comparator": "at_least",
+        "credits": 130
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업학점 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.major-advanced": {
+      "statement": "심화전공을 33학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.major.advanced",
+        "comparator": "at_least",
+        "credits": 33
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 심화전공 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.major-elective": {
+      "statement": "전공선택을 24학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.major.elective",
+        "comparator": "at_least",
+        "credits": 24
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공선택 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.major-minimum": {
+      "statement": "최소전공을 합계 45학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.major.minimum",
+        "comparator": "at_least",
+        "credits": 45
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 최소전공 소계 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.major-required": {
+      "statement": "전공필수를 21학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.major.required",
+        "comparator": "at_least",
+        "credits": 21
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공필수 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.credits.major-total": {
+      "statement": "전공을 합계 78학점 이상 이수해야 한다.",
+      "outcome": {
+        "type": "credit_threshold",
+        "metric": "credits.major.total",
+        "comparator": "at_least",
+        "credits": 78
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공 소계 열"
+        }
+      ]
+    },
+    "cwnu.cs.2026.general-balanced-area-coverage": {
+      "statement": "균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다.",
+      "outcome": {
+        "type": "coverage_requirement",
+        "requirement": "general.balanced.area_coverage",
+        "coverage_kind": "area",
+        "items": [
+          {
+            "item_id": "digital-communication",
+            "label": "디지털커뮤니케이션"
+          },
+          {
+            "item_id": "humanities-arts",
+            "label": "인문예술"
+          },
+          {
+            "item_id": "society-culture",
+            "label": "사회와문화"
+          },
+          {
+            "item_id": "nature-science-technology",
+            "label": "자연·과학·기술의이해"
+          }
+        ],
+        "minimum_items": 4,
+        "minimum_courses_per_item": 1,
+        "one_course_may_cover_multiple_items": false,
+        "fixed_credits_per_course": null
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.35: 균형교양 이수영역"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.2, section 3: 균형교양 영역 규칙"
+        }
+      ]
+    },
+    "cwnu.cs.2026.general-recommended-courses": {
+      "statement": "컴퓨터개론, 컴퓨터프로그래밍, 공업수학은 필수가 아닌 권장 교양이다.",
+      "outcome": {
+        "type": "recommendation",
+        "items": [
+          {
+            "item_id": "GEA7260",
+            "label": "컴퓨터개론"
+          },
+          {
+            "item_id": "GEA7261",
+            "label": "컴퓨터프로그래밍"
+          },
+          {
+            "item_id": "GEA7301",
+            "label": "공업수학"
+          }
+        ],
+        "required": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.261 (printed p.253): 컴퓨터공학과 9. 학과 권장 교과목 표, GEA7260/GEA7261/GEA7301 행"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.4, section 6: 권장 교양의 의미"
+        }
+      ]
+    },
+    "cwnu.cs.2026.graduation.thesis-completion-result": {
+      "statement": "졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.",
+      "outcome": {
+        "type": "completion_requirement",
+        "requirement": "graduation.thesis.required",
+        "credit_value": 0,
+        "required": true,
+        "result_if_incomplete": "fail"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.565 (printed p.557): 1. 졸업 요건·2. 졸업 논문; PDF p.263 (printed p.255): CDA0034 졸업논문 행, 전공필수·0학점"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 4: 졸업논문 필기와 사용자 정정"
+        }
+      ]
+    },
+    "cwnu.cs.2026.graduation.thesis-linked-program-exemption": {
+      "statement": "학·석사 연계과정생은 졸업논문 이수 면제가 가능하지만 자동 면제로 판정하지 않는다.",
+      "outcome": {
+        "type": "exception_eligibility",
+        "target_requirement": "graduation.thesis.required",
+        "eligible_group": "student.program.bachelors_masters_linked",
+        "eligibility": "may_be_exempt",
+        "automatic": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.565 (printed p.557): 졸업논문 통과 일반요건"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 4: 오른쪽 필기와 사용자 정정"
+        }
+      ]
+    },
+    "cwnu.cs.2026.graduation.thesis-required": {
+      "statement": "졸업을 위해 졸업논문 요건을 충족해야 한다.",
+      "outcome": {
+        "type": "boolean_requirement",
+        "requirement": "graduation.thesis.required",
+        "required": true
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.565 (printed p.557): 일반 졸업요건의 졸업논문 통과 요구"
+        }
+      ]
+    },
+    "cwnu.cs.2026.graduation.thesis-substitution": {
+      "statement": "현재 교육과정 규정집에는 컴퓨터공학과 졸업논문 대체요건이 기재되어 있지 않다.",
+      "outcome": {
+        "type": "substitution_policy",
+        "target_requirement": "graduation.thesis.required",
+        "listing_status": "none_listed",
+        "substitute_ids": []
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.567 (printed p.559): 졸업논문 대체요건 표의 컴퓨터공학과 행"
+        }
+      ]
+    },
+    "cwnu.cs.2026.major-counseling-completion": {
+      "statement": "심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.",
+      "outcome": {
+        "type": "completion_requirement",
+        "requirement": "major.counseling.required",
+        "credit_value": 0,
+        "required": true,
+        "result_if_incomplete": "requirement_unsatisfied",
+        "minimum_completions": 1
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.263 (printed p.255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0088 심층상담 행, 이수구분(전공필수)·학점(0) 열"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 4: 심층상담 확인"
+        }
+      ]
+    },
+    "cwnu.cs.2026.major-required-course-set": {
+      "statement": "전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 한다.",
+      "outcome": {
+        "type": "coverage_requirement",
+        "requirement": "major.required.course_set",
+        "coverage_kind": "course_set",
+        "items": [
+          {
+            "item_id": "CDA0143",
+            "label": "고급자료구조"
+          },
+          {
+            "item_id": "CDA0016",
+            "label": "컴퓨터구조"
+          },
+          {
+            "item_id": "CDA0027",
+            "label": "알고리즘"
+          },
+          {
+            "item_id": "CDA0028",
+            "label": "소프트웨어공학"
+          },
+          {
+            "item_id": "CDA0065",
+            "label": "데이터베이스개론"
+          },
+          {
+            "item_id": "CDA0017",
+            "label": "운영체제"
+          },
+          {
+            "item_id": "CDA0023",
+            "label": "데이터통신"
+          },
+          {
+            "item_id": "CDA0034",
+            "label": "졸업논문"
+          },
+          {
+            "item_id": "CDA0088",
+            "label": "심층상담"
+          }
+        ],
+        "minimum_items": 9,
+        "minimum_courses_per_item": 1,
+        "one_course_may_cover_multiple_items": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+        }
+      ]
+    },
+    "cwnu.cs.2026.operations.coding-test-failure": {
+      "statement": "코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다.",
+      "outcome": {
+        "type": "operational_policy",
+        "kind": "coding_test_failure",
+        "requirement": "capstone.coding_test_failure",
+        "capstone_i_result": "U",
+        "capstone_i_enrollment_prohibited": false,
+        "capstone_ii_enrollment": "next_academic_year_not_allowed"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 2; session=review-20261001-prototype-integration"
+        }
+      ]
+    },
+    "cwnu.cs.2026.operations.graduation-work-prerequisite": {
+      "statement": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.",
+      "outcome": {
+        "type": "operational_policy",
+        "kind": "graduation_work_prerequisite",
+        "requirement": "graduation.work.enrollment",
+        "prerequisite": "capstone.ii.pass",
+        "sufficient_for_graduation": false,
+        "automatic_credits": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 3; session=review-20261001-prototype-integration"
+        }
+      ]
+    },
+    "cwnu.cs.2026.operations.pccp-current-trial": {
+      "statement": "2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다.",
+      "outcome": {
+        "type": "operational_policy",
+        "kind": "pccp_current_trial",
+        "requirement": "coding_test.pccp_current_trial",
+        "minimum_score": 400,
+        "confirmed_as_of": "2026-10-01",
+        "provisional": true,
+        "future_guaranteed": false
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 1; session=review-20261001-prototype-integration"
+        }
+      ]
+    }
+  },
+  "controlled_campaign": [
+    {
+      "case_id": "b-input-repair-01",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "컴구 하나를 이수하면 이수 총량에는 얼마가 더해져요?",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0016": [
+            "credits"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_01",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "680be9934584e01564f73bcad2f605edce6a69fc311a7a9490be3bef24677ed2"
+        },
+        {
+          "id": "test_private_repair_01",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "680be9934584e01564f73bcad2f605edce6a69fc311a7a9490be3bef24677ed2"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-02",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "고자구는 정해진 전공 묶음에 들어가요, 아니면 골라 듣는 쪽이에요?",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "고급자료구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "category"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0143": [
+            "category"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_02",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "0284ff41cb5c89a98f6beb79c70139a6ec20f16533ee0d3a9d93f67c51a0db90"
+        },
+        {
+          "id": "test_private_repair_02",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "0284ff41cb5c89a98f6beb79c70139a6ec20f16533ee0d3a9d93f67c51a0db90"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "고급자료구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "category"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-03",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "네프는 교육과정표에서 앞쪽 반년 칸이랑 뒤쪽 반년 칸 중 어디에 놓여 있어요?",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "네트워크프로그래밍"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "offering"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0165": [
+            "offering"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_03",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "c77cd49ccb58e84c6376c4fa5cf47ecd37a3104d90749930d5d29779422d600d"
+        },
+        {
+          "id": "test_private_repair_03",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "c77cd49ccb58e84c6376c4fa5cf47ecd37a3104d90749930d5d29779422d600d"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "네트워크프로그래밍"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "offering"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-04",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "정해진 전공 쪽이랑 골라 듣는 전공 쪽은 각각 항목을 세면 얼마나 돼요?",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_required"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_elective"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0163": [
+            "count"
+          ],
+          "CDA0174": [
+            "count"
+          ],
+          "CDA0157": [
+            "count"
+          ],
+          "CDA0170": [
+            "count"
+          ],
+          "CDA0008": [
+            "count"
+          ],
+          "CDA0010": [
+            "count"
+          ],
+          "CDA0014": [
+            "count"
+          ],
+          "CDA0143": [
+            "count"
+          ],
+          "CDA0006": [
+            "count"
+          ],
+          "CDA0013": [
+            "count"
+          ],
+          "CDA0125": [
+            "count"
+          ],
+          "CDA0176": [
+            "count"
+          ],
+          "CDA0155": [
+            "count"
+          ],
+          "CDA0156": [
+            "count"
+          ],
+          "CDA0016": [
+            "count"
+          ],
+          "CDA0027": [
+            "count"
+          ],
+          "CDA0028": [
+            "count"
+          ],
+          "CDA0065": [
+            "count"
+          ],
+          "CDA0164": [
+            "count"
+          ],
+          "CDA0165": [
+            "count"
+          ],
+          "CDA0017": [
+            "count"
+          ],
+          "CDA0023": [
+            "count"
+          ],
+          "CDA0139": [
+            "count"
+          ],
+          "CDA0154": [
+            "count"
+          ],
+          "CDA0169": [
+            "count"
+          ],
+          "CDA0167": [
+            "count"
+          ],
+          "CDA0030": [
+            "count"
+          ],
+          "CDA0031": [
+            "count"
+          ],
+          "CDA0119": [
+            "count"
+          ],
+          "CDA0177": [
+            "count"
+          ],
+          "CDA0150": [
+            "count"
+          ],
+          "CDA0153": [
+            "count"
+          ],
+          "CDA0166": [
+            "count"
+          ],
+          "CDA0175": [
+            "count"
+          ],
+          "CDA0034": [
+            "count"
+          ],
+          "CDA0168": [
+            "count"
+          ],
+          "CDA0147": [
+            "count"
+          ],
+          "CDA0173": [
+            "count"
+          ],
+          "CDA0144": [
+            "count"
+          ],
+          "CDA0145": [
+            "count"
+          ],
+          "CDA0171": [
+            "count"
+          ],
+          "CDA0172": [
+            "count"
+          ],
+          "CDA0088": [
+            "count"
+          ]
+        },
+        "rules": [],
+        "counts": {
+          "major_required": 9,
+          "major_elective": 34
+        }
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_04",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "5027405e6e21f0d867a133a4f848590bab059161d7bf454d65d4067ef829d19e"
+        },
+        {
+          "id": "test_private_repair_04",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "5027405e6e21f0d867a133a4f848590bab059161d7bf454d65d4067ef829d19e"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_required"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_elective"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-05",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "학교를 마치기 전에 갖춰야 하는 것들을 한눈에 보고 싶어요. 전공과 교양을 아울러 안내해 주세요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "courses": {},
+        "rules": [
+          "cwnu.cs.2026.credits.graduation-total",
+          "cwnu.cs.2026.credits.general-total",
+          "cwnu.cs.2026.credits.major-total",
+          "cwnu.cs.2026.credits.graduation-remaining",
+          "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "cwnu.cs.2026.credits.general-foundation",
+          "cwnu.cs.2026.credits.general-balanced",
+          "cwnu.cs.2026.credits.general-remaining",
+          "cwnu.cs.2026.credits.general-remaining-allocation",
+          "cwnu.cs.2026.credits.general-recognition-cap",
+          "cwnu.cs.2026.general-balanced-area-coverage",
+          "cwnu.cs.2026.credits.major-required",
+          "cwnu.cs.2026.credits.major-elective",
+          "cwnu.cs.2026.credits.major-minimum",
+          "cwnu.cs.2026.credits.major-advanced",
+          "cwnu.cs.2026.major-required-course-set",
+          "cwnu.cs.2026.graduation.thesis-required",
+          "cwnu.cs.2026.graduation.thesis-completion-result",
+          "cwnu.cs.2026.major-counseling-completion",
+          "cwnu.cs.2026.operations.pccp-current-trial",
+          "cwnu.cs.2026.operations.coding-test-failure",
+          "cwnu.cs.2026.operations.graduation-work-prerequisite"
+        ],
+        "overview": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_05",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "06cfa86e27410b23fb98e56d902dc676c0866d21c1eb678a8a77e4c19881f618"
+        },
+        {
+          "id": "test_private_repair_05",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "06cfa86e27410b23fb98e56d902dc676c0866d21c1eb678a8a77e4c19881f618"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-06",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "운체 하나를 이수하면 인정되는 양은 얼마나 되고, 이 과목을 빼고 마칠 수도 있는지 궁금해요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "운영체제"
+            },
+            "purpose": "completion_obligation",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0017": [
+            "credits"
+          ]
+        },
+        "rules": [
+          "cwnu.cs.2026.major-required-course-set"
+        ],
+        "obligation_code": "CDA0017"
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_06",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "95d539f658f2efee698a045b2b8253e06202087826afa474252cabc32f9d4891"
+        },
+        {
+          "id": "test_private_repair_06",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "95d539f658f2efee698a045b2b8253e06202087826afa474252cabc32f9d4891"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "운영체제"
+            },
+            "purpose": "completion_obligation",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-07",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "학교 마무리까지 챙길 항목들을 전체적으로 설명해 주고, 컴구 하나의 인정량도 따로 알려줘요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0016": [
+            "credits"
+          ]
+        },
+        "rules": [
+          "cwnu.cs.2026.credits.graduation-total",
+          "cwnu.cs.2026.credits.general-total",
+          "cwnu.cs.2026.credits.major-total",
+          "cwnu.cs.2026.credits.graduation-remaining",
+          "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "cwnu.cs.2026.credits.general-foundation",
+          "cwnu.cs.2026.credits.general-balanced",
+          "cwnu.cs.2026.credits.general-remaining",
+          "cwnu.cs.2026.credits.general-remaining-allocation",
+          "cwnu.cs.2026.credits.general-recognition-cap",
+          "cwnu.cs.2026.general-balanced-area-coverage",
+          "cwnu.cs.2026.credits.major-required",
+          "cwnu.cs.2026.credits.major-elective",
+          "cwnu.cs.2026.credits.major-minimum",
+          "cwnu.cs.2026.credits.major-advanced",
+          "cwnu.cs.2026.major-required-course-set",
+          "cwnu.cs.2026.graduation.thesis-required",
+          "cwnu.cs.2026.graduation.thesis-completion-result",
+          "cwnu.cs.2026.major-counseling-completion",
+          "cwnu.cs.2026.operations.pccp-current-trial",
+          "cwnu.cs.2026.operations.coding-test-failure",
+          "cwnu.cs.2026.operations.graduation-work-prerequisite"
+        ],
+        "overview": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_07",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "fb24c7edb6960748d59a85b7b3db64ef480cfb81f6357c30c1c0ea641d652c7f"
+        },
+        {
+          "id": "test_private_repair_07",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "fb24c7edb6960748d59a85b7b3db64ef480cfb81f6357c30c1c0ea641d652c7f"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-08",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "컴구와 네프를 나란히 비교해 주세요. 각각 인정되는 양과 정해진 전공인지 골라 듣는 전공인지 알고 싶어요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "category"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "네트워크프로그래밍"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "category"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0016": [
+            "credits",
+            "category"
+          ],
+          "CDA0165": [
+            "credits",
+            "category"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_08",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "fd9c0bd34a09c72a95d3150eefbce283c45088507b676ded62eff10040fbf78f"
+        },
+        {
+          "id": "test_private_repair_08",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "fd9c0bd34a09c72a95d3150eefbce283c45088507b676ded62eff10040fbf78f"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "category"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "네트워크프로그래밍"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "category"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-09",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "그럼 네프는요?",
+      "previous_question": "컴구 하나를 듣고 나면 이수 총량에 얼마나 보태지나요?",
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "네트워크프로그래밍"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0165": [
+            "credits"
+          ]
+        },
+        "rules": [],
+        "context_used": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_09",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "b1dacb4a0f6b48417a747af27ee32dadc4412b7815a6ac1eba94f7f2c503b493"
+        },
+        {
+          "id": "test_private_repair_09",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "b1dacb4a0f6b48417a747af27ee32dadc4412b7815a6ac1eba94f7f2c503b493"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "네트워크프로그래밍"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "context_used": true
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-10",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "그 과목은 정해진 전공 쪽인가요?",
+      "previous_question": "고급자료구조와 자료구조의 인정량을 나란히 알려 주세요.",
+      "expected": {
+        "status": "insufficient_evidence",
+        "requests": [
+          {
+            "kind": "clarify"
+          }
+        ],
+        "courses": {},
+        "rules": [],
+        "context_used": true,
+        "ambiguous": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_10",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "insufficient_evidence",
+          "plan": "generated",
+          "generation": "not_applicable",
+          "reason": "ambiguous",
+          "plan_calls": 1,
+          "write_calls": 0,
+          "digest": "708df3def246e5580c3105a87f5151d75f7f5e5fcde544d373b3826fa2ff0050"
+        },
+        {
+          "id": "test_private_repair_10",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "insufficient_evidence",
+          "plan": "generated",
+          "generation": "not_applicable",
+          "reason": "ambiguous",
+          "plan_calls": 1,
+          "write_calls": 0,
+          "digest": "708df3def246e5580c3105a87f5151d75f7f5e5fcde544d373b3826fa2ff0050"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "clarify"
+          }
+        ],
+        "context_used": true
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-11",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "2025년에 입학한 컴퓨터공학과 학생인데 학교를 마칠 때 갖춰야 할 것들을 정리해 주세요.",
+      "previous_question": null,
+      "expected": {
+        "status": "out_of_scope",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "courses": {},
+        "rules": [],
+        "before_model": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_11",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "f8fde0f7454afe4dea62367517dbf2ebb7b82f64df703e483b198d6f5cff82a9"
+        },
+        {
+          "id": "test_private_repair_11",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "f8fde0f7454afe4dea62367517dbf2ebb7b82f64df703e483b198d6f5cff82a9"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-repair-12",
+      "split": "repair",
+      "usage": "unchanged",
+      "question": "2026학번 기계공학과인데 학교를 마치는 데 필요한 교양과 전공을 한꺼번에 안내해 줄래요?",
+      "previous_question": null,
+      "expected": {
+        "status": "out_of_scope",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "courses": {},
+        "rules": [],
+        "before_model": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_repair_12",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "b90799d9117c05c63a72616decf640a02218b8dea050d2f2f44f6fe047f8cbcd"
+        },
+        {
+          "id": "test_private_repair_12",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "b90799d9117c05c63a72616decf640a02218b8dea050d2f2f44f6fe047f8cbcd"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-01",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "알고리즘 수업 하나를 마치면 이수 합계가 어느 정도 올라가나요?",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "알고리즘"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0027": [
+            "credits"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_01",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "0c42619ca9d098e84447c404b36c82642f84c89ae83e0b0f8b8b667a0b8be556"
+        },
+        {
+          "id": "test_private_heldout_01",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "0c42619ca9d098e84447c404b36c82642f84c89ae83e0b0f8b8b667a0b8be556"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "알고리즘"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-02",
+      "split": "heldout",
+      "usage": "used_for_repair",
+      "question": "소프트웨어공학은 전공에서 꼭 정해 둔 묶음이에요, 아니면 제가 고르는 묶음이에요?",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "소프트웨어공학"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "category"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0028": [
+            "category"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "failed",
+      "failure_type": "false_out_of_scope_guard",
+      "observed": [
+        {
+          "id": "test_private_heldout_02",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "9e708b783a7a2d3ed3ade5fbb126c349bd58d6e2e0e8a54b397d843b9fe92bd2"
+        },
+        {
+          "id": "test_private_heldout_02",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "9e708b783a7a2d3ed3ade5fbb126c349bd58d6e2e0e8a54b397d843b9fe92bd2"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "소프트웨어공학"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "category"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-03",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "컴퓨터구조가 교육과정표의 봄 쪽 칸에 있는지 가을 쪽 칸에 있는지 궁금해요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "offering"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0016": [
+            "offering"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_03",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "e9b634ed0accf934d08793fb6931f3417805c92ec72f22eb639ccece8ac128a2"
+        },
+        {
+          "id": "test_private_heldout_03",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "e9b634ed0accf934d08793fb6931f3417805c92ec72f22eb639ccece8ac128a2"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨터구조"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "offering"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-04",
+      "split": "heldout",
+      "usage": "used_for_repair",
+      "question": "정해 둔 전공 명단이랑 골라 듣는 전공 명단을 나눠서, 각 쪽에 올라간 이름이 얼마나 되는지 알려 주세요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_required"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_elective"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0163": [
+            "count"
+          ],
+          "CDA0174": [
+            "count"
+          ],
+          "CDA0157": [
+            "count"
+          ],
+          "CDA0170": [
+            "count"
+          ],
+          "CDA0008": [
+            "count"
+          ],
+          "CDA0010": [
+            "count"
+          ],
+          "CDA0014": [
+            "count"
+          ],
+          "CDA0143": [
+            "count"
+          ],
+          "CDA0006": [
+            "count"
+          ],
+          "CDA0013": [
+            "count"
+          ],
+          "CDA0125": [
+            "count"
+          ],
+          "CDA0176": [
+            "count"
+          ],
+          "CDA0155": [
+            "count"
+          ],
+          "CDA0156": [
+            "count"
+          ],
+          "CDA0016": [
+            "count"
+          ],
+          "CDA0027": [
+            "count"
+          ],
+          "CDA0028": [
+            "count"
+          ],
+          "CDA0065": [
+            "count"
+          ],
+          "CDA0164": [
+            "count"
+          ],
+          "CDA0165": [
+            "count"
+          ],
+          "CDA0017": [
+            "count"
+          ],
+          "CDA0023": [
+            "count"
+          ],
+          "CDA0139": [
+            "count"
+          ],
+          "CDA0154": [
+            "count"
+          ],
+          "CDA0169": [
+            "count"
+          ],
+          "CDA0167": [
+            "count"
+          ],
+          "CDA0030": [
+            "count"
+          ],
+          "CDA0031": [
+            "count"
+          ],
+          "CDA0119": [
+            "count"
+          ],
+          "CDA0177": [
+            "count"
+          ],
+          "CDA0150": [
+            "count"
+          ],
+          "CDA0153": [
+            "count"
+          ],
+          "CDA0166": [
+            "count"
+          ],
+          "CDA0175": [
+            "count"
+          ],
+          "CDA0034": [
+            "count"
+          ],
+          "CDA0168": [
+            "count"
+          ],
+          "CDA0147": [
+            "count"
+          ],
+          "CDA0173": [
+            "count"
+          ],
+          "CDA0144": [
+            "count"
+          ],
+          "CDA0145": [
+            "count"
+          ],
+          "CDA0171": [
+            "count"
+          ],
+          "CDA0172": [
+            "count"
+          ],
+          "CDA0088": [
+            "count"
+          ]
+        },
+        "rules": [],
+        "counts": {
+          "major_required": 9,
+          "major_elective": 34
+        }
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "failed",
+      "failure_type": "false_personal_information_guard",
+      "observed": [],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_required"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "category": "major_elective"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "count"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": "Facade ValueError and API422 for non-PII input are recorded in the independent test traces; successful-response observer was not reached."
+    },
+    {
+      "case_id": "b-input-heldout-05",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "학부 과정을 끝내려면 준비가 어떻게 되어 있어야 해요? 교양부터 전공과 마무리 과제까지 전체 그림을 알려 주세요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "courses": {},
+        "rules": [
+          "cwnu.cs.2026.credits.graduation-total",
+          "cwnu.cs.2026.credits.general-total",
+          "cwnu.cs.2026.credits.major-total",
+          "cwnu.cs.2026.credits.graduation-remaining",
+          "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "cwnu.cs.2026.credits.general-foundation",
+          "cwnu.cs.2026.credits.general-balanced",
+          "cwnu.cs.2026.credits.general-remaining",
+          "cwnu.cs.2026.credits.general-remaining-allocation",
+          "cwnu.cs.2026.credits.general-recognition-cap",
+          "cwnu.cs.2026.general-balanced-area-coverage",
+          "cwnu.cs.2026.credits.major-required",
+          "cwnu.cs.2026.credits.major-elective",
+          "cwnu.cs.2026.credits.major-minimum",
+          "cwnu.cs.2026.credits.major-advanced",
+          "cwnu.cs.2026.major-required-course-set",
+          "cwnu.cs.2026.graduation.thesis-required",
+          "cwnu.cs.2026.graduation.thesis-completion-result",
+          "cwnu.cs.2026.major-counseling-completion",
+          "cwnu.cs.2026.operations.pccp-current-trial",
+          "cwnu.cs.2026.operations.coding-test-failure",
+          "cwnu.cs.2026.operations.graduation-work-prerequisite"
+        ],
+        "overview": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_05",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "9c74b791f380b5ee9aabe6393764648d3aab6de0237daa2a146bdd5cdb9116ce"
+        },
+        {
+          "id": "test_private_heldout_05",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "9c74b791f380b5ee9aabe6393764648d3aab6de0237daa2a146bdd5cdb9116ce"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-06",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "고급자료구조를 마쳤을 때 합계에 보태지는 양과, 건너뛰어도 되는지 같이 설명해 주세요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "고급자료구조"
+            },
+            "purpose": "completion_obligation",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0143": [
+            "credits"
+          ]
+        },
+        "rules": [
+          "cwnu.cs.2026.major-required-course-set"
+        ],
+        "obligation_code": "CDA0143"
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_06",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "b7c90eb8d6fe316c30eb511696d3e0da6d955d515d4cf7b1c34e3bd5dea595f1"
+        },
+        {
+          "id": "test_private_heldout_06",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "b7c90eb8d6fe316c30eb511696d3e0da6d955d515d4cf7b1c34e3bd5dea595f1"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "고급자료구조"
+            },
+            "purpose": "completion_obligation",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-07",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "학부를 마칠 때 확인할 것들을 빠짐없이 짚어 주고, 운영체제 수업이 인정되는 양도 함께 알려 주세요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "운영체제"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0017": [
+            "credits"
+          ]
+        },
+        "rules": [
+          "cwnu.cs.2026.credits.graduation-total",
+          "cwnu.cs.2026.credits.general-total",
+          "cwnu.cs.2026.credits.major-total",
+          "cwnu.cs.2026.credits.graduation-remaining",
+          "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "cwnu.cs.2026.credits.general-foundation",
+          "cwnu.cs.2026.credits.general-balanced",
+          "cwnu.cs.2026.credits.general-remaining",
+          "cwnu.cs.2026.credits.general-remaining-allocation",
+          "cwnu.cs.2026.credits.general-recognition-cap",
+          "cwnu.cs.2026.general-balanced-area-coverage",
+          "cwnu.cs.2026.credits.major-required",
+          "cwnu.cs.2026.credits.major-elective",
+          "cwnu.cs.2026.credits.major-minimum",
+          "cwnu.cs.2026.credits.major-advanced",
+          "cwnu.cs.2026.major-required-course-set",
+          "cwnu.cs.2026.graduation.thesis-required",
+          "cwnu.cs.2026.graduation.thesis-completion-result",
+          "cwnu.cs.2026.major-counseling-completion",
+          "cwnu.cs.2026.operations.pccp-current-trial",
+          "cwnu.cs.2026.operations.coding-test-failure",
+          "cwnu.cs.2026.operations.graduation-work-prerequisite"
+        ],
+        "overview": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_07",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "e4664decb2f067dd343993f6664fbf1bd895b652fae9d897ddea2387256f8923"
+        },
+        {
+          "id": "test_private_heldout_07",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "e4664decb2f067dd343993f6664fbf1bd895b652fae9d897ddea2387256f8923"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "운영체제"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-08",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "알고리즘하고 운영체제를 나란히 봐 주세요. 각각 인정되는 양과 교육과정표에서 봄·가을 어느 쪽에 표시되는지 알고 싶어요.",
+      "previous_question": null,
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "알고리즘"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "offering"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "운영체제"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "offering"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0027": [
+            "credits",
+            "offering"
+          ],
+          "CDA0017": [
+            "credits",
+            "offering"
+          ]
+        },
+        "rules": []
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_08",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "f8a0bb9462a037dbd4dd02aae90cf00064f62a474bbc8d2f88f3e0ed75831978"
+        },
+        {
+          "id": "test_private_heldout_08",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "supported",
+          "plan": "generated",
+          "generation": "generated",
+          "reason": null,
+          "plan_calls": 1,
+          "write_calls": 1,
+          "digest": "f8a0bb9462a037dbd4dd02aae90cf00064f62a474bbc8d2f88f3e0ed75831978"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "알고리즘"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "offering"
+            ]
+          },
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "운영체제"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "credits",
+              "offering"
+            ]
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-09",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "같은 얘기로 알고리즘도 봐 주세요.",
+      "previous_question": "소프트웨어공학이 전공의 정해진 묶음인지 고르는 묶음인지 알려 주세요.",
+      "expected": {
+        "status": "supported",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "알고리즘"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "category"
+            ]
+          }
+        ],
+        "courses": {
+          "CDA0027": [
+            "category"
+          ]
+        },
+        "rules": [],
+        "context_used": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "failed",
+      "failure_type": "false_out_of_scope_guard",
+      "observed": [
+        {
+          "id": "test_private_heldout_09",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "710ceef5981438a3b3f6316386cc7966336ffe28b6057ffdbd711e34a8a5c24e"
+        },
+        {
+          "id": "test_private_heldout_09",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "710ceef5981438a3b3f6316386cc7966336ffe28b6057ffdbd711e34a8a5c24e"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "알고리즘"
+            },
+            "purpose": "attributes",
+            "properties": [
+              "category"
+            ]
+          }
+        ],
+        "context_used": true
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-10",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "컴퓨구조라고 적어 놨는데, 제가 말한 과목이 어떤 건지부터 확인해 줄래요?",
+      "previous_question": null,
+      "expected": {
+        "status": "insufficient_evidence",
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨구조"
+            },
+            "purpose": "attributes",
+            "properties": []
+          }
+        ],
+        "courses": {},
+        "rules": [],
+        "ambiguous": true,
+        "candidate_codes": [
+          "CDA0016"
+        ]
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_10",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "insufficient_evidence",
+          "plan": "fallback",
+          "generation": "not_applicable",
+          "reason": "ambiguous",
+          "plan_calls": 1,
+          "write_calls": 0,
+          "digest": "6c261bfafffb0da7fdf8127949acc1e74cbbbb162db068d8413925ae4ddbfeb6"
+        },
+        {
+          "id": "test_private_heldout_10",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "insufficient_evidence",
+          "plan": "fallback",
+          "generation": "not_applicable",
+          "reason": "ambiguous",
+          "plan_calls": 1,
+          "write_calls": 0,
+          "digest": "6c261bfafffb0da7fdf8127949acc1e74cbbbb162db068d8413925ae4ddbfeb6"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "courses",
+            "filters": {
+              "name": "컴퓨구조"
+            },
+            "purpose": "attributes",
+            "properties": []
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-11",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "2024년도에 컴퓨터공학과에 입학했어요. 제게 맞는 학교 마무리 기준을 설명해 줄 수 있나요?",
+      "previous_question": null,
+      "expected": {
+        "status": "out_of_scope",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "courses": {},
+        "rules": [],
+        "before_model": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_11",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "7cb7c84386cc9f0d6179cc32861a1d110516673473d94ce96bd4c540396f07e2"
+        },
+        {
+          "id": "test_private_heldout_11",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "7cb7c84386cc9f0d6179cc32861a1d110516673473d94ce96bd4c540396f07e2"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    },
+    {
+      "case_id": "b-input-heldout-12",
+      "split": "heldout",
+      "usage": "unchanged",
+      "question": "2026년에 전자공학과로 입학했는데, 졸업 전에 전공에서 챙겨야 할 걸 정리해 주세요.",
+      "previous_question": null,
+      "expected": {
+        "status": "out_of_scope",
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "courses": {},
+        "rules": [],
+        "before_model": true
+      },
+      "execution_kind": "mock_trusted_typed_provider_at_real_facade_and_ASGI_TestClient_API",
+      "cycle": 2,
+      "grade": "passed",
+      "failure_type": null,
+      "observed": [
+        {
+          "id": "test_private_heldout_12",
+          "boundary": "mock_typed_provider_real_facade",
+          "http": null,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "2021f4894ac8818ee86e9a74f921dba2820d522480e0d54a4c8adc55b279f66b"
+        },
+        {
+          "id": "test_private_heldout_12",
+          "boundary": "mock_typed_provider_real_api",
+          "http": 200,
+          "status": "out_of_scope",
+          "plan": "fallback",
+          "generation": "fallback",
+          "reason": "unsupported_scope",
+          "plan_calls": 0,
+          "write_calls": 0,
+          "digest": "2021f4894ac8818ee86e9a74f921dba2820d522480e0d54a4c8adc55b279f66b"
+        }
+      ],
+      "observed_plan_requests_recorded": false,
+      "scripted_typed_plan": {
+        "requests": [
+          {
+            "kind": "requirements_overview"
+          }
+        ],
+        "context_used": false
+      },
+      "missing_observation_note": null
+    }
+  ],
+  "actual_api_attempts": [
+    {
+      "attempt": 1,
+      "case_id": "b-input-repair-01",
+      "split": "repair",
+      "question": "컴구 하나를 이수하면 이수 총량에는 얼마가 더해져요?",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "accepted_parent_timing_attribution",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "generated",
+      "reason": null,
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "credits"
+              ],
+              "filters": {
+                "name": "컴퓨터구조"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "course_id": "cwnu.cs.2026.course.cda0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "passed",
+      "overall_grade": "passed",
+      "failure_category": null,
+      "projection_reason": null,
+      "elapsed_seconds": 14.187,
+      "response_canonical_sha256": "680be9934584e01564f73bcad2f605edce6a69fc311a7a9490be3bef24677ed2",
+      "collector_response_sha256": "735d8283a82deb7d32265000e80f749458ef83b25c9fbfc7d44043910bab3433"
+    },
+    {
+      "attempt": 2,
+      "case_id": "b-input-repair-02",
+      "split": "repair",
+      "question": "고자구는 정해진 전공 묶음에 들어가요, 아니면 골라 듣는 쪽이에요?",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "accepted_parent_timing_attribution",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "generated",
+      "reason": null,
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "category"
+              ],
+              "filters": {
+                "name": "고급자료구조"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "course_id": "cwnu.cs.2026.course.cda0143",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "passed",
+      "overall_grade": "passed",
+      "failure_category": null,
+      "projection_reason": null,
+      "elapsed_seconds": 14.25,
+      "response_canonical_sha256": "9d8053e40c989688eac5f3901831548c73767eb1cc36c840319ed9ed3a8e2a11",
+      "collector_response_sha256": "89d3ea31a9195c91b00b6a19b13e7f9a44843339e4d9fbec7a4bdfc26e693876"
+    },
+    {
+      "attempt": 3,
+      "case_id": "b-input-repair-03",
+      "split": "repair",
+      "question": "네프는 교육과정표에서 앞쪽 반년 칸이랑 뒤쪽 반년 칸 중 어디에 놓여 있어요?",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "accepted_parent_timing_attribution",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "generated",
+      "reason": null,
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "offering"
+              ],
+              "filters": {
+                "name": "네트워크프로그래밍"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "course_id": "cwnu.cs.2026.course.cda0165",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "passed",
+      "overall_grade": "passed",
+      "failure_category": null,
+      "projection_reason": null,
+      "elapsed_seconds": 4.187,
+      "response_canonical_sha256": "b55e9cfae2f614699430ce5f3818e2bd1bc4341aca53c730589c513636224dc9",
+      "collector_response_sha256": "0acbeac199da0e57ed5a1c37c5920e3596ad88359a3173e86663b928b1e1458f"
+    },
+    {
+      "attempt": 4,
+      "case_id": "b-input-repair-04",
+      "split": "repair",
+      "question": "정해진 전공 쪽이랑 골라 듣는 전공 쪽은 각각 항목을 세면 얼마나 돼요?",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "accepted_parent_timing_attribution",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "fallback",
+      "reason": "processing_unavailable",
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "requirements_overview"
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-balanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-foundation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-advanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-elective",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-minimum",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.pccp-current-trial",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.coding-test-failure",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "failed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "failed",
+      "overall_grade": "failed",
+      "failure_category": "input_question_understanding",
+      "projection_reason": null,
+      "elapsed_seconds": 5.062,
+      "response_canonical_sha256": "3ef75011fde25ee574e79092c45d50f2f3bbb2f539ac2269438954709a389de3",
+      "collector_response_sha256": "cd5061d72911b7b574049f3636e4e04c23f3e28d06871d1de6d8ef22c33509ae"
+    },
+    {
+      "attempt": 5,
+      "case_id": "b-input-repair-05",
+      "split": "repair",
+      "question": "학교를 마치기 전에 갖춰야 하는 것들을 한눈에 보고 싶어요. 전공과 교양을 아울러 안내해 주세요.",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "accepted_parent_timing_attribution",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "insufficient_evidence",
+      "planStatus": "generated",
+      "generationStatus": "not_applicable",
+      "reason": "no_matching_evidence",
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "completion_obligation",
+              "properties": [
+                "category",
+                "names"
+              ],
+              "filters": {
+                "category": "major_required"
+              }
+            },
+            {
+              "kind": "courses",
+              "purpose": "completion_obligation",
+              "properties": [
+                "category",
+                "names"
+              ],
+              "filters": {
+                "category": "major_elective"
+              }
+            },
+            {
+              "kind": "courses",
+              "purpose": "completion_obligation",
+              "properties": [
+                "category",
+                "names"
+              ],
+              "filters": {
+                "category": "major_elective"
+              }
+            },
+            {
+              "kind": "courses",
+              "purpose": "completion_obligation",
+              "properties": [
+                "category",
+                "names"
+              ],
+              "filters": {
+                "category": "major_elective"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "failed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "failed",
+      "overall_grade": "failed",
+      "failure_category": "input_question_understanding",
+      "projection_reason": null,
+      "elapsed_seconds": 15.375,
+      "response_canonical_sha256": "2ab48117e570bf60ba445038f8393b4409f6644544d0fa1201313c6537e9ce35",
+      "collector_response_sha256": "10351b7d6a2518b1062d935af86451ee324ad8936fe168cf9cb304592db1723b"
+    },
+    {
+      "attempt": 6,
+      "case_id": "b-input-repair-06",
+      "split": "repair",
+      "question": "운체 하나를 이수하면 인정되는 양은 얼마나 되고, 이 과목을 빼고 마칠 수도 있는지 궁금해요.",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "accepted_parent_timing_attribution",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "fallback",
+      "reason": "processing_unavailable",
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "credits"
+              ],
+              "filters": {
+                "name": "운영체제"
+              }
+            },
+            {
+              "kind": "requirements_overview"
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "course_id": "cwnu.cs.2026.course.cda0017",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-balanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-foundation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-advanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-elective",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-minimum",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.pccp-current-trial",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.coding-test-failure",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "failed",
+      "overall_grade": "failed",
+      "failure_category": "output_generation_processing",
+      "projection_reason": null,
+      "elapsed_seconds": 16.031,
+      "response_canonical_sha256": "170009beec0b0ffa56ff865a7ee99995ea2dad2c8759577e788aa74ce045da9f",
+      "collector_response_sha256": "ab38a79c2285f212474670bb1a6684b56f416f19e0307d9feb387cfe061a91de"
+    },
+    {
+      "attempt": 7,
+      "case_id": "b-input-repair-07",
+      "split": "repair",
+      "question": "학교 마무리까지 챙길 항목들을 전체적으로 설명해 주고, 컴구 하나의 인정량도 따로 알려줘요.",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "accepted_parent_timing_attribution",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "fallback",
+      "reason": "processing_unavailable",
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "requirements_overview"
+            },
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "credits"
+              ],
+              "filters": {
+                "name": "컴퓨터구조"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-balanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-foundation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-advanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-elective",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-minimum",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.pccp-current-trial",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.coding-test-failure",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "failed",
+      "overall_grade": "failed",
+      "failure_category": "output_generation_processing",
+      "projection_reason": null,
+      "elapsed_seconds": 16.328,
+      "response_canonical_sha256": "fecff6a8108f8e39ac66d47c0f3167ab8b2df10ca37ecb3bba0263ad50278ded",
+      "collector_response_sha256": "37a74e73a162bbd3c6e9324270b4ef76b5218701021f82f6bcb2936813cd1dd5"
+    },
+    {
+      "attempt": 8,
+      "case_id": "b-input-heldout-01",
+      "split": "heldout",
+      "question": "알고리즘 수업 하나를 마치면 이수 합계가 어느 정도 올라가나요?",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "parent_collector_recorded",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "generated",
+      "reason": null,
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "completion_obligation",
+              "properties": [
+                "credits"
+              ],
+              "filters": {
+                "name": "알고리즘"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0027",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "passed",
+      "overall_grade": "passed",
+      "failure_category": null,
+      "projection_reason": null,
+      "elapsed_seconds": 14.781,
+      "response_canonical_sha256": "a82eacce666699a655f65501240cefd2e0bcb3816cdde1fd5a0c8a309467264c",
+      "collector_response_sha256": "8733674a9fa844afe4bd871cf972dac3d6429a22345bdafc352371b1ba0887bb"
+    },
+    {
+      "attempt": 9,
+      "case_id": "b-input-heldout-03",
+      "split": "heldout",
+      "question": "컴퓨터구조가 교육과정표의 봄 쪽 칸에 있는지 가을 쪽 칸에 있는지 궁금해요.",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "parent_collector_recorded",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "generated",
+      "reason": null,
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "offering"
+              ],
+              "filters": {
+                "name": "컴퓨터구조"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "course_id": "cwnu.cs.2026.course.cda0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "passed",
+      "overall_grade": "passed",
+      "failure_category": null,
+      "projection_reason": null,
+      "elapsed_seconds": 4.265,
+      "response_canonical_sha256": "3b9e4ef6e3c9c432431875ba0e061ff50006a778a265c108cdbbb321118bcd8d",
+      "collector_response_sha256": "fe8ab5914269f5639e6408af1c049f0a3caaab811af3271bc910a36656d3d53c"
+    },
+    {
+      "attempt": 10,
+      "case_id": "b-input-heldout-06",
+      "split": "heldout",
+      "question": "고급자료구조를 마쳤을 때 합계에 보태지는 양과, 건너뛰어도 되는지 같이 설명해 주세요.",
+      "previous_question": null,
+      "cycle": 1,
+      "cycle_provenance": "parent_collector_recorded",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "c810f65d56452e8b8b11e237c54c6860a168f5279316c126ad406551105bf797",
+        "src/academic_assistant/semantic_llm.py": "a2f1fb40350f6a523ba2dfdaf3d0a102f8811f826ca8dc202aec04d4e19c38e8",
+        "src/academic_assistant/core.py": "853f3991dfcabcfe3afb583c3f64fcf6054bf1151a5ba1e44be488454cc444cb"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "generated",
+      "reason": null,
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "credits"
+              ],
+              "filters": {
+                "name": "고급자료구조"
+              }
+            },
+            {
+              "kind": "courses",
+              "purpose": "completion_obligation",
+              "properties": [
+                "category"
+              ],
+              "filters": {
+                "name": "고급자료구조"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "course_id": "cwnu.cs.2026.course.cda0143",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0143",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "passed",
+      "overall_grade": "passed",
+      "failure_category": null,
+      "projection_reason": null,
+      "elapsed_seconds": 5.297,
+      "response_canonical_sha256": "d40132d728816aa7a4753f803f7b5bf7881e1ff8cecdadd9bae66f6152573ae5",
+      "collector_response_sha256": "d49ec290aa3d6bbc3fcda97490d960a6ebb833d3bfbd47821dd011b963493629"
+    },
+    {
+      "attempt": 11,
+      "case_id": "b-input-repair-04",
+      "split": "repair",
+      "question": "정해진 전공 쪽이랑 골라 듣는 전공 쪽은 각각 항목을 세면 얼마나 돼요?",
+      "previous_question": null,
+      "cycle": 2,
+      "cycle_provenance": "parent_collector_recorded",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "df71a010a762f39a064658abc5589bd2d76a4d5127586be3dee66f725c8b0bd2",
+        "src/academic_assistant/semantic_llm.py": "0a0e81593ac041e5037e1724f542d68f2650c6f41106957ac0e23a2e537e72c7",
+        "src/academic_assistant/core.py": "1e7d0df6a6e138bb726ad14ebb680c7011f389ae30c8abc1d49844c649779c1e"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "generated",
+      "reason": null,
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "count"
+              ],
+              "filters": {
+                "category": "major_required"
+              }
+            },
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "count"
+              ],
+              "filters": {
+                "category": "major_elective"
+              }
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "course_id": "cwnu.cs.2026.course.cda0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0017",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0023",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0027",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0028",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0034",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0065",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0088",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0143",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0006",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0008",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0010",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0013",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0014",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0030",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0031",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0119",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0125",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0139",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0144",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0145",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0147",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0150",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0153",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0154",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0155",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0156",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0157",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0163",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0164",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0165",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0166",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0167",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0168",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0169",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0170",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0171",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0172",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0173",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0174",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0175",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0176",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0177",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "passed",
+      "clean_generation_grade": "passed",
+      "overall_grade": "passed",
+      "failure_category": null,
+      "projection_reason": null,
+      "elapsed_seconds": 16.031,
+      "response_canonical_sha256": "330f9f42ab38c56d7be81f1627bcf1336596ad981f35d5ec5235c6e91f1ab8d9",
+      "collector_response_sha256": "ba3851047af63c56106a2517097f49b5a5d64959d0fb019acb2428f12949e1aa"
+    },
+    {
+      "attempt": 12,
+      "case_id": "b-input-repair-05",
+      "split": "repair",
+      "question": "학교를 마치기 전에 갖춰야 하는 것들을 한눈에 보고 싶어요. 전공과 교양을 아울러 안내해 주세요.",
+      "previous_question": null,
+      "cycle": 2,
+      "cycle_provenance": "parent_collector_recorded",
+      "product_raw_sha256": {
+        "src/academic_assistant/assistant.py": "df71a010a762f39a064658abc5589bd2d76a4d5127586be3dee66f725c8b0bd2",
+        "src/academic_assistant/semantic_llm.py": "0a0e81593ac041e5037e1724f542d68f2650c6f41106957ac0e23a2e537e72c7",
+        "src/academic_assistant/core.py": "1e7d0df6a6e138bb726ad14ebb680c7011f389ae30c8abc1d49844c649779c1e"
+      },
+      "execution_kind": "parent_collected_actual_API_Neo4j_Gemma_child_saved_observation_grade",
+      "HTTP": 200,
+      "status": "supported",
+      "planStatus": "generated",
+      "generationStatus": "fallback",
+      "reason": "processing_unavailable",
+      "observed_plan_requests": [
+        {
+          "context_used": false,
+          "requests": [
+            {
+              "kind": "requirements_overview"
+            },
+            {
+              "kind": "courses",
+              "purpose": "attributes",
+              "properties": [
+                "credits",
+                "category",
+                "offering",
+                "code",
+                "count",
+                "names"
+              ],
+              "filters": {}
+            }
+          ]
+        }
+      ],
+      "citation_ids": [
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-balanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-foundation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-advanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-elective",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-minimum",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.pccp-current-trial",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.coding-test-failure",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "rule_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0006",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0008",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0010",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0013",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0014",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0017",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0023",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0027",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0028",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0030",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0031",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0034",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0065",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0088",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0119",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0125",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0139",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0143",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0144",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0145",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0147",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0150",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0153",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0154",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0155",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0156",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0157",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0163",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0164",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0165",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0166",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0167",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0168",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0169",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0170",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0171",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0172",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0173",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0174",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0175",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0176",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        },
+        {
+          "course_id": "cwnu.cs.2026.course.cda0177",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate"
+        }
+      ],
+      "source_fact_lineage_grade": "passed",
+      "requested_coverage_grade": "passed",
+      "intent_projection_grade": "failed",
+      "clean_generation_grade": "failed",
+      "overall_grade": "failed",
+      "failure_category": "unrequested_catalogue_overprojection_and_writer_fallback",
+      "projection_reason": "Unrequested full 43-course attributes/code/offering dump for graduation overview",
+      "elapsed_seconds": 16.047,
+      "response_canonical_sha256": "b95671c5a33cd91a61545fdad05785d5323dabc45af1681823cf09928587eeb9",
+      "collector_response_sha256": "1f834b4fdb7e7696919520483b04990f73d245d6e82f2e37b9734c924ccda089"
+    }
+  ],
+  "public_diagnostic_observations": [
+    {
+      "question": "전필은 과목 이름을 알려줘",
+      "facade_error": "unsafe or identifying question content",
+      "facade_status": null,
+      "facade_reason": null,
+      "facade_plan_calls": 0,
+      "api_http": 422,
+      "api_status": null,
+      "api_reason": null,
+      "provider_plan_calls_total": 0,
+      "provider_write_calls_total": 0,
+      "matched_tokens": [
+        "전필은"
+      ],
+      "response_sha256": null,
+      "execution_kind": "mock_trusted_typed_provider_real_facade_and_ASGI_API",
+      "cycle": 2,
+      "grade": "failed",
+      "failure_type": "false_personal_information_guard"
+    },
+    {
+      "question": "과목 이름을 정리해 주세요",
+      "facade_error": "unsafe or identifying question content",
+      "facade_status": null,
+      "facade_reason": null,
+      "facade_plan_calls": 0,
+      "api_http": 422,
+      "api_status": null,
+      "api_reason": null,
+      "provider_plan_calls_total": 0,
+      "provider_write_calls_total": 0,
+      "matched_tokens": [
+        "정리해",
+        "주세요"
+      ],
+      "response_sha256": null,
+      "execution_kind": "mock_trusted_typed_provider_real_facade_and_ASGI_API",
+      "cycle": 2,
+      "grade": "failed",
+      "failure_type": "false_personal_information_guard"
+    },
+    {
+      "question": "소프트웨어공학으로 입학한 학생의 졸업요건",
+      "facade_error": null,
+      "facade_status": "supported",
+      "facade_reason": null,
+      "facade_plan_calls": 1,
+      "api_http": 200,
+      "api_status": "supported",
+      "api_reason": null,
+      "provider_plan_calls_total": 2,
+      "provider_write_calls_total": 2,
+      "matched_tokens": [],
+      "response_sha256": "81d48b3258b1df6ee82c6d021bcd94bc199568cddf27c60b39deaad4d15d1217",
+      "execution_kind": "mock_trusted_typed_provider_real_facade_and_ASGI_API",
+      "cycle": 2,
+      "grade": "failed",
+      "failure_type": "external_discipline_scope_escape"
+    },
+    {
+      "question": "소프트웨어공학으로 전과한 학생의 졸업요건",
+      "facade_error": null,
+      "facade_status": "supported",
+      "facade_reason": null,
+      "facade_plan_calls": 1,
+      "api_http": 200,
+      "api_status": "supported",
+      "api_reason": null,
+      "provider_plan_calls_total": 2,
+      "provider_write_calls_total": 2,
+      "matched_tokens": [
+        "전과한"
+      ],
+      "response_sha256": "04a36dcf47686149005a9f22b740520a62eb9b51e55579b443798e4aad830b35",
+      "execution_kind": "mock_trusted_typed_provider_real_facade_and_ASGI_API",
+      "cycle": 2,
+      "grade": "failed",
+      "failure_type": "external_discipline_scope_escape"
+    }
+  ],
+  "aggregate": {
+    "attempts": 12,
+    "unique_cases": 10,
+    "HTTP200": 12,
+    "execution_failures": 0,
+    "approved_source_fact_lineage_passed": 12,
+    "requested_coverage_passed": 10,
+    "requested_coverage_failed": 2,
+    "intent_projection_failed": 1,
+    "clean_generation_passed": 7,
+    "clean_generation_failed": 5,
+    "overall_passed": 7,
+    "overall_failed": 5,
+    "genuine_evidence_gaps": 0,
+    "latest_per_case": {
+      "observed": 10,
+      "overall_passed": 7,
+      "overall_failed": 3,
+      "requested_coverage_passed": 10,
+      "intent_projection_failed": 1,
+      "cycle2_observations": 2,
+      "cycle1_observations": 8
+    },
+    "live_not_run_unique_cases": 14,
+    "cycle1": {
+      "attempts": 10,
+      "overall_passed": 6,
+      "overall_failed": 4
+    },
+    "cycle2": {
+      "attempts": 2,
+      "overall_passed": 1,
+      "overall_failed": 1
+    }
+  },
+  "privacy_notes": [
+    "Synthetic academic questions and source-authorized facts only; no prompts, runtime dumps, endpoint values, credentials, absolute filesystem paths or student records.",
+    "Controlled mocks prove routing/evidence behavior, not live model understanding. Actual twelve API attempts are separately labeled.",
+    "Original heldout02/04 were exposed for repair. The other ten question wordings remained private to QA/main until final producer freeze; source24 controlled cases must not be represented as24 live calls."
+  ],
+  "parent_run_id": "20261002-b-input-routing",
+  "git": {
+    "base_commit": "a01768d9c2bc6b2b168449e97b0d6b85419bccfd",
+    "source_commit": "9e46ead51fbc9eedb18d9e9a4af4694a0fa93735"
+  }
+}

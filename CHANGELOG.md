@@ -7,6 +7,7 @@
 - 검증: 독립24질문·실제 Gemma/Neo4j API 최대12턴(고유10질문)을 분리했다. R5-F2는 통과했지만 기존 다른5경계는 미해결이다. 새 조회 검사21통과·3실패와 전공 역할/PII 오탐을 남겼다.
 - 공개 제한: 필수 입력 실패가 남아 새 앱은 공개 시연으로 승격하지 않는다. 출력 사실 검증을 완화하거나 새 학사 승인·A 확장·서버 변경을 하지 않았다. 원시 기록은 Git 제외 위치에 보존한다.
 - 기록: [입력·조회 설명](docs/operations/b-input-routing.md), [ADR0026](docs/harness/decisions/0026-typed-input-semantic-authority.md), [평가와 다음 수정](reports/evaluations/20261002-b-input-routing.md). 이전 누적5회/66발화 평가와 이번 수정2회는 합치거나 지우지 않는다.
+- 보고: [변경·검사 내역](reports/runs/20261002-b-input-routing.md), [JSON](reports/runs/20261002-b-input-routing.json), [PDF](reports/pdf/20261002-b-input-routing.pdf). 최종 전체849검사의16실패·3오류 이벤트(비통과10메서드)와 실제12턴의7통과·5실패를 숨기지 않는다.
 
 ## 2026-10-02 — 개발 방향·남은 작업 기록 (문서만 변경)
 

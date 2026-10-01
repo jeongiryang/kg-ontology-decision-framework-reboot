@@ -23,6 +23,8 @@
 생산 구조화 계획의 의미를 키워드로 덮어쓰는 경로를 분리하고 복합 속성을 보존했다.
 새 질문·독립 QA·실제 모델 관찰은 과거 평가와 분리한다. 기존 공개 시연과 승인 지식은 유지한다.
 [이번 평가·남은 입력 결함](evaluations/20261002-b-input-routing.md)을 확인하세요.
+[전체 변경·검사 보고](runs/20261002-b-input-routing.md), [보고 JSON](runs/20261002-b-input-routing.json),
+[질문별 평가 JSON](evaluations/20261002-b-input-routing.json), [동일 입력 PDF](pdf/20261002-b-input-routing.pdf)를 보존합니다.
 24개 모의 계획 질문의21통과·3실패는 실제 LLM 이해 정답률이 아닙니다.
 필수 실패가 남아 공개 앱 승격과 B 완료는 보류합니다.
 
