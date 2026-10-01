@@ -9,6 +9,9 @@
 - 교정: 독립 화면 검사에서 발견한 명시적 입력 학점을 성적표 총학점으로 대체하는 라우팅을 수정. 입력 변경으로 다듬기가 취소되면 진행 중 표시도 정리.
 - 유지: 2026학번 컴퓨터공학과29승인 규칙·3출처와 기존3보류, 학생 원문·성적표·부족분의 모델 비전송, 나루와 분리한 단일 추론/최소60초 간격. 추가 세션 서비스·벡터DB·상주 에이전트 없음.
 - 안내: [대화 사용법](docs/operations/conversation-prototype.md), [교수님 시연 예시](docs/operations/professor-demo-questions.md), [설계 결정](docs/harness/decisions/0022-friendly-volatile-conversation.md).
+- 검증: Windows 전체637개(생략0), 독립270개, 자연 대화16/기존 Gemma9/성적표10/근거9개 화면 그룹과 정렬 검사 통과. 독립31주제62표현·6복합·16거절과 별도 문법 계열·개인정보·실제 API 검증. 초기 실패는 이전 실행에 보존하고 수정 통합본을 재검증.
+- 실제 연결: Gemma 검증 생성 총3건(계측2건12.484/12.750초, 브라우저1건), 기존 판정·계산·인용 불변. 별도10개 합성 localhost 첫 안내는16~63ms이며 외부 망·일반 성능의 보증이 아님. 외부HTTPS, 가상6학점·남은7과목·후속 질문, 새 대화 전체 삭제와 PDF577/인쇄569페이지 exact 밑줄 확인. 종료 검사에서 활성 모델0과 나루 프로세스 보존 확인.
+- 보고: [완료 내역](reports/runs/20261001-natural-dialogue.md), [구조화 보고](reports/runs/20261001-natural-dialogue.json), [실제 검증과 전체34개 제품 파일](reports/evaluations/20261001-natural-dialogue.json), [PDF](reports/pdf/20261001-natural-dialogue.pdf). 동일 입력의3페이지 PDF 전 페이지 검수; 제품 GitHub CI637개(플랫폼별6개 생략) 성공. 추가 학사 승인·사람 UAT는 없음.
 
 ## 2026-10-01 — 검증된 Gemma 안내문과 최소 프로토타입 (0.9.0)
 
