@@ -153,9 +153,56 @@ class PublicDemoLauncherTests(unittest.TestCase):
         self.assertIs(process, owned.process)
         if os.name == "nt":
             self.assertEqual(["assign", "gate"], order)
+        process.stdin.write.assert_called_once_with(b"1")
         process.stdin.flush.assert_called_once()
         process.stdin.close.assert_not_called()
 
+    @unittest.skipUnless(os.name == "nt", "Windows base-runtime dependency boundary")
+    def test_actual_web_bootstrap_imports_pinned_neo4j_without_bundled_native_packages(self):
+        config = {"ACADEMIC_EVIDENCE_BACKEND": "neo4j", "NEO4J_URI": "bolt://127.0.0.1:7687",
+                  "NEO4J_DATABASE": "neo4j", "NEO4J_USER": "synthetic-user",
+                  "NEO4J_PASSWORD": "synthetic-secret", "ACADEMIC_LLM_PROVIDER": "disabled"}
+        provider_module = sys.modules[demo.private_environment.__module__]
+        with patch.object(provider_module, "load_private_settings", return_value=config):
+            environment = demo.demo_environment(Path("synthetic-not-read.json"))
+        with patch.object(demo, "_spawn", return_value=Mock()) as spawn:
+            demo.spawn_web(environment, 3)
+        command = spawn.call_args.args[0]
+        self.assertEqual(sys._base_executable, command[0])
+        self.assertEqual(["-S"], command[1:-2])
+        workload = (
+            "import sys\nassert sys.stdin.buffer.read(1)==b'1'\n"
+            "import importlib.metadata,importlib.util,json\n"
+            "assert sys.flags.no_site==1\n"
+            "assert importlib.util.find_spec('numpy') is None\n"
+            "import neo4j,fastapi,pydantic\n"
+            "from pathlib import Path\n"
+            "from academic_assistant import api\n"
+            f"packages=Path({str(ROOT / '.venv' / 'Lib' / 'site-packages')!r}).resolve()\n"
+            "assert Path(neo4j.__file__).resolve().is_relative_to(packages)\n"
+            "assert Path(pydantic.__file__).resolve().is_relative_to(packages)\n"
+            "assert importlib.metadata.version('neo4j')=='6.3.1'\n"
+            "assert importlib.metadata.version('pydantic')=='2.11.9'\n"
+            "assert importlib.metadata.version('fastapi')=='0.116.1'\n"
+            "print(json.dumps({'no_site':sys.flags.no_site,'neo4j':neo4j.__version__,'numpy':False}),flush=True)\n"
+            "assert sys.stdin.buffer.read(1)==b'0'\n"
+        )
+        owned = None
+        started = time.monotonic()
+        try:
+            # Real OS ownership/gate and configured base-runtime options; the
+            # diagnostic imports only and opens no graph/model/listener socket.
+            owned = demo._spawn([command[0], *command[1:-2], "-c", workload], environment, 3, tunnel=True)
+            output, _ = owned.process.communicate(input=b"0", timeout=5)
+            self.assertEqual(0, owned.process.returncode)
+            self.assertLess(len(output), 1024)
+            self.assertEqual({"no_site": 1, "neo4j": "6.3.1", "numpy": False}, json.loads(output))
+            self.assertLess(time.monotonic() - started, 5)
+        finally:
+            if owned is not None:
+                self.assertTrue(owned.stop(3))
+                if owned.process.stdout is not None:
+                    owned.process.stdout.close()
     def test_controlled_child_requests_graceful_close_before_owned_fallback(self):
         for timed_out in (False, True):
             process, job = Mock(), Mock()

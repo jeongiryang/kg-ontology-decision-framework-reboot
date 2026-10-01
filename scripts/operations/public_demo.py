@@ -427,7 +427,11 @@ def _spawn(command: list[str], environment: dict[str, str], timeout: float, *, t
 
 def spawn_web(environment: dict[str, str], timeout: float) -> OwnedChild:
     executable = sys._base_executable if os.name == "nt" else sys.executable
-    return _spawn([executable, str(Path(__file__).resolve()), "--web-child"], environment, timeout)
+    # The bundled base runtime has global optional native packages. Disable
+    # automatic site loading; private_environment already supplies our pinned
+    # project dependencies explicitly, including Neo4j without bundled numpy.
+    options = ["-S"] if os.name == "nt" else []
+    return _spawn([executable, *options, str(Path(__file__).resolve()), "--web-child"], environment, timeout)
 
 
 def spawn_tunnel(files: DemoFiles, timeout: float) -> OwnedChild:
