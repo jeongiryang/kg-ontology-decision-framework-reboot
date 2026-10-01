@@ -189,6 +189,13 @@
   }
 
   function button(ref, evidenceIndex = 0) {
+    if (ref && ref.source_id === "cwnu.cs.2026.department-confirmation-20261001") {
+      // A human confirmation is not text in the original curriculum PDF.
+      // Never issue a PDF preview request or fabricate an underline for it.
+      const notice = element("span", "evidence-notice", "학과 확인 기록 · PDF 원문 아님");
+      notice.setAttribute("aria-label", "학과 확인 기록이며 PDF 원문 인용이 아닙니다.");
+      return notice;
+    }
     const trigger = element("button", "evidence-open", "근거 PDF 보기");
     trigger.type = "button";
     trigger.setAttribute("aria-haspopup", "dialog");

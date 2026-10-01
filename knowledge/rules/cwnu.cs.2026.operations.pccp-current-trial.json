@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.1.0",
+  "rule_id": "cwnu.cs.2026.operations.pccp-current-trial",
+  "label": "현행 시범 PCCP 합격 기준",
+  "applicability": {
+    "basis": "admission_year",
+    "curriculum_years": [
+      2026
+    ],
+    "admission_years": [
+      2026
+    ],
+    "departments": [
+      "컴퓨터공학과"
+    ],
+    "conditions": []
+  },
+  "relationship": {
+    "kind": "base",
+    "target_rule_ids": []
+  },
+  "answer_policy": "policy_statement",
+  "decision": {
+    "statement": "2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다.",
+    "outcome": {
+      "type": "operational_policy",
+      "kind": "pccp_current_trial",
+      "requirement": "coding_test.pccp_current_trial",
+      "minimum_score": 400,
+      "confirmed_as_of": "2026-10-01",
+      "provisional": true,
+      "future_guaranteed": false
+    },
+    "operator": "direct"
+  },
+  "evidence": [
+    {
+      "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+      "locator": "학과 확인 기록 2026-10-01, 확인된 조건 1; session=review-20261001-prototype-integration",
+      "evidence_type": "department_confirmation",
+      "excerpt": "2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다."
+    }
+  ],
+  "review": {
+    "status": "approved",
+    "mode": "human",
+    "scope": "full",
+    "reviewer_id": "project_owner",
+    "reviewed_at": "2026-10-01T09:28:35+09:00",
+    "rationale": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+  },
+  "review_notes": [
+    "확인된 일반 운영정책 설명만 허용한다. 개인의 이수·수강·면제·학점 판정과 보류 조건을 자동 도출하지 않는다."
+  ]
+}

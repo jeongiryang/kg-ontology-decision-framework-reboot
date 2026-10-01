@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.1.0",
+  "rule_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+  "label": "졸업작품 수강 선행조건",
+  "applicability": {
+    "basis": "admission_year",
+    "curriculum_years": [
+      2026
+    ],
+    "admission_years": [
+      2026
+    ],
+    "departments": [
+      "컴퓨터공학과"
+    ],
+    "conditions": []
+  },
+  "relationship": {
+    "kind": "base",
+    "target_rule_ids": []
+  },
+  "answer_policy": "policy_statement",
+  "decision": {
+    "statement": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.",
+    "outcome": {
+      "type": "operational_policy",
+      "kind": "graduation_work_prerequisite",
+      "requirement": "graduation.work.enrollment",
+      "prerequisite": "capstone.ii.pass",
+      "sufficient_for_graduation": false,
+      "automatic_credits": false
+    },
+    "operator": "direct"
+  },
+  "evidence": [
+    {
+      "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+      "locator": "학과 확인 기록 2026-10-01, 확인된 조건 3; session=review-20261001-prototype-integration",
+      "evidence_type": "department_confirmation",
+      "excerpt": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다."
+    }
+  ],
+  "review": {
+    "status": "approved",
+    "mode": "human",
+    "scope": "full",
+    "reviewer_id": "project_owner",
+    "reviewed_at": "2026-10-01T09:28:35+09:00",
+    "rationale": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+  },
+  "review_notes": [
+    "확인된 일반 운영정책 설명만 허용한다. 개인의 이수·수강·면제·학점 판정과 보류 조건을 자동 도출하지 않는다."
+  ]
+}

@@ -14,7 +14,7 @@
     {"id":"syn-09","question":"졸업학점이 현재 117학점인데 얼마나 부족한가요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
     {"id":"syn-10","question":"2024학번 컴퓨터공학과 졸업학점 기준을 알려주세요.","expected_status":"out_of_scope","expected_rule_ids":[]},
     {"id":"syn-11","question":"산업공학과 전공필수 학점 기준을 알려주세요.","expected_status":"out_of_scope","expected_rule_ids":[]},
-    {"id":"syn-12","question":"캡스톤 II를 PASS해야 졸업작품을 수강할 수 있나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
+    {"id":"syn-12","question":"캡스톤 II를 PASS해야 졸업작품을 수강할 수 있나요?","expected_status":"supported","expected_rule_ids":["cwnu.cs.2026.operations.graduation-work-prerequisite"]},
     {"id":"syn-13","question":"외부 공모전 총장상이 졸업작품을 대체하나요?","expected_status":"insufficient_evidence","expected_rule_ids":[]},
     {"id":"syn-14","question":"그럼 몇 회인가요?","expected_status":"out_of_scope","expected_rule_ids":[]},
     {"id":"syn-15","question":"전공필수 및 심화전공 기준을 알려주세요.","expected_status":"supported","expected_rule_ids":["cwnu.cs.2026.credits.major-advanced","cwnu.cs.2026.credits.major-required"]}

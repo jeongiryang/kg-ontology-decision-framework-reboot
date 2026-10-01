@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "review_id": "cwnu.cs.2026.operational-confirmation-20261001",
+  "scope": {
+    "curriculum_year": 2026,
+    "admission_year": 2026,
+    "department": "컴퓨터공학과"
+  },
+  "subjects": [
+    {
+      "subject_type": "source",
+      "subject_id": "cwnu.cs.2026.department-confirmation-20261001",
+      "status": "approved",
+      "review_question": "새 검수 세션의 운영조건 확인 출처와 범위",
+      "evidence_locators": [
+        "학과 확인 기록 2026-10-01, 제시한 확인 질문 및 사용자 원문 답변"
+      ],
+      "reviewer_id": "project_owner",
+      "reviewed_at": "2026-10-01T09:28:35+09:00",
+      "comment": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+    },
+    {
+      "subject_type": "rule",
+      "subject_id": "cwnu.cs.2026.operations.pccp-current-trial",
+      "status": "approved",
+      "review_question": "현행 시범 PCCP 합격 기준",
+      "evidence_locators": [
+        "학과 확인 기록 2026-10-01, 확인된 조건 1; session=review-20261001-prototype-integration"
+      ],
+      "reviewer_id": "project_owner",
+      "reviewed_at": "2026-10-01T09:28:35+09:00",
+      "comment": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+    },
+    {
+      "subject_type": "rule",
+      "subject_id": "cwnu.cs.2026.operations.coding-test-failure",
+      "status": "approved",
+      "review_question": "코딩 테스트 미통과 시 캡스톤 처리",
+      "evidence_locators": [
+        "학과 확인 기록 2026-10-01, 확인된 조건 2; session=review-20261001-prototype-integration"
+      ],
+      "reviewer_id": "project_owner",
+      "reviewed_at": "2026-10-01T09:28:35+09:00",
+      "comment": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+    },
+    {
+      "subject_type": "rule",
+      "subject_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+      "status": "approved",
+      "review_question": "졸업작품 수강 선행조건",
+      "evidence_locators": [
+        "학과 확인 기록 2026-10-01, 확인된 조건 3; session=review-20261001-prototype-integration"
+      ],
+      "reviewer_id": "project_owner",
+      "reviewed_at": "2026-10-01T09:28:35+09:00",
+      "comment": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+    }
+  ],
+  "overall_status": "approved",
+  "notes": [
+    "이번 새 검수 세션은 세 조건의 좁은 범위만 재확인했다.",
+    "원문 답변의 실제 전송 시각이 아니라 관찰·기록 시각을 사용한다."
+  ]
+}

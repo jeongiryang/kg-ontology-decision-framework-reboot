@@ -53,6 +53,7 @@ _EXPLICIT_DEPARTMENT = re.compile(r"(?<![가-힣])([가-힣]{1,30}(?:학과|학�
 _EXPLICIT_DISCIPLINE = re.compile(r"(?<![가-힣])([가-힣]{2,30}공학)(?=(?:은|는|이|가|의|도|만|을|를|에서|으로|로|인|과|와)?(?:\s|$))")
 _EXPLICIT_SHORT_DEPARTMENT = re.compile(r"(?<![가-힣])([가-힣]{2,20}과)(?=(?:은|는|이|가|의|도|만|을|를|에서|으로|로|인|라면|인가요)?(?:\s|$))")
 _ACADEMIC_KWA_STEMS = ("전공", "교양", "졸업", "논문", "학점", "교과", "과목", "이수", "수강", "기준", "요건", "규정", "정책", "학기", "학년", "과정", "교육")
+_NON_DEPARTMENT_KWA_WORDS = frozenset({"미통과", "불통과"})
 _UNSUPPORTED_DEPARTMENT_MARKERS = ("다른학과", "타학과", "다른학부", "타학부", "타과", "학과별", "학부별", "타전공", "다른전공")
 _EXPLICIT_YEAR = re.compile(r"(?<![0-9])((?:19|20|21)[0-9]{2})(?![0-9])")
 _EXPLICIT_SHORT_COHORT = re.compile(r"(?<![0-9])([0-9]{2})\s*(?:학번|학년도|년도?\s*입학|교육과정)")
@@ -60,6 +61,36 @@ _APPROVED_SUBSTITUTION_INTENTS = frozenset({
     "graduation.thesis.substitution", "course-counting.post-completion-equivalence",
 })
 _LINKED_THESIS_INTENT_ID = "graduation.thesis.linked-program-exemption"
+# Only complete, general-policy questions can cross the protected-topic guard.
+# These grammars do not accept scores, student records, exemptions, additional
+# requirements, or a promise about a future PCCP threshold.
+_OPERATIONAL_SCOPE_PREFIX = r"(?:(?:(?:2026|26)학번)?컴퓨터공학과|(?:2026|26)학번)?"
+_POLICY_QUESTION_SUFFIX = (
+    r"(?:은|는|이|가|을|를)?"
+    r"(?:무엇인가요|무엇이죠|어떻게되나요|어떻게처리되나요|"
+    r"알려주세요|알려줘|설명해주세요|설명해줘|몇점인가요|"
+    r"몇점이상인가요|얼마인가요)?"
+)
+_CAPSTONE_I = r"(?:캡스톤(?:디자인)?(?:i|1)|캡디(?:i|1))"
+_CAPSTONE_II = r"(?:캡스톤(?:디자인)?(?:ii|2)|캡디(?:ii|2))"
+_CODING_FAILURE = r"(?:코딩테스트|코테)(?:에)?(?:미통과(?:시|하면)?|불합격(?:시|하면)?|(?:를)?통과하지못하면)"
+_OPERATIONAL_QUESTION_PATTERNS = {
+    "operations.pccp-current-trial": (
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + r"(?:현재|현행|시범운영|현행시범)?pccp(?:의)?(?:합격|통과)(?:점수|기준)" + _POLICY_QUESTION_SUFFIX),
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + r"(?:현재|현행)?pccp(?:에)?(?:합격|통과)하려면몇점(?:이상)?(?:필요한가요|필요해요|이어야하나요)"),
+    ),
+    "operations.coding-test-failure": (
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + _CODING_FAILURE + _POLICY_QUESTION_SUFFIX),
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + _CODING_FAILURE + r"(?:처리|조치|캡스톤처리)" + _POLICY_QUESTION_SUFFIX),
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + _CODING_FAILURE + _CAPSTONE_I + r"(?:성적|결과|처리)?" + _POLICY_QUESTION_SUFFIX),
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + _CODING_FAILURE + r"다음연도" + _CAPSTONE_II + r"(?:수강|수강제한)" + _POLICY_QUESTION_SUFFIX),
+    ),
+    "operations.graduation-work-prerequisite": (
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + r"졸업작품(?:의)?수강(?:선행조건|선수요건|전제조건)" + _POLICY_QUESTION_SUFFIX),
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + _CAPSTONE_II + r"(?:를)?(?:pass|패스|통과)해야(?:만)?졸업작품(?:을)?수강(?:할수있나요|해야하나요|하나요)"),
+        re.compile(_OPERATIONAL_SCOPE_PREFIX + _CAPSTONE_II + r"(?:pass|패스|통과)후졸업작품수강(?:관계|선행조건)" + _POLICY_QUESTION_SUFFIX),
+    ),
+}
 # A linked-program thesis exemption is a narrow approved topic, not a general
 # benefit/eligibility query. Consume the whole question before citing its rule.
 _LINKED_THESIS_TOPIC = r"(?:학석사)?연계과정(?:생(?:은|의))?(?:졸업)?논문면제"
@@ -152,7 +183,8 @@ def _question_exceeds_scope(question: str) -> bool:
     if any(discipline != "컴퓨터공학" for discipline in _EXPLICIT_DISCIPLINE.findall(question)):
         return True
     return any(
-        department != "컴퓨터공학과" and not any(department[:-1].startswith(stem) for stem in _ACADEMIC_KWA_STEMS)
+        department != "컴퓨터공학과" and department not in _NON_DEPARTMENT_KWA_WORDS
+        and not any(department[:-1].startswith(stem) for stem in _ACADEMIC_KWA_STEMS)
         for department in _EXPLICIT_SHORT_DEPARTMENT.findall(question)
     )
 
@@ -248,7 +280,8 @@ class AnswerEngine:
             safe_scope = {**scope, "department": SANITIZED_DEPARTMENT}
             return self._unsupported(packet_id, safe_scope, "out_of_scope", "질문에 지정된 학번·학과가 지원 범위와 다릅니다.", "scope")
         config = self.registry.intents
-        if any(alias in compact for alias in config["protected_aliases"]):
+        operational = self._select_operational_policy(compact)
+        if any(alias in compact for alias in config["protected_aliases"]) and not operational:
             return self._unsupported(packet_id, scope, "insufficient_evidence", "해당 운영 관행은 공식 근거가 확인되지 않아 답변할 수 없습니다.", "review")
         if any(alias in compact for alias in config["exception_aliases"]):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "해당 예외 적용에는 별도의 승인된 근거가 필요합니다.", "missing")
@@ -265,7 +298,7 @@ class AnswerEngine:
         specific_aliases = [alias for entry in config["intents"] if entry["kind"] == "specific" for alias in entry["aliases"]]
         if any(alias in compact for alias in config["negation_aliases"]) or any(f"비{alias}" in compact for alias in specific_aliases):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "부정 또는 대비 표현이 포함되어 적용할 규칙을 확정할 수 없습니다.", "missing")
-        preliminary = self._select_intents(compact, question)
+        preliminary = operational or self._select_intents(compact, question)
         if any(intent["intent_id"] == _LINKED_THESIS_INTENT_ID for intent in preliminary) and not _is_approved_linked_thesis_question(compact):
             return self._unsupported(packet_id, scope, "insufficient_evidence", "질문 전체가 승인된 논문 면제 정책 범위에 해당하지 않습니다.", "missing")
         if "대체" in compact and (
@@ -341,6 +374,15 @@ class AnswerEngine:
             answer_text += " " + " ".join(f"{c['metric']}은(는) {c['earned']}학점 이수하여 {c['gap']}학점이 부족합니다." for c in calculations)
         packet = {"schema_version": "2.0.0", "packet_id": packet_id, "scope": scope, "student_facts": dict(request.earned_credits), "applied_rules": applied, "evidence": evidence, "issues": [], "status": "supported"}
         return AcademicAnswerResponse(packet_id=packet_id, status="supported", answer=answer_text, intent_ids=intent_ids, calculations=calculations, evidence_packet=packet)
+
+    def _select_operational_policy(self, compact: str) -> list[dict[str, Any]]:
+        matched = [
+            intent_id for intent_id, patterns in _OPERATIONAL_QUESTION_PATTERNS.items()
+            if any(pattern.fullmatch(compact) for pattern in patterns)
+        ]
+        if len(matched) != 1:
+            return []
+        return [entry for entry in self.registry.intents["intents"] if entry["intent_id"] == matched[0]]
 
     def _select_intents(self, compact: str, normalized: str) -> list[dict[str, Any]]:
         intents = self.registry.intents["intents"]

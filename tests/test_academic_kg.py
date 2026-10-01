@@ -32,8 +32,8 @@ class AcademicGraphTests(unittest.TestCase):
         graph = build_graph(self.registry)
         self.assertEqual(graph, build_graph(self.registry))
         self.assertEqual(self.registry.digest, graph["registry_digest"])
-        self.assertEqual(26, sum(node["type"] == "RuleFact" for node in graph["nodes"]))
-        self.assertEqual(2, sum(node["type"] == "SourceEntry" for node in graph["nodes"]))
+        self.assertEqual(29, sum(node["type"] == "RuleFact" for node in graph["nodes"]))
+        self.assertEqual(3, sum(node["type"] == "SourceEntry" for node in graph["nodes"]))
         rule_id = "cwnu.cs.2026.credits.graduation-total"
         source_id = "cwnu.curriculum.2026.changwon-undergraduate"
         by_id = {node["id"]: node for node in graph["nodes"]}
@@ -54,8 +54,10 @@ class AcademicGraphTests(unittest.TestCase):
     def test_unverified_operational_claims_are_absent_and_record_only_is_flagged(self) -> None:
         graph = build_graph(self.registry)
         text = json.dumps(graph, ensure_ascii=False)
-        self.assertNotIn("PCCP 400", text)
-        self.assertNotIn("캡스톤디자인 I", text)
+        confirmed = [node for node in graph["nodes"] if node["type"] == "RuleFact" and node["properties"]["outcome"]["type"] == "operational_policy"]
+        self.assertEqual(3, len(confirmed))
+        self.assertEqual({"pccp_current_trial", "coding_test_failure", "graduation_work_prerequisite"}, {node["properties"]["outcome"]["kind"] for node in confirmed})
+        self.assertNotIn("600점", text)
         self.assertNotIn("총장상급", text)
         self.assertNotIn("7a322574b35aa969", text)  # unverified regulation screenshot
         by_id = {node["id"]: node for node in graph["nodes"]}

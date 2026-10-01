@@ -225,7 +225,9 @@ def _validate_contracts(project: Path, manifest: dict[str, Any], errors: list[st
         version_property = properties.get("schema_version")
         if not isinstance(version_property, dict):
             version_property = {}
-        schema_version = version_property.get("const")
+        schema_version = version_property.get("const") or version_property.get("x-current-version")
+        if "enum" in version_property and schema_version not in version_property["enum"]:
+            errors.append(f"{path.relative_to(project)}: current schema version must belong to enum")
         if schema_version != version:
             errors.append(
                 f"{path.relative_to(project)}: schema_version const {schema_version!r} "
