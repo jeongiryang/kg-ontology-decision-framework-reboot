@@ -212,6 +212,16 @@
     },
     "transcript": {
       "$ref": "#/$defs/TranscriptAssessmentRequest"
+    },
+    "response_style": {
+      "anyOf": [{"const": "friendly", "type": "string"}, {"type": "null"}],
+      "default": null,
+      "title": "Response Style"
+    },
+    "previous_question": {
+      "anyOf": [{"maxLength": 200, "minLength": 1, "type": "string"}, {"type": "null"}],
+      "default": null,
+      "title": "Previous Question"
     }
   },
   "required": [

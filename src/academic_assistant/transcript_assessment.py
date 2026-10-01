@@ -8,6 +8,7 @@ from collections import defaultdict
 from .core import _question_exceeds_scope, normalize_text, validate_request_safety
 from .models import AcademicAnswerRequest
 from .registry import RegistryUnavailable, canonical_bytes
+from .conversation import current_transcript_question, followup_kind, friendly_transcript_query, transcript_presentation
 from .transcript_models import (
     TranscriptAssessmentRequest, TranscriptAssessmentResponse, TranscriptCheck,
     TranscriptFollowupRequest, TranscriptFollowupResponse, TranscriptEvidencePacket,
@@ -236,6 +237,72 @@ class TranscriptAssessor:
                 recognition_status="needs_review" if blocked or track_unknown else "partial_comparison"))
 
     def followup(self, request: TranscriptFollowupRequest) -> TranscriptFollowupResponse:
+        if request.response_style == "friendly":
+            return self._friendly_followup(request)
+        return self._legacy_followup(request)
+
+    def _friendly_followup(self, request: TranscriptFollowupRequest) -> TranscriptFollowupResponse:
+        current_assessment = None
+
+        def assess_current():
+            nonlocal current_assessment
+            if current_assessment is None:
+                current_assessment = self.assess(request.transcript)
+            return current_assessment
+
+        def legacy(question):
+            return self._legacy_followup(request.model_copy(update={"question": question}),
+                                         _assessment=assess_current)
+
+        current_question = current_transcript_question(request.question)
+        original = legacy(current_question)
+        question = normalize_text(current_question)
+        compact = question.replace(" ", "")
+        guards = ("protected_aliases", "exception_aliases", "negation_aliases", "disjunction_aliases")
+        blocked = any(alias in compact for group in guards for alias in self.registry.intents.get(group, [])) or any(
+            token in compact for token in ("면제", "자동", "가능", "인정돼", "인정되", "졸업할"))
+        anchor, used = None, False
+        response = original
+        kind = followup_kind(current_question)
+
+        def refuse(message):
+            return TranscriptFollowupResponse(status="insufficient_evidence", answer=message, selected_checks=[])
+
+        if original.status not in {"out_of_scope", "conflict"} and not blocked:
+            resolved = friendly_transcript_query(current_question)
+            if kind is not None:
+                if request.previous_question is None:
+                    response = refuse("어떤 성적표 비교 항목을 말씀하시는지 먼저 적어 주세요. 남은 학점을 총학점으로 추정하지 않아요.")
+                else:
+                    previous_question = current_transcript_question(request.previous_question)
+                    prior_query = friendly_transcript_query(previous_question)
+                    prior = legacy(previous_question)
+                    if prior.status not in {"out_of_scope", "conflict"}:
+                        prior = legacy(prior_query)
+                    if prior.status in {"out_of_scope", "conflict"}:
+                        response = prior
+                    elif prior.status != "supported" or not prior.selected_checks:
+                        response = refuse("이전 비교 항목을 현재 성적표와 근거로 확인할 수 없어요. 확인할 항목을 직접 질문해 주세요.")
+                    elif kind != "explain" and len(prior.selected_checks) != 1:
+                        response = refuse("이전 답변에는 여러 비교 항목이 있어요. 기초교양·교양 총학점·전공필수처럼 대상을 하나 적어 주세요.")
+                    else:
+                        check = prior.selected_checks[0]
+                        compatible = (kind == "explain" or (kind in {"gap", "credits"} and check.check_id.startswith("credits."))
+                                      or (kind in {"courses", "course_reference"} and check.check_id == "major.required.course_set")
+                                      or (kind == "count" and check.check_id == "major.counseling"))
+                        if not compatible:
+                            response = refuse("이전 항목과 질문의 학점·과목·횟수 단위가 달라요. 비교할 항목을 직접 적어 주세요.")
+                        else:
+                            response, resolved, used = prior, prior_query, True
+            else:
+                response = legacy(resolved)
+            if response.status == "supported" and response.selected_checks:
+                anchor = resolved
+        return TranscriptFollowupResponse.model_validate({
+            **response.model_dump(), "conversational_answer": transcript_presentation(response),
+            "context_question": anchor, "context_used": used})
+
+    def _legacy_followup(self, request: TranscriptFollowupRequest, *, _assessment=None) -> TranscriptFollowupResponse:
         safe_request = AcademicAnswerRequest(question=request.question, admission_year=request.transcript.admission_year, matched_curriculum_year=request.transcript.matched_curriculum_year, department=request.transcript.department)
         validate_request_safety(safe_request)
         question = normalize_text(request.question)
@@ -248,7 +315,7 @@ class TranscriptAssessor:
             token in compact for token in ("면제", "자동", "가능", "인정돼", "인정되", "졸업할")):
             return TranscriptFollowupResponse(status="insufficient_evidence",
                 answer="운영요건·예외·면제 또는 부정·선택 표현이 함께 있는 질문은 부분만 골라 판정할 수 없습니다. 하나의 이수 비교 항목이나 확인할 기록을 질문해 주세요.", selected_checks=[])
-        result = self.assess(request.transcript)
+        result = _assessment() if _assessment is not None else self.assess(request.transcript)
         if result.status in {"out_of_scope", "conflict"}:
             return TranscriptFollowupResponse(status=result.status, answer=result.answer, selected_checks=[])
         keys, verification_kinds = _followup_targets(request.question)

@@ -14,12 +14,19 @@
   let busy = false;
   let activeController = null;
   let activeFollowupController = null;
+  let previousQuestion = null;
+  const friendlyUI = byId("new-conversation")?.dataset?.conversationMode === "friendly";
   const checkSections = new Map();
   const checkLabels = new Map();
   const reviewFlags = {retake:"재수강 확인 필요", equivalence:"동일·대체 확인 필요", retroactivity:"소급 적용 확인 필요", recognition_unverified:"개인 인정 미확인"};
   const categories = {unknown:"미확인", foundation:"기초교양", balanced:"균형교양", expanded:"확대교양", major_required:"전공필수", major_elective:"전공선택", free:"자유선택"};
   const areas = {"":"미확인/해당 없음", "digital-communication":"디지털커뮤니케이션", "humanities-arts":"인문예술", "society-culture":"사회와문화", "nature-science-technology":"자연·과학·기술의이해"};
   const grades = {"":"미확인", "A+":"A+", A0:"A0", "B+":"B+", B0:"B0", "C+":"C+", C0:"C0", "D+":"D+", D0:"D0", F:"F", F0:"F0", S:"S", U:"U", P:"P", PASS:"PASS", W:"W"};
+  function notifyRevision() {
+    if (typeof window.dispatchEvent === "function" && typeof Event === "function") {
+      window.dispatchEvent(new Event("academic-transcript-change"));
+    }
+  }
   function invalidate() {
     generation += 1;
     followupSequence += 1;
@@ -28,18 +35,21 @@
     activeController = null; activeFollowupController = null; busy = false;
     byId("transcript-extract").disabled = false;
     latest = null;
+    previousQuestion = null;
     checkSections.clear(); checkLabels.clear();
     output.replaceChildren(); output.hidden = true;
     byId("transcript-followups").hidden = true;
     byId("transcript-chat").textContent = "";
     questionInput.value = "";
     enable();
+    notifyRevision();
   }
   function enable() { byId("transcript-assess").disabled = busy || !confirm.checked || detectedYear !== 2026 || body.children.length === 0; }
   function clear() {
     invalidate(); body.replaceChildren(); review.hidden = true; confirm.checked = false; complete.checked = false;
     detectedYear = null; byId("transcript-file").value = ""; message.textContent = "이수내역을 메모리에서 지웠습니다."; enable();
     byId("transcript-degree").value="unknown";
+    byId("transcript-page").value="";
   }
   function inputCell(row, field, value, type="text") {
     const td = document.createElement("td"); const input = document.createElement("input");
@@ -164,11 +174,12 @@
     if(!latest || !question.trim()) return; const token=generation; const sequence=++followupSequence;
     if(activeFollowupController) activeFollowupController.abort();
     const controller=new AbortController(); activeFollowupController=controller;
-    try { const response=await fetch("/v1/academic/transcripts/chat",{method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",credentials:"omit",signal:controller.signal,body:JSON.stringify({question:question.trim(),transcript:latest})});
+    try { const response=await fetch("/v1/academic/transcripts/chat",{method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",credentials:"omit",signal:controller.signal,body:JSON.stringify({question:question.trim(),transcript:latest,...(friendlyUI ? {response_style:"friendly",previous_question:previousQuestion} : {})})});
       if(token!==generation || sequence!==followupSequence) return;
       if(!response.ok) throw new Error("이수내역 질문을 처리할 수 없습니다."); const data=await response.json();
       if(token!==generation || sequence!==followupSequence) return;
-      const chat=byId("transcript-chat"); chat.textContent=data.answer;
+      const chat=byId("transcript-chat"); chat.textContent=friendlyUI && typeof data.conversational_answer === "string" ? data.conversational_answer : data.answer;
+      previousQuestion=data.status === "supported" && typeof data.context_question === "string" ? data.context_question : null;
       focusChecks(data.focus_check_ids || []);
       if(data.focus_check_ids?.length) chat.append(button("관련 비교 항목 보기",()=>focusChecks(data.focus_check_ids)));
       renderVerification(chat,data.verification_items);
@@ -212,7 +223,9 @@
     try { const request=payload(); const response=await fetch("/v1/academic/transcripts/assess",{method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",credentials:"omit",signal:controller.signal,body:JSON.stringify(request)});
       if(token!==generation) return;
       if(!response.ok) {if(response.status===503) failureMessage="학사 근거를 확인할 수 없습니다."; throw new Error("assessment rejected");}
-      const data=await response.json(); if(token!==generation) return; latest=request; render(data); byId("transcript-followups").hidden=data.checks.length===0;
+      const data=await response.json(); if(token!==generation) return;
+      if (!Array.isArray(data.checks)) throw new Error("invalid assessment response");
+      render(data); latest=request; byId("transcript-followups").hidden=data.checks.length===0; notifyRevision();
     } catch(_error) {if(token===generation) message.textContent=failureMessage;}
     finally {if(token===generation && activeController===controller) {activeController=null;busy=false;enable();}}
   });
@@ -230,5 +243,10 @@
     byId("transcript-privacy-note").textContent="2026학번 컴퓨터공학과만 지원하는 로그인 없는 공개 데모입니다. 성적표 PDF와 이수내역은 HTTPS 연결과 Cloudflare 중계 서비스를 거쳐 운영자의 PC로 전달되어 요청 메모리에서 처리됩니다. 서비스는 성적표를 저장하거나 LLM에 보내지 않으며, 브라우저의 영구 저장소에도 이수내역을 남기지 않습니다. 인식 결과를 확인한 뒤 계산하세요.";
     byId("feedback-privacy-note").textContent="질문 원문과 성적표는 서비스에 저장하지 않습니다. 공개 데모에서는 보완 요청 저장을 제공하지 않습니다. 성적표 지우기 또는 페이지를 떠나면 이 탭의 이수내역과 대기 요청을 지웁니다.";
   }
+  window.AcademicTranscript = Object.freeze({
+    current: () => latest ? JSON.parse(JSON.stringify(latest)) : null,
+    revision: () => generation,
+    clear,
+  });
   window.addEventListener("pagehide",clear);
 })();

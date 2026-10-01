@@ -44,6 +44,8 @@ jobs:
         run: node tests/web/transcript_lifecycle_test.js
       - name: Validate verified Gemma text consumer and opt-in
         run: node tests/web/gemma_final_ui_test.cjs
+      - name: Validate friendly conversation, transcript reuse and staged reply lifecycle
+        run: node tests/web/natural_conversation_ui_test.cjs
       - name: Build wheel and verify packaged web assets
         run: |
           python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/wheel"

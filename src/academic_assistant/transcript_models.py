@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import re
 from typing import Literal
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, field_validator, model_validator, model_serializer
 from .models import EvidencePacket, Status
 
 Category = Literal["foundation", "balanced", "expanded", "major_required", "major_elective", "free", "unknown"]
@@ -161,6 +161,25 @@ class TranscriptFollowupRequest(BaseModel):
     schema_version: Literal["1.0.0"] = "1.0.0"
     question: str = Field(min_length=1, max_length=200)
     transcript: TranscriptAssessmentRequest
+    response_style: Literal["friendly"] | None = None
+    previous_question: str | None = Field(default=None, min_length=1, max_length=200)
+
+    @field_validator("previous_question")
+    @classmethod
+    def trim_previous_question(cls, value):
+        if value is not None:
+            value = value.strip()
+            if not value:
+                raise ValueError("previous question must not be blank")
+        return value
+
+    @model_serializer(mode="wrap")
+    def compatible_request(self, handler):
+        value = handler(self)
+        for field in ("response_style", "previous_question"):
+            if getattr(self, field) is None:
+                value.pop(field, None)
+        return value
 
 
 class TranscriptFollowupResponse(BaseModel):
@@ -171,3 +190,22 @@ class TranscriptFollowupResponse(BaseModel):
     selected_checks: list[TranscriptCheck]
     focus_check_ids: list[str] = Field(default_factory=list)
     verification_items: list[TranscriptVerificationItem] = Field(default_factory=list)
+    conversational_answer: str | None = Field(default=None, min_length=1, max_length=8000)
+    context_question: str | None = Field(default=None, min_length=1, max_length=200)
+    context_used: StrictBool | None = None
+
+    @model_validator(mode="after")
+    def context_boundary(self):
+        if self.context_question is not None and (
+                self.status != "supported" or not self.selected_checks
+                or any(check.evidence_packet.status != "supported" for check in self.selected_checks)):
+            raise ValueError("context requires supported selected checks")
+        return self
+
+    @model_serializer(mode="wrap")
+    def compatible_response(self, handler):
+        value = handler(self)
+        for field in ("conversational_answer", "context_question", "context_used"):
+            if getattr(self, field) is None:
+                value.pop(field, None)
+        return value

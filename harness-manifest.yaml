@@ -318,6 +318,18 @@ validation:
       - process_wide_single_inference_no_queue
       - bounded_topic_code_cache
       - request_interval_and_failure_cooldown
+  natural_conversation:
+    command: python -m unittest tests.test_natural_conversation_qa -v
+    heldout_command: python -m unittest tests.test_natural_conversation_heldout -v
+    checks:
+      - all_registered_intents_and_held_out_phrasings
+      - complete_query_and_unsupported_clause_guards
+      - no_model_first_friendly_response
+      - supported_current_evidence_and_ordered_claims
+      - separate_current_transcript_context_and_reset
+      - compatible_legacy_wire_and_contracts
+      - optional_refinement_cannot_replace_canonical_result
+    browser_consumer_command: node tests/web/natural_conversation_ui_test.cjs
   evidence_preview:
     command: python -m unittest discover -s tests -p test_evidence_pdf.py -v
     checks:

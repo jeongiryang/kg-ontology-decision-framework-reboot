@@ -212,5 +212,10 @@
     return trigger;
   }
 
-  window.AcademicEvidence = Object.freeze({ button });
+  function clear() {
+    close();
+    if (body) body.replaceChildren();
+    returnFocus = null;
+  }
+  window.AcademicEvidence = Object.freeze({ button, clear });
 })();

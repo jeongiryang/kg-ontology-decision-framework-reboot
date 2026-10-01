@@ -14,6 +14,7 @@ from .llm import ALLOWED_INTENT_SIGNALS, IntentSuggester, LLMInvalidResponse, LL
 from .models import AcademicAnswerRequest, AcademicAnswerResponse, AcademicChatRequest, ClarificationChoice
 from .registry import canonical_bytes
 from .grounded_generation import GenerationStatus, generate_grounded, grounded_generation_enabled
+from .conversation import policy_presentation, resolve_friendly
 
 
 _NO_MATCH_ANSWER = "질문에 답할 승인된 학사 근거가 없습니다."
@@ -61,6 +62,9 @@ class GroundedChatResponse(AcademicAnswerResponse):
     generation_status: GenerationStatus | None = None
     generated_claim_ids: list[str] | None = Field(default=None, max_length=5)
     generated_answer: str | None = Field(default=None, min_length=1, max_length=2400)
+    conversational_answer: str | None = Field(default=None, min_length=1, max_length=8000)
+    presentation_claim_ids: list[str] | None = None
+    context_question: str | None = Field(default=None, min_length=1, max_length=500)
 
     @model_validator(mode="after")
     def generation_contract(self) -> GroundedChatResponse:
@@ -75,6 +79,19 @@ class GroundedChatResponse(AcademicAnswerResponse):
                 raise ValueError("generation requires complete supported claim coverage")
         elif self.generated_answer is not None or self.generated_claim_ids != []:
             raise ValueError("generation fallback cannot contain generated claims")
+        if self.conversational_answer is None:
+            if self.presentation_claim_ids is not None or self.context_question is not None:
+                raise ValueError("presentation fields require conversational text")
+        else:
+            expected = [item.rule_id for item in self.evidence_packet.applied_rules] if self.status == "supported" else []
+            if self.presentation_claim_ids != expected:
+                raise ValueError("presentation requires complete ordered claim coverage")
+            if self.context_question is not None:
+                if self.status != "supported" or self.evidence_packet.status != "supported":
+                    raise ValueError("context requires supported evidence")
+                validate_public_text_safety(self.context_question)
+            if self.generated_answer is not None and self.generated_answer not in self.conversational_answer:
+                raise ValueError("friendly generation must retain actual verified text")
         return self
 
 
@@ -138,8 +155,9 @@ def _model_signal(question: str) -> str | None:
 class GroundedChatEngine:
     """Replays one prior question through trusted, current rules and facts.
 
-    Context resolves only whitelisted, unit-compatible follow-ups. A model is
-    suggests intent only when the trusted engine found no intent. Explicit
+    Context resolves only whitelisted, unit-compatible follow-ups. A model
+    suggests intent only when the trusted engine found no intent; friendly
+    fast mode disables that path too. Explicit
     opt-in generation uses approved public claims and is verified separately;
     neither path changes status, answer, calculations, rules, or citations.
     """
@@ -164,11 +182,16 @@ class GroundedChatEngine:
         previous = getattr(request, "previous_question", None)
         if previous is not None:
             validate_public_text_safety(previous)
+        friendly = getattr(request, "response_style", None) == "friendly"
         compact = normalize_text(request.question).replace(" ", "")
         followup = next((kind for kind, pattern in _FOLLOWUP_PATTERNS.items() if pattern.fullmatch(compact)), None)
         context_used = False
         choices: list[dict[str, str]] = []
-        if followup is not None:
+        anchor = None
+        if friendly:
+            resolved = resolve_friendly(self.engine, request, previous)
+            base, context_used, choices, anchor = resolved.base, resolved.context_used, list(resolved.clarification_choices), resolved.context_question
+        elif followup is not None:
             base, context_used, choices = self._followup(request, previous, followup)
         else:
             base = self.engine.answer(request)
@@ -180,7 +203,7 @@ class GroundedChatEngine:
                 enabled = False
             if not enabled:
                 generation = {"generation_status": "disabled", "generated_claim_ids": []}
-            elif followup is not None:
+            elif followup is not None or (friendly and context_used):
                 # Transcript/context follow-ups remain wholly deterministic.
                 generation = {"generation_status": "not_applicable", "generated_claim_ids": []}
             else:
@@ -191,7 +214,7 @@ class GroundedChatEngine:
         status: Literal["disabled", "skipped", "suggested", "unavailable", "rejected"] = "skipped"
         suggestion: str | None = None
         signal = _model_signal(request.question)
-        if signal is not None and self._eligible(base, request.question):
+        if not (friendly and not getattr(request, "generate_answer", False)) and signal is not None and self._eligible(base, request.question):
             if self._configuration_error:
                 status = "unavailable"
             elif self.llm is None:
@@ -218,6 +241,11 @@ class GroundedChatEngine:
                         status = "suggested"
                     else:
                         status = "rejected"
+        presentation = {}
+        if friendly:
+            presentation = {"conversational_answer": policy_presentation(base, self.engine.registry, generated=generation.get("generated_answer")),
+                            "presentation_claim_ids": [item.rule_id for item in base.evidence_packet.applied_rules] if base.status == "supported" else [],
+                            "context_question": anchor}
         return GroundedChatResponse.model_validate({
             **base.model_dump(mode="python"),
             "suggested_question": suggestion,
@@ -225,6 +253,7 @@ class GroundedChatEngine:
             "clarification_choices": choices,
             "context_used": context_used,
             **generation,
+            **presentation,
         })
 
     def _choices(self, intent_ids: list[str], *, gap: bool = False) -> list[dict[str, str]]:
