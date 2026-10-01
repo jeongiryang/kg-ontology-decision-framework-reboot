@@ -19,6 +19,7 @@ from academic_assistant.registry import Registry, canonical_sha256
 ROOT = Path(__file__).resolve().parents[1]
 STARTUP_SECONDS = 20
 SHUTDOWN_SECONDS = 5
+CLOSED_PROBE_SECONDS = 3
 MAX_RESPONSE_BYTES = 512 * 1024
 
 
@@ -81,6 +82,33 @@ class PublicDemoNativeTransportTests(unittest.TestCase):
         with closing(socket.create_connection(listener.getsockname(), timeout=1)):
             accepted, _ = listener.accept()
             accepted.close()
+
+    def assert_no_listener(self, address):
+        # A non-reuse bind can fail on POSIX TIME_WAIT after a clean shutdown.
+        # Require actual refusal, not a timeout or any other connection error.
+        # Windows may take two seconds to deliver local connection refusal.
+        with self.assertRaises(ConnectionRefusedError, msg="a native TCP listener still accepts connections"):
+            with closing(socket.create_connection(address, timeout=CLOSED_PROBE_SECONDS)):
+                pass
+
+    def test_listener_close_probe_rejects_active_and_accepts_recently_closed_socket(self):
+        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as listener:
+            listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            listener.bind(("127.0.0.1", 0))
+            listener.listen(1)
+            listener.settimeout(1)
+            address = listener.getsockname()
+            with self.assertRaises(AssertionError):
+                self.assert_no_listener(address)
+            accepted, _ = listener.accept()
+            accepted.close()
+            with closing(socket.create_connection(address, timeout=1)) as client:
+                accepted, _ = listener.accept()
+                with closing(accepted):
+                    accepted.shutdown(socket.SHUT_WR)
+                    self.assertEqual(b"", client.recv(1))
+            listener.close()
+            self.assert_no_listener(address)
 
     def test_actual_owned_native_tcp_public_api_and_clean_shutdown(self):
         self.assertTrue(demo.port_available(), "8765 is occupied; no existing owner will be touched")
@@ -155,7 +183,7 @@ class PublicDemoNativeTransportTests(unittest.TestCase):
             self.assertTrue(owned.process.stdin.closed)
             if os.name == "nt":
                 self.assertIsNone(owned.job.handle)
-            self.assertTrue(demo.port_available(), "owned native listener remained after shutdown")
+            self.assert_no_listener((demo.HOST, demo.PORT))
             self.assert_unrelated_listener(unrelated)
 
     def test_actual_native_wrapper_requires_explicit_public_profile(self):
@@ -165,7 +193,7 @@ class PublicDemoNativeTransportTests(unittest.TestCase):
             try:
                 owned = demo.spawn_web(environment(Path(directory), public=False), SHUTDOWN_SECONDS)
                 self.assertEqual(demo.EXIT_CONFIG, owned.process.wait(timeout=SHUTDOWN_SECONDS))
-                self.assertTrue(demo.port_available(), "missing public flag opened a listener")
+                self.assert_no_listener((demo.HOST, demo.PORT))
                 self.assertEqual([], list(Path(directory).iterdir()))
             finally:
                 if owned is not None:
