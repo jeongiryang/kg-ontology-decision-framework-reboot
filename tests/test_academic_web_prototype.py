@@ -8,23 +8,40 @@ import tempfile
 import unittest
 from importlib.resources import files
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from fastapi.testclient import TestClient
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from academic_assistant import api
 from academic_assistant.api import app
+from academic_assistant.assistant_models import CourseFact
+from academic_assistant.registry import Registry, canonical_sha256
+from academic_assistant.semantic_llm import SemanticDocument
 
 
 class AcademicWebPrototypeTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
+        settings = patch.dict(os.environ, {
+            "ACADEMIC_EVIDENCE_BACKEND": "registry",
+            "ACADEMIC_LLM_PROVIDER": "disabled",
+            "ACADEMIC_LLM_GROUNDED_GENERATION": "0",
+        })
+        settings.start()
+        cls.addClassCleanup(settings.stop)
+        api._engine.cache_clear()
+        api._chat_engine.cache_clear()
+        cls.addClassCleanup(api._engine.cache_clear)
+        cls.addClassCleanup(api._chat_engine.cache_clear)
+        cls.registry = Registry.load(ROOT)
         cls.client = TestClient(app)
         cls.html = cls.client.get("/").text
         cls.css = cls.client.get("/assets/app.css").text
         cls.javascript = cls.client.get("/assets/app.js").text
+        cls.semantic_javascript = cls.client.get("/assets/semantic-ui.js").text
 
     def test_fixed_page_and_asset_routes(self) -> None:
         page = self.client.get("/")
@@ -47,6 +64,7 @@ class AcademicWebPrototypeTests(unittest.TestCase):
         paths = openapi.json()["paths"]
         self.assertIn("/v1/academic/answers", paths)
         self.assertIn("/v1/academic/chat", paths)
+        self.assertIn("/v1/academic/assistant", paths)
         self.assertIn("/v1/academic/feedback", paths)
         self.assertIn("/readyz", paths)
         self.assertNotIn("/", paths)
@@ -117,24 +135,146 @@ class AcademicWebPrototypeTests(unittest.TestCase):
         self.assertNotIn("admission_year: question", self.javascript)
 
     def test_every_visible_example_is_supported_with_evidence(self) -> None:
+        # Expectations come from the frozen approved records, not retrieval or
+        # generated API output. Only the provider boundary is mocked.
+        catalogue = self.registry.catalogue["courses"]
+        structure = next(fact for fact in catalogue if fact["course_code"] == "CDA0016")
+        thesis = next(fact for fact in catalogue if fact["course_code"] == "CDA0034")
+        year_three = [fact for fact in catalogue if 3 in fact["offering_years"]]
+        required = [fact for fact in catalogue if fact["category"] == "major_required"]
+        elective = [fact for fact in catalogue if fact["category"] == "major_elective"]
+        total = self.registry.rules["cwnu.cs.2026.credits.graduation-total"]
+        retake = self.registry.rules["cwnu.cs.2026.course-counting.retake"]
+        required_set = self.registry.rules["cwnu.cs.2026.major-required-course-set"]
+        thesis_result = self.registry.rules["cwnu.cs.2026.graduation.thesis-completion-result"]
+        self.assertEqual(3, structure["credits"])
+        self.assertEqual(0, thesis["credits"])
+        self.assertEqual((9, 34), (len(required), len(elective)))
+        self.assertIn("CDA0034", {item["item_id"] for item in required_set["decision"]["outcome"]["items"]})
+
+        def course_request(filters, properties, purpose="attributes"):
+            return {"kind": "courses", "filters": filters, "purpose": purpose, "properties": properties}
+
+        cases = {
+            "컴퓨터구조는 몇 학점이야?": (
+                [course_request({"name": structure["course_name"]}, ["credits"])],
+                [("courses", [structure], f"{structure['course_name']}는 {structure['credits']}학점입니다.")],
+            ),
+            "3학년 과목 알려줘": (
+                [course_request({"year": 3}, ["count", "names"])],
+                [("courses", year_three, f"3학년 교육과정 목록은 {len(year_three)}과목입니다.")],
+            ),
+            "전필 과목 전선 과목 개수 몇 개야": (
+                [course_request({"category": "major_required"}, ["count"]),
+                 course_request({"category": "major_elective"}, ["count"])],
+                [("courses", required, f"전공필수 목록은 {len(required)}과목입니다."),
+                 ("courses", elective, f"전공선택 목록은 {len(elective)}과목입니다.")],
+            ),
+            "졸업학점 기준은 몇 학점인가요?": (
+                [{"kind": "rule", "intent_ids": ["credits.graduation.total"]}],
+                [("rules", [total], total["decision"]["statement"])],
+            ),
+            "재수강하면 학점이 중복 계산되나요?": (
+                [{"kind": "rule", "intent_ids": ["course-counting.retake"]}],
+                [("rules", [retake], retake["decision"]["statement"])],
+            ),
+            "졸업논문이 0학점이어도 필수인가요?": (
+                [course_request({"name": thesis["course_name"]}, ["credits"]),
+                 course_request({"name": thesis["course_name"]}, [], "completion_obligation")],
+                [("courses", [thesis], f"{thesis['course_name']}은 {thesis['credits']}학점입니다."),
+                 ("rules", [required_set], "졸업논문은 승인된 지정 이수과목이므로 반드시 이수해야 합니다."),
+                 ("rules", [thesis_result], thesis_result["decision"]["statement"])],
+            ),
+        }
         examples = re.findall(r'data-question="([^"]+)"', self.html)
-        self.assertGreaterEqual(len(examples), 1)
-        self.assertEqual("졸업학점 기준은 몇 학점인가요?", examples[0])
+        self.assertEqual(list(cases), examples)
+        self.assertIn('fetch("/v1/academic/assistant"', self.semantic_javascript)
         for example in examples:
             with self.subTest(example=example):
-                response = self.client.post("/v1/academic/answers", json={
+                requests, expected_parts = cases[example]
+                sections = [{"part_id": f"p{index}", "text": text,
+                             "fact_ids": [fact["course_id" if family == "courses" else "rule_id"] for fact in facts]}
+                            for index, (family, facts, text) in enumerate(expected_parts, 1)]
+                provider = MagicMock()
+                session = provider.session.return_value.__enter__.return_value
+                session.plan.return_value = SemanticDocument(
+                    {"requests": requests, "context_used": False}, typed_plan=True)
+                session.write.return_value = SemanticDocument({"sections": sections})
+                payload = {
                     "schema_version": "1.0.0",
                     "question": example,
                     "admission_year": 2026,
                     "matched_curriculum_year": 2026,
                     "department": "컴퓨터공학과",
                     "earned_credits": {},
+                }
+                with patch("academic_assistant.assistant.SemanticLLMClient.from_env", return_value=provider):
+                    response = self.client.post("/v1/academic/assistant", json=payload)
+                self.assertEqual(200, response.status_code)
+                body = response.json()
+                self.assertEqual("supported", body["status"])
+                self.assertEqual("generated", body["plan_status"])
+                self.assertEqual("generated", body["generation_status"])
+                self.assertIsNone(body["reason_code"])
+                session.plan.assert_called_once()
+                session.write.assert_called_once()
+                session.accept.assert_called_once()
+                planned_payload = session.plan.call_args.args[0]
+                self.assertEqual(example, planned_payload["question"])
+                self.assertIsNone(planned_payload["previous_question"])
+                self.assertFalse(planned_payload["has_transcript"])
+                self.assertNotIn("earned_credits", planned_payload)
+                self.assertEqual([section["fact_ids"] for section in sections],
+                                 [[fact["fact_id"] for fact in part["facts"]]
+                                  for part in session.write.call_args.args[0]["parts"]])
+                self.assertEqual(len(expected_parts), len(body["parts"]))
+                for part, (family, facts, text) in zip(body["parts"], expected_parts, strict=True):
+                    self.assertEqual("supported", part["status"])
+                    self.assertIn(text, part["text"])
+                    self.assertIn(text, body["answer"])
+                    packet = part["course_evidence" if family == "courses" else "evidence_packet"]
+                    self.assertEqual("supported", packet["status"])
+                    self.assertEqual({"admission_year": 2026, "matched_curriculum_year": 2026,
+                                      "department": "컴퓨터공학과"}, packet["scope"])
+                    self.assertEqual([], packet["issues"])
+                    if family == "courses":
+                        self.assertEqual([CourseFact.model_validate(fact).model_dump() for fact in facts], packet["courses"])
+                        categories = {"major_required": "전공필수", "major_elective": "전공선택"}
+                        self.assertEqual([{"course_id": fact["course_id"], "source_id": fact["source_id"],
+                                           "source_sha256": fact["source_sha256"], "locator": fact["locator"],
+                                           "claim": f"{fact['course_name']}: {categories[fact['category']]}, "
+                                                    f"{fact['credits']}학점, {fact['offering_label']}."}
+                                          for fact in facts], packet["evidence"])
+                        for fact in facts:
+                            self.assertEqual(fact["fact_sha256"], canonical_sha256(
+                                {key: value for key, value in fact.items() if key != "fact_sha256"}))
+                    else:
+                        self.assertEqual([{"rule_id": fact["rule_id"], "rule_sha256": canonical_sha256(fact)}
+                                          for fact in facts], packet["applied_rules"])
+                        self.assertEqual([{"source_id": cite["source_id"], "rule_id": fact["rule_id"],
+                                           "locator": cite["locator"], "claim": fact["decision"]["statement"]}
+                                          for fact in facts for cite in fact["evidence"]], packet["evidence"])
+
+    def test_legacy_rule_examples_remain_supported_with_exact_evidence(self) -> None:
+        for example, rule_id in (
+            ("졸업학점 기준은 몇 학점인가요?", "cwnu.cs.2026.credits.graduation-total"),
+            ("재수강하면 학점이 중복 계산되나요?", "cwnu.cs.2026.course-counting.retake"),
+        ):
+            with self.subTest(example=example):
+                rule = self.registry.rules[rule_id]
+                response = self.client.post("/v1/academic/answers", json={
+                    "question": example, "admission_year": 2026, "matched_curriculum_year": 2026,
+                    "department": "컴퓨터공학과", "earned_credits": {},
                 })
                 self.assertEqual(200, response.status_code)
                 body = response.json()
                 self.assertEqual("supported", body["status"])
-                self.assertTrue(body["evidence_packet"]["applied_rules"])
-                self.assertTrue(body["evidence_packet"]["evidence"])
+                self.assertIn(rule["decision"]["statement"], body["answer"])
+                self.assertEqual([{"rule_id": rule_id, "rule_sha256": canonical_sha256(rule)}],
+                                 body["evidence_packet"]["applied_rules"])
+                self.assertEqual([{"source_id": cite["source_id"], "rule_id": rule_id,
+                                   "locator": cite["locator"], "claim": rule["decision"]["statement"]}
+                                  for cite in rule["evidence"]], body["evidence_packet"]["evidence"])
 
     def test_every_answer_status_has_distinct_presentation(self) -> None:
         expected = {

@@ -1,0 +1,274 @@
+{
+  "$defs": {
+    "TranscriptAssessmentRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "admission_year": {
+          "maximum": 2200,
+          "minimum": 1900,
+          "title": "Admission Year",
+          "type": "integer"
+        },
+        "matched_curriculum_year": {
+          "maximum": 2200,
+          "minimum": 1900,
+          "title": "Matched Curriculum Year",
+          "type": "integer"
+        },
+        "department": {
+          "const": "컴퓨터공학과",
+          "title": "Department",
+          "type": "string"
+        },
+        "degree_track": {
+          "default": "unknown",
+          "enum": [
+            "single_major",
+            "minor",
+            "multiple_major",
+            "unknown"
+          ],
+          "title": "Degree Track",
+          "type": "string"
+        },
+        "confirmed": {
+          "const": true,
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "record_complete": {
+          "title": "Record Complete",
+          "type": "boolean"
+        },
+        "courses": {
+          "items": {
+            "$ref": "#/$defs/TranscriptCourse"
+          },
+          "maxItems": 250,
+          "minItems": 1,
+          "title": "Courses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "admission_year",
+        "matched_curriculum_year",
+        "department",
+        "confirmed",
+        "record_complete",
+        "courses"
+      ],
+      "title": "TranscriptAssessmentRequest",
+      "type": "object"
+    },
+    "TranscriptCourse": {
+      "additionalProperties": false,
+      "properties": {
+        "row_id": {
+          "pattern": "^[a-zA-Z0-9_-]{1,40}$",
+          "title": "Row Id",
+          "type": "string"
+        },
+        "course_code": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z][A-Z0-9]{2,15}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Course Code"
+        },
+        "course_name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Course Name",
+          "type": "string"
+        },
+        "credits": {
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Credits",
+          "type": "integer"
+        },
+        "grade": {
+          "enum": [
+            "A+",
+            "A0",
+            "B+",
+            "B0",
+            "C+",
+            "C0",
+            "D+",
+            "D0",
+            "F",
+            "F0",
+            "P",
+            "PASS",
+            "S",
+            "U",
+            "W"
+          ],
+          "title": "Grade",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "foundation",
+            "balanced",
+            "expanded",
+            "major_required",
+            "major_elective",
+            "free",
+            "unknown"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "term": {
+          "anyOf": [
+            {
+              "pattern": "^20[0-9]{2}-[12S]$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Term"
+        },
+        "balanced_area": {
+          "anyOf": [
+            {
+              "enum": [
+                "digital-communication",
+                "humanities-arts",
+                "society-culture",
+                "nature-science-technology"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Balanced Area"
+        },
+        "excluded": {
+          "default": false,
+          "title": "Excluded",
+          "type": "boolean"
+        },
+        "review_flags": {
+          "items": {
+            "enum": [
+              "retake",
+              "equivalence",
+              "retroactivity",
+              "recognition_unverified"
+            ],
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Review Flags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "row_id",
+        "course_name",
+        "credits",
+        "grade",
+        "category"
+      ],
+      "title": "TranscriptCourse",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "question": {
+      "maxLength": 500,
+      "minLength": 1,
+      "title": "Question",
+      "type": "string"
+    },
+    "admission_year": {
+      "maximum": 2200,
+      "minimum": 1900,
+      "title": "Admission Year",
+      "type": "integer"
+    },
+    "matched_curriculum_year": {
+      "maximum": 2200,
+      "minimum": 1900,
+      "title": "Matched Curriculum Year",
+      "type": "integer"
+    },
+    "department": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Department",
+      "type": "string"
+    },
+    "earned_credits": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Earned Credits",
+      "type": "object"
+    },
+    "previous_question": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Previous Question"
+    },
+    "transcript": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TranscriptAssessmentRequest"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "question",
+    "admission_year",
+    "matched_curriculum_year",
+    "department"
+  ],
+  "title": "AssistantTurnRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/assistant-turn-request.schema.json"
+}

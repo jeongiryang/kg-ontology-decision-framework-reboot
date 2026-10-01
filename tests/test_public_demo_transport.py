@@ -11,6 +11,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
 from scripts.operations import public_demo as demo
 from academic_assistant.registry import Registry, canonical_sha256
@@ -21,6 +22,12 @@ STARTUP_SECONDS = 20
 SHUTDOWN_SECONDS = 5
 CLOSED_PROBE_SECONDS = 3
 MAX_RESPONSE_BYTES = 512 * 1024
+TEST_WEB_CHILD_BOOTSTRAP = (
+    "import sys; from scripts.operations import public_demo as child; "
+    "child.PORT = int(sys.argv[1]); "
+    "child.BASE_URL = f'http://{child.HOST}:{child.PORT}'; "
+    "raise SystemExit(child._web_child())"
+)
 
 
 def environment(private_root: Path, *, public=True):
@@ -33,6 +40,7 @@ def environment(private_root: Path, *, public=True):
         paths.append(str(Path(sys.prefix) / "Lib" / "site-packages"))
     result.update({"PYTHONPATH": os.pathsep.join(paths), "PYTHONUNBUFFERED": "1",
                    "PYTHONIOENCODING": "utf-8", "PYTHONNOUSERSITE": "1",
+                   "ACADEMIC_EVIDENCE_BACKEND": "registry", "ACADEMIC_LLM_PROVIDER": "disabled",
                    "ACADEMIC_FEEDBACK_PRIVATE_ROOT": str(private_root),
                    "ACADEMIC_FEEDBACK_PATH": str(private_root / "feedback.jsonl")})
     if public:
@@ -49,6 +57,30 @@ def question(text="졸업학점은 얼마인가요?", **updates):
 
 
 class PublicDemoNativeTransportTests(unittest.TestCase):
+    def setUp(self):
+        # Allocate from the OS ephemeral range, never probe or reuse the public
+        # listener. The parent readiness helpers and actual child share this
+        # isolated test-only port; the production module remains unchanged.
+        public_port = demo.PORT
+        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as reservation:
+            reservation.bind((demo.HOST, 0))
+            self.port = reservation.getsockname()[1]
+        self.assertNotEqual(public_port, self.port)
+        port_patch = patch.object(demo, "PORT", self.port)
+        base_patch = patch.object(demo, "BASE_URL", f"http://{demo.HOST}:{self.port}")
+        port_patch.start()
+        base_patch.start()
+        self.addCleanup(port_patch.stop)
+        self.addCleanup(base_patch.stop)
+
+    def spawn_isolated_web(self, child_environment):
+        # _spawn still creates the actual owned process/job and opens its stdin
+        # gate before _web_child imports and runs the genuine ASGI/TCP server.
+        executable = sys._base_executable if os.name == "nt" else sys.executable
+        options = ["-S"] if os.name == "nt" else []
+        return demo._spawn([executable, *options, "-c", TEST_WEB_CHILD_BOOTSTRAP, str(self.port)],
+                           child_environment, SHUTDOWN_SECONDS)
+
     def request(self, path, *, method="GET", payload=None, headers=None):
         body = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
         values = dict(headers or {})
@@ -111,7 +143,7 @@ class PublicDemoNativeTransportTests(unittest.TestCase):
             self.assert_no_listener(address)
 
     def test_actual_owned_native_tcp_public_api_and_clean_shutdown(self):
-        self.assertTrue(demo.port_available(), "8765 is occupied; no existing owner will be touched")
+        self.assertTrue(demo.port_available(), "isolated ephemeral test port is occupied")
         registry = Registry.load(ROOT)
         rule_id = "cwnu.cs.2026.credits.graduation-total"
         rule = registry.rules[rule_id]
@@ -125,7 +157,8 @@ class PublicDemoNativeTransportTests(unittest.TestCase):
             unrelated.settimeout(1)
             self.assert_unrelated_listener(unrelated)
             try:
-                owned = demo.spawn_web(environment(private_root), SHUTDOWN_SECONDS)
+                owned = self.spawn_isolated_web(environment(private_root))
+                self.assertIsInstance(owned, demo.OwnedChild)
                 if os.name == "nt":
                     self.assertIsNotNone(owned.job)
                     self.assertTrue(owned.job.handle)
@@ -187,11 +220,11 @@ class PublicDemoNativeTransportTests(unittest.TestCase):
             self.assert_unrelated_listener(unrelated)
 
     def test_actual_native_wrapper_requires_explicit_public_profile(self):
-        self.assertTrue(demo.port_available(), "8765 is occupied; no existing owner will be touched")
+        self.assertTrue(demo.port_available(), "isolated ephemeral test port is occupied")
         owned = None
         with tempfile.TemporaryDirectory(prefix="public-native-profile-") as directory:
             try:
-                owned = demo.spawn_web(environment(Path(directory), public=False), SHUTDOWN_SECONDS)
+                owned = self.spawn_isolated_web(environment(Path(directory), public=False))
                 self.assertEqual(demo.EXIT_CONFIG, owned.process.wait(timeout=SHUTDOWN_SECONDS))
                 self.assert_no_listener((demo.HOST, demo.PORT))
                 self.assertEqual([], list(Path(directory).iterdir()))

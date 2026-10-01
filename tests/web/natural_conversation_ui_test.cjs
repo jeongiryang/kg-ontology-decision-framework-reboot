@@ -70,11 +70,16 @@ function setup({runtime = {}, pendingRuntime = false} = {}) {
   });
   const node = id => elements.get(id) || root.all().find(item => item.id === id) || null;
   assert.equal(node("new-conversation").dataset.conversationMode, "friendly", "Actual UI must opt in");
+  // This suite preserves the legacy friendly /chat consumer contract. The
+  // current semantic default and real three-button consumer have their own suite.
+  assert.equal(node("new-conversation").dataset.assistantMode, "semantic");
+  node("new-conversation").dataset.assistantMode = "legacy";
   const submit = new Element("button"); submit.type = "submit"; node("question-form").append(submit);
   const document = {body: root, getElementById: node, createElement: tag => new Element(tag),
     querySelectorAll: selector => {
       if (selector === "[data-credit-metric]") return credits;
       if (selector === "[data-question]") return questions;
+      if (selector === "[data-transcript-example]") return [];
       assert.equal(selector, "[data-transcript-question]"); return transcriptQuestions;
     },
   };

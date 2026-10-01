@@ -34,7 +34,7 @@ const response={answer:"합성 비교",raw_earned_credits:6,recognized_graduatio
 ]};
 const context={
   AbortController,
-  document:{getElementById:byId,createElement:(tag)=>new Element(tag),querySelectorAll:()=>questions},
+  document:{getElementById:byId,createElement:(tag)=>new Element(tag),querySelectorAll:selector=>selector === "[data-transcript-example]" ? [] : questions},
   window:{addEventListener() {}},
   fetch:async (url)=>{
     if(url.endsWith("/assess")) return {ok:true,json:async()=>response};

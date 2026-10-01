@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/course-catalogue.schema.json",
+  "title": "CourseCatalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_id",
+    "source_sha256",
+    "verification",
+    "courses"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "source_id": {
+      "const": "cwnu.curriculum.2026.changwon-undergraduate"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "verification": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "const": "source_verified"
+        }
+      }
+    },
+    "courses": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/$defs/CourseFact"
+      }
+    }
+  },
+  "$defs": {
+    "CourseFact": {
+      "additionalProperties": false,
+      "properties": {
+        "course_id": {
+          "title": "Course Id",
+          "type": "string"
+        },
+        "course_code": {
+          "title": "Course Code",
+          "type": "string"
+        },
+        "course_name": {
+          "title": "Course Name",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "major_required",
+            "major_elective"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "credits": {
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Credits",
+          "type": "integer"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "maximum": 4,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Year"
+        },
+        "semester": {
+          "anyOf": [
+            {
+              "maximum": 2,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Semester"
+        },
+        "offering_years": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "title": "Offering Years",
+          "type": "array"
+        },
+        "offering_semesters": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "title": "Offering Semesters",
+          "type": "array"
+        },
+        "offering_label": {
+          "default": "",
+          "title": "Offering Label",
+          "type": "string"
+        },
+        "theory": {
+          "anyOf": [
+            {
+              "maximum": 30,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Theory"
+        },
+        "practical": {
+          "anyOf": [
+            {
+              "maximum": 30,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Practical"
+        },
+        "minor_required": {
+          "default": false,
+          "title": "Minor Required",
+          "type": "boolean"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "locator": {
+          "title": "Locator",
+          "type": "string"
+        },
+        "fact_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fact Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "course_id",
+        "course_code",
+        "course_name",
+        "category",
+        "credits",
+        "year",
+        "semester",
+        "source_id",
+        "source_sha256",
+        "locator",
+        "fact_sha256"
+      ],
+      "title": "CourseFact",
+      "type": "object"
+    }
+  }
+}

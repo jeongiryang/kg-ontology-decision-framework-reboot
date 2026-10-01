@@ -28,3 +28,5 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 - [ADR0020: 사용자 PC의 익명 외부 HTTPS 시연](0020-anonymous-pc-hosted-demo.md)
 - [ADR0021: 실제 Gemma 승인 문장 생성과 검증](0021-verified-gemma-claim-generation.md)
 - [ADR0022: 친절한 근거 안내와 휘발성 대화](0022-friendly-volatile-conversation.md)
+- [ADR0023: 의미 기반 과목 조회와 학생 질문 검증](0023-semantic-course-retrieval-and-student-evaluation.md)
+- [ADR0024: 질문 목적·별칭·문맥을 보존하는 재개](0024-purpose-aware-dialogue-and-resume.md)

@@ -16,7 +16,7 @@ from typing import Any
 from .registry import Registry, canonical_bytes, canonical_sha256
 
 GRAPH_SCHEMA_VERSION = "1.0.0"
-NODE_TYPES = frozenset({"Cohort", "SourceEntry", "RuleFact", "Evidence"})
+NODE_TYPES = frozenset({"Cohort", "SourceEntry", "RuleFact", "Evidence", "CourseFact"})
 RELATIONSHIP_TYPES = frozenset({"APPLIES_TO", "CITES", "FROM_SOURCE", "RELATES_TO"})
 _DIGEST = re.compile(r"^[a-f0-9]{64}$")
 
@@ -156,6 +156,18 @@ def _project(registry: Registry) -> dict[str, Any]:
                 }
             )
 
+    if registry.catalogue is not None:
+        source_id = registry.catalogue["source_id"]
+        _require_approved(registry.sources[source_id], "catalogue source")
+        for fact in registry.catalogue["courses"]:
+            if fact["source_sha256"] != registry.sources[source_id]["sha256"] or fact["fact_sha256"] != canonical_sha256({k: v for k, v in fact.items() if k != "fact_sha256"}):
+                raise GraphValidationError("invalid catalogue fact")
+            node_id = "course:" + fact["course_id"]
+            nodes.append({"id": node_id, "type": "CourseFact", "properties": copy.deepcopy(fact)})
+            relationships.extend([
+                {"from_id": node_id, "to_id": cohort_id, "type": "APPLIES_TO", "properties": {}},
+                {"from_id": node_id, "to_id": f"source:{source_id}", "type": "FROM_SOURCE", "properties": {}},
+            ])
     nodes.sort(key=lambda item: item["id"])
     relationships.sort(
         key=lambda item: (item["from_id"], item["type"], item["to_id"], canonical_bytes(item["properties"]))

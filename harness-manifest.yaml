@@ -22,6 +22,21 @@ orchestration:
     - pipeline
     - fan_out_fan_in
     - generate_validate
+    - student_question_evaluate_repair
+  student_question_evaluation:
+    maximum_repair_cycles: 2
+    question_generator_creates_answers: false
+    heldout_isolated_from_implementation: true
+    completion_requires_no_wrong_supported_claims: true
+    milestone_overrides:
+      - run_id: 20261001-semantic-final-integration
+        maximum_total_repair_cycles: 3
+        decision: docs/harness/decisions/0023-semantic-course-retrieval-and-student-evaluation.md
+      - run_id: 20261001-purpose-dialogue-implementation-v1
+        maximum_total_repair_cycles: 5
+        previous_repair_cycles: 3
+        maximum_additional_repair_cycles: 2
+        decision: docs/harness/decisions/0024-purpose-aware-dialogue-and-resume.md
   single_writer_per_path: true
   source_precedence:
     - university_statute
@@ -60,6 +75,13 @@ agents:
     permission: assigned_product_paths
     input: task_packet
     output: TaskResult
+  - name: academic_student_question_generator
+    config: .codex/agents/academic_student_question_generator.toml
+    permission: read_only
+    input: verified_source_topics_and_scope
+    output: student_questions_without_answer_keys
+    skills:
+      - academic-student-question-evaluation
   - name: harness_reviewer
     config: .codex/agents/harness-reviewer.toml
     permission: read_only
@@ -97,6 +119,9 @@ skills:
   - name: academic-evaluation
     path: .agents/skills/academic-evaluation/SKILL.md
     trigger: academic_answer_QA
+  - name: academic-student-question-evaluation
+    path: .agents/skills/academic-student-question-evaluation/SKILL.md
+    trigger: student_question_generation_evaluation_and_bounded_repair
   - name: dsw-server-operations
     path: .agents/skills/dsw-server-operations/SKILL.md
     trigger: approved_DSW_compute_operation
@@ -106,6 +131,18 @@ skills:
 
 contracts:
   schemas:
+    AssistantTurnRequest:
+      path: contracts/assistant-turn-request.schema.json
+      version: "1.0.0"
+    AssistantTurnResponse:
+      path: contracts/assistant-turn-response.schema.json
+      version: "1.0.0"
+    CourseEvidencePacket:
+      path: contracts/course-evidence-packet.schema.json
+      version: "1.0.0"
+    CourseCatalogue:
+      path: contracts/course-catalogue.schema.json
+      version: "1.0.0"
     EvidencePreview:
       path: contracts/evidence-preview.schema.json
       version: "1.0.0"
@@ -209,6 +246,17 @@ documentation:
   minimal_prototype: docs/operations/minimal-prototype.md
 
 validation:
+  semantic_retrieval:
+    command: python -m unittest tests.test_semantic_assistant_worker tests.test_semantic_assistant_qa tests.test_semantic_integration -v
+    browser_consumer_command: node tests/web/semantic_dialogue_ui_test.cjs
+    checks:
+      - LLM_first_typed_read_only_tool_plan_not_question_whitelist
+      - exact_course_credit_category_offering_source_binding
+      - natural_writer_cannot_change_grounded_semantics
+      - current_transcript_not_sent_to_model
+      - shared_turn_budget_and_truthful_processing_failure
+      - real_synthetic_PDF_examples_not_hardcoded_extraction
+      - isolated_student_question_generation_and_heldout_evaluation
   grounded_generation:
     command: python -m unittest discover -s tests -p test_gemma_final_qa.py
     checks:

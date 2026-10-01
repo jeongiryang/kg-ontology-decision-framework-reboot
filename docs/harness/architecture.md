@@ -11,6 +11,7 @@ flowchart TB
     P --> A[harness_architect]
     P --> S[academic_source_auditor]
     P --> F[academic_review_facilitator]
+    P --> G[academic_student_question_generator]
     P --> M[academic_rule_modeler]
     P --> W[harness_worker]
     P --> D[dsw_compute_operator]
@@ -18,6 +19,7 @@ flowchart TB
     A --> O
     S --> O
     F --> O
+    G --> O
     M --> O
     W --> O
     D --> O
@@ -42,6 +44,7 @@ flowchart TB
 - **팬아웃/팬인:** 서로 다른 파일을 소유한 독립 작업이나 읽기 전용 조사를 병렬 수행하고 메인이 통합한다.
 - **전문가 풀:** 모든 역할을 매번 실행하지 않고 위험과 산출물에 맞는 역할만 호출한다.
 - **생성-검증:** 워커의 변경을 리뷰어와 QA가 독립적으로 확인한다. QA는 제품 코드를 고치지 않는다.
+- **학생 질문 반복:** 생성 담당은 정답 없이 수정용/별도 질문을 나눈다. QA가 실제 챗봇과 승인 원문으로 평가하고, 워커가 최대 2회 기능을 수정한다. 별도 질문은 동결 후에만 평가하며 문장 지원 화이트리스트가 아니다.
 - **감독자:** 메인이 준비 상태, 슬롯, 실패와 최신 입력 지문을 보고 다음 작업을 배정한다.
 
 ## 실행 시퀀스

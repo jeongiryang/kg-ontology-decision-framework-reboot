@@ -1,0 +1,1028 @@
+{
+  "schema_version": "1.0.0",
+  "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+  "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+  "verification": {
+    "status": "source_verified",
+    "method": "exact_transcription_and_independent_visual_audit",
+    "inspected_pdf_pages": [
+      262,
+      263
+    ],
+    "note": "Approved original source; direct facts, not new human approval of graduation or elective-allocation rules. Catalogue offerings do not guarantee actual semester opening."
+  },
+  "courses": [
+    {
+      "course_id": "cwnu.cs.2026.course.cda0163",
+      "course_code": "CDA0163",
+      "course_name": "웹프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 1,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "1학년 1학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0163 row",
+      "fact_sha256": "8866757e287284e4c553abd5b4d6922438472f032c0982bbd445d083d2269fec"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0174",
+      "course_code": "CDA0174",
+      "course_name": "피지컬AI입문",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 1,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "1학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0174 row",
+      "fact_sha256": "4e66ca16504b2891c55ed71807115cd22977bd1a72b792b5a07eb89f8ce206ea"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0157",
+      "course_code": "CDA0157",
+      "course_name": "이산수학",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 2,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "1학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0157 row",
+      "fact_sha256": "cb961eb4160a14e2a836134a269bc53f960210c5d784c3aef24141dddf5e1c76"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0170",
+      "course_code": "CDA0170",
+      "course_name": "컴퓨터공학기술세미나",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 2,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "1학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0170 row",
+      "fact_sha256": "71981acd50373210acf4180a176217f8a1d5e4380f7a9885b435a652601b3fc3"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0008",
+      "course_code": "CDA0008",
+      "course_name": "자료구조",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 1,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "2학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": true,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0008 row",
+      "fact_sha256": "d2506a7f4d755efe9dce2096df7fd58e369dbbba915c0739d10eb724bf3fa8c4"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0010",
+      "course_code": "CDA0010",
+      "course_name": "논리설계",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 1,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "2학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0010 row",
+      "fact_sha256": "fae2dbc0662c31a86db6e4ce88ddd65cc169f2d1adb5bdaf6d21ff66ae200b47"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0014",
+      "course_code": "CDA0014",
+      "course_name": "컴퓨터그래픽스",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 1,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "2학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0014 row",
+      "fact_sha256": "b021901122f6bb4d0425011f8be5eb4b2421d31fabe5a60c3f376d21f4282965"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0143",
+      "course_code": "CDA0143",
+      "course_name": "고급자료구조",
+      "category": "major_required",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+      "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0006",
+      "course_code": "CDA0006",
+      "course_name": "시스템프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0006 row",
+      "fact_sha256": "c5755f2482dda0e2ed4aea7e6ce976d4b50e5fbfd48c60e53b57043d069ede25"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0013",
+      "course_code": "CDA0013",
+      "course_name": "프로그래밍언어론",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0013 row",
+      "fact_sha256": "b0179a2ec73ab437f12c8f68ce13de8801a761535ba7ef52945d6de0dbddb99d"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0125",
+      "course_code": "CDA0125",
+      "course_name": "모바일프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0125 row",
+      "fact_sha256": "6f5ee01f05aa23be74c0e0d9948696972b56c513a1e22128c071d8a443a6d822"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0176",
+      "course_code": "CDA0176",
+      "course_name": "임베디드시스템",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0176 row",
+      "fact_sha256": "f11379de5c93fefd4206bb4750346704eb0612566954cc2c44e6b1ba7ee10a18"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0155",
+      "course_code": "CDA0155",
+      "course_name": "객체지향프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": null,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2학년 1·2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0155 row",
+      "fact_sha256": "7bdd2447f7a6f73f03b50be89be587baee6008835ef96347bf9eed707cce49e4"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0156",
+      "course_code": "CDA0156",
+      "course_name": "오픈소스소프트웨어",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": null,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2학년 1·2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0156 row",
+      "fact_sha256": "79707645a8171c39c4a33de87c689f86f4865b7454adcbe991efbee5fb95bcd5"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0016",
+      "course_code": "CDA0016",
+      "course_name": "컴퓨터구조",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": true,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+      "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0027",
+      "course_code": "CDA0027",
+      "course_name": "알고리즘",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+      "fact_sha256": "2835454b2bb19545712bff12550fdaf3c5b94b552bf18871a9d2acee7f993ef5"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0028",
+      "course_code": "CDA0028",
+      "course_name": "소프트웨어공학",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0028 row",
+      "fact_sha256": "bab2d77f17749ae3e35ec7fe4b540a5d2af6de9837869baa6f8fd8e0bc98628b"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0065",
+      "course_code": "CDA0065",
+      "course_name": "데이타베이스개론",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0065 row",
+      "fact_sha256": "d76c200957e2ac071a57490047f5ffde6374707780435fb0d1319f9bb1e3dd55"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0164",
+      "course_code": "CDA0164",
+      "course_name": "빅데이터",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0164 row",
+      "fact_sha256": "1dc60ba2db4ee1932634d4199207d185d802959d186bb2865133b64c40f372ec"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0165",
+      "course_code": "CDA0165",
+      "course_name": "네트워크프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+      "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0017",
+      "course_code": "CDA0017",
+      "course_name": "운영체제",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": true,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+      "fact_sha256": "8cc569a2e57540e4f4ed2af9f6ace77ebc267cda6cfd0c38e03777fc165b1c83"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0023",
+      "course_code": "CDA0023",
+      "course_name": "데이타통신",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0023 row",
+      "fact_sha256": "e7d78dd4bc6d8ad328763c964f057dbecc208c438f24a8b0f1f743611a916391"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0139",
+      "course_code": "CDA0139",
+      "course_name": "영상처리",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0139 row",
+      "fact_sha256": "1ece85c5223fb9e42e92fc7d630c548a4a5211320950f7fb23294077c4f9de11"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0154",
+      "course_code": "CDA0154",
+      "course_name": "소프트웨어설계",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0154 row",
+      "fact_sha256": "06d4d1289b349b49417bd9a1d1b058066185055a7bb73b7cd4b47cc8fe64d8fb"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0169",
+      "course_code": "CDA0169",
+      "course_name": "데이터마이닝",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0169 row",
+      "fact_sha256": "ad7fb1fb2a50f40d61be891ff67adf49b59ff88793a188a13450f32f345983c2"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0167",
+      "course_code": "CDA0167",
+      "course_name": "산학캡스톤디자인1",
+      "category": "major_elective",
+      "credits": 0,
+      "year": 3,
+      "semester": null,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "3학년 1·2학기",
+      "theory": 0,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0167 row",
+      "fact_sha256": "5e63a4288b409385dd97f3b17aa03cda316e7188c946a76256e3e6a4561cc262"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0030",
+      "course_code": "CDA0030",
+      "course_name": "인공지능",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0030 row",
+      "fact_sha256": "630e1f0dd3285f4796684cc7dcafb0e312af019a62d8b5b4f491cd26e785d38d"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0031",
+      "course_code": "CDA0031",
+      "course_name": "컴퓨터네트워크",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0031 row",
+      "fact_sha256": "03b759ed480f138f571dbb1b458225617e53db179ca1166b5891357f8b541cd9"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0119",
+      "course_code": "CDA0119",
+      "course_name": "컴파일러",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0119 row",
+      "fact_sha256": "073b7b51262eb060a6c27a9ea7b1df2d14b20b527b84cda494007723aa521172"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0177",
+      "course_code": "CDA0177",
+      "course_name": "클라우드컴퓨팅",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0177 row",
+      "fact_sha256": "74cb0b2d1a527deae48fd62a3b3e4ba1eaba90637ac9a1438b5156149015400b"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0150",
+      "course_code": "CDA0150",
+      "course_name": "사물인터넷",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0150 row",
+      "fact_sha256": "c379f8d82fdf372eb7dc600e4cc928aaa5421803479828d4021c91532c8ab2f4"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0153",
+      "course_code": "CDA0153",
+      "course_name": "정보보안",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0153 row",
+      "fact_sha256": "83da14c2e3273fc7371c4f3f0f362a565e54b8a8c73203c95763e833bc5922bf"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0166",
+      "course_code": "CDA0166",
+      "course_name": "딥러닝과자연어처리",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0166 row",
+      "fact_sha256": "263c2b0d3ad5ec0f901bccc4154bc99370806f86d66b6bb638a69027e1c24116"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0175",
+      "course_code": "CDA0175",
+      "course_name": "컴퓨터비전",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0175 row",
+      "fact_sha256": "7eb704585ef52d9724fad87abbc22b415fe894e0081f1057849369c974834d0f"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0034",
+      "course_code": "CDA0034",
+      "course_name": "졸업논문",
+      "category": "major_required",
+      "credits": 0,
+      "year": 4,
+      "semester": null,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "4학년 1·2학기",
+      "theory": 0,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0034 row",
+      "fact_sha256": "c4f497aba2f4cce4b2bbeece6a105787ece1f51158ea04c8a5e29c4f806b2d87"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0168",
+      "course_code": "CDA0168",
+      "course_name": "산학캡스톤디자인2",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": null,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "4학년 1·2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0168 row",
+      "fact_sha256": "61f8083d6f0bdb6450b85471ce653bc2a93ca85ddd5f5a5f407ff3933d168e81"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0147",
+      "course_code": "CDA0147",
+      "course_name": "현장실습4",
+      "category": "major_elective",
+      "credits": 12,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2·3·4학년 1·2학기",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0147 row",
+      "fact_sha256": "328bd7650b3a01b7d728a640313a2aca36d9ef80b30a083fe2c7b10beb2afe39"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0173",
+      "course_code": "CDA0173",
+      "course_name": "표준현장실습4",
+      "category": "major_elective",
+      "credits": 12,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2·3·4학년 1·2학기",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0173 row",
+      "fact_sha256": "76f45c0a5fbf806e6b207e411a0997a12c6c0ef56b69afb88bee9aae15f19bb2"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0144",
+      "course_code": "CDA0144",
+      "course_name": "현장실습1",
+      "category": "major_elective",
+      "credits": 3,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0144 row",
+      "fact_sha256": "0dac220ad65056fc4d5bfbb723617eab71b2a33420ae06d16ec14971735bcb39"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0145",
+      "course_code": "CDA0145",
+      "course_name": "현장실습3",
+      "category": "major_elective",
+      "credits": 6,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0145 row",
+      "fact_sha256": "79eeaa55fc8bc5c2d15a055efdde4bbf70df8dfed07158594784b04719bfd377"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0171",
+      "course_code": "CDA0171",
+      "course_name": "표준현장실습1",
+      "category": "major_elective",
+      "credits": 3,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0171 row",
+      "fact_sha256": "136e5d85f83e7bd3bc16df725cd7dcbcc107cbf3d4138dc24fa3a11c86432d18"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0172",
+      "course_code": "CDA0172",
+      "course_name": "표준현장실습3",
+      "category": "major_elective",
+      "credits": 6,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0172 row",
+      "fact_sha256": "2e2ea1c889394aa1019e0abfae9af22a2721ddf2812ee7fb93681f6d6b0a5cd4"
+    },
+    {
+      "course_id": "cwnu.cs.2026.course.cda0088",
+      "course_code": "CDA0088",
+      "course_name": "심층상담",
+      "category": "major_required",
+      "credits": 0,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "전 학년 1·2학기",
+      "theory": 0,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0088 row",
+      "fact_sha256": "71b537e0c85c26bb667b773fc2dab735532600bdb7cfab03cb3e22a6206d1e73"
+    }
+  ]
+}

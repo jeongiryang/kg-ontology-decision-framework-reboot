@@ -1,5 +1,15 @@
 # 공유 계약
 
+## 자연어 조회 계약
+
+`AssistantTurnRequest`는 비식별 질문, 2026 적용 범위, 선택적 이전 질문·현재 확인된 성적표를 받는다. `AssistantTurnResponse`는 부분별 상태와 근거, `plan_status`, `generation_status`, `reason_code`를 구분한다. 처리 연결 불가는 `processing_unavailable`이며 실제 자료 부재인 `no_matching_evidence`와 같지 않다. 인사·범위 안내는 학사 근거가 있다는 주장이 아니다.
+
+`CourseCatalogue`는 이미 승인된 교육과정 PDF의 직접 표 데이터를 독립 감사한 43개 `CourseFact`와 출처/내용 해시를 포함한다. 졸업 규칙의 새로운 승인이나 전선/심화 학점 배분 근거가 아니다. `CourseEvidencePacket`은 과목코드·학점·이수구분·편성 학년/학기·원문 PDF 페이지를 연결하며 기존 RuleFact ID를 꾸며내지 않는다. 복수 학년/양 학기/계절학기는 배열로 보존한다. 실제 개설·개인 수강 가능·대체 승인을 교육과정 편성만으로 보장하지 않는다. 실행 기준은 `contracts/assistant-turn-request.schema.json`, `contracts/assistant-turn-response.schema.json`, `contracts/course-evidence-packet.schema.json`, `contracts/course-catalogue.schema.json`이다.
+
+내부 모델 조회 계획은 공개 API 입력이 아니다. 과목 계획의 선택적 `purpose`(`attributes`, `completion_obligation`, `description`)와 `properties`(`credits`, `category`, `offering`, `code`, `count`, `names`)를 내부 스키마/파서가 함께 제한한다. 졸업 개요는 `requirements_overview`를 서버의 승인 규칙 집합으로 확장한다. 기존 과목 계획은 호환하되 새 속성 계획의 본문은 요청 주장만 선택하고 전체 CourseFact/정확한 인용은 근거 상세에 보존한다.
+
+특정 과목의 이수 의무는 승인 RuleFact의 과목 코드 연결로 증명하며 과목 분류만으로 출석·면제·대체를 판정하지 않는다. 과목/규칙 근거는 각 부분의 기존 EvidencePacket 유형으로 분리한다. `context_question`에는 제한된 과목·요청 속성·확인 후보 문맥만 전달하며 새 학사 승인이나 학생 기록을 만들지 않는다. 별칭도 신원 연결이며 규칙 변경이 아니다. 설계는 [ADR0024](decisions/0024-purpose-aware-dialogue-and-resume.md)를 따른다.
+
 계약의 실행 기준은 저장소의 JSON Schema다. 이 문서는 의미와 예시를 설명한다. 아래 예시는 형식 설명용이며 승인된 실제 학사 판정이나 실행 결과가 아니다.
 
 ## 공통 원칙

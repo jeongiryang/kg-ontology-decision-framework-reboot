@@ -35,7 +35,7 @@ def _decode(properties: dict[str, Any]) -> dict[str, Any]:
                 raise ValueError("invalid encoded property")
             value = json.loads(value, object_pairs_hook=_unique_object,
                                parse_constant=lambda _: (_ for _ in ()).throw(ValueError("invalid number")))
-            if not isinstance(value, (dict, list)):
+            if value is not None and not isinstance(value, (dict, list)):
                 raise ValueError("encoded property is not structured")
         decoded[target] = value
     return decoded
@@ -158,3 +158,8 @@ class Neo4jEvidenceReader:
         except (KeyError, TypeError):
             raise RegistryUnavailable() from None
         return evidence
+
+    def fetch_courses(self, registry: Registry) -> list[dict]:
+        """Read real CourseFact nodes, then require the exact source-bound mirror."""
+        graph = self._read_graph(registry)
+        return [node["properties"] for node in graph["nodes"] if node["type"] == "CourseFact"]

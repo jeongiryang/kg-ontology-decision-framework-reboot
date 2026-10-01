@@ -302,7 +302,7 @@ class LocalLLMClient:
         parsed = urlsplit(request.full_url)
         address = ipaddress.ip_address(parsed.hostname or "")
         if (parsed.scheme != "http" or not address.is_loopback or not parsed.port
-                or parsed.path != "/api/generate" or parsed.query or parsed.fragment
+                or parsed.path not in {"/api/generate", "/api/chat"} or parsed.query or parsed.fragment
                 or parsed.username is not None or parsed.password is not None
                 or request.get_method() != "POST"):
             raise LLMUnavailable("unsupported grounded transport")
@@ -310,7 +310,7 @@ class LocalLLMClient:
         headers = [("Host", f"{host}:{parsed.port}"), ("Connection", "close"),
                    ("Content-Length", str(len(request.data or b""))), *request.header_items()]
         try:
-            wire = ("POST /api/generate HTTP/1.0\r\n" + "".join(f"{key}: {value}\r\n" for key, value in headers)
+            wire = (f"POST {parsed.path} HTTP/1.0\r\n" + "".join(f"{key}: {value}\r\n" for key, value in headers)
                     + "\r\n").encode("ascii") + (request.data or b"")
         except UnicodeEncodeError as exc:
             raise LLMUnavailable("unsupported grounded request headers") from exc

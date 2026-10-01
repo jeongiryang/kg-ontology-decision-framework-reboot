@@ -13,6 +13,7 @@ _workspace/
 # Source documents and private/student data
 *.pdf
 !reports/pdf/*.pdf
+!src/academic_assistant/web/examples/*.pdf
 *.hwp
 *.hwpx
 *.xls
@@ -49,4 +50,3 @@ output/
 Thumbs.db
 .idea/
 .vscode/
-

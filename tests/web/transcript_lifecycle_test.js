@@ -71,6 +71,7 @@ function setup({hostname = "127.0.0.1", rejectOnAbort = false} = {}) {
       assert.ok(elements.has(id), `Missing real HTML element #${id}`); return elements.get(id);
     },
     querySelectorAll: selector => {
+      if (selector === "[data-transcript-example]") return [];
       assert.equal(selector, "[data-transcript-question]");
       return root.all().filter(node => node.dataset.transcriptQuestion);
     },

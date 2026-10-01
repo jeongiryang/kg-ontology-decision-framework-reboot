@@ -114,6 +114,55 @@ def web_script() -> Response:
     return _web_asset("app.js", "text/javascript; charset=utf-8")
 
 
+@app.get("/assets/semantic-ui.js", include_in_schema=False)
+def semantic_script() -> Response:
+    return _web_asset("semantic-ui.js", "text/javascript; charset=utf-8")
+
+
+from .assistant_models import AssistantTurnRequest, AssistantTurnResponse
+
+
+@app.get("/v1/academic/transcripts/examples/{identifier}.pdf")
+def synthetic_pdf(identifier: str):
+    from .transcript_examples import example_pdf
+    try:
+        _fixture, data = example_pdf(identifier)
+        return Response(data, media_type="application/pdf")
+    except KeyError:
+        raise HTTPException(status_code=404, detail="example not found") from None
+    except Exception:
+        raise HTTPException(status_code=503, detail="example unavailable") from None
+
+
+@app.post("/v1/academic/transcripts/examples/{identifier}")
+def synthetic_transcript(identifier: str):
+    from .transcript_examples import recognize_example
+    if not _EXTRACTION_SLOT.acquire(blocking=False):
+        raise HTTPException(status_code=429, detail="transcript extraction busy")
+    try:
+        return recognize_example(_engine(), identifier)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="example not found") from None
+    except Exception:
+        raise HTTPException(status_code=503, detail="synthetic PDF recognition unavailable") from None
+    finally:
+        _EXTRACTION_SLOT.release()
+
+
+@app.post("/v1/academic/assistant", response_model=AssistantTurnResponse)
+def semantic_turn(request: AssistantTurnRequest):
+    from .assistant import SemanticAssistant
+    try:
+        engine = _engine()
+        if engine.registry.catalogue is None:
+            raise RegistryUnavailable()
+        return SemanticAssistant(engine=engine).chat(request)
+    except ValueError:
+        return _invalid_response()
+    except RegistryUnavailable:
+        raise HTTPException(status_code=503, detail="academic registry unavailable") from None
+
+
 @app.get("/assets/transcript.js", include_in_schema=False)
 def transcript_script() -> Response:
     return _web_asset("transcript.js", "text/javascript; charset=utf-8")
@@ -188,7 +237,10 @@ def runtime_status():
             "graph_verified": engine.evidence_reader is not None,
             "llm_configured": llm is not None, "llm_model_available": model_available,
             "llm_mode": "grounded_answer_generation" if generation_enabled else "topic_code_suggestions",
-            "student_records_sent_to_llm": False}
+            "student_records_sent_to_llm": False,
+            "default_dialogue_mode": "semantic_retrieval",
+            "course_catalogue_count": len((engine.registry.catalogue or {}).get("courses", [])),
+            "nonidentifying_questions_sent_to_llm": True}
 
 
 @app.post("/v1/academic/answers", response_model=AcademicAnswerResponse)

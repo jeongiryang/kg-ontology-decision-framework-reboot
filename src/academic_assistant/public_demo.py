@@ -21,9 +21,11 @@ from starlette.responses import JSONResponse
 _EVIDENCE = re.compile(r"^/v1/academic/evidence/[a-z0-9][a-z0-9._-]{2,127}/preview(?:\.png|\.pdf)?$")
 _GET = {"/", "/readyz", "/v1/academic/runtime", "/v1/academic/demo"}
 _GET.update(f"/assets/{name}" for name in
-            ("app.css", "app.js", "transcript.js", "evidence.js", "evidence.css"))
+            ("app.css", "app.js", "transcript.js", "semantic-ui.js", "evidence.js", "evidence.css"))
+_EXAMPLES = {f"/v1/academic/transcripts/examples/{name}" for name in ("early", "near-graduation", "retake")}
+_GET.update(path + ".pdf" for path in _EXAMPLES)
 _POST = {"/v1/academic/answers", "/v1/academic/chat", "/v1/academic/transcripts/extract",
-         "/v1/academic/transcripts/assess", "/v1/academic/transcripts/chat"}
+         "/v1/academic/transcripts/assess", "/v1/academic/transcripts/chat", "/v1/academic/assistant"} | _EXAMPLES
 _HEADERS = {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer",
             "X-Robots-Tag": "noindex, nofollow, noarchive",
             "X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY",
@@ -42,6 +44,7 @@ class DemoLimits:
     requests_per_minute: int = 120
     posts_per_minute: int = 12
     extracts_per_minute: int = 2
+    examples_per_minute: int = 6
     previews_per_minute: int = 12
     inventory_per_minute: int = 6
 
@@ -99,7 +102,7 @@ class PublicDemo:
         self.clock = clock
         self.lock = Lock()
         self.active = self.work_active = 0
-        self.events = {name: deque() for name in ("all", "post", "extract", "preview", "inventory")}
+        self.events = {name: deque() for name in ("all", "post", "extract", "example", "preview", "inventory")}
 
     def _enter(self, path, method):
         work = method == "POST" or bool(_EVIDENCE.fullmatch(path)) or path in {"/readyz", "/v1/academic/runtime"}
@@ -108,6 +111,8 @@ class PublicDemo:
             budgets["post"] = self.limits.posts_per_minute
         if path.endswith("/extract"):
             budgets["extract"] = self.limits.extracts_per_minute
+        if path in _EXAMPLES:
+            budgets["example"] = self.limits.examples_per_minute
         if _EVIDENCE.fullmatch(path):
             budgets["preview"] = self.limits.previews_per_minute
         if path == "/v1/academic/runtime":

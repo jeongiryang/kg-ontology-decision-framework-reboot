@@ -593,7 +593,7 @@ fetch("/v1/academic/runtime", {cache: "no-store", credentials: "omit"})
       && state.llm_mode === "grounded_answer_generation";
     const graph = state.graph_verified ? "Neo4j 근거 검증됨" : "승인 규칙 저장소 사용";
     const llm = state.llm_configured && state.llm_model_available
-      ? (state.llm_mode === "grounded_answer_generation" ? "Gemma 문장 생성 연결 준비됨" : "LLM 질문 표현 제안용")
+      ? (state.default_dialogue_mode === "semantic_retrieval" ? "Gemma 질문 이해·근거 기반 답변 연결 준비됨" : state.llm_mode === "grounded_answer_generation" ? "Gemma 문장 생성 연결 준비됨" : "LLM 질문 표현 제안용")
       : "모델 미연결 · 근거 답변 사용 가능";
     document.getElementById("runtime-state").textContent = `${graph} · ${llm}`;
   })

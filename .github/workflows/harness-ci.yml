@@ -46,6 +46,8 @@ jobs:
         run: node tests/web/gemma_final_ui_test.cjs
       - name: Validate friendly conversation, transcript reuse and staged reply lifecycle
         run: node tests/web/natural_conversation_ui_test.cjs
+      - name: Validate default semantic dialogue and one-click PDF consumer
+        run: node tests/web/semantic_dialogue_ui_test.cjs
       - name: Build wheel and verify packaged web assets
         run: |
           python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/wheel"
@@ -58,6 +60,8 @@ jobs:
           required = {f'academic_assistant/web/{name}' for name in ('index.html', 'app.css', 'app.js')}
           required.update({'academic_assistant/web/transcript.js', 'academic_assistant/ocr_windows.ps1'})
           required.update({'academic_assistant/web/evidence.js', 'academic_assistant/web/evidence.css'})
+          required.update({'academic_assistant/web/semantic-ui.js', 'academic_assistant/web/examples/manifest.json'})
+          required.update({f'academic_assistant/web/examples/{name}.pdf' for name in ('early', 'near-graduation', 'retake')})
           missing = required - names
           if missing:
               raise SystemExit(f'missing packaged web assets: {sorted(missing)}')
