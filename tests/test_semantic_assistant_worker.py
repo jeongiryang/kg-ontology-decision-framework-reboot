@@ -657,7 +657,7 @@ class SemanticBudgetTests(unittest.TestCase):
         self.assertEqual([{"code": "CDA0016", "course_name": "컴퓨터구조"}], data["catalog"]["courses"])
         self.assertIn("현재", captured[0]["messages"][0]["content"])
 
-    def test_real_producer_omitted_facets_projects_credits_and_restores_short_refs(self):
+    def test_real_producer_valid_facets_projects_credits_and_restores_short_refs(self):
         engine = AnswerEngine(Registry.load())
         captured = []
         prose = "컴퓨터구조는 3학점으로 편성된 과목이에요."
@@ -669,7 +669,7 @@ class SemanticBudgetTests(unittest.TestCase):
                 branch = body["format"]["properties"]["requests"]["items"]["oneOf"][1]
                 self.assertTrue({"purpose", "properties"} <= set(branch["required"]))
                 self.assertEqual(["컴퓨터구조"], [row["course_name"] for row in data["catalog"]["courses"]])
-                document = {"requests": [{"kind": "courses", "filters": {"name": "컴퓨터구조"}}], "context_used": False}
+                document = {"requests": [{"kind": "courses", "filters": {"name": "컴퓨터구조"}, "purpose": "attributes", "properties": ["credits"]}], "context_used": False}
             else:
                 part = data["parts"][0]
                 self.assertEqual(["credits"], part["properties"])
@@ -734,7 +734,7 @@ class SemanticBudgetTests(unittest.TestCase):
             payload = json.loads(body["messages"][1]["content"])["untrusted_data"]
             captured.append(payload)
             if "question" in payload:
-                document = {"requests": [{"kind": "courses", "filters": {"category": "major_elective"}}], "context_used": False}
+                document = {"requests": [{"kind": "courses", "filters": {"category": "major_elective"}, "purpose": "attributes", "properties": ["names", "category", "count"]}], "context_used": False}
             else:
                 fact = payload["parts"][0]["facts"][0]
                 document = {"sections": [{"part_id": "p1", "text": "확인된 전공선택 목록에는 34과목이 있어요.", "fact_ids": [fact["fact_id"]]}]}

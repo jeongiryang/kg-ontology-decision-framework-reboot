@@ -95,7 +95,37 @@ def _compact(value):
     return re.sub(r"[\W_]", "", unicodedata.normalize("NFKC", value).lower())
 
 
-def _exceeds_scope(text):
+def _exceeds_scope(text, registry=None):
+    if registry is not None:
+        facts = (registry.catalogue or {}).get("courses", [])
+        names = {fact["course_name"] for fact in facts}
+        identities = names | {fact["course_code"] for fact in facts}
+        identities |= {alias for alias, name in COURSE_ALIASES.items() if name in names}
+        next_identity = re.compile(r"과\s*(?:" + "|".join(r"\s*".join(re.escape(char) for char in token) for token in sorted(identities, key=len, reverse=True)) + r")", re.I)
+        # Source identities are courses, not departments. Do not mask an
+        # identity prefix inside an explicitly named department/major, or its
+        # clear department context. PII is validated before this helper runs.
+        for token in sorted(identities, key=len, reverse=True):
+            pattern = re.compile(r"(?<![가-힣a-z0-9])" + r"\s*".join(re.escape(char) for char in token), re.I)
+            external_identity = False
+            def mask(match):
+                nonlocal external_identity
+                tail = text[match.end():]
+                head = text[:match.start()]
+                # Category is a predicate of this course, whereas studying a
+                # discipline names a different scope. Grammatical particles
+                # do not turn one into the other.
+                category = re.match(r"(?:을|를|은|는|이|가|의|도|쪽)?\s*(?:전공\s*(?:필수|선택)|전필|전선)", tail)
+                conjunction = next_identity.match(tail)
+                attached = (re.match(r"학과|학부", tail)
+                            or token.endswith("학") and tail.startswith(("과", "부")) and not conjunction)
+                context = not category and re.match(r"(?:을|를|은|는|이|가|의|도|쪽)?\s*(?:학과|학부|전공)", tail)
+                prefix_context = re.search(r"(?<![가-힣])(?:전공|학과|학부)(?:은|는|이|가|명)?\s*[:：=]?\s*$", head)
+                external_identity |= bool(attached or context or prefix_context)
+                return match.group() if attached or context or prefix_context else " 과목 "
+            text = pattern.sub(mask, text)
+            if external_identity:
+                return True
     scoped = re.sub(r"(학점|과목|요건|목록|학기|논문|학년|전필|전선|전공필수|전공선택|개수)과\b", r"\1와", normalize_text(text))
     return _question_exceeds_scope(scoped)
 
@@ -128,6 +158,10 @@ def _plan(result, registry, previous):
             filters = item.get("filters")
             if not {"kind", "filters"} <= set(item) or set(item) - {"kind", "filters", "purpose", "properties"} or not isinstance(filters, dict) or set(filters) - {"name", "category", "year", "semester"}:
                 raise LLMInvalidResponse("invalid course filters")
+            if result.typed_plan and not {"purpose", "properties"} <= set(item):
+                raise LLMInvalidResponse("typed course plan omitted purpose/properties")
+            if result.typed_plan and item.get("purpose") == "completion_obligation" and "name" not in filters:
+                raise LLMInvalidResponse("named obligation tool requires a course name")
             if "purpose" in item and (type(item["purpose"]) is not str or item["purpose"] not in {"attributes", "completion_obligation", "description"}):
                 raise LLMInvalidResponse("invalid course purpose")
             if "properties" in item:
@@ -775,18 +809,22 @@ class SemanticAssistant:
         if previous is not None:
             previous = current_transcript_question(previous) if request.transcript is not None else previous
             validate_public_text_safety(previous)
-        if (request.admission_year, request.matched_curriculum_year, normalize_text(request.department)) != (2026, 2026, "컴퓨터공학과") or _exceeds_scope(question) or previous and _exceeds_scope(previous):
+        registry = self.engine.registry
+        if (request.admission_year, request.matched_curriculum_year, normalize_text(request.department)) != (2026, 2026, "컴퓨터공학과") or _exceeds_scope(question, registry) or previous and _exceeds_scope(previous, registry):
             return self._response(request, [self._unsupported("지원 범위", "2026학번·2026 교육과정·컴퓨터공학과의 확인된 근거만 지원합니다.", "out_of_scope")], "fallback", reason="unsupported_scope", kind="refusal")
         if _EXECUTION.search(question) or previous and _EXECUTION.search(previous):
             return self._response(request, [self._unsupported("질문 확인", "실행 지시가 아닌 과목이나 이수 기준을 질문해 주세요.", "out_of_scope")], "rejected", reason="unsupported_scope", kind="refusal")
         registry = self.engine.registry
+        typed_provider = getattr(self.llm, "typed_plans", False) is True
         current_codes = resolve_course_mentions(registry, question)
-        current_properties = _requested_properties(question)
-        previous_properties = _requested_properties(previous or "")
-        current_purpose = _requested_purpose(question)
-        previous_purpose = _requested_purpose(previous or "")
+        current_properties = [] if typed_provider else _requested_properties(question)
+        previous_properties = [] if typed_provider else _requested_properties(previous or "")
+        current_purpose = "attributes" if typed_provider else _requested_purpose(question)
+        previous_purpose = "attributes" if typed_provider else _requested_purpose(previous or "")
         inherited = False
-        if previous and "과목 후보" in previous and not current_codes:
+        # These shortcuts are only the explicitly untyped compatibility path.
+        # A production provider receives the original safe question/context.
+        if not typed_provider and previous and "과목 후보" in previous and not current_codes:
             choices = [fact for fact in (registry.catalogue or {}).get("courses", []) if fact["course_code"] in resolve_course_mentions(registry, previous)]
             choices.sort(key=lambda fact: previous.find(fact["course_name"]))
             selection = re.fullmatch(r"(?:그럼)?(?:([123])번?|([첫두세])(?:번째|째))(?:과목)?(?:요|으로|입니다)?", _compact(question))
@@ -795,7 +833,7 @@ class SemanticAssistant:
                 if index < len(choices):
                     question = choices[index]["course_name"]
                     current_codes = {choices[index]["course_code"]}
-        if _bare_entity(registry, question, current_codes):
+        if not typed_provider and _bare_entity(registry, question, current_codes):
             if not previous_properties and previous_purpose == "attributes":
                 names = [fact["course_name"] for fact in (registry.catalogue or {}).get("courses", []) if fact["course_code"] in current_codes]
                 return self._response(request, [self._unsupported("확인할 정보", ", ".join(names) + "의 학점·이수구분·편성·이수 의무 중 어떤 정보를 확인할까요?")],
@@ -804,7 +842,7 @@ class SemanticAssistant:
             current_properties = previous_properties
             current_purpose = previous_purpose
             inherited = True
-        if not current_codes and set(current_properties) & {"credits", "category", "offering", "code"}:
+        if not typed_provider and not current_codes and set(current_properties) & {"credits", "category", "offering", "code"}:
             mentioned_rules = _rule_mentions(registry, question)
             category_rules = {key for entry in registry.intents["intents"] if entry["intent_id"] in {"credits.major.required", "credits.major.elective", "major.required-course-set"} for key in entry["rule_ids"]}
             if not mentioned_rules or mentioned_rules <= category_rules:
@@ -812,44 +850,42 @@ class SemanticAssistant:
                 if candidates:
                     return self._course_clarification(request, candidates, current_properties)
         prior_codes = resolve_course_mentions(registry, previous or "")
-        if not current_codes and len(prior_codes) > 1 and re.search(r"그|이과목|해당과목", _compact(question)) and not re.search(r"둘|두과목|각각", _compact(question)):
+        if not typed_provider and not current_codes and len(prior_codes) > 1 and re.search(r"그|이과목|해당과목", _compact(question)) and not re.search(r"둘|두과목|각각", _compact(question)):
             candidates = [fact for fact in (registry.catalogue or {}).get("courses", []) if fact["course_code"] in prior_codes]
             return self._course_clarification(request, candidates[:3], current_properties or previous_properties, True)
         payload = {"question": question, "previous_question": previous, "has_transcript": request.transcript is not None, "catalog": self._public_catalog()}
-        demands = _named_demands(registry, question, current_codes)
+        demands = {} if typed_provider else _named_demands(registry, question, current_codes)
         plan_status = "unavailable"
         try:
             with self.llm.session() as session:
                 result = session.plan(payload)
                 plan_status = "rejected"
                 plan = _plan(result, self.engine.registry, previous)
-                if inherited:
+                if typed_provider and not result.typed_plan:
+                    raise LLMInvalidResponse("typed provider returned an untyped plan")
+                legacy_plan = not result.typed_plan
+                if inherited and legacy_plan:
                     plan = {**plan, "context_used": True}
-                overview = _overview_requested(question)
+                overview = any(item["kind"] == "requirements_overview" for item in plan["requests"]) if not legacy_plan else _overview_requested(question)
                 if overview:
                     if not any(item["kind"] == "requirements_overview" for item in plan["requests"]):
                         raise LLMInvalidResponse("graduation overview incorrectly routed to a catalogue")
-                # Production plans always carry facets. Recover an omitted
-                # field from public semantic demand primitives, not full rows.
+                # Untyped compatibility only: production facets/filters are
+                # already validated and must never be inferred or intersected
+                # with a second keyword interpretation of the question.
                 for item in plan["requests"]:
-                    if item["kind"] == "courses" and result.typed_plan:
-                        item.setdefault("purpose", current_purpose)
-                        item.setdefault("properties", current_properties)
-                # Purpose plans name properties rather than filtering away a
-                # false premise about a known course's actual classification.
-                for item in plan["requests"]:
-                    if item["kind"] == "courses" and "name" in item["filters"] and ("purpose" in item or "properties" in item):
+                    if legacy_plan and item["kind"] == "courses" and "name" in item["filters"] and ("purpose" in item or "properties" in item):
                         item["filters"] = {"name": item["filters"]["name"]}
                         if current_properties and item.get("purpose", "attributes") == "attributes":
                             selected_codes = resolve_course_mentions(registry, item["filters"]["name"])
                             allowed = set().union(*(demands.get(code, (set(current_properties), "attributes"))[0] for code in selected_codes)) if selected_codes else set(current_properties)
                             item["properties"] = [key for key in item.get("properties", current_properties) if key in allowed]
                 count_categories = set()
-                if "count" in current_properties:
+                if legacy_plan and "count" in current_properties:
                     for category, pattern in (("major_required", r"전공필수|전필"), ("major_elective", r"전공선택|전선")):
                         if re.search(pattern, _compact(question)):
                             count_categories.add(category)
-                if not overview and any(item["kind"] == "requirements_overview" for item in plan["requests"]):
+                if legacy_plan and not overview and any(item["kind"] == "requirements_overview" for item in plan["requests"]):
                     if not count_categories:
                         raise LLMInvalidResponse("unrequested graduation overview")
                     plan["requests"] = [item for item in plan["requests"] if item["kind"] != "requirements_overview"]
@@ -862,9 +898,9 @@ class SemanticAssistant:
                     if len(plan["requests"]) > 4:
                         raise LLMInvalidResponse("compound course request outside bounds")
                 plan_status = "cached" if result.cached else "generated"
-                current_mentions = resolve_course_mentions(self.engine.registry, question)
+                current_mentions = resolve_course_mentions(self.engine.registry, question) if legacy_plan else set()
                 effective = question if current_mentions else question + (" " + previous if plan["context_used"] else "")
-                mentioned = current_mentions or resolve_course_mentions(self.engine.registry, effective)
+                mentioned = (current_mentions or resolve_course_mentions(self.engine.registry, effective)) if legacy_plan else set().union(*(resolve_course_mentions(registry, item["filters"].get("name", "")) for item in plan["requests"] if item["kind"] == "courses"))
                 named = bool(mentioned)
                 planned_intents = {intent for item in plan["requests"] if item["kind"] == "rule" for intent in item["intent_ids"]}
                 planned_rules = {key for entry in self.engine.registry.intents["intents"] if entry["intent_id"] in planned_intents for key in entry["rule_ids"]}
@@ -872,7 +908,7 @@ class SemanticAssistant:
                 requirement_subject = bool(mentioned & _policy_course_coverage(self.engine.registry, planned_facts))
                 # A rule's course label proves the rule's predicate only. For
                 # actual requested attributes, retrieve CourseFacts separately.
-                if named and not overview and planned_intents:
+                if legacy_plan and named and not overview and planned_intents:
                     for code in sorted(mentioned):
                         props, purpose = demands.get(code, (set(current_properties), current_purpose))
                         requested = props & {"credits", "category", "offering", "code"}
@@ -883,9 +919,9 @@ class SemanticAssistant:
                             plan["requests"].append({"kind": "courses", "filters": {"name": fact["course_name"]}, "purpose": "attributes", "properties": sorted(requested)})
                     if len(plan["requests"]) > 4:
                         raise LLMInvalidResponse("recovered attributes exceed request bound")
-                if named and not overview and not requirement_subject and not any(item["kind"] == "courses" for item in plan["requests"]):
+                if legacy_plan and named and not overview and not requirement_subject and not any(item["kind"] == "courses" for item in plan["requests"]):
                     raise LLMInvalidResponse("named course incorrectly routed to a graduation rule")
-                if named and not overview and not requirement_subject and not re.search(r"목록|전체|모두|과목들|다\s*알려", effective):
+                if legacy_plan and named and not overview and not requirement_subject and not re.search(r"목록|전체|모두|과목들|다\s*알려", effective):
                     for item in plan["requests"]:
                         if item["kind"] == "courses":
                             selected = resolve_course_mentions(self.engine.registry, item["filters"].get("name", ""))
@@ -915,14 +951,18 @@ class SemanticAssistant:
                         if purpose == "description":
                             handled_subjects.update(resolve_course_mentions(registry, item["filters"].get("name", "")))
                             parts.append(self._unsupported("강의 내용 근거", "과목의 학점·편성표는 강의 내용을 증명하지 않습니다. 강의계획서 근거가 없어 내용을 추정할 수 없습니다."))
-                            continue
+                            if not properties:
+                                continue
                         if purpose == "completion_obligation":
                             if "name" not in item["filters"]:
                                 parts.append(self._unsupported("이수 의무", "확인할 과목을 지정해 주세요.")); continue
                             selected, selected_specs = self._obligation(request, item["filters"], len(parts) + 1)
                             handled_subjects.update(resolve_course_mentions(registry, item["filters"]["name"]))
                             parts.extend(selected); specs.extend(selected_specs)
-                            continue
+                            # Purpose and attributes are independent facets;
+                            # an obligation query can also ask for credits etc.
+                            if not properties:
+                                continue
                         if properties == []:
                             handled_subjects.update(resolve_course_mentions(registry, item["filters"].get("name", "")))
                             parts.append(self._unsupported("확인할 정보", "과목의 학점·이수구분·편성 중 확인할 속성을 알려 주세요.")); continue
@@ -939,13 +979,13 @@ class SemanticAssistant:
                     elif kind != "greeting":
                         parts.append(self._unsupported("추가 확인", "질문의 개인 조건·대체·일정이나 추가 항목을 확인할 근거가 충분하지 않습니다. 확인하려는 항목과 조건을 구체적으로 알려 주세요.", "out_of_scope" if kind == "out_of_scope" else "insufficient_evidence"))
                 compact = _compact(effective)
-                pending = (any(alias in compact for alias in self.engine.registry.intents["exception_aliases"])
+                pending = legacy_plan and (any(alias in compact for alias in self.engine.registry.intents["exception_aliases"])
                            or re.search(r"자동|대체할|대체해|이번학기|뭐부터|졸업가능|졸업할수", compact)
                            or "면제" in compact and "학석사" not in compact
                            or re.search(r"(?:제가|내가|저는|나도|저도).*(?:면제|인정|pass|패스|수강가능)", compact)
                            or re.search(r"장학금|기숙사|등록금|정확한.*(?:날짜|기한|마감)|언제까지", compact))
                 for spec in specs:
-                    if spec["family"] != "rules":
+                    if not legacy_plan or spec["family"] != "rules":
                         continue
                     for fact in spec["facts"]:
                         outcome = fact["outcome"]
@@ -970,7 +1010,7 @@ class SemanticAssistant:
                 # old plans intentionally keep strict full-fact compatibility.
                 missing_properties = False
                 typed_named = [item for item in plan["requests"] if item["kind"] == "courses" and "name" in item["filters"] and ("purpose" in item or "properties" in item)]
-                if typed_named and not overview:
+                if legacy_plan and typed_named and not overview:
                     for code in mentioned:
                         relevant = [item for item in typed_named if code in resolve_course_mentions(registry, item["filters"]["name"])]
                         facets = {prop for item in relevant if item.get("purpose", "attributes") == "attributes" for prop in item.get("properties", current_properties)}
@@ -980,8 +1020,8 @@ class SemanticAssistant:
                             missing_properties = True
                     if missing_properties:
                         parts.append(self._unsupported("요청 항목 확인", "요청한 과목 속성 또는 목적 중 조회 계획에 연결되지 않은 항목이 있습니다. 확인된 근거는 유지하되 누락한 항목을 다시 확인해야 합니다."))
-                expected_rules = _rule_mentions(self.engine.registry, effective) if planned_intents else set()
-                if not planned_intents and any(item["kind"] == "courses" for item in plan["requests"]):
+                expected_rules = _rule_mentions(self.engine.registry, effective) if legacy_plan and planned_intents else set()
+                if legacy_plan and not planned_intents and any(item["kind"] == "courses" for item in plan["requests"]):
                     # A course tool cannot silently swallow a separate credit
                     # requirement. Mask exact course identities first so a
                     # thesis-credit question is not a thesis-completion claim.
@@ -1034,7 +1074,7 @@ class SemanticAssistant:
                         label += (f" {filters['semester']}학기" if "semester" in filters else "")
                         label += " 전공필수" if filters.get("category") == "major_required" else " 전공선택" if filters.get("category") == "major_elective" else ""
                         purpose = item.get("purpose", "attributes")
-                        property_words = "이수 의무" if purpose == "completion_obligation" else "강의 내용" if purpose == "description" else " ".join(_PROPERTY_WORDS[key] for key in item.get("properties", current_properties))
+                        property_words = " ".join((["이수 의무"] if purpose == "completion_obligation" else ["강의 내용"] if purpose == "description" else []) + [_PROPERTY_WORDS[key] for key in item.get("properties", current_properties)])
                         focus.append((label.strip() or "전체") + " " + (property_words or "과목 정보"))
                     elif item["kind"] == "rule":
                         focus.append(canonical_question(self.engine, item["intent_ids"]))

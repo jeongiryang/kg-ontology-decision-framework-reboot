@@ -17,7 +17,16 @@
 [2026-10-02 방향·누락 기록 확인 보고](runs/20261002-b-first-direction-record.md) / [JSON](runs/20261002-b-first-direction-record.json).
 문서화 검사는 통과했다. 제품 수정·신규 학사 승인·모델 평가·서버 교체는 수행하지 않았으며 아래 제품 실패는 미해결이다.
 
-## 최신 구현·검증 결과 (미완료)
+## 첫 큰 단위: B 입력·조회 연결 (수정2회, 미완료)
+
+[입력·조회 변경 설명](../docs/operations/b-input-routing.md), [ADR0026](../docs/harness/decisions/0026-typed-input-semantic-authority.md).
+생산 구조화 계획의 의미를 키워드로 덮어쓰는 경로를 분리하고 복합 속성을 보존했다.
+새 질문·독립 QA·실제 모델 관찰은 과거 평가와 분리한다. 기존 공개 시연과 승인 지식은 유지한다.
+[이번 평가·남은 입력 결함](evaluations/20261002-b-input-routing.md)을 확인하세요.
+24개 모의 계획 질문의21통과·3실패는 실제 LLM 이해 정답률이 아닙니다.
+필수 실패가 남아 공개 앱 승격과 B 완료는 보류합니다.
+
+## 이전 구현·검증 결과 (10월1일 미완료 이력)
 
 - [변경·검사·남은6결함](runs/20261001-purpose-dialogue.md), [구조화 보고](runs/20261001-purpose-dialogue.json), [동일 입력4페이지 PDF](pdf/20261001-purpose-dialogue.pdf).
 - [실제 질문66발화의 통과/실패/대기](evaluations/20261001-purpose-dialogue.md), [실제 답변·기대값·판정·변경61파일](evaluations/20261001-purpose-dialogue.json).

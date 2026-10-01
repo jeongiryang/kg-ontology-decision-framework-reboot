@@ -35,7 +35,7 @@ _LATIN_LOWERCASE_NAME = re.compile(
     r"(?<![A-Za-z])(?:john|jane|james|mary|michael|david|alice|robert|sarah|anna)[ \t]+[a-z]{2,30}(?![A-Za-z])",
     re.IGNORECASE,
 )
-_BARE_NAME_ACADEMIC_CONTEXT = ("휴학", "복학", "전과", "재입학", "학적", "졸업", "학점", "수강", "성적", "이수")
+_BARE_NAME_ACADEMIC_CONTEXT = ("휴학", "복학", "전과", "재입학", "학적", "졸업", "학점", "수강", "성적", "이수", "과목", "강의")
 _BARE_NAME_GRAMMATICAL_ENDINGS = ("는", "가", "을", "를", "의", "도", "에", "게", "요", "어", "된", "상", "없", "하", "들", "면", "고", "해", "할", "했")
 _PERSONAL_TOKEN = re.compile(
     r"^(?:전|난|"
@@ -240,7 +240,11 @@ def _has_final_consonant(text: str) -> bool:
 
 def _question_exceeds_scope(question: str) -> bool:
     compact = question.replace(" ", "")
-    if any(marker in compact for marker in _UNSUPPORTED_DEPARTMENT_MARKERS):
+    # "다른 전공학점" can refer to another credit component in the same
+    # curriculum, not another department. Explicit department/cohort entities
+    # below and all other cross-department markers still retain their bounds.
+    department_text = compact.replace("다른전공학점", "전공학점")
+    if any(marker in department_text for marker in _UNSUPPORTED_DEPARTMENT_MARKERS):
         return True
     if any(int(year) != 2026 for year in _EXPLICIT_YEAR.findall(question)):
         return True
@@ -294,8 +298,18 @@ def validate_public_text_safety(value: str) -> None:
     # A two- or four-digit admission cohort is not an individual student identifier.
     # Keep the full text for every other PII check, including 6-12 digit IDs.
     without_cohort_label = _ADMISSION_COHORT_PHRASE.sub(lambda match: match.group().replace("학번", ""), normalized)
-    if _UNSAFE_QUESTION.search(without_cohort_label) or any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
+    # A course's name label is public academic vocabulary, not a person's
+    # name. Remove only that qualified label from this one lexical check;
+    # original text still undergoes all person/identifier checks below.
+    without_course_label = re.sub(r"((?:교과목|과목|강의)(?:의)?\s*)이름", r"\1label", without_cohort_label)
+    if _UNSAFE_QUESTION.search(without_course_label) or any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
         raise ValueError("unsafe or identifying question content")
+    if without_course_label != without_cohort_label:
+        # The qualified-label exception must not make a supplied human name
+        # safe merely because it appears beside a course-label request.
+        for token in re.findall(r"[가-힣]+", without_course_label):
+            if re.fullmatch(rf"(?:{_KOREAN_SURNAME}[가-힣]{{2}}|{_KOREAN_COMPOUND_SURNAME}[가-힣]{{2}})(?:의|은|는|이|가|씨|님|이라고|라는|라고)?", token):
+                raise ValueError("unsafe or identifying question content")
     if any(pattern.search(normalized) for pattern in (
         _KOREAN_NAME_WITH_HUMAN_SUFFIX,
         _KOREAN_NAME_WITH_PARTICLE,
