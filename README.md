@@ -8,6 +8,8 @@
 
 ## 성적표 프로토타입
 
+외부 교수님 시연: [로그인 없는 HTTPS 링크 실행](docs/operations/public-demo.md)을 추가했습니다. 사용자 PC와 시연 프로그램이 실행 중이면 다른 네트워크에서 접속할 수 있습니다. 주소 보유자가 누구나 사용할 수 있는 임시 시연이며, 질문·성적표는 HTTPS 중계를 거쳐 호스팅 PC에서 처리합니다. 기존 localhost 실행·비공개 DB·LLM은 그대로 유지합니다.
+
 후속 고도화: [다양한 질문과 한 단계 후속 질문](docs/operations/conversation-prototype.md), 성적표의 과목별 검수 신호·확인 체크리스트·조건부 학점 요약, [localhost 감독·복구 절차](docs/operations/runtime-stability.md)를 제공합니다. 보류 사실은 [새 검수 질문](reviews/academic/clarifications/20261001-prototype-followup-questions.md)으로 분리하며 학사 사실을 자동 승인하지 않습니다.
 
 답변이나 이수 비교 항목에서 **근거 PDF 보기**를 누르면 원본의 인용 페이지가 열립니다.

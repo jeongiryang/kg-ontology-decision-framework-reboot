@@ -40,6 +40,8 @@ jobs:
         run: node tests/transcript_web_ordering.cjs
       - name: Validate evidence viewer ordering and safety
         run: node tests/test_evidence_ui.js
+      - name: Validate transcript cancellation and isolation
+        run: node tests/web/transcript_lifecycle_test.js
       - name: Build wheel and verify packaged web assets
         run: |
           python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/wheel"

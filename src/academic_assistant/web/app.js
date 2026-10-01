@@ -16,6 +16,8 @@ const feedbackCategory = document.getElementById("feedback-category");
 const feedbackConsent = document.getElementById("feedback-consent");
 const feedbackSubmit = document.getElementById("feedback-submit");
 const feedbackMessage = document.getElementById("feedback-message");
+const demoHostname = typeof location !== "undefined" ? location.hostname.toLowerCase() : "localhost";
+const publicDemo = !["localhost", "[::1]", "::1"].includes(demoHostname) && !/^127(?:\.\d{1,3}){3}$/.test(demoHostname);
 let latestResponse = null;
 let latestRequest = null;
 let previousQuestion = null;
@@ -171,7 +173,7 @@ function renderResponse(data) {
     makeListItem(issue.message || "추가 확인이 필요합니다.", issue.kind ? `분류 · ${issue.kind}` : "")
   );
   latestResponse = data;
-  feedbackSection.hidden = !latestRequest || !latestRequest.feedbackCompatible
+  feedbackSection.hidden = publicDemo || !latestRequest || !latestRequest.feedbackCompatible
     || !["insufficient_evidence", "conflict"].includes(data.status);
   feedbackConsent.checked = false;
   feedbackSubmit.disabled = true;
@@ -316,11 +318,11 @@ fetch("/v1/academic/runtime", {cache: "no-store", credentials: "omit"})
   .catch(() => { document.getElementById("runtime-state").textContent = "연결 상태를 확인할 수 없습니다."; });
 
 feedbackConsent.addEventListener("change", () => {
-  feedbackSubmit.disabled = !feedbackConsent.checked;
+  feedbackSubmit.disabled = publicDemo || !feedbackConsent.checked;
 });
 
 feedbackSubmit.addEventListener("click", async () => {
-  if (!feedbackConsent.checked || !latestResponse || !latestRequest || !latestRequest.feedbackCompatible
+  if (publicDemo || !feedbackConsent.checked || !latestResponse || !latestRequest || !latestRequest.feedbackCompatible
     || !["insufficient_evidence", "conflict"].includes(latestResponse.status)) return;
   feedbackSubmit.disabled = true;
   feedbackMessage.textContent = "저장 중입니다.";

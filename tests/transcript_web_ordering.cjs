@@ -33,6 +33,7 @@ const response={answer:"합성 비교",raw_earned_credits:6,recognized_graduatio
   {check_id:"credits.major.advanced",label:"심화전공",result:"needs_review",required:33,earned:null,gap:null,missing_courses:[],note:"배분 확인",evidence_packet:{status:"insufficient_evidence",evidence:[],applied_rules:[]},policy_packet:evidence},
 ]};
 const context={
+  AbortController,
   document:{getElementById:byId,createElement:(tag)=>new Element(tag),querySelectorAll:()=>questions},
   window:{addEventListener() {}},
   fetch:async (url)=>{

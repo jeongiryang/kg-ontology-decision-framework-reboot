@@ -297,7 +297,7 @@ class Element {
 function flatten(node){return [node,...node.children.flatMap(flatten)];}
 const fixture=JSON.parse(fs.readFileSync(0,"utf8")),ids=new Map(),requests=[];
 const byId=id=>{if(!ids.has(id))ids.set(id,new Element("div"));return ids.get(id);};
-const context={document:{getElementById:byId,createElement:tag=>new Element(tag),querySelectorAll:()=>[]},window:{addEventListener(){}},fetch:async(url,options)=>{
+const context={AbortController,document:{getElementById:byId,createElement:tag=>new Element(tag),querySelectorAll:()=>[]},window:{addEventListener(){}},fetch:async(url,options)=>{
   requests.push(JSON.parse(options.body));return {ok:true,json:async()=>url.endsWith("/assess")?fixture.assessment:fixture.followup};
 }};
 vm.runInNewContext(fs.readFileSync(process.argv[1],"utf8"),context);

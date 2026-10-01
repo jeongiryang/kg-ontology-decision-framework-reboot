@@ -9,6 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 import hashlib
+import asyncio
 from functools import lru_cache, wraps
 from threading import RLock
 from threading import BoundedSemaphore
@@ -240,6 +241,7 @@ def create_feedback(request: AcademicFeedbackRequest):
 
 _EXTRACTION_SLOT = BoundedSemaphore(1)
 _MAX_PDF_BYTES = 10 * 1024 * 1024
+UPLOAD_RECEIVE_TIMEOUT_SECONDS = 30
 
 
 @app.post("/v1/academic/transcripts/extract", response_model=TranscriptExtraction)
@@ -251,14 +253,18 @@ async def extract_transcript_pdf(request: Request, page_number: int | None = Que
         raise HTTPException(status_code=429, detail="extraction busy")
     try:
         data = bytearray()
-        async for chunk in request.stream():
-            if len(data) + len(chunk) > _MAX_PDF_BYTES:
-                raise HTTPException(status_code=413, detail="file too large")
-            data.extend(chunk)
+        # One absolute deadline covers the whole upload, including trickled chunks.
+        async with asyncio.timeout(UPLOAD_RECEIVE_TIMEOUT_SECONDS):
+            async for chunk in request.stream():
+                if len(data) + len(chunk) > _MAX_PDF_BYTES:
+                    raise HTTPException(status_code=413, detail="file too large")
+                data.extend(chunk)
         from .transcript_process import extract_isolated
         return await run_in_threadpool(extract_isolated, bytes(data), page_number=page_number)
     except ValueError:
         return _invalid_response()
+    except TimeoutError:
+        raise HTTPException(status_code=408, detail="upload timed out") from None
     finally:
         _EXTRACTION_SLOT.release()
 

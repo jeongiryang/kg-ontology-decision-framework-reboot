@@ -17,6 +17,7 @@
 | [업스트림](upstream.md) | `codex-harness` 출처, 고정 버전, 갱신 절차 |
 | [설계 결정](decisions/README.md) | 변경 이유와 대안이 담긴 ADR 색인 |
 | [원본 PDF 근거 표시](../operations/pdf-evidence-viewer.md) | 원본 해시 확인, 빨간 밑줄, 위치 미확인과 표시본 다운로드 |
+| [외부 링크 시연](../operations/public-demo.md) | 사용자 PC의 로그인 없는 HTTPS, 성적표 처리 경계와 시작·종료 |
 
 ## 빠른 시작
 

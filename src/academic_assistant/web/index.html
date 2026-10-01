@@ -30,12 +30,13 @@
       <h1 id="page-title">학사 기준을<br><em>근거와 함께</em> 확인하세요.</h1>
       <p class="lede">승인된 교육과정 규칙과 학과 확인 기록을 적용하는 결정론적 안내입니다. 학과 확인은 PDF 원문과 구분하며, 근거가 부족하거나 개인 판정이 필요한 경우에는 추정하지 않습니다.</p>
       <p id="runtime-state" class="privacy-note" role="status">연결 상태 확인 중</p>
+      <p id="public-demo-note" class="privacy-note" hidden>공개 HTTPS 데모 · 로그인 없음 · 성적표는 운영자의 PC에서 처리</p>
     </section>
 
     <section class="transcript-workspace" aria-labelledby="transcript-title">
       <p class="step">성적표 · 개인 이수내역 비교</p>
       <h2 id="transcript-title">남은 학점과 필수과목 확인</h2>
-      <p>2026학번 컴퓨터공학과만 지원합니다. 성적표는 메모리에서 처리하며 저장하거나 LLM에 보내지 않습니다. 인식 결과를 확인한 뒤 계산하세요.</p>
+      <p id="transcript-privacy-note">2026학번 컴퓨터공학과만 지원합니다. 성적표 PDF와 이수내역은 이 페이지를 제공하는 PC의 요청 메모리에서 처리하며 저장하거나 LLM에 보내지 않습니다. 브라우저의 영구 저장소에도 이수내역을 남기지 않습니다. 인식 결과를 확인한 뒤 계산하세요.</p>
       <div class="transcript-controls">
         <label>성적표 PDF (최대 10MB)<input id="transcript-file" type="file" accept="application/pdf"></label>
         <label>PDF 안의 성적표 페이지<input id="transcript-page" type="number" min="1" max="10" placeholder="단일 성적표는 비워도 됨"></label>
@@ -169,7 +170,7 @@
           </section>
           <section id="feedback-section" class="feedback-section" hidden aria-labelledby="feedback-title">
             <h3 id="feedback-title">이 질문을 보완 대상으로 남기기</h3>
-            <p>명시적으로 저장할 때만 응답 ID·상태·보완 유형을 이 컴퓨터의 비공개 로컬 기록에 추가합니다. 질문 원문은 저장하지 않습니다.</p>
+            <p>명시적으로 저장할 때만 응답 ID·상태·보완 유형을 이 페이지를 제공하는 PC의 비공개 로컬 기록에 추가합니다. 질문 원문은 저장하지 않습니다.</p>
             <label for="feedback-category">보완 유형</label>
             <select id="feedback-category">
               <option value="missing_evidence">공식 근거가 더 필요함</option>
@@ -197,7 +198,7 @@
 
   <footer>
     <p>본 서비스는 2026학번 컴퓨터공학과의 승인된 교육과정 근거와 학과 확인 기록을 사용합니다. PDF 원문 인용과 비PDF 학과 확인을 구분해 표시합니다.</p>
-    <p>질문 원문은 저장하지 않습니다. 보완 요청 버튼을 누른 경우에만 응답 ID·상태·유형을 비공개 로컬 기록에 남깁니다.</p>
+    <p id="feedback-privacy-note">질문 원문과 성적표는 저장하지 않습니다. 보완 요청 버튼을 누른 경우에만 응답 ID·상태·유형을 이 페이지를 제공하는 PC의 비공개 로컬 기록에 남깁니다.</p>
   </footer>
 </body>
 </html>

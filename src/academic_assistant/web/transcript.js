@@ -12,6 +12,8 @@
   let followupSequence = 0;
   let latest = null;
   let busy = false;
+  let activeController = null;
+  let activeFollowupController = null;
   const checkSections = new Map();
   const checkLabels = new Map();
   const reviewFlags = {retake:"재수강 확인 필요", equivalence:"동일·대체 확인 필요", retroactivity:"소급 적용 확인 필요", recognition_unverified:"개인 인정 미확인"};
@@ -21,11 +23,17 @@
   function invalidate() {
     generation += 1;
     followupSequence += 1;
+    if(activeController) activeController.abort();
+    if(activeFollowupController) activeFollowupController.abort();
+    activeController = null; activeFollowupController = null; busy = false;
+    byId("transcript-extract").disabled = false;
     latest = null;
     checkSections.clear(); checkLabels.clear();
-    output.hidden = true;
+    output.replaceChildren(); output.hidden = true;
     byId("transcript-followups").hidden = true;
     byId("transcript-chat").textContent = "";
+    questionInput.value = "";
+    enable();
   }
   function enable() { byId("transcript-assess").disabled = busy || !confirm.checked || detectedYear !== 2026 || body.children.length === 0; }
   function clear() {
@@ -154,30 +162,36 @@
   }
   async function ask(question) {
     if(!latest || !question.trim()) return; const token=generation; const sequence=++followupSequence;
-    try { const response=await fetch("/v1/academic/transcripts/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:question.trim(),transcript:latest})});
+    if(activeFollowupController) activeFollowupController.abort();
+    const controller=new AbortController(); activeFollowupController=controller;
+    try { const response=await fetch("/v1/academic/transcripts/chat",{method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",credentials:"omit",signal:controller.signal,body:JSON.stringify({question:question.trim(),transcript:latest})});
+      if(token!==generation || sequence!==followupSequence) return;
       if(!response.ok) throw new Error("이수내역 질문을 처리할 수 없습니다."); const data=await response.json();
       if(token!==generation || sequence!==followupSequence) return;
       const chat=byId("transcript-chat"); chat.textContent=data.answer;
       focusChecks(data.focus_check_ids || []);
       if(data.focus_check_ids?.length) chat.append(button("관련 비교 항목 보기",()=>focusChecks(data.focus_check_ids)));
       renderVerification(chat,data.verification_items);
-    } catch(error) {if(token===generation && sequence===followupSequence) byId("transcript-chat").textContent=error.message;}
+    } catch(_error) {if(token===generation && sequence===followupSequence) byId("transcript-chat").textContent="이수내역 질문을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.";}
+    finally {if(token===generation && sequence===followupSequence && activeFollowupController===controller) activeFollowupController=null;}
   }
   byId("transcript-extract").addEventListener("click", async()=>{
     const file=byId("transcript-file").files[0]; if(!file || file.size > 10*1024*1024) { message.textContent="10MB 이하 PDF를 선택하세요."; return; }
     const page=byId("transcript-page").value;
     if(page && (!Number.isInteger(Number(page)) || Number(page)<1 || Number(page)>10)) { message.textContent="페이지는 1~10 정수입니다."; return; }
-    invalidate(); const token=generation; busy=true; enable(); byId("transcript-extract").disabled=true;
-    message.textContent="로컬에서 과목을 인식하는 중입니다. 스캔 PDF는 시간이 걸릴 수 있습니다.";
+    invalidate(); const token=generation; const controller=new AbortController(); activeController=controller;
+    busy=true; enable(); byId("transcript-extract").disabled=true;
+    message.textContent="이 페이지를 제공하는 PC에서 과목을 인식하는 중입니다. 스캔 PDF는 시간이 걸릴 수 있습니다.";
     try {
-      const response=await fetch(`/v1/academic/transcripts/extract${page ? `?page_number=${page}` : ""}`,{method:"POST",headers:{"Content-Type":"application/pdf"},body:file});
+      const response=await fetch(`/v1/academic/transcripts/extract${page ? `?page_number=${page}` : ""}`,{method:"POST",headers:{"Content-Type":"application/pdf"},cache:"no-store",credentials:"omit",signal:controller.signal,body:file});
+      if(token!==generation) return;
       if(!response.ok) throw new Error("성적표를 읽을 수 없습니다. PDF 크기·페이지 또는 잠금 여부를 확인하고 직접 입력할 수 있습니다.");
       const data=await response.json(); if(token !== generation) return;
       reviewRows(data.courses,data.detected_admission_year,`${data.courses.length}과목 인식. ${data.issues.join(" ")}`);
-    } catch(error) { if(token===generation) message.textContent=error.message; }
-    finally { busy=false; byId("transcript-extract").disabled=false; enable(); }
+    } catch(_error) { if(token===generation) message.textContent="성적표를 읽을 수 없습니다. PDF 크기·페이지 또는 잠금 여부를 확인하고 직접 입력할 수 있습니다."; }
+    finally { if(token===generation && activeController===controller) {activeController=null;busy=false;byId("transcript-extract").disabled=false;enable();} }
   });
-  byId("transcript-file").addEventListener("change",()=>{invalidate(); body.replaceChildren(); review.hidden=true; confirm.checked=false; detectedYear=null; enable();});
+  byId("transcript-file").addEventListener("change",()=>{invalidate(); body.replaceChildren(); review.hidden=true; confirm.checked=false; complete.checked=false; detectedYear=null; byId("transcript-degree").value="unknown"; message.textContent="새 PDF의 과목 인식을 실행해 주세요."; enable();});
   byId("transcript-page").addEventListener("input",()=>{invalidate(); confirm.checked=false; enable();});
   byId("transcript-manual").addEventListener("click",()=>{reviewRows([],2026,"새 2026 이수내역입니다. 다른 학번 기록을 바꿔서 입력하지 마세요.");add();});
   byId("transcript-demo").addEventListener("click",()=>reviewRows([
@@ -193,11 +207,14 @@
   byId("transcript-degree").addEventListener("change",()=>{invalidate();confirm.checked=false;enable();});
   byId("transcript-assess").addEventListener("click",async()=>{
     if(!confirm.checked || detectedYear!==2026 || busy) return;
-    invalidate(); const token=generation; busy=true; enable();
-    try { const request=payload(); const response=await fetch("/v1/academic/transcripts/assess",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(request)});
-      if(!response.ok) throw new Error(response.status===503 ? "학사 근거를 확인할 수 없습니다." : "입력에 미확인·잘못된 값이 있습니다.");
+    invalidate(); const token=generation; const controller=new AbortController(); activeController=controller; busy=true; enable();
+    let failureMessage="입력에 미확인·잘못된 값이 있습니다. 과목명·학점·성적을 확인한 뒤 다시 비교하세요.";
+    try { const request=payload(); const response=await fetch("/v1/academic/transcripts/assess",{method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",credentials:"omit",signal:controller.signal,body:JSON.stringify(request)});
+      if(token!==generation) return;
+      if(!response.ok) {if(response.status===503) failureMessage="학사 근거를 확인할 수 없습니다."; throw new Error("assessment rejected");}
       const data=await response.json(); if(token!==generation) return; latest=request; render(data); byId("transcript-followups").hidden=data.checks.length===0;
-    } catch(error) {if(token===generation) message.textContent=error.message;} finally {busy=false;enable();}
+    } catch(_error) {if(token===generation) message.textContent=failureMessage;}
+    finally {if(token===generation && activeController===controller) {activeController=null;busy=false;enable();}}
   });
   document.querySelectorAll("[data-transcript-question]").forEach(element=>element.addEventListener("click",()=>ask(element.dataset.transcriptQuestion)));
   const questions=byId("transcript-followups");
@@ -206,5 +223,12 @@
   const questionInput=document.createElement("input"); questionInput.type="text"; questionInput.maxLength=200; questionInput.placeholder="예: 남은 전공필수 과목 알려줘"; questionInput.setAttribute("aria-label","이수내역 질문"); questionLabel.append(questionInput);
   questions.append(questionLabel,button("질문",()=>ask(questionInput.value)));
   questionInput.addEventListener("keydown",event=>{if(event.key === "Enter") {event.preventDefault();ask(questionInput.value);}});
+  const hostname=(window.location?.hostname || "localhost").toLowerCase();
+  const localAccess=hostname==="localhost" || hostname==="::1" || hostname==="[::1]" || /^127(?:\.\d{1,3}){3}$/.test(hostname);
+  if(!localAccess) {
+    byId("public-demo-note").hidden=false;
+    byId("transcript-privacy-note").textContent="2026학번 컴퓨터공학과만 지원하는 로그인 없는 공개 데모입니다. 성적표 PDF와 이수내역은 HTTPS 연결과 Cloudflare 중계 서비스를 거쳐 운영자의 PC로 전달되어 요청 메모리에서 처리됩니다. 서비스는 성적표를 저장하거나 LLM에 보내지 않으며, 브라우저의 영구 저장소에도 이수내역을 남기지 않습니다. 인식 결과를 확인한 뒤 계산하세요.";
+    byId("feedback-privacy-note").textContent="질문 원문과 성적표는 서비스에 저장하지 않습니다. 공개 데모에서는 보완 요청 저장을 제공하지 않습니다. 성적표 지우기 또는 페이지를 떠나면 이 탭의 이수내역과 대기 요청을 지웁니다.";
+  }
   window.addEventListener("pagehide",clear);
 })();
