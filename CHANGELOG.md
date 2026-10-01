@@ -6,6 +6,7 @@
 - 결정: 입력의 키워드 재해석 정리, 출력의 사실 중심 검증, 근거 있는 부가 설명과 오답의 구분, 이미 답한 학사 확인의 재사용을 [ADR0025](docs/harness/decisions/0025-separate-dialogue-and-transcript-tracks.md)에 남겼다.
 - 연결: README·보고서 색인·기존 발표 재개 기록에서 최신 작업 목록을 찾을 수 있게 했다.
 - 유지: 제품0.11.0·학사 사실·모델/서버 설정은 변경하지 않았다. 이전 누적5회, 필수6결함과 실제66발화 평가의 실패는 보존하며 이번 문서화를 제품 수정·검증 완료로 취급하지 않는다.
+- 보고: [기록 확인·문서화 내역](reports/runs/20261002-b-first-direction-record.md), [JSON](reports/runs/20261002-b-first-direction-record.json). 작은 문서 변경으로 PDF는 생성하지 않았다.
 
 ## 2026-10-01 - 의미 기반 과목 조회와 목적별 대화 (0.11.0 작업본, 미완료)
 
