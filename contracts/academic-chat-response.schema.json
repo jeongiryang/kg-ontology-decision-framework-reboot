@@ -14,7 +14,9 @@
     "calculations": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["metric", "required", "earned", "gap"], "properties": {"metric": {"type": "string"}, "required": {"type": "integer", "minimum": 0, "maximum": 500}, "earned": {"type": "integer", "minimum": 0, "maximum": 500}, "gap": {"type": "integer", "minimum": 0, "maximum": 500}}}},
     "evidence_packet": {"$ref": "evidence-packet.schema.json"},
     "llm_status": {"enum": ["disabled", "skipped", "suggested", "unavailable", "rejected"]},
-    "suggested_question": {"type": ["string", "null"], "minLength": 1}
+    "suggested_question": {"type": ["string", "null"], "minLength": 1},
+    "context_used": {"type": "boolean"},
+    "clarification_choices": {"type": "array", "maxItems": 3, "items": {"type": "object", "additionalProperties": false, "required": ["label", "question"], "properties": {"label": {"type": "string", "minLength": 1, "maxLength": 100}, "question": {"type": "string", "minLength": 1, "maxLength": 500}}}}
   },
   "allOf": [
     {"if": {"properties": {"llm_status": {"const": "suggested"}}, "required": ["llm_status"]}, "then": {"required": ["suggested_question"], "properties": {"suggested_question": {"type": "string"}, "status": {"const": "insufficient_evidence"}}}}

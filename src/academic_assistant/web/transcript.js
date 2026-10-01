@@ -12,6 +12,9 @@
   let followupSequence = 0;
   let latest = null;
   let busy = false;
+  const checkSections = new Map();
+  const checkLabels = new Map();
+  const reviewFlags = {retake:"재수강 확인 필요", equivalence:"동일·대체 확인 필요", retroactivity:"소급 적용 확인 필요", recognition_unverified:"개인 인정 미확인"};
   const categories = {unknown:"미확인", foundation:"기초교양", balanced:"균형교양", expanded:"확대교양", major_required:"전공필수", major_elective:"전공선택", free:"자유선택"};
   const areas = {"":"미확인/해당 없음", "digital-communication":"디지털커뮤니케이션", "humanities-arts":"인문예술", "society-culture":"사회와문화", "nature-science-technology":"자연·과학·기술의이해"};
   const grades = {"":"미확인", "A+":"A+", A0:"A0", "B+":"B+", B0:"B0", "C+":"C+", C0:"C0", "D+":"D+", D0:"D0", F:"F", F0:"F0", S:"S", U:"U", P:"P", PASS:"PASS", W:"W"};
@@ -19,6 +22,7 @@
     generation += 1;
     followupSequence += 1;
     latest = null;
+    checkSections.clear(); checkLabels.clear();
     output.hidden = true;
     byId("transcript-followups").hidden = true;
     byId("transcript-chat").textContent = "";
@@ -45,10 +49,17 @@
   function add(course = {}) {
     if(body.children.length >= 250) return;
     const row = document.createElement("tr");
+    row.dataset.term = course.term || "";
     inputCell(row, "course_name", course.course_name); inputCell(row,"course_code",course.course_code);
     inputCell(row,"credits",course.credits,"number"); selectCell(row,"grade",grades,course.grade);
     selectCell(row,"category",categories,course.category || "unknown"); selectCell(row,"balanced_area",areas,course.balanced_area);
-    const td = document.createElement("td"); const excluded = document.createElement("input"); excluded.type = "checkbox"; excluded.dataset.field = "excluded"; excluded.checked = !!course.excluded; excluded.setAttribute("aria-label","학점 계산 제외"); td.append(excluded); row.append(td);
+    const td = document.createElement("td"); const excluded = document.createElement("input"); excluded.type = "checkbox"; excluded.dataset.field = "excluded"; excluded.checked = !!course.excluded; excluded.setAttribute("aria-label","학점 계산 제외"); td.append(excluded);
+    const flags = document.createElement("details"); const flagsTitle = document.createElement("summary"); flagsTitle.textContent="인정 확인 표시"; flags.append(flagsTitle);
+    for(const [flag,label] of Object.entries(reviewFlags)) {
+      const item=document.createElement("label"); const input=document.createElement("input"); input.type="checkbox"; input.dataset.field=`review-${flag}`; input.checked=(course.review_flags || []).includes(flag); input.setAttribute("aria-label",label);
+      const text=document.createElement("span"); text.textContent=label; item.append(input,text); flags.append(item);
+    }
+    td.append(flags); row.append(td);
     const remove = document.createElement("button"); remove.type="button"; remove.textContent="삭제";
     remove.addEventListener("click",()=>{ row.remove(); confirm.checked=false; invalidate(); enable(); });
     const rmCell = document.createElement("td"); rmCell.append(remove); row.append(rmCell); body.append(row); enable();
@@ -64,19 +75,58 @@
       const val = (field)=>row.querySelector(`[data-field='${field}']`).value;
       const creditText = val("credits"); const credit = Number(creditText);
       if(creditText === "" || !Number.isInteger(credit) || credit < 0 || credit > 30 || !val("grade") || !val("course_name").trim()) throw new Error("학점·과목명·성적을 모두 확인하세요.");
-      return {row_id:`row-${index+1}`,course_name:val("course_name").trim(),course_code:val("course_code").trim() || null,credits:credit,grade:val("grade"),category:val("category"),balanced_area:val("balanced_area") || null,excluded:row.querySelector("[data-field='excluded']").checked};
+      row.dataset.rowId=`row-${index+1}`;
+      return {row_id:row.dataset.rowId,course_name:val("course_name").trim(),course_code:val("course_code").trim() || null,credits:credit,grade:val("grade"),category:val("category"),balanced_area:val("balanced_area") || null,term:row.dataset.term || null,excluded:row.querySelector("[data-field='excluded']").checked,review_flags:Object.keys(reviewFlags).filter(flag=>row.querySelector(`[data-field='review-${flag}']`).checked)};
     });
     return {schema_version:"1.0.0",admission_year:2026,matched_curriculum_year:2026,department:"컴퓨터공학과",degree_track:byId("transcript-degree").value,confirmed:true,record_complete:complete.checked,courses};
   }
+  function button(label, action) {
+    const element=document.createElement("button"); element.type="button"; element.textContent=label; element.addEventListener("click",action); return element;
+  }
+  function focusChecks(ids) {
+    for(const [id,section] of checkSections) {
+      const focused=ids.includes(id); section.dataset.focused=String(focused);
+      section.setAttribute("style",focused ? "outline:2px solid currentColor;outline-offset:3px" : "");
+    }
+    checkSections.get(ids[0])?.scrollIntoView?.({behavior:"smooth",block:"center"});
+  }
+  function focusRow(id, kind) {
+    const row=Array.from(body.children).find(row=>row.dataset.rowId===id); if(!row) return;
+    for(const candidate of body.children) candidate.setAttribute("style",candidate===row ? "outline:2px solid currentColor" : "");
+    row.scrollIntoView?.({behavior:"smooth",block:"center"});
+    const field={category:"category",balanced_area:"balanced_area",equivalence:"review-equivalence",retroactivity:"review-retroactivity",duplicate_or_retake:"review-retake"}[kind] || "course_name";
+    row.querySelector(`[data-field='${field}']`)?.focus?.();
+  }
+  function renderVerification(container, items) {
+    if(!items?.length) return;
+    const section=document.createElement("section"); const title=document.createElement("h4"); title.textContent="확인할 항목"; section.append(title);
+    for(const item of items) {
+      const entry=document.createElement("div"); entry.dataset.verificationId=item.item_id;
+      const description=document.createElement("p"); description.textContent=`${item.severity === "blocking" ? "확인 필요" : "참고"}: ${item.message} ${item.action}`; entry.append(description);
+      for(const id of item.row_ids) {
+        const rows=Array.from(body.children); const index=rows.findIndex(row=>row.dataset.rowId===id);
+        if(index>=0) { const name=rows[index].querySelector("[data-field='course_name']").value; entry.append(button(`${index+1}행 ${name} 보기`,()=>focusRow(id,item.kind))); }
+      }
+      if(item.kind === "degree_track") entry.append(button("전공 이수유형 입력 보기",()=>byId("transcript-degree").focus?.()));
+      if(item.kind === "record_completeness") entry.append(button("전체 이수내역 확인 보기",()=>complete.focus?.()));
+      for(const id of item.check_ids) if(checkSections.has(id)) entry.append(button(`${checkLabels.get(id)} 비교 보기`,()=>focusChecks([id])));
+      section.append(entry);
+    }
+    container.append(section);
+  }
   function render(data) {
     output.replaceChildren(); output.hidden=false;
+    checkSections.clear(); checkLabels.clear();
     const title=document.createElement("h3"); title.textContent=data.answer; output.append(title);
-    const summary=document.createElement("p"); summary.textContent=`입력상 PASS학점 합계 ${data.raw_earned_credits} · 졸업인정학점 ${data.recognized_graduation_credits ?? "확인 필요"} · 최종 졸업 인증 아님`; output.append(summary);
+    const credits=data.credit_summary;
+    const summary=document.createElement("p"); summary.textContent=`입력상 PASS학점 합계 ${credits?.input_pass_credits ?? data.raw_earned_credits} · 조건부 졸업인정학점 ${(credits ? credits.conditional_graduation_credits : data.recognized_graduation_credits) ?? "확인 필요"}${credits ? ` · 인정 미확인 PASS학점 ${credits.unresolved_pass_credits}` : ""} · 최종 졸업 인증 아님`; output.append(summary);
     for(const check of data.checks) {
       const section=document.createElement("section"); section.className="transcript-check";
+      section.dataset.checkId=check.check_id; checkSections.set(check.check_id,section); checkLabels.set(check.check_id,check.label);
       const heading=document.createElement("h4"); heading.textContent=`${check.label}: ${{met:"충족",not_met:"미충족",needs_review:"확인 필요"}[check.result]}`; section.append(heading);
       const unit=check.check_id === "general.balanced.area_coverage" ? "영역" : "학점";
-      const detail=document.createElement("p"); detail.textContent=check.gap !== null ? `${check.required}${unit} 기준 / ${check.earned}${unit} 인정 / ${check.gap}${unit} 부족` : check.missing_courses.length ? `남은 과목: ${check.missing_courses.join(", ")}` : check.note; section.append(detail);
+      const detail=document.createElement("p"); detail.textContent=check.gap != null ? `${check.required}${unit} 기준 / ${check.earned}${unit} 인정 / ${check.gap}${unit} 부족` : check.missing_courses.length ? `남은 과목: ${check.missing_courses.join(", ")}` : check.note; section.append(detail);
+      section.append(button("이 항목 질문하기",()=>ask(checkQuestion(check.check_id))));
       const supported=check.evidence_packet.status === "supported";
       const packet=supported ? check.evidence_packet : check.policy_packet;
       if(packet) {
@@ -88,7 +138,30 @@
       }
       output.append(section);
     }
+    renderVerification(output,data.verification_items);
     for(const text of data.issues) { const p=document.createElement("p"); p.textContent=text; output.append(p); }
+  }
+  function checkQuestion(id) {
+    if(id === "major.required.course_set") return "남은 전공필수 과목 알려줘";
+    if(id === "graduation.thesis") return "졸업논문 이수했어?";
+    if(id === "major.counseling") return "심층상담 이수했어?";
+    if(id === "general.balanced.area_coverage") return "균형교양 영역 얼마나 부족해?";
+    if(id === "credits.major.advanced") return "심화전공 배분 확인할 항목은?";
+    if(id.startsWith("credits.general.")) return "교양 몇 학점 부족해?";
+    if(id.startsWith("credits.major.")) return "전공 몇 학점 부족해?";
+    if(id === "credits.graduation.remaining") return "자유선택 잔여학점 얼마나 부족해?";
+    return "졸업까지 몇 학점 남았어?";
+  }
+  async function ask(question) {
+    if(!latest || !question.trim()) return; const token=generation; const sequence=++followupSequence;
+    try { const response=await fetch("/v1/academic/transcripts/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:question.trim(),transcript:latest})});
+      if(!response.ok) throw new Error("이수내역 질문을 처리할 수 없습니다."); const data=await response.json();
+      if(token!==generation || sequence!==followupSequence) return;
+      const chat=byId("transcript-chat"); chat.textContent=data.answer;
+      focusChecks(data.focus_check_ids || []);
+      if(data.focus_check_ids?.length) chat.append(button("관련 비교 항목 보기",()=>focusChecks(data.focus_check_ids)));
+      renderVerification(chat,data.verification_items);
+    } catch(error) {if(token===generation && sequence===followupSequence) byId("transcript-chat").textContent=error.message;}
   }
   byId("transcript-extract").addEventListener("click", async()=>{
     const file=byId("transcript-file").files[0]; if(!file || file.size > 10*1024*1024) { message.textContent="10MB 이하 PDF를 선택하세요."; return; }
@@ -126,11 +199,12 @@
       const data=await response.json(); if(token!==generation) return; latest=request; render(data); byId("transcript-followups").hidden=data.checks.length===0;
     } catch(error) {if(token===generation) message.textContent=error.message;} finally {busy=false;enable();}
   });
-  document.querySelectorAll("[data-transcript-question]").forEach(button=>button.addEventListener("click",async()=>{
-    if(!latest) return; const token=generation; const sequence=++followupSequence;
-    try { const response=await fetch("/v1/academic/transcripts/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:button.dataset.transcriptQuestion,transcript:latest})});
-      if(!response.ok) throw new Error("이수내역 질문을 처리할 수 없습니다."); const data=await response.json(); if(token===generation && sequence===followupSequence) byId("transcript-chat").textContent=data.answer;
-    } catch(error) {if(token===generation && sequence===followupSequence) byId("transcript-chat").textContent=error.message;}
-  }));
+  document.querySelectorAll("[data-transcript-question]").forEach(element=>element.addEventListener("click",()=>ask(element.dataset.transcriptQuestion)));
+  const questions=byId("transcript-followups");
+  questions.append(button("확인할 항목",()=>ask("확인이 필요한 항목은?")));
+  const questionLabel=document.createElement("label"); questionLabel.textContent="이수내역에 직접 질문하기";
+  const questionInput=document.createElement("input"); questionInput.type="text"; questionInput.maxLength=200; questionInput.placeholder="예: 남은 전공필수 과목 알려줘"; questionInput.setAttribute("aria-label","이수내역 질문"); questionLabel.append(questionInput);
+  questions.append(questionLabel,button("질문",()=>ask(questionInput.value)));
+  questionInput.addEventListener("keydown",event=>{if(event.key === "Enter") {event.preventDefault();ask(questionInput.value);}});
   window.addEventListener("pagehide",clear);
 })();

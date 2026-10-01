@@ -142,6 +142,9 @@ contracts:
     AcademicChatResponse:
       path: contracts/academic-chat-response.schema.json
       version: "1.0.0"
+    AcademicChatRequest:
+      path: contracts/academic-chat-request.schema.json
+      version: "1.0.0"
     AcademicFeedbackRequest:
       path: contracts/academic-feedback-request.schema.json
       version: "1.0.0"

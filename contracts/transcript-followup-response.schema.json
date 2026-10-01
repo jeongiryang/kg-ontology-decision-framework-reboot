@@ -327,6 +327,69 @@
       ],
       "title": "TranscriptEvidencePacket",
       "type": "object"
+    },
+    "TranscriptVerificationItem": {
+      "additionalProperties": false,
+      "properties": {
+        "item_id": {
+          "title": "Item Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "record_completeness",
+            "degree_track",
+            "category",
+            "course_identity",
+            "duplicate_or_retake",
+            "equivalence",
+            "retroactivity",
+            "balanced_area",
+            "advanced_allocation"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "blocking",
+            "advisory"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "row_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Row Ids",
+          "type": "array"
+        },
+        "check_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Check Ids",
+          "type": "array"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "action": {
+          "title": "Action",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_id",
+        "kind",
+        "severity",
+        "message",
+        "action"
+      ],
+      "title": "TranscriptVerificationItem",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -356,6 +419,20 @@
         "$ref": "#/$defs/TranscriptCheck"
       },
       "title": "Selected Checks",
+      "type": "array"
+    },
+    "focus_check_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Focus Check Ids",
+      "type": "array"
+    },
+    "verification_items": {
+      "items": {
+        "$ref": "#/$defs/TranscriptVerificationItem"
+      },
+      "title": "Verification Items",
       "type": "array"
     }
   },

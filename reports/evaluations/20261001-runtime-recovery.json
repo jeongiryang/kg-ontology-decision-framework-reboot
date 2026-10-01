@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "20261001-prototype-upgrade",
+  "scope": "isolated localhost academic web and its dedicated graph relay only",
+  "synthetic_inputs_only": true,
+  "model_inference_during_fault_checks": false,
+  "checks": [
+    {"name": "occupied_port", "result": "passed", "evidence": "Supervisor refused the existing web listener with port_occupied; no existing process was stopped by the supervisor."},
+    {"name": "owned_child_crash", "result": "passed", "evidence": "Actual child identity verified before synthetic termination. Two children started, readiness observed before and after one bounded restart, supervisor exit0."},
+    {"name": "bounded_shutdown", "result": "passed", "evidence": "32-second supervision ended and its listener was removed."},
+    {"name": "graph_connection_loss", "result": "passed", "evidence": "Only the dedicated graph relay was stopped. Readiness returned503 while the same web child remained alive. The dedicated graph database itself was not stopped."},
+    {"name": "graph_reconnect", "result": "passed", "evidence": "After restarting only that relay, the same web returned ready and graph_verified; read-only diagnostic exit0."}
+  ],
+  "prior_attempt": "The first private test invoked the supervisor outside the project virtual environment and failed dependency loading. It stopped within the restart budget and removed its listener. The corrected project-runtime invocation passed; no false pass is attributed to the first attempt.",
+  "limits": [
+    "No remote server, Naru process, shared database or GPU process was terminated or restarted by these fault checks.",
+    "Model service, PC reboot recovery, public deployment and multi-user load guarantees are not covered.",
+    "The user-facing supervisor remains limited to one hour; starting it again is an explicit local operation."
+  ]
+}

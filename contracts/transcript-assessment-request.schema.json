@@ -102,6 +102,20 @@
           "default": false,
           "title": "Excluded",
           "type": "boolean"
+        },
+        "review_flags": {
+          "items": {
+            "enum": [
+              "retake",
+              "equivalence",
+              "retroactivity",
+              "recognition_unverified"
+            ],
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Review Flags",
+          "type": "array"
         }
       },
       "required": [
