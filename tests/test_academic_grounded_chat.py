@@ -250,6 +250,14 @@ class LocalLLMClientTests(unittest.TestCase):
         outbound = json.loads(req.data)
         self.assertEqual("test-model", outbound["model"])
         self.assertFalse(outbound["stream"])
+        self.assertFalse(outbound["think"])
+        self.assertEqual({"temperature": 0, "num_predict": 64}, outbound["options"])
+        schema = outbound["format"]
+        self.assertEqual("object", schema["type"])
+        self.assertEqual(["intent_id"], schema["required"])
+        self.assertFalse(schema["additionalProperties"])
+        self.assertEqual(["credits.general.foundation"], schema["properties"]["intent_id"]["anyOf"][0]["enum"])
+        self.assertEqual({"type": "null"}, schema["properties"]["intent_id"]["anyOf"][1])
         self.assertNotIn("answer", outbound)
         self.assertNotIn("수강신청 일정은?", json.dumps(outbound, ensure_ascii=False))
         self.assertNotIn("기초교양", json.dumps(outbound, ensure_ascii=False))
@@ -264,6 +272,51 @@ class LocalLLMClientTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             client._request_intent("수강신청 일정은?", candidates)
         self.assertEqual(3, len(fake.calls))
+
+    def test_ollama_constrained_format_still_rejects_malformed_or_ambiguous_output(self) -> None:
+        client = LocalLLMClient(LLMSettings("ollama", "http://127.0.0.1:11434", "test-model", timeout_seconds=20))
+        fake = FakeOpener(b"")
+        client._opener = fake
+        catalog = {"course.one": "private label not transmitted", "credits.two": "another label"}
+        for content in (
+            '{"intent_id":"outside.catalog"}', '{"intent_id":"course.one","answer":"invented"}',
+            '{"intent_id":["course.one"]}', '{}', 'null', '{"intent_id":',
+            '{"intent_id":"outside.catalog","intent_id":"course.one"}',
+        ):
+            with self.subTest(content=content):
+                fake.response = json.dumps({"response": content}).encode()
+                with self.assertRaises(LLMInvalidResponse):
+                    client._request_intent("course", catalog)
+        fake.response = b'{"response":"bad","response":"{\\"intent_id\\":null}"}'
+        with self.assertRaises(LLMInvalidResponse):
+            client._request_intent("course", catalog)
+        fake.response = json.dumps({"response": '{"intent_id":null}'}).encode()
+        self.assertIsNone(client._request_intent("course", catalog))
+        for req, timeout in fake.calls:
+            self.assertEqual(20, timeout)
+            self.assertNotIn("private label", req.data.decode())
+            self.assertNotIn("another label", req.data.decode())
+            self.assertEqual(["course.one", "credits.two"], json.loads(req.data)["format"]["properties"]["intent_id"]["anyOf"][0]["enum"])
+
+    def test_ollama_unsupported_controls_fail_closed_without_unbounded_retry(self) -> None:
+        client = LocalLLMClient(LLMSettings("ollama", "http://127.0.0.1:11434", "test-model", timeout_seconds=20))
+        with patch.object(client._opener, "open", side_effect=HTTPError("http://127.0.0.1:11434/api/generate", 400, "unsupported think", {}, None)) as opener:
+            with self.assertRaises(LLMUnavailable):
+                client._request_intent("course", {"course.one": "x"})
+            opener.assert_called_once()
+            self.assertFalse(json.loads(opener.call_args.args[0].data)["think"])
+            self.assertEqual(20, opener.call_args.kwargs["timeout"])
+
+    def test_inventory_remains_read_only_and_three_second_bounded(self) -> None:
+        client = LocalLLMClient(LLMSettings("ollama", "http://127.0.0.1:11434", "test-model", timeout_seconds=30))
+        fake = FakeOpener(b'{"models":[{"name":"test-model"}]}')
+        client._opener = fake
+        self.assertTrue(client.model_available())
+        req, timeout = fake.calls[0]
+        self.assertEqual("GET", req.get_method())
+        self.assertEqual("http://127.0.0.1:11434/api/tags", req.full_url)
+        self.assertIsNone(req.data)
+        self.assertEqual(3, timeout)
 
     def test_openai_compatible_contract_and_redirect_rejection(self) -> None:
         client = LocalLLMClient(LLMSettings("openai", "http://127.0.0.1:8000", "test-model"))

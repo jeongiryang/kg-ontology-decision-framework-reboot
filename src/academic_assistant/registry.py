@@ -35,11 +35,17 @@ RULE_FILES = (
     "cwnu.cs.2026.graduation.thesis-substitution.json",
     "cwnu.cs.2026.major-counseling-completion.json",
     "cwnu.cs.2026.major-required-course-set.json",
+    "cwnu.cs.2026.operations.coding-test-failure.json",
+    "cwnu.cs.2026.operations.graduation-work-prerequisite.json",
+    "cwnu.cs.2026.operations.pccp-current-trial.json",
 )
 SOURCE_FILES = (
     "cwnu.curriculum.2026.changwon-undergraduate.json",
     "cwnu.curriculum.2026.ta-validation-response.json",
+    "cwnu.cs.2026.department-confirmation-20261001.json",
 )
+DEPARTMENT_CONFIRMATION_SOURCE = "cwnu.cs.2026.department-confirmation-20261001"
+DEPARTMENT_CONFIRMATION_PATH = "reviews/academic/clarifications/2026-operational-confirmation-20261001.md"
 RESEARCH_FILE = "cwnu.cs.2026.graduation-practices.json"
 EXPECTED_INTENTS = {
     "cohort.department-transfer.original-admission-year": ("specific", ("cwnu.cs.2026.cohort.department-transfer-original-admission-year",)),
@@ -68,6 +74,9 @@ EXPECTED_INTENTS = {
     "graduation.thesis.substitution": ("specific", ("cwnu.cs.2026.graduation.thesis-substitution",)),
     "major.counseling-completion": ("specific", ("cwnu.cs.2026.major-counseling-completion",)),
     "major.required-course-set": ("specific", ("cwnu.cs.2026.major-required-course-set",)),
+    "operations.pccp-current-trial": ("specific", ("cwnu.cs.2026.operations.pccp-current-trial",)),
+    "operations.coding-test-failure": ("specific", ("cwnu.cs.2026.operations.coding-test-failure",)),
+    "operations.graduation-work-prerequisite": ("specific", ("cwnu.cs.2026.operations.graduation-work-prerequisite",)),
     "credits.general.bundle": ("bundle", ("cwnu.cs.2026.credits.general-balanced", "cwnu.cs.2026.credits.general-foundation", "cwnu.cs.2026.credits.general-remaining", "cwnu.cs.2026.credits.general-total")),
     "credits.major.bundle": ("bundle", ("cwnu.cs.2026.credits.major-advanced", "cwnu.cs.2026.credits.major-elective", "cwnu.cs.2026.credits.major-minimum", "cwnu.cs.2026.credits.major-required", "cwnu.cs.2026.credits.major-total")),
 }
@@ -124,6 +133,10 @@ class Registry:
             cls._validate_profile(rule_values, source_values, research, intents, pins)
             rules = {rule["rule_id"]: rule for rule in rule_values}
             sources = {source["source_id"]: source for source in source_values}
+            confirmation = sources[DEPARTMENT_CONFIRMATION_SOURCE]
+            if (confirmation.get("canonical_locator") != DEPARTMENT_CONFIRMATION_PATH
+                    or hashlib.sha256((root / DEPARTMENT_CONFIRMATION_PATH).read_bytes()).hexdigest() != confirmation["sha256"]):
+                raise RegistryUnavailable()
             hashes = {rule_id: canonical_sha256(rule) for rule_id, rule in rules.items()}
             digest = canonical_sha256({
                 "rules": hashes,

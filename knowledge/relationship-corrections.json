@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "unsupported_link_removed",
+  "audit_report": "reports/source-audits/2026-operational-relationships-20261001.md",
+  "corrections": [
+    {"rule_id": "cwnu.cs.2026.operations.coding-test-failure", "previous_sha256": "0854cc21a2e349298deacb4a66e54a6eab3f5270db7241d2bbfa64149e22df84", "current_sha256": "46a35824e5ddd4ae25e706ebdc772a4d88cf585d9997fd9e64098289a8848975", "previous_relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"]}},
+    {"rule_id": "cwnu.cs.2026.operations.graduation-work-prerequisite", "previous_sha256": "2ff3396db42c1469c3a6b1bd0a5453edd1877418f8c405217853c1933ff1ce15", "current_sha256": "6f5bd038ec764cffb5538f52148afb8bae4b5b4fde643787abd99160d821ce6c", "previous_relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"]}},
+    {"rule_id": "cwnu.cs.2026.operations.pccp-current-trial", "previous_sha256": "11e56637423ca73c58382e69de56462fe2b501c4993be5cef93bbc21c14896c5", "current_sha256": "4593b3534cccca68e52ec5b817b07d26ab1408b8b6f4a2e7ebc1e3b14cd930e2", "previous_relationship": {"kind": "supplement", "target_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"]}}
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "schema_version": "1.1.0",
+  "clarification_id": "cwnu.cs.2026.operational-confirmation-20261001",
+  "review_id": "cwnu.cs.2026.operational-confirmation-20261001",
+  "state": "applied",
+  "coverage_mode": "full_review",
+  "scope": {
+    "curriculum_year": 2026,
+    "admission_year": 2026,
+    "department": "컴퓨터공학과"
+  },
+  "input_snapshots": [
+    {
+      "artifact_id": "review:cwnu.cs.2026.operational-confirmation-20261001",
+      "sha256": "ee408e72bab7d3d110711d9ba00cb0bde74081d40bc505d5cf32414425b36e84"
+    },
+    {
+      "artifact_id": "source:cwnu.cs.2026.department-confirmation-20261001",
+      "sha256": "cac971712f527295f18986430e12b75aa96a2d46b4b1c407c5b3f602cfc3af0e"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.operations.pccp-current-trial",
+      "sha256": "200d5186fd1b87421479c8bb77f70ad33b1255ea2c9518e381decf0805dcaf34"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.operations.coding-test-failure",
+      "sha256": "85b0b89d32cac48abe57a59168e6f70ca3ddddfb8e00325c2358d4b2926a91f5"
+    },
+    {
+      "artifact_id": "rule:cwnu.cs.2026.operations.graduation-work-prerequisite",
+      "sha256": "1d6f67b32412f17ba3c17aecc7d4cd486c91c6705953b84dc5d207b35261042d"
+    }
+  ],
+  "session": {
+    "session_id": "review-20261001-prototype-integration",
+    "run_id": "20261001-complete-prototype-v1",
+    "thread_binding": "current_task",
+    "state": "closed",
+    "started_at": "2026-10-01T09:26:17+09:00",
+    "ended_at": "2026-10-01T09:28:36+09:00",
+    "end_reason": "completed",
+    "authority": {
+      "kind": "department_confirmation",
+      "status": "expired",
+      "authorization_prompt": "새 검수 세션에서 2026학번 컴퓨터공학과에 대해 ‘현행 시범 PCCP 400점 이상’, ‘미통과 시 캡스톤 I U·다음 연도 II 수강 불가’, ‘캡스톤 II PASS 후 졸업작품 수강’을 학과 확인으로 재확인하고 규칙에 반영해도 될까요? 기존 답변을 다시 설명하실 필요는 없습니다. 공모전·우수자 면제의 불명확한 수강·학점 처리와 향후 점수 기준은 계속 보류합니다.",
+      "choices": [
+        "grant",
+        "decline"
+      ]
+    }
+  },
+  "batches": [
+    {
+      "batch_id": "operational.conditions.batch",
+      "ordinal": 1,
+      "topic": "現行 시범 PCCP·미통과 처리·졸업작품 선행조건",
+      "status": "applied",
+      "questions": [
+        {
+          "question_id": "operational.conditions.confirmation",
+          "subject_ids": [
+            "cwnu.cs.2026.department-confirmation-20261001",
+            "cwnu.cs.2026.operations.pccp-current-trial",
+            "cwnu.cs.2026.operations.coding-test-failure",
+            "cwnu.cs.2026.operations.graduation-work-prerequisite"
+          ],
+          "purpose": "review_confirmation",
+          "ambiguity_kind": "missing_department_practice",
+          "required_authority": "department_confirmation",
+          "evidence": [
+            {
+              "subject_id": "cwnu.cs.2026.department-confirmation-20261001",
+              "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+              "authority": "department_guidance",
+              "locator": "학과 확인 기록 2026-10-01, 제시한 확인 질문 및 사용자 원문 답변",
+              "claim": "title=2026학번 컴퓨터공학과 운영조건 학과 확인 (2026-10-01); sha256=d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6; authority=department_guidance; curriculum_years=2026; admission_years=2026; departments=컴퓨터공학과"
+            },
+            {
+              "subject_id": "cwnu.cs.2026.operations.pccp-current-trial",
+              "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+              "authority": "department_guidance",
+              "locator": "학과 확인 기록 2026-10-01, 확인된 조건 1; session=review-20261001-prototype-integration",
+              "claim": "2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다."
+            },
+            {
+              "subject_id": "cwnu.cs.2026.operations.coding-test-failure",
+              "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+              "authority": "department_guidance",
+              "locator": "학과 확인 기록 2026-10-01, 확인된 조건 2; session=review-20261001-prototype-integration",
+              "claim": "코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다."
+            },
+            {
+              "subject_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+              "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+              "authority": "department_guidance",
+              "locator": "학과 확인 기록 2026-10-01, 확인된 조건 3; session=review-20261001-prototype-integration",
+              "claim": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다."
+            }
+          ],
+          "prompt": "새 검수 세션에서 2026학번 컴퓨터공학과에 대해 ‘현행 시범 PCCP 400점 이상’, ‘미통과 시 캡스톤 I U·다음 연도 II 수강 불가’, ‘캡스톤 II PASS 후 졸업작품 수강’을 학과 확인으로 재확인하고 규칙에 반영해도 될까요? 기존 답변을 다시 설명하실 필요는 없습니다. 공모전·우수자 면제의 불명확한 수강·학점 처리와 향후 점수 기준은 계속 보류합니다.",
+          "impact": "세 조건의 일반 운영정책 설명만 승인하고, 개인의 합격·수강 가능 여부 및 불명확한 면제·학점 처리는 승인하지 않는다.",
+          "choices": [
+            {
+              "choice_id": "confirm-scoped-conditions",
+              "label": "이번 검수 세션의 학과 확인으로 재확인·반영",
+              "disposition": "approve",
+              "impact": "세 조건만 승인된 설명용 규칙으로 반영한다.",
+              "comment_required": false
+            },
+            {
+              "choice_id": "keep-record-only",
+              "label": "문서 기록만 유지하고 규칙 반영은 보류",
+              "disposition": "pending",
+              "impact": "운영조건 답변은 근거 부족을 유지한다.",
+              "comment_required": false
+            }
+          ],
+          "recommended_choice_id": "confirm-scoped-conditions",
+          "blocking_subject_ids": [
+            "cwnu.cs.2026.department-confirmation-20261001",
+            "cwnu.cs.2026.operations.pccp-current-trial",
+            "cwnu.cs.2026.operations.coding-test-failure",
+            "cwnu.cs.2026.operations.graduation-work-prerequisite"
+          ],
+          "status": "accepted"
+        }
+      ]
+    }
+  ],
+  "suppressed": [],
+  "conflicts": [],
+  "responses": [
+    {
+      "response_id": "response.operational.conditions.confirmation",
+      "question_id": "operational.conditions.confirmation",
+      "session_id": "review-20261001-prototype-integration",
+      "answer_mode": "choice",
+      "selected_choice_id": "confirm-scoped-conditions",
+      "exact_text": "반영해 새 검수 세션",
+      "answered_by": "project_owner",
+      "answered_at": "2026-10-01T09:26:17+09:00",
+      "authority_used": "department_confirmation",
+      "authorization_event_id": "event.operational.authority-granted",
+      "normalization_status": "accepted",
+      "comment": "권한 부여와 표시된 세 조건 재확인을 함께 요청한 질문에 대한 명시적 답변이다. 정확한 메시지 시각이 아닌 관찰·기록 시각이며, 이전 권한을 소급 사용하지 않는다."
+    }
+  ],
+  "audit_events": [
+    {
+      "event_id": "event.operational.created",
+      "event": "created",
+      "at": "2026-10-01T09:26:17+09:00",
+      "actor": "main",
+      "details": "새 세션의 표시된 질문·답변을 관찰 시각으로 기록; 메시지 전송시각 미제공."
+    },
+    {
+      "event_id": "event.operational.presented",
+      "event": "question_presented",
+      "at": "2026-10-01T09:26:17+09:00",
+      "actor": "main",
+      "details": "새 검수 세션에서 2026학번 컴퓨터공학과에 대해 ‘현행 시범 PCCP 400점 이상’, ‘미통과 시 캡스톤 I U·다음 연도 II 수강 불가’, ‘캡스톤 II PASS 후 졸업작품 수강’을 학과 확인으로 재확인하고 규칙에 반영해도 될까요? 기존 답변을 다시 설명하실 필요는 없습니다. 공모전·우수자 면제의 불명확한 수강·학점 처리와 향후 점수 기준은 계속 보류합니다.",
+      "question_id": "operational.conditions.confirmation"
+    },
+    {
+      "event_id": "event.operational.authority-granted",
+      "event": "authority_granted",
+      "at": "2026-10-01T09:26:17+09:00",
+      "actor": "project_owner",
+      "details": "새 세션 권한 및 위 질문의 세 조건 재확인: 반영해 새 검수 세션"
+    },
+    {
+      "event_id": "event.operational.answer",
+      "event": "answer_recorded",
+      "at": "2026-10-01T09:26:17+09:00",
+      "actor": "main",
+      "details": "사용자 원문 그대로 기록; 위 선택의 명시적 동의로만 정규화.",
+      "question_id": "operational.conditions.confirmation",
+      "response_id": "response.operational.conditions.confirmation"
+    },
+    {
+      "event_id": "event.operational.applied",
+      "event": "applied",
+      "at": "2026-10-01T09:28:35+09:00",
+      "actor": "academic_rule_modeler",
+      "details": "출처1건과 명시적 운영조건3건의 승인 메타데이터 반영."
+    },
+    {
+      "event_id": "event.operational.expired",
+      "event": "authority_expired",
+      "at": "2026-10-01T09:28:36+09:00",
+      "actor": "main",
+      "details": "세 조건 반영으로 이 세션 권한 만료."
+    },
+    {
+      "event_id": "event.operational.closed",
+      "event": "closed",
+      "at": "2026-10-01T09:28:36+09:00",
+      "actor": "main",
+      "details": "보류 조건은 독립적으로 유지하고 새 세션 종료."
+    }
+  ],
+  "withheld": [
+    {
+      "boundary_id": "operational.exemptions-and-future",
+      "subjects": [
+        "award.exemption",
+        "high_scorer.exemption",
+        "credits.exemption",
+        "future.pccp",
+        "submission.deadline"
+      ],
+      "reason": "awaiting_official_source",
+      "status": "pending",
+      "answer_status": "insufficient_evidence",
+      "eligible_for_academic_answer": false,
+      "details": "공모전·우수자 면제 수강/학점 처리,600점 고정기준,향후 점수와 정확한 학기별 마감은 이번 확인에 포함되지 않는다."
+    }
+  ],
+  "application": {
+    "applied_at": "2026-10-01T09:28:35+09:00",
+    "applied_by": "academic_rule_modeler",
+    "application_event_id": "event.operational.applied",
+    "output_snapshots": [
+      {
+        "artifact_id": "review:cwnu.cs.2026.operational-confirmation-20261001",
+        "sha256": "ee408e72bab7d3d110711d9ba00cb0bde74081d40bc505d5cf32414425b36e84"
+      },
+      {
+        "artifact_id": "source:cwnu.cs.2026.department-confirmation-20261001",
+        "sha256": "b876578fb4305fea028ab7ecf14e3a39c36548694c13088a97777584568f8ada"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.operations.pccp-current-trial",
+        "sha256": "11e56637423ca73c58382e69de56462fe2b501c4993be5cef93bbc21c14896c5"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.operations.coding-test-failure",
+        "sha256": "0854cc21a2e349298deacb4a66e54a6eab3f5270db7241d2bbfa64149e22df84"
+      },
+      {
+        "artifact_id": "rule:cwnu.cs.2026.operations.graduation-work-prerequisite",
+        "sha256": "2ff3396db42c1469c3a6b1bd0a5453edd1877418f8c405217853c1933ff1ce15"
+      }
+    ],
+    "response_snapshots": [
+      {
+        "response_id": "response.operational.conditions.confirmation",
+        "sha256": "56287a82641478de49c53ca0eab273e8142236a75fcc7ae730f46be4ed0c1a55"
+      }
+    ],
+    "subject_attestations": [
+      {
+        "subject_id": "cwnu.cs.2026.department-confirmation-20261001",
+        "question_id": "operational.conditions.confirmation",
+        "response_id": "response.operational.conditions.confirmation",
+        "object_review_sha256": "73bf41d5ca4ebf856394c95b2a16c7e5230cc8b9acaac4287e4d28f343102b75",
+        "review_subject_sha256": "e52c59cf8a6d395260565abcdf6a860adedbe42e078cabf9f4af2cfebf8151b1"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.operations.pccp-current-trial",
+        "question_id": "operational.conditions.confirmation",
+        "response_id": "response.operational.conditions.confirmation",
+        "object_review_sha256": "73bf41d5ca4ebf856394c95b2a16c7e5230cc8b9acaac4287e4d28f343102b75",
+        "review_subject_sha256": "c429dcb836e50bce06819c2a1365893d3231d588202b7fce31f32da1632ff4a9"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.operations.coding-test-failure",
+        "question_id": "operational.conditions.confirmation",
+        "response_id": "response.operational.conditions.confirmation",
+        "object_review_sha256": "73bf41d5ca4ebf856394c95b2a16c7e5230cc8b9acaac4287e4d28f343102b75",
+        "review_subject_sha256": "316512e38b2c33516f2dd4496d3fd513cd7a8cd027b998175213f727d3ad625b"
+      },
+      {
+        "subject_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+        "question_id": "operational.conditions.confirmation",
+        "response_id": "response.operational.conditions.confirmation",
+        "object_review_sha256": "73bf41d5ca4ebf856394c95b2a16c7e5230cc8b9acaac4287e4d28f343102b75",
+        "review_subject_sha256": "c938d01b640c7f9d47b4d1125cbd6fc3ce762d05ef38571202c7f6db4c92904d"
+      }
+    ]
+  }
+}

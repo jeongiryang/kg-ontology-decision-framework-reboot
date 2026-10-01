@@ -145,8 +145,8 @@ def validate_clarifications(project: Path) -> list[str]:
         if rule is not None and isinstance(rule.get("rule_id"), str):
             rules[rule["rule_id"]] = rule
 
-    # Closed sessions remain immutable. Only a hash-bound locator/excerpt
-    # correction may reconstruct their exact original approval snapshots.
+    # Closed sessions remain immutable. Narrow hash-bound conservative
+    # corrections reconstruct their exact original approval snapshots.
     current_rules = rules
     historical_rules: dict[str, dict[str, Any]] = {}
     correction_path = project / "knowledge" / "evidence-corrections.json"
@@ -174,6 +174,40 @@ def validate_clarifications(project: Path) -> list[str]:
                 historical_rules[rule_id] = previous
         except (KeyError, TypeError, IndexError, ValueError):
             errors.append("knowledge/evidence-corrections.json: invalid evidence-only lineage")
+
+    relationship_path = project / "knowledge" / "relationship-corrections.json"
+    if relationship_path.exists():
+        ledger = _load(relationship_path, errors)
+        try:
+            if (not ledger or set(ledger) != {"schema_version", "kind", "audit_report", "corrections"}
+                    or ledger["schema_version"] != "1.0.0"
+                    or ledger["kind"] != "unsupported_link_removed"
+                    or not isinstance(ledger["corrections"], list) or not ledger["corrections"]):
+                raise ValueError("invalid relationship correction ledger")
+            audit = Path(ledger["audit_report"])
+            if audit.is_absolute() or ".." in audit.parts or not (project / audit).is_file():
+                raise ValueError("missing relationship correction audit")
+            for entry in ledger["corrections"]:
+                if set(entry) != {"rule_id", "previous_sha256", "current_sha256", "previous_relationship"}:
+                    raise ValueError("invalid relationship correction fields")
+                rule_id = entry["rule_id"]
+                current = current_rules[rule_id]
+                if rule_id in historical_rules or canonical_sha256(current) != entry["current_sha256"]:
+                    raise ValueError("relationship correction current hash mismatch")
+                if (current["relationship"] != {"kind": "base", "target_rule_ids": []}
+                        or current["decision"]["outcome"]["type"] != "operational_policy"
+                        or entry["previous_relationship"] != {
+                            "kind": "supplement",
+                            "target_rule_ids": ["cwnu.cs.2026.graduation.thesis-required"],
+                        }):
+                    raise ValueError("only unsupported operational thesis links may be removed")
+                previous = copy.deepcopy(current)
+                previous["relationship"] = entry["previous_relationship"]
+                if canonical_sha256(previous) != entry["previous_sha256"]:
+                    raise ValueError("correction changes non-relationship content")
+                historical_rules[rule_id] = previous
+        except (KeyError, TypeError, ValueError):
+            errors.append("knowledge/relationship-corrections.json: invalid relationship-only lineage")
 
     packet_dir = project / "reviews" / "academic" / "clarifications"
     packet_paths = sorted(packet_dir.glob("*.json")) if packet_dir.is_dir() else []

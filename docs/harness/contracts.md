@@ -42,6 +42,15 @@
 
 ## RuleFact
 
+현재 계약은2.1이며 기존2.0 승인 객체도 바이트 변경 없이 검증한다.
+새 `operational_policy`는 현재 시범 PCCP 점수(`confirmed_as_of`, `provisional`,
+`future_guaranteed`), 미통과 처리(I U·차년도II 제한), 졸업작품의 II PASS 선행조건을
+서로 다른 엄격한 분기로 표현한다. 새 타입은2.1·`policy_statement`·`direct`만 허용한다.
+학점 계산·개인 합격 판정·보류 면제 처리는 포함하지 않는다.
+현재 등록 기준은 출처3건·규칙29건·의도31개다. 아래26/2 설명은 이전 기준선이다.
+학과 확인 원문은 별도 불변 Markdown의 SHA-256으로 대조하고 비PDF 인용으로 표시한다.
+[결정 및 경계](decisions/0018-current-trial-operational-confirmations.md)를 따른다.
+
 승인된 출처에서 추출한 적용 조건, 규칙 간 관계, 타입화된 판정, 정확한 근거와 사람 검수
 상태를 표현한다. 경과조치·전과·재입학 같은 예외는 별도 규칙으로 분리한다.
 

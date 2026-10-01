@@ -69,6 +69,12 @@ python .agents/skills/harness/scripts/run.py --project . start \
 
 ## 결정론적 학사 답변
 
+2026-10-01 새 검수 세션의 승인된 세 운영정책에 한해 전문 일치 경로를 추가했다.
+현행 시범 PCCP 기준, 코딩 미통과 처리, 졸업작품 선수조건의 일반 설명만 지원한다.
+기존 보호 주제 차단은 유지해 개인 PASS·면제·학점·미래 보장이나 혼합 질문은 거절한다.
+비PDF [학과 확인 원문](../../reviews/academic/clarifications/2026-operational-confirmation-20261001.md)은
+PDF 보기 버튼 없이 별도 표시한다. 원본PDF 인용은 기존 뷰어를 유지한다.
+
 FastAPI와 CLI는 `academic_assistant` 코어를 공동 사용한다. NFKC와 제한된 문자·공백 정규화 뒤
 등록된 alias만 일치시키며 fuzzy matching, stemming, 모델 추론은 사용하지 않는다. 안전 검증,
 범위 불일치, PCCP·캡스톤·공모전·졸업작품 보호 주제, 포괄적 졸업 인증, 승인 alias 순서로

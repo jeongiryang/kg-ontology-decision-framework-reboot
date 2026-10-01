@@ -129,7 +129,7 @@ contracts:
       version: "2.0.0"
     RuleFact:
       path: contracts/rule-fact.schema.json
-      version: "2.0.0"
+      version: "2.1.0"
     EvidencePacket:
       path: contracts/evidence-packet.schema.json
       version: "2.0.0"

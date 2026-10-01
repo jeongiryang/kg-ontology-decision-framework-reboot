@@ -30,6 +30,7 @@ class AcademicClarificationValidationTest(unittest.TestCase):
         shutil.copytree(ROOT / "contracts", root / "contracts")
         shutil.copytree(ROOT / "knowledge", root / "knowledge")
         shutil.copytree(ROOT / "reviews", root / "reviews")
+        shutil.copytree(ROOT / "reports/source-audits", root / "reports/source-audits")
         # This helper builds a synthetic pre-approval state for the original
         # 2026 review session.  A later, already-applied TA confirmation packet
         # must not be revalidated against the deliberately mutated fixtures.
@@ -57,6 +58,8 @@ class AcademicClarificationValidationTest(unittest.TestCase):
         ):
             for object_path in sorted((root / "knowledge" / directory).glob("*.json")):
                 value = json.loads(object_path.read_text(encoding="utf-8"))
+                if value[id_field] not in {subject["subject_id"] for subject in review["subjects"]}:
+                    continue  # Keep independent later approval sessions immutable.
                 value["review"] = {"status": "needs_review", "mode": "human", "scope": "full"}
                 object_path.write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
                 snapshots.append({
@@ -125,6 +128,7 @@ class AcademicClarificationValidationTest(unittest.TestCase):
             shutil.copytree(ROOT / "contracts", project / "contracts")
             shutil.copytree(ROOT / "knowledge", project / "knowledge")
             shutil.copytree(ROOT / "reviews", project / "reviews")
+            shutil.copytree(ROOT / "reports/source-audits", project / "reports/source-audits")
             path = project / "reviews/academic/clarifications/2026-initial-review-questions.json"
             packet = json.loads(path.read_text(encoding="utf-8"))
             packet["application"]["output_snapshots"][0]["sha256"] = "0" * 64
@@ -138,6 +142,7 @@ class AcademicClarificationValidationTest(unittest.TestCase):
             shutil.copytree(ROOT / "contracts", project / "contracts")
             shutil.copytree(ROOT / "knowledge", project / "knowledge")
             shutil.copytree(ROOT / "reviews", project / "reviews")
+            shutil.copytree(ROOT / "reports/source-audits", project / "reports/source-audits")
             rule_path = project / "knowledge/rules/cwnu.cs.2026.credits.general-foundation.json"
             rule = json.loads(rule_path.read_text(encoding="utf-8"))
             rule["decision"]["statement"] = "기초교양을 99학점 이상 이수해야 한다."
@@ -159,6 +164,7 @@ class AcademicClarificationValidationTest(unittest.TestCase):
             shutil.copytree(ROOT / "contracts", project / "contracts")
             shutil.copytree(ROOT / "knowledge", project / "knowledge")
             shutil.copytree(ROOT / "reviews", project / "reviews")
+            shutil.copytree(ROOT / "reports/source-audits", project / "reports/source-audits")
             rule_path = project / "knowledge/rules/cwnu.cs.2026.graduation.thesis-substitution.json"
             rule = json.loads(rule_path.read_text(encoding="utf-8"))
             rule["decision"]["statement"] = "총장상급 이상의 외부 공모전에서 수상하면 졸업작품을 대신할 수 있다."
@@ -179,6 +185,7 @@ class AcademicClarificationValidationTest(unittest.TestCase):
             shutil.copytree(ROOT / "contracts", project / "contracts")
             shutil.copytree(ROOT / "knowledge", project / "knowledge")
             shutil.copytree(ROOT / "reviews", project / "reviews")
+            shutil.copytree(ROOT / "reports/source-audits", project / "reports/source-audits")
             rule_path = project / "knowledge/rules/cwnu.cs.2026.credits.general-foundation.json"
             rule = json.loads(rule_path.read_text(encoding="utf-8"))
             rule["review"]["reviewer_id"] = "replacement_reviewer"
@@ -210,6 +217,7 @@ class AcademicClarificationValidationTest(unittest.TestCase):
             shutil.copytree(ROOT / "contracts", project / "contracts")
             shutil.copytree(ROOT / "knowledge", project / "knowledge")
             shutil.copytree(ROOT / "reviews", project / "reviews")
+            shutil.copytree(ROOT / "reports/source-audits", project / "reports/source-audits")
             packet_path = project / "reviews/academic/clarifications/2026-initial-review-questions.json"
             packet = json.loads(packet_path.read_text(encoding="utf-8"))
             packet["responses"][0]["exact_text"] = "사용자가 말하지 않은 조작 문구"

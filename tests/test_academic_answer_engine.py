@@ -41,8 +41,8 @@ class AcademicAnswerEngineTests(unittest.TestCase):
         cls.response_schema = json.loads((ROOT / "contracts/academic-answer-response.schema.json").read_text(encoding="utf-8"))
 
     def test_registry_exact_profile_and_canonical_hashes(self) -> None:
-        self.assertEqual(26, len(self.registry.rules))
-        self.assertEqual(2, len(self.registry.sources))
+        self.assertEqual(29, len(self.registry.rules))
+        self.assertEqual(3, len(self.registry.sources))
         self.assertEqual({canonical_sha256(rule) for rule in self.registry.rules.values()}, set(self.registry.rule_hashes.values()))
         self.assertEqual(set(), set(self.registry.conflicts))
 

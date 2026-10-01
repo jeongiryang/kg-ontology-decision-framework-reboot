@@ -1,0 +1,54 @@
+{
+  "schema_version": "2.1.0",
+  "rule_id": "cwnu.cs.2026.operations.coding-test-failure",
+  "label": "코딩 테스트 미통과 시 캡스톤 처리",
+  "applicability": {
+    "basis": "admission_year",
+    "curriculum_years": [
+      2026
+    ],
+    "admission_years": [
+      2026
+    ],
+    "departments": [
+      "컴퓨터공학과"
+    ],
+    "conditions": []
+  },
+  "relationship": {
+    "kind": "base",
+    "target_rule_ids": []
+  },
+  "answer_policy": "policy_statement",
+  "decision": {
+    "statement": "코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다.",
+    "outcome": {
+      "type": "operational_policy",
+      "kind": "coding_test_failure",
+      "requirement": "capstone.coding_test_failure",
+      "capstone_i_result": "U",
+      "capstone_i_enrollment_prohibited": false,
+      "capstone_ii_enrollment": "next_academic_year_not_allowed"
+    },
+    "operator": "direct"
+  },
+  "evidence": [
+    {
+      "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+      "locator": "학과 확인 기록 2026-10-01, 확인된 조건 2; session=review-20261001-prototype-integration",
+      "evidence_type": "department_confirmation",
+      "excerpt": "코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다."
+    }
+  ],
+  "review": {
+    "status": "approved",
+    "mode": "human",
+    "scope": "full",
+    "reviewer_id": "project_owner",
+    "reviewed_at": "2026-10-01T09:28:35+09:00",
+    "rationale": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+  },
+  "review_notes": [
+    "확인된 일반 운영정책 설명만 허용한다. 개인의 이수·수강·면제·학점 판정과 보류 조건을 자동 도출하지 않는다."
+  ]
+}

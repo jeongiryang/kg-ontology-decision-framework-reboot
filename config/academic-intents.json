@@ -36,6 +36,9 @@
     {"intent_id":"graduation.thesis.substitution","kind":"specific","aliases":["졸업논문대체","논문대체요건","논문대체"],"rule_ids":["cwnu.cs.2026.graduation.thesis-substitution"]},
     {"intent_id":"major.counseling-completion","kind":"specific","aliases":["심층상담0학점","심층상담이수","심층상담횟수","심층상담"],"rule_ids":["cwnu.cs.2026.major-counseling-completion"]},
     {"intent_id":"major.required-course-set","kind":"specific","aliases":["전공필수9과목","전공필수과목목록","전필9과목","전공필수과목"],"rule_ids":["cwnu.cs.2026.major-required-course-set"]},
+    {"intent_id":"operations.pccp-current-trial","kind":"specific","aliases":["현행pccp합격기준","pccp합격기준","pccp합격점수"],"rule_ids":["cwnu.cs.2026.operations.pccp-current-trial"]},
+    {"intent_id":"operations.coding-test-failure","kind":"specific","aliases":["코딩테스트미통과시처리","코테미통과시처리","코딩테스트미통과조치"],"rule_ids":["cwnu.cs.2026.operations.coding-test-failure"]},
+    {"intent_id":"operations.graduation-work-prerequisite","kind":"specific","aliases":["졸업작품수강선행조건","졸업작품수강선수요건","졸업작품수강전제조건"],"rule_ids":["cwnu.cs.2026.operations.graduation-work-prerequisite"]},
     {"intent_id":"credits.general.bundle","kind":"bundle","aliases":["교양학점","교양은","교양"],"rule_ids":["cwnu.cs.2026.credits.general-balanced","cwnu.cs.2026.credits.general-foundation","cwnu.cs.2026.credits.general-remaining","cwnu.cs.2026.credits.general-total"]},
     {"intent_id":"credits.major.bundle","kind":"bundle","aliases":["전공학점","전공은","전공"],"rule_ids":["cwnu.cs.2026.credits.major-advanced","cwnu.cs.2026.credits.major-elective","cwnu.cs.2026.credits.major-minimum","cwnu.cs.2026.credits.major-required","cwnu.cs.2026.credits.major-total"]}
   ]

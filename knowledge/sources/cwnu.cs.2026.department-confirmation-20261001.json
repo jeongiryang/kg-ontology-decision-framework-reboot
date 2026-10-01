@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0.0",
+  "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+  "title": "2026학번 컴퓨터공학과 운영조건 학과 확인 (2026-10-01)",
+  "sha256": "d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6",
+  "authority": "department_guidance",
+  "applicability": {
+    "basis": "informational",
+    "curriculum_years": [
+      2026
+    ],
+    "admission_years": [
+      2026
+    ],
+    "departments": [
+      "컴퓨터공학과"
+    ],
+    "conditions": [
+      "현재 시범 운영 확인의 범위만 설명하며 향후 적용 시점의 점수 기준을 보장하지 않는다.",
+      "학과 확인 기록이며 교육과정 PDF·공식 규정 원문으로 표시하지 않는다."
+    ]
+  },
+  "canonical_locator": "reviews/academic/clarifications/2026-operational-confirmation-20261001.md",
+  "review": {
+    "status": "approved",
+    "mode": "human",
+    "scope": "full",
+    "reviewer_id": "project_owner",
+    "reviewed_at": "2026-10-01T09:28:35+09:00",
+    "rationale": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+  },
+  "notes": [
+    "종료된 이전 검수 세션 권한은 재사용하지 않았다.",
+    "공모전·우수자 면제의 수강 및 학점 처리, 향후 점수 기준과 제출 마감은 승인 범위가 아니다."
+  ]
+}

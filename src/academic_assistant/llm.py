@@ -75,7 +75,7 @@ class LLMSettings:
             raise ValueError("invalid local LLM model")
         if any(ord(char) < 32 or ord(char) == 127 for char in self.api_key):
             raise ValueError("invalid local LLM API key")
-        if not math.isfinite(self.timeout_seconds) or not 0 < self.timeout_seconds <= 10:
+        if not math.isfinite(self.timeout_seconds) or not 0 < self.timeout_seconds <= 30:
             raise ValueError("invalid local LLM timeout")
         if not 0 < self.max_response_bytes <= 32768:
             raise ValueError("invalid local LLM response bound")
@@ -111,6 +111,15 @@ class LLMSettings:
 class _NoRedirects(HTTPRedirectHandler):
     def redirect_request(self, request, fp, code, message, headers, new_url):
         raise HTTPError(request.full_url, code, "LLM redirects are disabled", headers, fp)
+
+
+def _unique_json_object(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise LLMInvalidResponse("duplicate local LLM JSON property")
+        value[key] = item
+    return value
 
 
 class _RequestBudget:
@@ -210,12 +219,29 @@ class LocalLLMClient:
             "academic_signals": signal_parts,
             "catalog": catalog,
         }
+        output_schema = {
+            "type": "object",
+            "properties": {
+                "intent_id": {
+                    "anyOf": [
+                        {"type": "string", "enum": catalog},
+                        {"type": "null"},
+                    ]
+                }
+            },
+            "required": ["intent_id"],
+            "additionalProperties": False,
+        }
         if self.settings.provider == "ollama":
             path = "/api/generate"
             payload = {
                 "model": self.settings.model,
                 "prompt": json.dumps(task, ensure_ascii=False, separators=(",", ":")),
-                "format": "json",
+                # Official /api/generate accepts a JSON Schema in format and
+                # think:false requests no thinking output. Unsupported models
+                # fail closed; never retry with an unconstrained prompt.
+                "format": output_schema,
+                "think": False,
                 "stream": False,
                 "options": {"temperature": 0, "num_predict": 64},
             }
@@ -239,19 +265,7 @@ class LocalLLMClient:
                     "json_schema": {
                         "name": "academic_intent",
                         "strict": True,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "intent_id": {
-                                    "anyOf": [
-                                        {"type": "string", "enum": catalog},
-                                        {"type": "null"},
-                                    ]
-                                }
-                            },
-                            "required": ["intent_id"],
-                            "additionalProperties": False,
-                        },
+                        "schema": output_schema,
                     },
                 }
                 payload["reasoning_effort"] = "none"
@@ -268,12 +282,12 @@ class LocalLLMClient:
         if len(raw) > self.settings.max_response_bytes:
             raise LLMInvalidResponse("local LLM response too large")
         try:
-            outer = json.loads(raw.decode("utf-8"))
+            outer = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_json_object)
             if self.settings.provider == "ollama":
                 content = outer["response"]
             else:
                 content = outer["choices"][0]["message"]["content"]
-            parsed = json.loads(content)
+            parsed = json.loads(content, object_pairs_hook=_unique_json_object)
         except (UnicodeDecodeError, json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
             raise LLMInvalidResponse("invalid local LLM JSON") from exc
         if not isinstance(parsed, dict) or set(parsed) != {"intent_id"}:
