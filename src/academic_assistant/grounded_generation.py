@@ -14,12 +14,13 @@ from typing import Literal, Mapping, TYPE_CHECKING
 from .llm import LLMBusy, LLMInvalidResponse, LLMUnavailable, VerifiedGeneration
 from .models import AcademicAnswerResponse
 from .registry import Registry, canonical_sha256
+from .conversation import approved_statement, polite_statement
 
 if TYPE_CHECKING:
     from .llm import LocalLLMClient
 
 GenerationStatus = Literal["generated", "cached", "disabled", "unavailable", "rejected", "busy", "not_applicable"]
-GRAMMAR_VERSION = "ko-approved-claims-v1"
+GRAMMAR_VERSION = "ko-approved-claims-v3-complete-items"
 PUBLIC_SCOPE = {"admission_year": 2026, "matched_curriculum_year": 2026, "department": "컴퓨터공학과"}
 INTRODUCTIONS = ("", "확인된 기준을 안내해 드리겠습니다.", "승인된 학사 근거에 따른 안내입니다.")
 _SUBJECTS = {
@@ -83,10 +84,8 @@ def build_public_plan(base: AcademicAnswerResponse, registry: Registry) -> dict:
                 raise LLMInvalidResponse("unapproved claim source")
         if not rule.get("evidence"):
             raise LLMInvalidResponse("missing approved claim source")
-        statement = rule["decision"]["statement"]
+        statement = approved_statement(rule)
         outcome = rule["decision"]["outcome"]
-        if outcome["type"] == "coverage_requirement" and outcome.get("requirement") == "major.required.course_set":
-            statement += " 지정 과목은 " + ", ".join(item["label"] for item in outcome["items"]) + "이다."
         claim = {"claim_id": applied.rule_id, "rule_sha256": digest, "statement": statement}
         if (outcome["type"] == "credit_threshold" and outcome.get("comparator") == "at_least"
                 and rule.get("relationship", {}).get("kind") == "base" and scope.get("conditions") == []
@@ -131,10 +130,16 @@ def validate_public_plan(plan: dict) -> None:
 
 def permitted_sentences(claim: dict) -> tuple[str, ...]:
     sentences = [claim["statement"], "확인된 기준에 따르면, " + claim["statement"]]
+    polite = polite_statement(claim["statement"])
+    if polite != claim["statement"]:
+        sentences.extend((polite, "확인된 기준에 따르면, " + polite))
     if "metric" in claim:
         subject, credits = claim["subject"], claim["credits"]
         particle = "은" if (ord(subject[-1]) - 0xAC00) % 28 else "는"
         sentences.extend((f"{subject}{particle} 최소 {credits}학점을 이수해야 합니다.",
+                          f"{subject}{particle} 최소 {credits}학점을 이수해야 해요.",
+                          f"{subject}{particle} 최소 {credits}학점을 이수하셔야 합니다.",
+                          f"{subject} 기준은 {credits}학점 이상이에요.",
                           f"{subject} 기준은 {credits}학점 이상입니다."))
     return tuple(sentences)
 

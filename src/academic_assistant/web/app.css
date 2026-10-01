@@ -228,3 +228,9 @@ footer p { margin: 0; }
 .transcript-workspace > summary, .detail-section > summary { cursor: pointer; font-weight: 800; }
 .transcript-workspace > summary { color: var(--green); font-size: 1.15rem; }
 .generation-note { color: var(--green); font-size: .74rem; margin-bottom: .65rem !important; }
+.conversation-context { color: var(--muted); font-size: .78rem; margin: -.8rem 0 1.1rem; }
+.current-question { color: var(--green); background: var(--green-soft); padding: .7rem .9rem; border-radius: .7rem; overflow-wrap: anywhere; }
+.conversation-history { margin: 0 0 1rem; font-size: .82rem; }
+.conversation-history summary { cursor: pointer; color: var(--muted); font-weight: 750; }
+.conversation-turn { border-bottom: 1px solid var(--line); padding: .7rem 0; }
+.conversation-turn p { margin: .3rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }

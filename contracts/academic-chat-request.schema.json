@@ -13,6 +13,7 @@
     "department": {"type": "string", "minLength": 1, "maxLength": 100, "pattern": ".*\\S.*"},
     "earned_credits": {"type": "object", "propertyNames": {"pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)+$"}, "additionalProperties": {"type": "integer", "minimum": 0, "maximum": 500}},
     "previous_question": {"type": ["string", "null"], "minLength": 1, "maxLength": 500, "pattern": ".*\\S.*"},
-    "generate_answer": {"type": "boolean", "default": false}
+    "generate_answer": {"type": "boolean", "default": false},
+    "response_style": {"enum": ["friendly", null]}
   }
 }

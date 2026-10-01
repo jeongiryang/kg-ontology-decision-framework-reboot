@@ -28,7 +28,7 @@
     <section class="hero" aria-labelledby="page-title">
       <p class="eyebrow">EVIDENCE-GROUNDED ACADEMIC ASSISTANT</p>
       <h1 id="page-title">학사 질문,<br><em>근거로</em> 답합니다.</h1>
-      <p class="lede">질문 → 근거 답변 → 원문 확인. Gemma는 승인된 기준의 안내 문장을 작성하고, 학점 계산은 규칙 엔진이 처리합니다. 근거가 부족하면 판단을 보류합니다.</p>
+      <p class="lede">조교에게 묻듯 편하게 질문하세요. 확인된 근거로 먼저 안내하고, Gemma가 표현을 다듬습니다. 학점 계산과 판정은 검증된 기준을 따릅니다.</p>
       <p id="runtime-state" class="privacy-note" role="status">연결 상태 확인 중</p>
       <p id="public-demo-note" class="privacy-note" hidden>공개 HTTPS 데모 · 로그인 없음 · 성적표는 운영자의 PC에서 처리</p>
     </section>
@@ -40,14 +40,15 @@
             <p class="step">01 · 질문</p>
             <h2>무엇이 궁금한가요?</h2>
           </div>
-          <span class="privacy-note">자동 저장 안 함</span>
+          <button id="new-conversation" data-conversation-mode="friendly" class="secondary-button" type="button">새 대화</button>
         </div>
+        <p id="conversation-context" class="conversation-context" role="status">이 탭에서만 대화를 기억합니다. 새 대화에서는 성적표와 입력 학점도 지웁니다.</p>
 
         <form id="question-form" autocomplete="off" novalidate>
           <label for="question">학사 질문</label>
           <textarea id="question" name="question" rows="5" minlength="1" maxlength="500" required placeholder="예: 졸업학점 기준은 몇 학점인가요?" aria-describedby="question-help question-count"></textarea>
           <div class="field-meta">
-            <span id="question-help">개인정보나 성적표 내용은 입력하지 마세요.</span>
+            <span id="question-help">앞 질문에 이어 물어보세요. 이름·학번·성적표 원문은 입력하지 마세요.</span>
             <span id="question-count" aria-live="polite">0 / 500</span>
           </div>
 
@@ -69,7 +70,7 @@
             </div>
           </details>
           <button class="submit-button" type="submit">
-            <span>승인된 근거로 확인</span>
+            <span>질문하기</span>
             <span aria-hidden="true">→</span>
           </button>
           <p class="shortcut">Windows: Ctrl + Enter · macOS: ⌘ + Enter</p>
@@ -93,6 +94,12 @@
           </div>
           <span id="status-badge" class="status-badge status-idle">대기 중</span>
         </div>
+
+        <details id="conversation-history" class="conversation-history" hidden>
+          <summary>앞선 대화 · 이 탭에서만 기억</summary>
+          <div id="conversation-turns"></div>
+        </details>
+        <p id="current-question" class="current-question" hidden></p>
 
         <div id="empty-state" class="empty-state">
           <div class="empty-symbol" aria-hidden="true">⌁</div>
@@ -122,6 +129,10 @@
           <section id="evidence-section" class="detail-section" hidden>
             <h3>근거 위치</h3>
             <ul id="evidence-list" class="detail-list"></ul>
+          </section>
+          <section id="transcript-checks-section" class="detail-section" hidden>
+            <h3>내 이수내역 비교</h3>
+            <ul id="transcript-checks-list" class="detail-list"></ul>
           </section>
           <details id="rules-section" class="detail-section" hidden>
             <summary>적용 규칙 · 검증 상세</summary>

@@ -434,6 +434,21 @@
       },
       "title": "Verification Items",
       "type": "array"
+    },
+    "conversational_answer": {
+      "anyOf": [{"maxLength": 8000, "minLength": 1, "type": "string"}, {"type": "null"}],
+      "default": null,
+      "title": "Conversational Answer"
+    },
+    "context_question": {
+      "anyOf": [{"maxLength": 200, "minLength": 1, "type": "string"}, {"type": "null"}],
+      "default": null,
+      "title": "Context Question"
+    },
+    "context_used": {
+      "anyOf": [{"type": "boolean"}, {"type": "null"}],
+      "default": null,
+      "title": "Context Used"
     }
   },
   "required": [

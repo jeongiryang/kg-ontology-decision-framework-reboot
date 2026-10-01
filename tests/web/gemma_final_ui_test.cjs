@@ -36,7 +36,7 @@ class Element {
   focus() {}
 }
 
-function setup() {
+function setup({friendly = false, runtimeReady = false} = {}) {
   const elements = new Map();
   for (const match of html.matchAll(/<([a-z][a-z0-9]*)\b[^>]*\bid="([^"]+)"[^>]*>/g)) {
     elements.set(match[2], new Element(match[1]));
@@ -53,6 +53,7 @@ function setup() {
     return elements.get(id);
   };
   const button = new Element("button"); button.type = "submit"; node("question-form").appendChild(button);
+  if (friendly) node("new-conversation").dataset.conversationMode = "friendly";
   const document = {
     getElementById: node, createElement: tag => new Element(tag),
     querySelectorAll: selector => {
@@ -61,10 +62,11 @@ function setup() {
     },
   };
   const calls = [];
-  const window = {location: {hostname: "demo.invalid"}};
+  const window = new Element("window"); window.location = {hostname: "demo.invalid"};
   const context = {document, window, location: window.location, AbortController, Event,
     fetch: (url, options) => {
-      if (url === "/v1/academic/runtime") return Promise.resolve({ok: true, json: async () => ({})});
+      if (url === "/v1/academic/runtime") return Promise.resolve({ok: true, json: async () => runtimeReady
+        ? {llm_mode: "grounded_answer_generation", llm_configured: true, llm_model_available: true} : {}});
       return new Promise(resolve => calls.push({url, options, resolve}));
     },
   };
@@ -145,18 +147,39 @@ function testLegacyResponseAndNetworkErrorNeverLeaveSuccessLabel() {
   assert.equal(ui.node("generation-note").hidden, true);
   assert.doesNotMatch(ui.node("answer-text").textContent, /모델이 반환한/);
 }
-async function testActualChatSubmissionOptsInWithoutPersistence() {
-  const ui = setup(); ui.node("question").value = "졸업학점은 얼마인가요?";
+async function testActualChatSubmissionFastThenOptsInWithoutPersistence() {
+  const ui = setup({friendly: true, runtimeReady: true});
+  await new Promise(resolve => setImmediate(resolve));
+  ui.node("question").value = "졸업학점은 얼마인가요?";
   ui.credits.find(input => input.dataset.creditMetric === "credits.graduation.total").value = "107";
   const operation = ui.node("question-form").emit("submit");
   assert.equal(ui.calls.length, 1);
   const call = ui.calls[0]; const payload = JSON.parse(call.options.body);
   assert.equal(call.url, "/v1/academic/chat"); assert.equal(call.options.method, "POST");
-  assert.equal(payload.generate_answer, true); assert.equal(payload.previous_question, null);
+  assert.equal(payload.generate_answer, false); assert.equal(payload.response_style, "friendly");
+  assert.equal(payload.previous_question, null);
   assert.deepEqual(payload.earned_credits, {"credits.graduation.total": 107});
   assert.equal(call.options.cache, "no-store"); assert.equal(call.options.credentials, "omit");
-  call.resolve({ok: true, json: async () => response()}); await operation;
+  const initial = response({generation_status: "disabled", generated_answer: null, generated_claim_ids: [],
+    intent_ids: ["credits.general.total", "credits.general.foundation"], context_used: false,
+    context_question: "교양 총학점 및 기초교양 기준", conversational_answer: "먼저 확인된 기준을 안내해 드려요.",
+    presentation_claim_ids: [...ids]});
+  call.resolve({ok: true, json: async () => initial}); await operation;
+  assert.equal(ui.node("answer-text").textContent, initial.conversational_answer);
+  assert.equal(ui.calls.length, 2);
+  assert.deepEqual(JSON.parse(ui.calls[1].options.body), {...payload, generate_answer: true});
+  assert.doesNotMatch(ui.node("generation-note").textContent, /Gemma 작성/);
+  ui.calls[1].resolve({ok: true, json: async () => ({...initial, generation_status: "generated",
+    generated_answer: "모델이 반환한 검증 문장", generated_claim_ids: [...ids],
+    conversational_answer: "모델이 반환한 검증 문장"})});
+  await new Promise(resolve => setImmediate(resolve));
   assert.equal(ui.node("answer-text").textContent, "모델이 반환한 검증 문장");
+  const legacy = setup(); legacy.node("question").value = "졸업학점 기준";
+  const legacyOperation = legacy.node("question-form").emit("submit");
+  const legacyPayload = JSON.parse(legacy.calls[0].options.body);
+  assert.equal(legacyPayload.generate_answer, true); assert.ok(!("response_style" in legacyPayload));
+  legacy.calls[0].resolve({ok: true, json: async () => response()}); await legacyOperation;
+  assert.equal(legacy.calls.length, 1); assert.equal(legacy.node("answer-text").textContent, "모델이 반환한 검증 문장");
 }
 
 async function main() {
@@ -164,7 +187,7 @@ async function main() {
     testEveryFallbackIgnoresUnverifiedGeneratedText, testUnsupportedOuterOrPacketStatusCannotDisplayModelText,
     testCompleteOrderedUniqueClaimCoverageRequired, testGeneratedTextMustBeBoundedNonemptyString,
     testBothGeneratedAndTrustedTextUseSafeTextNodes, testLegacyResponseAndNetworkErrorNeverLeaveSuccessLabel,
-    testActualChatSubmissionOptsInWithoutPersistence];
+    testActualChatSubmissionFastThenOptsInWithoutPersistence];
   for (const test of tests) { await test(); process.stdout.write(`PASS ${test.name}\n`); }
   process.stdout.write(`PASS ${tests.length} final Gemma consumer regression groups\n`);
 }

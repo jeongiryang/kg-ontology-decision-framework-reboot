@@ -480,6 +480,20 @@ canonical 해시가 질문 당시 `input_snapshots`와 같아야 한다. 따라�
 
 # 성적표 계약 1.0.0
 
+호환 확장: 정책 `AcademicChatRequest`와 성적표 `TranscriptFollowupRequest`에 선택적
+`response_style="friendly"`를 추가한다. 기본 null은 이전 요청 직렬화에서 생략한다.
+성적표 후속 요청은 최대200자의 `previous_question`도 선택적으로 받는다. 이전 질문은
+승인 결과가 아니며 현재 자료와 규칙으로 재검증한다. `/answers`와 CLI에는 이 필드가 없다.
+
+정책 후속 응답의 `conversational_answer`는 안내 표현이고 `presentation_claim_ids`는
+지원된 `applied_rules`와 같은 전체 순서다. 거절에는 빈 배열만 허용한다. 최대500자의
+`context_question`은 지원된 독립 질문만 담는다. 성적표 후속 응답도 최대8000자
+`conversational_answer`, 최대200자 `context_question`, `context_used`를 선택적으로
+제공하되 `selected_checks`와 별도의 항목별 근거 상태를 유지한다. 모호하거나 비지원인
+응답을 다음 질문의 승인된 문맥으로 만들지 않는다. 스타일을 생략한 이전 응답은 새
+null 필드를 싣지 않는다. 자세한 동작은 [대화 안내](../operations/conversation-prototype.md)와
+[ADR0022](decisions/0022-friendly-volatile-conversation.md)에 기록한다.
+
 후속 호환 필드: `TranscriptCourse.review_flags=[]`는 재수강·동일/대체·소급·인정 미확인의 보류 신호다. 응답의 `verification_items`는 과목행/체크ID와 확인 행동을 연결하고, `credit_summary`는 입력PASS·조건부졸업인정·미확인PASS학점을 구분한다. 같은 문제 행은 미확인 합계에서 중복 세지 않는다. 후속 응답의 `focus_check_ids`·`verification_items`는 화면 이동용이며 학사 승인 권한이 아니다. 개인 미확인 패킷과 정책 패킷 분리를 유지한다.
 
 - `TranscriptExtraction`: 식별정보 없는 과목 후보·감지 입학년도·고정 학과·미확인 안내와 확인 필요 표시. 추출 결과는 승인된 학생 사실이 아니다.

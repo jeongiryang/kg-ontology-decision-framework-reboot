@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, field_validator, model_serializer
 
 Status = Literal["supported", "insufficient_evidence", "conflict", "out_of_scope"]
 
@@ -46,6 +46,14 @@ class AcademicChatRequest(AcademicAnswerRequest):
 
     previous_question: str | None = Field(default=None, min_length=1, max_length=500)
     generate_answer: StrictBool = False
+    response_style: Literal["friendly"] | None = None
+
+    @model_serializer(mode="wrap")
+    def compatible_request(self, handler):
+        value = handler(self)
+        if self.response_style is None:
+            value.pop("response_style", None)
+        return value
 
     @field_validator("previous_question")
     @classmethod
