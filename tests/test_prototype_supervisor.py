@@ -244,6 +244,54 @@ class PrototypeSupervisorTests(unittest.TestCase):
         with patch.object(supervisor.socket, "socket", side_effect=OSError("secret-url-password")):
             self.assertEqual((None, None), supervisor._get_json("/readyz", 1))
 
+    def test_explicit_depth_64_is_accepted_and_65_is_rejected_before_decoder(self):
+        self.assertEqual(64, supervisor.MAX_JSON_DEPTH)
+        with local_diagnostic_server() as (responses, _requests):
+            for opening, closing, kind in ((b"[", b"]", "array"), (b'{"x":', b"}", "object")):
+                with self.subTest(kind=kind, depth=64):
+                    body = b'{"nested":' + opening * 63 + b"0" + closing * 63 + b"}"
+                    responses["/readyz"] = (200, body)
+                    code, data = supervisor._get_json("/readyz", 0.2)
+                    self.assertEqual(200, code)
+                    value = data["nested"]
+                    for _ in range(63):
+                        value = value[0] if kind == "array" else value["x"]
+                    self.assertEqual(0, value)
+                with self.subTest(kind=kind, depth=65):
+                    body = b'{"nested":' + opening * 64 + b"0" + closing * 64 + b"}"
+                    responses["/readyz"] = (200, body)
+                    with patch.object(supervisor.json, "loads", side_effect=AssertionError("over-depth body reached decoder")) as decoder:
+                        self.assertEqual((None, None), supervisor._get_json("/readyz", 0.2))
+                        decoder.assert_not_called()
+
+    def test_depth_guard_ignores_brackets_and_escaped_quotes_inside_strings(self):
+        marker = '학사 🎓 [{"quoted"}]' * 100 + '"' + "\\" * 3 + '"' + "\\"
+        leaf = json.dumps(marker, ensure_ascii=False).encode("utf-8")
+        body = b'{"nested":' + b"[" * 63 + leaf + b"]" * 63 + b"}"
+        with local_diagnostic_server() as (responses, _requests):
+            responses["/readyz"] = (200, body)
+            code, data = supervisor._get_json("/readyz", 0.2)
+            self.assertEqual(200, code)
+            value = data["nested"]
+            for _ in range(63):
+                value = value[0]
+            self.assertEqual(marker, value)
+
+    def test_non_utf8_or_bom_diagnostic_json_is_rejected(self):
+        text = '{"status":"ready"}'
+        with local_diagnostic_server() as (responses, _requests):
+            for encoding in ("utf-8-sig", "utf-16", "utf-16-le", "utf-16-be", "utf-32", "utf-32-le", "utf-32-be"):
+                with self.subTest(encoding=encoding):
+                    responses["/readyz"] = (200, text.encode(encoding))
+                    self.assertEqual((None, None), supervisor._get_json("/readyz", 0.2))
+
+    def test_malformed_json_still_returns_sanitized_unavailability(self):
+        with local_diagnostic_server() as (responses, _requests):
+            for body in (b'{"x":[0}', b'{"x":"unterminated}', b'{"x":}', b'{"x":"bad\\q"}'):
+                with self.subTest(body=body):
+                    responses["/readyz"] = (200, body)
+                    self.assertEqual((None, None), supervisor._get_json("/readyz", 0.2))
+
     def test_deep_json_and_decoder_capacity_failures_are_sanitized(self):
         deep = b'{"x":' + b"[" * 4000 + b"0" + b"]" * 4000 + b"}"
         self.assertEqual(8007, len(deep))

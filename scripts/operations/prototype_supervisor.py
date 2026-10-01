@@ -31,6 +31,7 @@ PORT = 8000
 BASE_URL = f"http://{HOST}:{PORT}"
 MAX_RESPONSE_BYTES = 8192
 MAX_HEADER_BYTES = 8192
+MAX_JSON_DEPTH = 64
 EXIT_OK = 0
 EXIT_CONFIG = 1
 EXIT_OCCUPIED = 2
@@ -102,6 +103,35 @@ def _unique_json(pairs):
             raise ValueError("invalid diagnostic response")
         result[key] = value
     return result
+
+
+def _within_json_depth(text: str) -> bool:
+    """Count simultaneous containers, ignoring quoted/escaped characters.
+
+    Syntax and matching container types remain the decoder's responsibility.
+    """
+    depth = 0
+    quoted = False
+    escaped = False
+    for character in text:
+        if quoted:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                quoted = False
+        elif character == '"':
+            quoted = True
+        elif character in "[{":
+            depth += 1
+            if depth > MAX_JSON_DEPTH:
+                return False
+        elif character in "]}":
+            depth -= 1
+            if depth < 0:
+                return False
+    return depth == 0 and not quoted
 
 
 def _socket_ready(connection: socket.socket, deadline: float, *, writing=False):
@@ -177,10 +207,16 @@ def _read_json_response(connection: socket.socket, deadline: float):
     if len(body) > MAX_RESPONSE_BYTES or (size is not None and len(body) != size):
         return status, None
     try:
-        data = json.loads(body, object_pairs_hook=_unique_json)
+        # Fixed diagnostic endpoints emit UTF-8. Passing text to json.loads
+        # also prevents its raw-byte UTF-16/32 autodetection from bypassing
+        # the same string/escape-aware scan used for every accepted body.
+        text = body.decode("utf-8")
+        if not _within_json_depth(text):
+            return None, None
+        data = json.loads(text, object_pairs_hook=_unique_json)
     except (RecursionError, MemoryError):
-        # Byte limits do not bound decoder nesting or capacity. Reject only
-        # these decoder resource failures, without changing global limits.
+        # Retain capacity failure protection even below the explicit depth
+        # bound, without changing global decoder limits.
         return None, None
     return status, data if isinstance(data, dict) else None
 

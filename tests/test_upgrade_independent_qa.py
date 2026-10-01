@@ -510,6 +510,77 @@ class IndependentSupervisorQA(unittest.TestCase):
                 self.assertEqual(supervisor.EXIT_OK, supervisor.supervise({}, limits, threading.Event()))
         child.stop.assert_called_once_with(0.1)
 
+    def test_root_inclusive_depth_64_accepts_and_65_rejects_before_decoder(self):
+        original_decoder = json.loads
+        with diagnostic_server() as (responses, _requests):
+            for kind in ("arrays", "objects", "mixed"):
+                for depth in (64, 65):
+                    opening = [b"[" if kind == "arrays" or (kind == "mixed" and index % 2) else b'{"child":'
+                               for index in range(depth - 1)]
+                    closing = [b"]" if token == b"[" else b"}" for token in opening]
+                    body = b'{"chain":' + b"".join(opening) + b"0" + b"".join(reversed(closing)) + b"}"
+                    responses["/readyz"] = (200, body)
+                    with self.subTest(kind=kind, depth=depth):
+                        if depth == 65:
+                            with patch.object(supervisor.json, "loads", side_effect=AssertionError("over-depth response reached decoder")) as decoder:
+                                self.assertEqual((None, None), supervisor._get_json("/readyz", 0.2))
+                                decoder.assert_not_called()
+                        else:
+                            with patch.object(supervisor.json, "loads", wraps=original_decoder) as decoder:
+                                code, data = supervisor._get_json("/readyz", 0.2)
+                                decoder.assert_called_once()
+                            self.assertEqual(200, code)
+                            value = data["chain"]
+                            for token in opening:
+                                value = value[0] if token == b"[" else value["child"]
+                            self.assertEqual(0, value)
+
+    def test_quoted_escaped_container_text_and_wide_siblings_do_not_consume_depth(self):
+        marker = '합성 🎓 [ { "quoted" } ] ' * 40 + 'backslash \\ escaped quote " brackets [{}]'
+        leaf = json.dumps(marker, ensure_ascii=False).encode("utf-8")
+        at_limit = b'{"chain":' + b"[" * 63 + leaf + b"]" * 63 + b"}"
+        escaped_unicode = b'{"note":"\\u005b\\u007b\\u0022\\u005c\\u0022\\u007d\\u005d"}'
+        wide = json.dumps({"siblings": [[] for _ in range(100)], "note": marker}, ensure_ascii=False).encode("utf-8")
+        with diagnostic_server() as (responses, _requests):
+            for name, body in (("depth-64-string", at_limit), ("unicode-escapes", escaped_unicode), ("wide-siblings", wide)):
+                responses["/readyz"] = (200, body)
+                with self.subTest(case=name):
+                    code, data = supervisor._get_json("/readyz", 0.2)
+                    self.assertEqual(200, code)
+                    if name == "depth-64-string":
+                        value = data["chain"]
+                        for _ in range(63):
+                            value = value[0]
+                        self.assertEqual(marker, value)
+                    elif name == "unicode-escapes":
+                        self.assertEqual('[{"\\"}]', data["note"])
+                    else:
+                        self.assertEqual(100, len(data["siblings"]))
+                        self.assertEqual(marker, data["note"])
+
+    def test_alternate_encodings_and_invalid_utf8_cannot_bypass_depth_contract(self):
+        ready = '{"status":"ready"}'
+        over_depth = '{"chain":' + "[" * 64 + "0" + "]" * 64 + "}"
+        bodies = [(encoding, text.encode(encoding))
+                  for encoding in ("utf-8-sig", "utf-16", "utf-16-le", "utf-16-be", "utf-32", "utf-32-le", "utf-32-be")
+                  for text in (ready, over_depth)]
+        bodies.extend(("invalid-utf8", body) for body in (
+            b'{"note":"\xff"}', b'{"note":"\xc0\xaf"}', b'{"note":"\xed\xa0\x80"}'))
+        with diagnostic_server() as (responses, _requests):
+            for index, (encoding, body) in enumerate(bodies):
+                responses["/readyz"] = (200, body)
+                with self.subTest(encoding=encoding, index=index):
+                    self.assertEqual((None, None), supervisor._get_json("/readyz", 0.2))
+
+    def test_malformed_strings_escapes_and_container_types_remain_unavailable(self):
+        bodies = (b'{"chain":[0}', b'{"chain":{0]}', b'{"note":"unterminated}',
+                  b'{"note":"bad\\q"}', b'{"note":"bad\\uZZZZ"}', b'{"note":"ends-with-backslash\\"}')
+        with diagnostic_server() as (responses, _requests):
+            for index, body in enumerate(bodies):
+                responses["/readyz"] = (200, body)
+                with self.subTest(case=index):
+                    self.assertEqual((None, None), supervisor._get_json("/readyz", 0.2))
+
 
 if __name__ == "__main__":
     unittest.main()
