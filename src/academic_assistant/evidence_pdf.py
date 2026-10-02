@@ -38,6 +38,7 @@ _CREDIT_HEADERS = {"졸업학점", "기초교양", "균형교양", "전공필수
 _FALLBACK = "인용문의 정확한 위치를 유일하게 검증하지 못했습니다. 승인된 근거 페이지를 표시하며, 빨간 밑줄은 제공하지 않습니다."
 _TABLE_FALLBACK = "표의 행·열과 학점의 교차 위치를 유일하게 검증하지 못했습니다. 승인된 근거 페이지를 표시하며, 빨간 밑줄은 제공하지 않습니다."
 _TA_FALLBACK = "조교 확인 문서는 수기 내용의 정확한 위치를 자동 검증할 수 없어 승인된 근거 페이지만 표시합니다."
+_COURSE_NOTICE = "승인된 교육과정에서 해당 과목코드·과목명의 같은 행을 빨간 밑줄로 표시했습니다. 학점·이수구분·학기는 해당 표의 행과 열을 함께 확인해 주세요."
 
 
 class EvidenceUnavailable(RuntimeError):
@@ -178,6 +179,16 @@ def _table_rects(textpage, *, row_label: str, year: int, header_label: str, valu
 
 
 def _citation_rects(textpage, rule: dict, evidence: dict, source: dict, page_number: int):
+    if "course_fact" in rule:
+        fact = rule["course_fact"]
+        if (source["source_id"] != _CURRICULUM_ID or source["sha256"] != _CURRICULUM_SHA
+                or page_number not in {262, 263}):
+            return [], _FALLBACK
+        codes = _matches(textpage, fact["course_code"])
+        names = _matches(textpage, fact["course_name"])
+        if len(codes) == len(names) == 1 and abs(codes[0].box[1] - names[0].box[1]) < 8:
+            return list(codes[0].rects + names[0].rects), _COURSE_NOTICE
+        return [], _FALLBACK
     if evidence["evidence_type"] == "department_confirmation":
         return [], _TA_FALLBACK
     if textpage.count_chars() > 100_000:
@@ -260,6 +271,22 @@ class EvidencePdfService:
 
     def _citation(self, rule_id: str, evidence_index: int, pdf_page: int | None):
         """Resolve approved inputs without reading or parsing the original PDF."""
+        catalogue = getattr(self.registry, "catalogue", None)
+        course = next((fact for fact in (catalogue or {}).get("courses", [])
+                       if fact["course_id"] == rule_id), None)
+        if course is not None:
+            from .registry import canonical_sha256
+            source = self.registry.sources.get(course["source_id"])
+            if (evidence_index != 0 or source is None or not _approved(source)
+                    or source["sha256"] != course["source_sha256"]
+                    or course["fact_sha256"] != canonical_sha256({k: v for k, v in course.items() if k != "fact_sha256"})):
+                raise EvidenceNotFound()
+            pages = _cited_pages(course["locator"])
+            if pdf_page is not None and pdf_page not in pages:
+                raise EvidenceNotFound()
+            evidence = {"source_id": course["source_id"], "locator": course["locator"],
+                        "excerpt": f"{course['course_code']} {course['course_name']}", "evidence_type": "course_table"}
+            return {"course_fact": course}, evidence, source, pages
         rule = self.registry.rules.get(rule_id)
         if rule is None or not _approved(rule) or rule.get("answer_policy") == "record_only":
             raise EvidenceNotFound()
@@ -326,7 +353,8 @@ def create_evidence_router(engine_provider: Callable, *, environ: Mapping[str, s
             engine = engine_provider()
             registry = engine.registry
             # Unknown IDs fail independently of private source configuration.
-            if rule_id not in registry.rules:
+            if rule_id not in registry.rules and not any(
+                    fact["course_id"] == rule_id for fact in (getattr(registry, "catalogue", None) or {}).get("courses", [])):
                 raise EvidenceNotFound()
             reader = getattr(engine, "evidence_reader", None)
             if reader is not None:

@@ -1,0 +1,4562 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "20261001-purpose-dialogue",
+  "overall_status": "incomplete",
+  "scope": "2026학번 컴퓨터공학과",
+  "method": "independent_source_predicates_on_actual_saved_HTTP_API_no_replay",
+  "expected_cases": 40,
+  "expected_turns": 66,
+  "observed_turns": 66,
+  "turn_totals": {
+    "passed": 36,
+    "failed": 29,
+    "review_required": 1
+  },
+  "split_totals": {
+    "repair": {
+      "passed": 25,
+      "failed": 10,
+      "review_required": 1
+    },
+    "heldout": {
+      "passed": 11,
+      "failed": 19
+    }
+  },
+  "failure_attribution": {
+    "raw_product_failure_flags": 26,
+    "collector_oracle_confounds": 3,
+    "execution_failure_flags": 0,
+    "confounded_turn_ids": [
+      "PD2-R18-T2",
+      "PD2-H03-T2",
+      "PD2-H06-T2"
+    ],
+    "raw_failure_categories": {
+      "missing_retrieval": 7,
+      "question_understanding": 18,
+      "wrong_answer": 4
+    },
+    "confounds_not_reclassified_as_passed": true,
+    "all_failed_turns_are_not_wrong_academic_facts": true,
+    "judgment_boundaries": [
+      "R18T2/H03T2/H06T2: collector follows the UI fallback to the original question when context is null, but the oracle expects null.",
+      "H03T3: context label differs while the clarification is safe.",
+      "H08T1: one real candidate is confirmed, but the frozen oracle expects two candidates.",
+      "H11: requested third-year 7/12 counts are correct; extraneous second-year groups violate strict scope projection.",
+      "H15: safe academic body with a reason-code-only failure."
+    ]
+  },
+  "latency_observation": {
+    "count": 66,
+    "min_seconds": 0,
+    "max_seconds": 15.719,
+    "mean_seconds": 6.688,
+    "median_seconds": 3.5545,
+    "p95_seconds": 14.625,
+    "p95_method": "nearest_rank",
+    "includes_zero_model_clarification_and_scope_turns": true,
+    "not_a_general_model_benchmark": true
+  },
+  "git": {
+    "branch": "codex/semantic-prototype",
+    "base_commit": "1d22f14e39651438f3a1eeb4008eada5d3c9c61a",
+    "head_commit": "2c644c07b8a1555007ead475b327bcd9e6865062"
+  },
+  "changed_code_files": [
+    {
+      "git_status": "M",
+      "path": ".agents/skills/academic-assistant-orchestrator/SKILL.md"
+    },
+    {
+      "git_status": "A",
+      "path": ".agents/skills/academic-student-question-evaluation/SKILL.md"
+    },
+    {
+      "git_status": "A",
+      "path": ".codex/agents/academic_student_question_generator.toml"
+    },
+    {
+      "git_status": "M",
+      "path": ".github/workflows/harness-ci.yml"
+    },
+    {
+      "git_status": "M",
+      "path": ".gitignore"
+    },
+    {
+      "git_status": "M",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "git_status": "M",
+      "path": "README.md"
+    },
+    {
+      "git_status": "A",
+      "path": "config/course-catalogue-pin.json"
+    },
+    {
+      "git_status": "A",
+      "path": "contracts/assistant-turn-request.schema.json"
+    },
+    {
+      "git_status": "A",
+      "path": "contracts/assistant-turn-response.schema.json"
+    },
+    {
+      "git_status": "A",
+      "path": "contracts/course-catalogue.schema.json"
+    },
+    {
+      "git_status": "A",
+      "path": "contracts/course-evidence-packet.schema.json"
+    },
+    {
+      "git_status": "M",
+      "path": "docs/harness/agents-and-permissions.md"
+    },
+    {
+      "git_status": "M",
+      "path": "docs/harness/architecture.md"
+    },
+    {
+      "git_status": "M",
+      "path": "docs/harness/contracts.md"
+    },
+    {
+      "git_status": "A",
+      "path": "docs/harness/decisions/0023-semantic-course-retrieval-and-student-evaluation.md"
+    },
+    {
+      "git_status": "A",
+      "path": "docs/harness/decisions/0024-purpose-aware-dialogue-and-resume.md"
+    },
+    {
+      "git_status": "M",
+      "path": "docs/harness/decisions/README.md"
+    },
+    {
+      "git_status": "M",
+      "path": "docs/harness/workflows.md"
+    },
+    {
+      "git_status": "M",
+      "path": "docs/operations/minimal-prototype.md"
+    },
+    {
+      "git_status": "M",
+      "path": "harness-manifest.yaml"
+    },
+    {
+      "git_status": "A",
+      "path": "knowledge/course-catalogue.json"
+    },
+    {
+      "git_status": "M",
+      "path": "pyproject.toml"
+    },
+    {
+      "git_status": "M",
+      "path": "reports/README.md"
+    },
+    {
+      "git_status": "A",
+      "path": "reports/presentation-handoff-20261001.md"
+    },
+    {
+      "git_status": "A",
+      "path": "reviews/academic/current-status.md"
+    },
+    {
+      "git_status": "M",
+      "path": "scripts/knowledge/build_graph.py"
+    },
+    {
+      "git_status": "M",
+      "path": "scripts/operations/start_prototype.py"
+    },
+    {
+      "git_status": "A",
+      "path": "scripts/prototype/build_synthetic_transcripts.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/api.py"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/assistant.py"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/assistant_models.py"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/courses.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/evidence_pdf.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/evidence_process.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/kg.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/llm.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/neo4j_evidence.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/public_demo.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/registry.py"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/semantic_llm.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/transcript_assessment.py"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/transcript_examples.py"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/web/app.js"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/web/examples/early.pdf"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/web/examples/manifest.json"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/web/examples/near-graduation.pdf"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/web/examples/retake.pdf"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/web/index.html"
+    },
+    {
+      "git_status": "A",
+      "path": "src/academic_assistant/web/semantic-ui.js"
+    },
+    {
+      "git_status": "M",
+      "path": "src/academic_assistant/web/transcript.js"
+    },
+    {
+      "git_status": "M",
+      "path": "tests/test_academic_web_prototype.py"
+    },
+    {
+      "git_status": "M",
+      "path": "tests/test_public_demo_transport.py"
+    },
+    {
+      "git_status": "A",
+      "path": "tests/test_purpose_dialogue_qa.py"
+    },
+    {
+      "git_status": "A",
+      "path": "tests/test_semantic_assistant_qa.py"
+    },
+    {
+      "git_status": "A",
+      "path": "tests/test_semantic_assistant_worker.py"
+    },
+    {
+      "git_status": "A",
+      "path": "tests/test_semantic_integration.py"
+    },
+    {
+      "git_status": "M",
+      "path": "tests/transcript_web_ordering.cjs"
+    },
+    {
+      "git_status": "M",
+      "path": "tests/web/natural_conversation_ui_test.cjs"
+    },
+    {
+      "git_status": "A",
+      "path": "tests/web/semantic_dialogue_ui_test.cjs"
+    },
+    {
+      "git_status": "M",
+      "path": "tests/web/transcript_lifecycle_test.js"
+    }
+  ],
+  "required_complete": false,
+  "cumulative_product_repair_cycles": 5,
+  "approved_rules": 29,
+  "approved_sources": 3,
+  "verified_courses": 43,
+  "academic_approvals_changed": false,
+  "human_uat": "omitted_at_user_request",
+  "expectation_key_mapping": [
+    {
+      "original": "authority_policy",
+      "published": "evidence_precedence"
+    },
+    {
+      "original": "context_authority",
+      "published": "context_evidence_policy"
+    }
+  ],
+  "reported_facade_statuses": {
+    "supported": 41,
+    "insufficient_evidence": 23,
+    "out_of_scope": 2
+  },
+  "reported_generation_statuses": {
+    "generated": 34,
+    "not_applicable": 11,
+    "fallback": 21
+  },
+  "labels_are_not_independent_inference_performance_proof": true,
+  "product_sha256": {
+    "src/academic_assistant/assistant.py": "54597ced6c4035175895540a38a95fc9daec44e0830dcd3405f6ea8b7467c615",
+    "src/academic_assistant/semantic_llm.py": "660aba15a57056604993631ae5f36b81f55c1e3f6318b54a3030cb071de702c2",
+    "src/academic_assistant/courses.py": "f4d009a3e0afbafa45f5d5c74b8dbc93229392dc1fb3f624f0e4a05027495357",
+    "src/academic_assistant/assistant_models.py": "69e8560dad7de2fb6fed0a339545eb251c523e99c089d7943e4ed5781bbf3819",
+    "src/academic_assistant/web/semantic-ui.js": "32350558b3f9f155a5e575bc89b35f3218bf7a60b634d0a65a22f1e43c5d8025",
+    "knowledge/course-catalogue.json": "106539461f41cc877f84d27a8af858f9705de941490a2fa57aa252f203d41a67",
+    "config/course-catalogue-pin.json": "ac31b1bd2722c72288c6c374281ce82604f3ebe4f4a20c4e97dbe47789c6e8e4"
+  },
+  "file_hash_scope": "actual frozen worktree bytes; Git may normalize CRLF to LF, so Git blob hashes are distinct",
+  "oracle_sha256": "5102eb3d7ff9cff2ef15671b8af48e6e1a2d08962e5d0cac7189c4d8fcc9e01e",
+  "observations_sha256": "13391698878c45d0998556c958799abad53176707b16a491b4c1e64eb8a17aec",
+  "independent_qa_artifact_sha256": "967121c83d8fc12374850ca185f3f5439eee33b2043b915d749578e0aa52f99a",
+  "browser_checks": [
+    {
+      "example": "early",
+      "pdf_rows": 6,
+      "pass_credits": 15,
+      "gap": 115
+    },
+    {
+      "example": "near-graduation",
+      "pdf_rows": 45,
+      "pass_credits": 130,
+      "gap": 0,
+      "thesis": "not_completed"
+    },
+    {
+      "example": "retake",
+      "pdf_rows": 7,
+      "pass_credits": 9,
+      "gap": 121
+    }
+  ],
+  "source_preview": {
+    "pdf_page": 577,
+    "printed_page": 569,
+    "quote": "기초교양 9",
+    "verified_redline_crossing": [
+      "학과",
+      "입학연도",
+      "열",
+      "학점"
+    ]
+  },
+  "release": "public_previous_presentation_build_kept_running_new_build_not_promoted",
+  "known_required_product_failures": [
+    {
+      "id": "R5-F1",
+      "summary": "균형교양 영역별 최소1을3으로 변조한 문장 허용"
+    },
+    {
+      "id": "R5-F2",
+      "summary": "과목 학점+이수의무에서 학점 누락을 supported로 표시"
+    },
+    {
+      "id": "R5-F3",
+      "summary": "졸업요건 전체+과목 학점의 속성 누락"
+    },
+    {
+      "id": "R5-F4",
+      "summary": "전필/전선 개수 요청에9/34숫자 없이 분류만 반환"
+    },
+    {
+      "id": "R5-F5",
+      "summary": "심층상담 최소1과 매학기 권장사항의 의무 혼동"
+    },
+    {
+      "id": "R5-F6",
+      "summary": "캡스톤II PASS 선행조건의 부정을 잘못 허용"
+    }
+  ],
+  "limits": "Deterministic source/value predicates and safety guards are bounded. Unrecognized expressions and additional unrecognized material claims remain manual-review items; static validity or passing regexes alone is not a proof of arbitrary answer semantics",
+  "cases": [
+    {
+      "case_id": "PD2-R01",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "a5b4528fa12a8306f5d9ebc1d57ffe9807cf8a3c1b01835aa2d8e3c37911b92c"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026학번 컴공인데, 컴퓨터구조 학점만 확인해 주세요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0016"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터구조는 3학점입니다.",
+          "elapsed_seconds": 14.094,
+          "actual_http_status": 200,
+          "response_sha256": "cc83196cfd4dca53c4241b8fb772e02ab70be6d6b46860111bcee04188fdd985"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R02",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "9208c720b1bfebc4815dca46be8c66e70667f1dfb0230baadddca8e7cc0ef537"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고급자료구조의 이수구분은 전공필수인가요, 전공선택인가요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0143"
+            ],
+            "properties": [
+              "category"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ]
+          },
+          "actual_answer": "고급자료구조는 전공필수 과목입니다.",
+          "elapsed_seconds": 3.344,
+          "actual_http_status": 200,
+          "response_sha256": "bab8af5d1712b5261872fd11e315cff59245319a0419ee51cdbee22e23b6f952"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R03",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "80ce57fdefd810d8406cc53823cd7ec71272f6f79ee62124a9db6eec6b2cb505"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "교육과정 표에서 객체지향프로그래밍은 몇 학년의 어느 학기로 잡혀 있나요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0155"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "years",
+              "semesters"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0155",
+                "course_id": "cwnu.cs.2026.course.cda0155",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      2
+                    ],
+                    "semesters": [
+                      "1",
+                      "2"
+                    ],
+                    "label": "2학년 1·2학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0155 row",
+                "fact_sha256": "7bdd2447f7a6f73f03b50be89be587baee6008835ef96347bf9eed707cce49e4"
+              }
+            ]
+          },
+          "actual_answer": "객체지향프로그래밍은 2학년 1·2학기에 편성되어 있습니다.",
+          "elapsed_seconds": 3.406,
+          "actual_http_status": 200,
+          "response_sha256": "2a32558cc6fdb04132981d65b04dea29ab79ec8490d0a5d012f6891bdc8029a8"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R04",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "clarification",
+            "reason_code": "ambiguous",
+            "plan_status": "fallback",
+            "generation_status": "not_applicable",
+            "body_sha256": "4b9154c86fd807f25ff822a2b50d598d1098dd0ba128ab853dbd219c4c59cdfd"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "소프트웨어설계",
+          "expected": {
+            "mode": "clarification",
+            "topic": "property",
+            "subject_codes": [
+              "CDA0154"
+            ],
+            "require_context_question": true
+          },
+          "actual_answer": "소프트웨어설계의 학점·이수구분·편성·이수 의무 중 어떤 정보를 확인할까요?",
+          "elapsed_seconds": 0.016,
+          "actual_http_status": 200,
+          "response_sha256": "8d1a1a0e7957937357dc0236e33bacc4419ac13c6bca7a2421dbb59c3f488559"
+        },
+        {
+          "turn_index": 2,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "650b51f8cfd2fc3aa63f861d1ace4eef00507d8d8baacd401236c01e837662c0"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "편성 학기가 궁금해요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0154"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "semesters"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0154",
+                "course_id": "cwnu.cs.2026.course.cda0154",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "2"
+                    ],
+                    "label": "3학년 2학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0154 row",
+                "fact_sha256": "06d4d1289b349b49417bd9a1d1b058066185055a7bb73b7cd4b47cc8fe64d8fb"
+              }
+            ]
+          },
+          "actual_answer": "소프트웨어설계 과목은 3학년 2학기에 편성되어 있습니다.",
+          "elapsed_seconds": 3.437,
+          "actual_http_status": 200,
+          "response_sha256": "c0feb2872ef9f4b323bd7eede2ddec8079639d83391a74e52c41cf094bcbdaf6"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R05",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "ba5c970ceb771a27f780afea6307fc86e70a411440fa322317eefa93f8fbe44a"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "데이타통신은 학점이 어떻게 돼요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0023"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0023",
+                "course_id": "cwnu.cs.2026.course.cda0023",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0023 row",
+                "fact_sha256": "e7d78dd4bc6d8ad328763c964f057dbecc208c438f24a8b0f1f743611a916391"
+              }
+            ]
+          },
+          "actual_answer": "데이타통신은 3학점입니다.",
+          "elapsed_seconds": 3.187,
+          "actual_http_status": 200,
+          "response_sha256": "2e243c94bd6057a61784ace0d23fd4b9dbb62d18e242d40a1db84d4bddce6082"
+        },
+        {
+          "turn_index": 2,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "350c262c0b86ba0a296834b20db2f9e39a612228e72886a64979002657ada982"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "정보보안",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0153"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0153",
+                "course_id": "cwnu.cs.2026.course.cda0153",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0153 row",
+                "fact_sha256": "83da14c2e3273fc7371c4f3f0f362a565e54b8a8c73203c95763e833bc5922bf"
+              }
+            ]
+          },
+          "actual_answer": "정보보안은 3학점입니다.",
+          "elapsed_seconds": 3.297,
+          "actual_http_status": 200,
+          "response_sha256": "3b77e673b802adca7767053788db2df52ff14eba98a3fa196a5647caf49570f6"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "141231358b3fe621924ad6ba1770c6f4280162273555dd62caba255992cc66c4"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "피지컬AI입문",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0174"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0174",
+                "course_id": "cwnu.cs.2026.course.cda0174",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0174 row",
+                "fact_sha256": "4e66ca16504b2891c55ed71807115cd22977bd1a72b792b5a07eb89f8ce206ea"
+              }
+            ]
+          },
+          "actual_answer": "피지컬AI입문은 3학점입니다.",
+          "elapsed_seconds": 3.297,
+          "actual_http_status": 200,
+          "response_sha256": "a8bc7e9259f9d58e672c99c878051e49a4b0b3fd9899daf15d9b380f63e12da3"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R06",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "01e766c75eeb431e6bd422e0a54952dd204a398056dccc808c08c5b767baab6a"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "알고리즘의 학점하고 편성 학기를 함께 확인하고 싶어요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0027"
+            ],
+            "properties": [
+              "credits",
+              "offering"
+            ],
+            "offering_require": [
+              "semesters"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0027",
+                "course_id": "cwnu.cs.2026.course.cda0027",
+                "properties": {
+                  "credits": 3,
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "1"
+                    ],
+                    "label": "3학년 1학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+                "fact_sha256": "2835454b2bb19545712bff12550fdaf3c5b94b552bf18871a9d2acee7f993ef5"
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n알고리즘: 3학점, 3학년 1학기",
+          "elapsed_seconds": 3.281,
+          "actual_http_status": 200,
+          "response_sha256": "07567d4b31378f72acb2665f2a7558724850d05485c65626540c91e5f0cf1d80"
+        },
+        {
+          "turn_index": 2,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "238caf673fdf464fea091f17c423f5bf4f258767d578b06b34696dec1c743978"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "운영체제",
+          "expected": {
+            "mode": "attributes_or_clarify",
+            "topic": "property",
+            "subject_codes": [
+              "CDA0017"
+            ],
+            "require_context_question": true,
+            "uses_context": true,
+            "codes": [
+              "CDA0017"
+            ],
+            "properties": [
+              "credits",
+              "offering"
+            ],
+            "offering_require": [
+              "semesters"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0017",
+                "course_id": "cwnu.cs.2026.course.cda0017",
+                "properties": {
+                  "credits": 3,
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "2"
+                    ],
+                    "label": "3학년 2학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+                "fact_sha256": "8cc569a2e57540e4f4ed2af9f6ace77ebc267cda6cfd0c38e03777fc165b1c83"
+              }
+            ],
+            "context_evidence_policy": "All previous unambiguous properties inherited or clarification; no partial supported response"
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n운영체제: 3학점, 3학년 2학기",
+          "elapsed_seconds": 13.985,
+          "actual_http_status": 200,
+          "response_sha256": "0ba6d8264e74967c37004d69defbcc6136c647ced996a57eddf339459a630c82"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "468a1087f80b3175b3d951d5bf11547a5889ecd16eb1bf05f68d2722f0c206fa"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "편성 학기만요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0017"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "semesters"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0017",
+                "course_id": "cwnu.cs.2026.course.cda0017",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "2"
+                    ],
+                    "label": "3학년 2학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+                "fact_sha256": "8cc569a2e57540e4f4ed2af9f6ace77ebc267cda6cfd0c38e03777fc165b1c83"
+              }
+            ]
+          },
+          "actual_answer": "운영체제는 3학년 2학기에 편성되어 있습니다.",
+          "elapsed_seconds": 13.796,
+          "actual_http_status": 200,
+          "response_sha256": "bb66ea9989f2996556f5aa543641a179f658df6b5e80c850ea7d33ccff66a3eb"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R07",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "missing_retrieval",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "supported_demand_unanswered",
+              "failure_category": "question_understanding",
+              "message": "Approved requested demands did not produce overall supported response",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "completion_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Requested approved completion obligation not recognized",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "c1fba404a6bc4d4a52b534ca14738737eb8b3f657f58b0e119fe6267a77c3354"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴퓨터구조는 전선이니 꼭 이수할 필요는 없는 거죠?",
+          "expected": {
+            "mode": "obligation",
+            "codes": [
+              "CDA0016"
+            ],
+            "required_rules": [
+              "cwnu.cs.2026.major-required-course-set"
+            ],
+            "require_category_correction": true,
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ],
+            "evidence_precedence": "approved_required_rule_member",
+            "course_evidence_required": false,
+            "required_members": [
+              {
+                "code": "CDA0016",
+                "label": "컴퓨터구조",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터구조는 전공필수 과목입니다.\n\n요청한 과목 속성 또는 목적 중 조회 계획에 연결되지 않은 항목이 있습니다. 확인된 근거는 유지하되 누락한 항목을 다시 확인해야 합니다.\n\n질문에 포함된 이수 기준 중 현재 답변의 근거에 연결되지 않은 항목이 있습니다. 확인된 기준은 유지하되 누락된 항목을 다시 조회해야 합니다.",
+          "elapsed_seconds": 3.407,
+          "actual_http_status": 200,
+          "response_sha256": "fe2d3de581610064f0d155b4bf2df5baffc5784cab9556a66f09f1acddc84385"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R08",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "7163e1051fc6ee1d53f341511872bade4d4cbf0cb637b44531d95f890d8ea705"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고급자료구조를 빼고도 2026학번 컴공 졸업요건을 채울 수 있나요?",
+          "expected": {
+            "mode": "obligation",
+            "codes": [
+              "CDA0143"
+            ],
+            "required_rules": [
+              "cwnu.cs.2026.major-required-course-set"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ],
+            "evidence_precedence": "approved_required_rule_member",
+            "course_evidence_required": false,
+            "required_members": [
+              {
+                "code": "CDA0143",
+                "label": "고급자료구조",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n졸업을 위해 총 130학점 이상 이수해야 한다. 교양을 합계 34학점 이상 이수해야 한다. 전공을 합계 78학점 이상 이수해야 한다. 졸업 잔여학점을 18학점 이상 이수해야 한다. 졸업 잔여 18학점은 자유선택 교과목으로 충족할 수 있으며 이미 교양·전공으로 산입된 학점을 다시 중복 계산하지 않는다.\n\n균형교양을 12학점 이상 이수해야 한다. 기초교양을 9학점 이상 이수해야 한다. 교양 잔여학점을 13학점 이상 이수해야 한다. 교양을 합계 34학점 이상 이수해야 한다. 교양은 실제 취득학점과 별개로 졸업학점에는 최대 42학점까지만 인정된다. 교양 잔여 13학점은 기초교양, 균형교양 또는 확대교양으로 충족할 수 있다. 균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다. 지정 영역은 디지털커뮤니케이션, 인문예술, 사회와문화, 자연·과학·기술의이해이다.\n\n심화전공을 33학점 이상 이수해야 한다. 전공선택을 24학점 이상 이수해야 한다. 최소전공을 합계 45학점 이상 이수해야 한다. 전공필수를 21학점 이상 이수해야 한다. 전공을 합계 78학점 이상 이수해야 한다. 전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 한다. 지정 과목은 고급자료구조, 컴퓨터구조, 알고리즘, 소프트웨어공학, 데이터베이스개론, 운영체제, 데이터통신, 졸업논문, 심층상담이다.\n\n졸업을 위해 졸업논문 요건을 충족해야 한다. 졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.\n\n심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.\n\n2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다. 코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다. 졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.\n\n고급자료구조: 3학점, 전공필수, 2학년 2학기, CDA0143",
+          "elapsed_seconds": 15.625,
+          "actual_http_status": 200,
+          "response_sha256": "04e60a7ae1b16a81c2b94d4309861b49a0d7c8f1f82937b52580bef50cc9d60c"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R09",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "rejected",
+            "generation_status": "fallback",
+            "body_sha256": "5519c2cd4b639d728ccc2e138a217a3b384f8682f2c5d70566e29c695214fd1d"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴퓨터구조를 꼭 이수해야 한다면 수업에는 출석하지 않고 시험만 보면 되나요?",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "attendance"
+            ],
+            "reason_options": [
+              "no_matching_evidence"
+            ],
+            "context_codes": [
+              "CDA0016"
+            ]
+          },
+          "actual_answer": "검증된 목록에서 1과목을 확인했습니다.\n컴퓨터구조 (CDA0016): 3학점, 전공필수, 3학년 1학기, 원문 부전공필수 표시\n\n질문 해석 또는 문장 생성 처리가 완료되지 않았습니다. 이는 학사 근거가 없다는 뜻이 아닙니다. 확인된 자료는 위에 표시했습니다. 다시 시도하거나 과목·요건을 나누어 질문해 주세요.",
+          "elapsed_seconds": 12.453,
+          "actual_http_status": 200,
+          "response_sha256": "486878ad5c88c8dfc91a1a725bdfb6b3361bcaff1041129cc4accc0e2b5e210d"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R10",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "rejected",
+            "generation_status": "fallback",
+            "body_sha256": "c059b7dec06b34aa696607b1ce79cee743863eed4284e2e984b8bbbf386638e5"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "다른 대학에서 들은 자료구조로 고급자료구조 이수를 대신 인정받을 수 있을까요?",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "personal_substitution"
+            ],
+            "reason_options": [
+              "no_matching_evidence",
+              "missing_student_input"
+            ],
+            "context_codes": [
+              "CDA0143"
+            ]
+          },
+          "actual_answer": "검증된 목록에서 1과목을 확인했습니다.\n자료구조 (CDA0008): 3학점, 전공선택, 2학년 1학기, 원문 부전공필수 표시\n\n검증된 목록에서 1과목을 확인했습니다.\n고급자료구조 (CDA0143): 3학점, 전공필수, 2학년 2학기\n\n질문 해석 또는 문장 생성 처리가 완료되지 않았습니다. 이는 학사 근거가 없다는 뜻이 아닙니다. 확인된 자료는 위에 표시했습니다. 다시 시도하거나 과목·요건을 나누어 질문해 주세요.",
+          "elapsed_seconds": 11.672,
+          "actual_http_status": 200,
+          "response_sha256": "3c6420f76240130a9c700a413a42d570b57bcdaf09f3d10f84e29794377fa379"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R11",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "rejected",
+            "generation_status": "fallback",
+            "body_sha256": "bc86ee201530ebcf56f5d9d00b7f2088df6f792cbdce43a8c088df1186c114a6"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "산학캡스톤디자인2가 전공선택으로 보이는데 졸업할 때 아예 안 해도 되는 건가요?",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "elective_obligation"
+            ],
+            "reason_options": [
+              "no_matching_evidence"
+            ],
+            "context_codes": [
+              "CDA0168"
+            ],
+            "optional_rules": [
+              "cwnu.cs.2026.operations.graduation-work-prerequisite",
+              "cwnu.cs.2026.operations.coding-test-failure"
+            ]
+          },
+          "actual_answer": "검증된 목록에서 1과목을 확인했습니다.\n산학캡스톤디자인2 (CDA0168): 3학점, 전공선택, 4학년 1·2학기\n\n질문 해석 또는 문장 생성 처리가 완료되지 않았습니다. 이는 학사 근거가 없다는 뜻이 아닙니다. 확인된 자료는 위에 표시했습니다. 다시 시도하거나 과목·요건을 나누어 질문해 주세요.",
+          "elapsed_seconds": 13.187,
+          "actual_http_status": 200,
+          "response_sha256": "c9cfb2ee5bae884addd01917fe388a4eb8e1605ad914a25fa248ba9b8558709b"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R12",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "a5b4528fa12a8306f5d9ebc1d57ffe9807cf8a3c1b01835aa2d8e3c37911b92c"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴구 듣는 걸 고민 중인데 학점부터 알려줄래요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0016"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터구조는 3학점입니다.",
+          "elapsed_seconds": 3.188,
+          "actual_http_status": 200,
+          "response_sha256": "597eea7506329dc85b17ab9d561abdedb1b1888c9639e132426720bf510df461"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R13",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "missing_retrieval",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "supported_demand_unanswered",
+              "failure_category": "question_understanding",
+              "message": "Approved requested demands did not produce overall supported response",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "completion_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Requested approved completion obligation not recognized",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "ae857bce5d302332e6b35764f292545d4344a2a76b90db3b7156bd4aef79f595"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고자구는 졸업할 때 반드시 이수해야 하는 과목에 포함돼요?",
+          "expected": {
+            "mode": "obligation",
+            "codes": [
+              "CDA0143"
+            ],
+            "required_rules": [
+              "cwnu.cs.2026.major-required-course-set"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ],
+            "evidence_precedence": "approved_required_rule_member",
+            "course_evidence_required": false,
+            "required_members": [
+              {
+                "code": "CDA0143",
+                "label": "고급자료구조",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n고급자료구조: 3학점, 전공필수, 2학년 2학기, CDA0143\n\n요청한 과목 속성 또는 목적 중 조회 계획에 연결되지 않은 항목이 있습니다. 확인된 근거는 유지하되 누락한 항목을 다시 확인해야 합니다.",
+          "elapsed_seconds": 14.625,
+          "actual_http_status": 200,
+          "response_sha256": "c0ac6bd6a4427929f8d060010adc4d5c437f9e4b25b7c4fcbf5d0aa7a83bf265"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R14",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "8a9fcd06ccd38ba7e825507614f34384b0afa91fe5911ec6c530d8dcfca7c696"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네프가 교육과정에는 몇 학년 몇 학기로 나와 있어요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0165"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "years",
+              "semesters"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0165",
+                "course_id": "cwnu.cs.2026.course.cda0165",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "1"
+                    ],
+                    "label": "3학년 1학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+                "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+              }
+            ]
+          },
+          "actual_answer": "네트워크프로그래밍 과목은 3학년 1학기에 편성되어 있습니다.",
+          "elapsed_seconds": 14.235,
+          "actual_http_status": 200,
+          "response_sha256": "b982185c99ee4fcb2545a053089d1cedb84219883539972b01299a026827880d"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R15",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "clarification",
+            "reason_code": "ambiguous",
+            "plan_status": "fallback",
+            "generation_status": "not_applicable",
+            "body_sha256": "39f4d8239f6fa10e7aad3139515f6038f51eab25e72a3d918d910b516a89d395"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고급컴퓨자료터구조는 전필 과목이야?",
+          "expected": {
+            "mode": "clarification",
+            "topic": "identity",
+            "candidate_codes": [
+              "CDA0143",
+              "CDA0016"
+            ],
+            "require_context_question": true,
+            "reason_options": [
+              "ambiguous"
+            ]
+          },
+          "actual_answer": "고급자료구조 / 컴퓨터구조 중 어떤 과목을 말씀하시나요?",
+          "elapsed_seconds": 0.0,
+          "actual_http_status": 200,
+          "response_sha256": "653e43949d41e5ca8cd24819a841dcbd1143378626ecd0ce470b6ae24c0c6fd0"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "unrequested_body_fields",
+              "failure_category": "question_understanding",
+              "message": "Unrequested course fields appended to body: credits,offering,code",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "8b06c8dfd3c37dd961aefbbbaf97a394ad2fdaae402e014fe4518e3a8ea67d71"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고급자료구조를 말한 거예요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0143"
+            ],
+            "properties": [
+              "category"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n고급자료구조: 3학점, 전공필수, 2학년 2학기, CDA0143",
+          "elapsed_seconds": 4.0,
+          "actual_http_status": 200,
+          "response_sha256": "de5634bca587e4f0c09184ddc67928b70820f8b3e3f26f21fd853d2c763df9dd"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "495f8abc95fbfce303c04533e0fac621ae6bc38968eaaa9cbec4bf1bd1f021bc"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "그러면 컴퓨터구조는 전필이에요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0016"
+            ],
+            "properties": [
+              "category"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터구조는 전공필수 과목입니다.",
+          "elapsed_seconds": 14.359,
+          "actual_http_status": 200,
+          "response_sha256": "64af51fb4195fae5875e5756026abae1618a68662b6519016bf76f020f884ed1"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R16",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "clarification",
+            "reason_code": "ambiguous",
+            "plan_status": "fallback",
+            "generation_status": "not_applicable",
+            "body_sha256": "62f4f4b8d7e292c4f2b375f5bd15807dce87d8609215a98adcbfea6286a3574b"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네트웍프로그래밍이 몇 학기 과목인지 찾고 있어요.",
+          "expected": {
+            "mode": "attribute_or_clarify",
+            "codes": [
+              "CDA0165"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "candidate_codes": [
+              "CDA0165"
+            ],
+            "require_context_question": true,
+            "offering_require": [
+              "semesters"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0165",
+                "course_id": "cwnu.cs.2026.course.cda0165",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "1"
+                    ],
+                    "label": "3학년 1학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+                "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+              }
+            ]
+          },
+          "actual_answer": "네트워크프로그래밍 / 웹프로그래밍 중 어떤 과목을 말씀하시나요?",
+          "elapsed_seconds": 0.031,
+          "actual_http_status": 200,
+          "response_sha256": "4b30f4f477e22e95a0049a8591792d698c48295c521f801a7e6c83f643844d05"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "unrequested_body_fields",
+              "failure_category": "question_understanding",
+              "message": "Unrequested course fields appended to body: credits,category,code",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "5fa88e5c3f906fc4d5921fb1d9397463a04d15efb9271c1f7f557cba672e3ec1"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네트워크프로그래밍을 뜻했어요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0165"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "semesters"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0165",
+                "course_id": "cwnu.cs.2026.course.cda0165",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "1"
+                    ],
+                    "label": "3학년 1학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+                "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n네트워크프로그래밍: 3학점, 전공선택, 3학년 1학기, CDA0165",
+          "elapsed_seconds": 3.875,
+          "actual_http_status": 200,
+          "response_sha256": "aee5e3852f6e0f40500278b72d71cb21bedbb68dfa2fd649384466da4a9f93c8"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R17",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "495f8abc95fbfce303c04533e0fac621ae6bc38968eaaa9cbec4bf1bd1f021bc"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴구는 전필인지 알려주세요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0016"
+            ],
+            "properties": [
+              "category"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터구조는 전공필수 과목입니다.",
+          "elapsed_seconds": 13.516,
+          "actual_http_status": 200,
+          "response_sha256": "c86cfc9bd1c3ddb6e2b82be5fcf567e9da7c946a51ffe5bf2110e112893a153b"
+        },
+        {
+          "turn_index": 2,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "9208c720b1bfebc4815dca46be8c66e70667f1dfb0230baadddca8e7cc0ef537"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고자구",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0143"
+            ],
+            "properties": [
+              "category"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ]
+          },
+          "actual_answer": "고급자료구조는 전공필수 과목입니다.",
+          "elapsed_seconds": 3.437,
+          "actual_http_status": 200,
+          "response_sha256": "ce51092e17dd40eb348766ca1ce948e1d2058f671e1eaf2eacd0da7e56e0b981"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "a6cb6211111a39bbbfbaebd722d237a5ab28be9704432a80b7cbb1a5d997deff"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네프",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0165"
+            ],
+            "properties": [
+              "category"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0165",
+                "course_id": "cwnu.cs.2026.course.cda0165",
+                "properties": {
+                  "category": "major_elective"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+                "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+              }
+            ]
+          },
+          "actual_answer": "네트워크프로그래밍은 전공선택 과목입니다.",
+          "elapsed_seconds": 3.328,
+          "actual_http_status": 200,
+          "response_sha256": "5efd0d0d55b8d8f15ec73db39865d2e437e71f2a863240cfbef2f2cd25e3cf17"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R18",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "clarification_not_preserved",
+              "failure_category": "question_understanding",
+              "message": "Ambiguous entity/purpose was arbitrarily answered",
+              "review_required": false
+            },
+            {
+              "code": "clarification_identity_not_retained",
+              "failure_category": "question_understanding",
+              "message": "Resume context omits the actual course/candidate identity",
+              "review_required": false
+            },
+            {
+              "code": "continuation_context_missing",
+              "failure_category": "question_understanding",
+              "message": "A required clarification cannot be resumed from saved public context",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "not_applicable",
+            "body_sha256": "0598716b9f64bae5a2e2461d26984d6524fedb07a310075cb438c351f6458f1b"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴퓨터그래픽스 알려주세요.",
+          "expected": {
+            "mode": "clarification",
+            "topic": "property",
+            "subject_codes": [
+              "CDA0014"
+            ],
+            "require_context_question": true
+          },
+          "actual_answer": "과목의 학점·편성표는 강의 내용을 증명하지 않습니다. 강의계획서 근거가 없어 내용을 추정할 수 없습니다.\n\n요청한 과목 속성 또는 목적 중 조회 계획에 연결되지 않은 항목이 있습니다. 확인된 근거는 유지하되 누락한 항목을 다시 확인해야 합니다.",
+          "elapsed_seconds": 2.093,
+          "actual_http_status": 200,
+          "response_sha256": "c502193d3828c48307393ac4a91a59c552567cfcb6f35073abed2f22b7c7ba34"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": null,
+          "issues": [
+            {
+              "code": "collector_context_mismatch",
+              "failure_category": "question_understanding",
+              "message": "Collector did not forward the previous actual response context",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "f823063ed8981c14855af5662d61d2f8559472515900d52e8728706716f4afd7"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "학점하고 이수구분을 알고 싶어요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0014"
+            ],
+            "properties": [
+              "credits",
+              "category"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0014",
+                "course_id": "cwnu.cs.2026.course.cda0014",
+                "properties": {
+                  "credits": 3,
+                  "category": "major_elective"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0014 row",
+                "fact_sha256": "b021901122f6bb4d0425011f8be5eb4b2421d31fabe5a60c3f376d21f4282965"
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터그래픽스(전공선택)는 3학점입니다.",
+          "elapsed_seconds": 13.391,
+          "actual_http_status": 200,
+          "response_sha256": "dcc238ab325be334c90cd16ebe6a144156e457c4ecda331d1cc4774a67221c1e"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R19",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "0ec136d00d84578a61d8337d84be31d6289e15295a467ce9dade525bd2ad4c1b"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "클라우드컴퓨팅은 몇 학점으로 돼 있나요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0177"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0177",
+                "course_id": "cwnu.cs.2026.course.cda0177",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0177 row",
+                "fact_sha256": "74cb0b2d1a527deae48fd62a3b3e4ba1eaba90637ac9a1438b5156149015400b"
+              }
+            ]
+          },
+          "actual_answer": "클라우드컴퓨팅은 3학점입니다.",
+          "elapsed_seconds": 3.312,
+          "actual_http_status": 200,
+          "response_sha256": "d40bf59af35cd8ba8de5e16d1db4345a70ee44ec0653dc2cd2a6e827211827e4"
+        },
+        {
+          "turn_index": 2,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "8583dca2aa9a72a72318a41a247a5473adc60f83e210e9a31e56b8eeb98ecec8"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "그 과목이 편성된 학기도 알려주세요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0177"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "semesters"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0177",
+                "course_id": "cwnu.cs.2026.course.cda0177",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      4
+                    ],
+                    "semesters": [
+                      "1"
+                    ],
+                    "label": "4학년 1학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0177 row",
+                "fact_sha256": "74cb0b2d1a527deae48fd62a3b3e4ba1eaba90637ac9a1438b5156149015400b"
+              }
+            ]
+          },
+          "actual_answer": "클라우드컴퓨팅 과목은 4학년 1학기에 편성되어 있습니다.",
+          "elapsed_seconds": 3.422,
+          "actual_http_status": 200,
+          "response_sha256": "51de73feb95bd8f3229c3119c264331d407e7f7caca73f56e5a34f9919043c59"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R20",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "f7f1fd3f00022e9d2ad99fb85292dcd12cf39ba3d108da949364ccdc21832ea0"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026학번 컴공 단일전공 졸업 조건을 전체적으로 설명해 주세요. 총학점, 교양과 전공, 졸업논문 쪽에서 무엇을 확인해야 해요?",
+          "expected": {
+            "mode": "overview",
+            "rule_bundle": "graduation_overview",
+            "maximum_parts": 8,
+            "required_rules": [
+              "cwnu.cs.2026.credits.graduation-total",
+              "cwnu.cs.2026.credits.general-total",
+              "cwnu.cs.2026.credits.major-total",
+              "cwnu.cs.2026.credits.graduation-remaining",
+              "cwnu.cs.2026.credits.graduation-remaining-allocation",
+              "cwnu.cs.2026.credits.general-foundation",
+              "cwnu.cs.2026.credits.general-balanced",
+              "cwnu.cs.2026.credits.general-remaining",
+              "cwnu.cs.2026.credits.general-remaining-allocation",
+              "cwnu.cs.2026.credits.general-recognition-cap",
+              "cwnu.cs.2026.general-balanced-area-coverage",
+              "cwnu.cs.2026.credits.major-required",
+              "cwnu.cs.2026.credits.major-elective",
+              "cwnu.cs.2026.credits.major-minimum",
+              "cwnu.cs.2026.credits.major-advanced",
+              "cwnu.cs.2026.major-required-course-set",
+              "cwnu.cs.2026.graduation.thesis-required",
+              "cwnu.cs.2026.graduation.thesis-completion-result",
+              "cwnu.cs.2026.major-counseling-completion"
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n졸업을 위해 총 130학점 이상 이수해야 한다. 교양을 합계 34학점 이상 이수해야 한다. 전공을 합계 78학점 이상 이수해야 한다. 졸업 잔여학점을 18학점 이상 이수해야 한다. 졸업 잔여 18학점은 자유선택 교과목으로 충족할 수 있으며 이미 교양·전공으로 산입된 학점을 다시 중복 계산하지 않는다.\n\n균형교양을 12학점 이상 이수해야 한다. 기초교양을 9학점 이상 이수해야 한다. 교양 잔여학점을 13학점 이상 이수해야 한다. 교양을 합계 34학점 이상 이수해야 한다. 교양은 실제 취득학점과 별개로 졸업학점에는 최대 42학점까지만 인정된다. 교양 잔여 13학점은 기초교양, 균형교양 또는 확대교양으로 충족할 수 있다. 균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다. 지정 영역은 디지털커뮤니케이션, 인문예술, 사회와문화, 자연·과학·기술의이해이다.\n\n심화전공을 33학점 이상 이수해야 한다. 전공선택을 24학점 이상 이수해야 한다. 최소전공을 합계 45학점 이상 이수해야 한다. 전공필수를 21학점 이상 이수해야 한다. 전공을 합계 78학점 이상 이수해야 한다. 전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 한다. 지정 과목은 고급자료구조, 컴퓨터구조, 알고리즘, 소프트웨어공학, 데이터베이스개론, 운영체제, 데이터통신, 졸업논문, 심층상담이다.\n\n졸업을 위해 졸업논문 요건을 충족해야 한다. 졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.\n\n심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.\n\n2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다. 코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다. 졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.",
+          "elapsed_seconds": 3.985,
+          "actual_http_status": 200,
+          "response_sha256": "2e3e32a8671676542f0171fcc804c4307f3eb904ce1ec1a2734d88bdfe7984c4"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R21",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "b598041ff9a92f4983747db2e66db100702951d610c7a0aa117f9be37a0a9e40"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026 컴공 교육과정의 전공필수 과목 수와 전공선택 과목 수를 둘 다 알고 싶어요. 각 구분의 개수를 따로 써 주세요.",
+          "expected": {
+            "mode": "counts",
+            "counts": [
+              {
+                "category": "major_required",
+                "expected_count": 9,
+                "expected_codes": [
+                  "CDA0143",
+                  "CDA0016",
+                  "CDA0027",
+                  "CDA0028",
+                  "CDA0065",
+                  "CDA0017",
+                  "CDA0023",
+                  "CDA0034",
+                  "CDA0088"
+                ]
+              },
+              {
+                "category": "major_elective",
+                "expected_count": 34,
+                "expected_codes": [
+                  "CDA0163",
+                  "CDA0174",
+                  "CDA0157",
+                  "CDA0170",
+                  "CDA0008",
+                  "CDA0010",
+                  "CDA0014",
+                  "CDA0006",
+                  "CDA0013",
+                  "CDA0125",
+                  "CDA0176",
+                  "CDA0155",
+                  "CDA0156",
+                  "CDA0164",
+                  "CDA0165",
+                  "CDA0139",
+                  "CDA0154",
+                  "CDA0169",
+                  "CDA0167",
+                  "CDA0030",
+                  "CDA0031",
+                  "CDA0119",
+                  "CDA0177",
+                  "CDA0150",
+                  "CDA0153",
+                  "CDA0166",
+                  "CDA0175",
+                  "CDA0168",
+                  "CDA0147",
+                  "CDA0173",
+                  "CDA0144",
+                  "CDA0145",
+                  "CDA0171",
+                  "CDA0172"
+                ]
+              }
+            ]
+          },
+          "actual_answer": "과목 조회 결과, 전공필수 과목은 총 9과목이 편성되어 있습니다.\n\n과목 조회 결과, 전공선택 과목은 총 34과목이 편성되어 있습니다.",
+          "elapsed_seconds": 14.422,
+          "actual_http_status": 200,
+          "response_sha256": "1bb13f5fd4f9c482b24ee61de0184bb9679820ee922da0e3c3c2ef08c32e7f17"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R22",
+      "split": "repair",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": "genuine_evidence_gap",
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "no_matching_evidence",
+            "plan_status": "generated",
+            "generation_status": "not_applicable",
+            "body_sha256": "08283cfd0193babc7e162e766d9286268e069271d66d0d58b535410cdeaa8ac0"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "피지컬AI입문에서는 실제로 무엇을 배우나요? 수업 내용이 적힌 자료를 근거로 설명해 주세요.",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "description"
+            ],
+            "reason_options": [
+              "no_matching_evidence"
+            ],
+            "context_codes": [
+              "CDA0174"
+            ]
+          },
+          "actual_answer": "과목의 학점·편성표는 강의 내용을 증명하지 않습니다. 강의계획서 근거가 없어 내용을 추정할 수 없습니다.",
+          "elapsed_seconds": 2.234,
+          "actual_http_status": 200,
+          "response_sha256": "54363e99d7ac4f643156f1dc54cadf2c15d39d64813be1110a8a71cd77e8b88c"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R23",
+      "split": "repair",
+      "required": true,
+      "status": "review_required",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "review_required",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "ambiguous",
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "801175195601324fbd161fbca7e9d2ce2d3f525f469e41b763f83926c746fa54"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "이산수학이 편성표에 있어도 이번 학기에 실제로 개설되는지는 따로 봐야 하나요? 이번 개설 여부를 알려주세요.",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "actual_opening"
+            ],
+            "reason_options": [
+              "no_matching_evidence",
+              "ambiguous"
+            ],
+            "context_codes": [
+              "CDA0157"
+            ]
+          },
+          "actual_answer": "이산수학은 1학년 2학기에 편성되어 있습니다.\n\n위의 일반 근거만으로 질문의 개인 적용·추가 조건이나 반대 방향의 제한을 확정할 수 없습니다. 공식 적용 내역과 확인할 조건을 알려 주세요.",
+          "elapsed_seconds": 3.093,
+          "actual_http_status": 200,
+          "response_sha256": "fe44a9cc8134c4c5ee9179afe8b672d0383aafa6f0ebdc45d9a3e97ae216ad1d"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-R24",
+      "split": "repair",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "ambiguous",
+            "plan_status": "generated",
+            "generation_status": "not_applicable",
+            "body_sha256": "4b532abbec035f37a23e5f1b81c65a59c3caac69d6bf42ddec03f5edfaebefd8"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026학번 컴공이에요. 제 이수내역을 아직 보내지 않았는데 졸업에 부족한 학점을 계산해 줄 수 있나요?",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "student_record"
+            ],
+            "reason_options": [
+              "missing_student_input"
+            ],
+            "forbid_calculations": true
+          },
+          "actual_answer": "질문의 개인 조건·대체·일정이나 추가 항목을 확인할 근거가 충분하지 않습니다. 확인하려는 항목과 조건을 구체적으로 알려 주세요.",
+          "elapsed_seconds": 1.421,
+          "actual_http_status": 200,
+          "response_sha256": "26b020ef8008f88c0b3f32fd3f5d46fc707b4b656b66f2c4d380777b51c48750"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H01",
+      "split": "heldout",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "9208c720b1bfebc4815dca46be8c66e70667f1dfb0230baadddca8e7cc0ef537"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고자구 이수구분부터 확인할게요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0143"
+            ],
+            "properties": [
+              "category"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ]
+          },
+          "actual_answer": "고급자료구조는 전공필수 과목입니다.",
+          "elapsed_seconds": 13.437,
+          "actual_http_status": 200,
+          "response_sha256": "e5de1db31b502826c01fe24fde0a3f963141f073550fedfd33ab5f8a5c0f78e7"
+        },
+        {
+          "turn_index": 2,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "fdfe5e669c38e629ed875838e5f0c6f2fd3d362c0e15f9abbf5976c83f0ee7d8"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "그럼 언제 듣게 편성되어 있어요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0143"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "years",
+              "semesters"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      2
+                    ],
+                    "semesters": [
+                      "2"
+                    ],
+                    "label": "2학년 2학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ]
+          },
+          "actual_answer": "고급자료구조는 2학년 2학기에 편성되어 있습니다.",
+          "elapsed_seconds": 3.438,
+          "actual_http_status": 200,
+          "response_sha256": "73218cb7216e49633ef27f093386b7443292c3272d33d05ac856c7733dbcc959"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "8a9fcd06ccd38ba7e825507614f34384b0afa91fe5911ec6c530d8dcfca7c696"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네프는요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0165"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "years",
+              "semesters"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0165",
+                "course_id": "cwnu.cs.2026.course.cda0165",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      3
+                    ],
+                    "semesters": [
+                      "1"
+                    ],
+                    "label": "3학년 1학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+                "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+              }
+            ]
+          },
+          "actual_answer": "네트워크프로그래밍 과목은 3학년 1학기에 편성되어 있습니다.",
+          "elapsed_seconds": 3.453,
+          "actual_http_status": 200,
+          "response_sha256": "49b631c656dbe63d8ca73acbaa275d533464617bf69f0cfce184a2aaa03e1f89"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H02",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "clarification",
+            "reason_code": "ambiguous",
+            "plan_status": "fallback",
+            "generation_status": "not_applicable",
+            "body_sha256": "d9b858c14a3f22927f5ab68ce11466f7fbcaf2c408c93d14fa8b6a3bc2fc68ec"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네트워크프로그래밍",
+          "expected": {
+            "mode": "clarification",
+            "topic": "property",
+            "subject_codes": [
+              "CDA0165"
+            ],
+            "require_context_question": true
+          },
+          "actual_answer": "네트워크프로그래밍의 학점·이수구분·편성·이수 의무 중 어떤 정보를 확인할까요?",
+          "elapsed_seconds": 0.0,
+          "actual_http_status": 200,
+          "response_sha256": "bcb99b8c7ec9e30ed3467049942ae6a8f57927ab9455824f35c7ef8949fb8d5d"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "wrong_answer",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_not_preserved",
+              "failure_category": "wrong_answer",
+              "message": "Unsupported material demand answered as supported or wrong scope",
+              "review_required": false
+            },
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "5fa88e5c3f906fc4d5921fb1d9397463a04d15efb9271c1f7f557cba672e3ec1"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "꼭 마쳐야 하는 과목인지 알고 싶어서요.",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "elective_obligation"
+            ],
+            "reason_options": [
+              "no_matching_evidence",
+              "ambiguous"
+            ],
+            "context_codes": [
+              "CDA0165"
+            ],
+            "uses_context": true,
+            "require_context_question": true
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n네트워크프로그래밍: 3학점, 전공선택, 3학년 1학기, CDA0165",
+          "elapsed_seconds": 3.688,
+          "actual_http_status": 200,
+          "response_sha256": "ec573f2cda180cd2fab267a6cb89017d70d5c617aca018af93321a3da237b23f"
+        },
+        {
+          "turn_index": 3,
+          "status": "failed",
+          "failure_category": "missing_retrieval",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "completion_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Requested approved completion obligation not recognized",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "36fff1667711881c916e0adb9ff5e589871b1e229fdd9946b5e15f565f57b9f1"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴구도 같은 기준으로 봐 주세요.",
+          "expected": {
+            "mode": "obligation",
+            "codes": [
+              "CDA0016"
+            ],
+            "required_rules": [
+              "cwnu.cs.2026.major-required-course-set"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ],
+            "evidence_precedence": "approved_required_rule_member",
+            "course_evidence_required": false,
+            "required_members": [
+              {
+                "code": "CDA0016",
+                "label": "컴퓨터구조",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n컴퓨터구조: 3학점, 전공필수, 3학년 1학기, CDA0016",
+          "elapsed_seconds": 14.328,
+          "actual_http_status": 200,
+          "response_sha256": "e2a895c3c0d27d54d6bc5ca91379f7a7e889b45c2fb55de43f67876f2bc7cdce"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H03",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "supported_demand_unanswered",
+              "failure_category": "question_understanding",
+              "message": "Approved requested demands did not produce overall supported response",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "a9af7cb07c72fe592f8092d5053da1660bf3fa15dca830715fd3e3daf65c1fb5"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "현장실습4의 인정 학점은 얼마로 편성돼 있나요?",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0147"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0147",
+                "course_id": "cwnu.cs.2026.course.cda0147",
+                "properties": {
+                  "credits": 12
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0147 row",
+                "fact_sha256": "328bd7650b3a01b7d728a640313a2aca36d9ef80b30a083fe2c7b10beb2afe39"
+              }
+            ]
+          },
+          "actual_answer": "현장실습4는 12학점입니다.\n\n요청한 과목 속성 또는 목적 중 조회 계획에 연결되지 않은 항목이 있습니다. 확인된 근거는 유지하되 누락한 항목을 다시 확인해야 합니다.",
+          "elapsed_seconds": 14.031,
+          "actual_http_status": 200,
+          "response_sha256": "9630e3d10a3794ee524338d11d431b9c57ec66aff3df59b91a4cfbec62c322aa"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": null,
+          "issues": [
+            {
+              "code": "collector_context_mismatch",
+              "failure_category": "question_understanding",
+              "message": "Collector did not forward the previous actual response context",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "f7f1fd3f00022e9d2ad99fb85292dcd12cf39ba3d108da949364ccdc21832ea0"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026학번 컴공 졸업 조건도 전체적으로 알려주세요.",
+          "expected": {
+            "mode": "overview",
+            "rule_bundle": "graduation_overview",
+            "maximum_parts": 8,
+            "required_rules": [
+              "cwnu.cs.2026.credits.graduation-total",
+              "cwnu.cs.2026.credits.general-total",
+              "cwnu.cs.2026.credits.major-total",
+              "cwnu.cs.2026.credits.graduation-remaining",
+              "cwnu.cs.2026.credits.graduation-remaining-allocation",
+              "cwnu.cs.2026.credits.general-foundation",
+              "cwnu.cs.2026.credits.general-balanced",
+              "cwnu.cs.2026.credits.general-remaining",
+              "cwnu.cs.2026.credits.general-remaining-allocation",
+              "cwnu.cs.2026.credits.general-recognition-cap",
+              "cwnu.cs.2026.general-balanced-area-coverage",
+              "cwnu.cs.2026.credits.major-required",
+              "cwnu.cs.2026.credits.major-elective",
+              "cwnu.cs.2026.credits.major-minimum",
+              "cwnu.cs.2026.credits.major-advanced",
+              "cwnu.cs.2026.major-required-course-set",
+              "cwnu.cs.2026.graduation.thesis-required",
+              "cwnu.cs.2026.graduation.thesis-completion-result",
+              "cwnu.cs.2026.major-counseling-completion"
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n졸업을 위해 총 130학점 이상 이수해야 한다. 교양을 합계 34학점 이상 이수해야 한다. 전공을 합계 78학점 이상 이수해야 한다. 졸업 잔여학점을 18학점 이상 이수해야 한다. 졸업 잔여 18학점은 자유선택 교과목으로 충족할 수 있으며 이미 교양·전공으로 산입된 학점을 다시 중복 계산하지 않는다.\n\n균형교양을 12학점 이상 이수해야 한다. 기초교양을 9학점 이상 이수해야 한다. 교양 잔여학점을 13학점 이상 이수해야 한다. 교양을 합계 34학점 이상 이수해야 한다. 교양은 실제 취득학점과 별개로 졸업학점에는 최대 42학점까지만 인정된다. 교양 잔여 13학점은 기초교양, 균형교양 또는 확대교양으로 충족할 수 있다. 균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다. 지정 영역은 디지털커뮤니케이션, 인문예술, 사회와문화, 자연·과학·기술의이해이다.\n\n심화전공을 33학점 이상 이수해야 한다. 전공선택을 24학점 이상 이수해야 한다. 최소전공을 합계 45학점 이상 이수해야 한다. 전공필수를 21학점 이상 이수해야 한다. 전공을 합계 78학점 이상 이수해야 한다. 전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 한다. 지정 과목은 고급자료구조, 컴퓨터구조, 알고리즘, 소프트웨어공학, 데이터베이스개론, 운영체제, 데이터통신, 졸업논문, 심층상담이다.\n\n졸업을 위해 졸업논문 요건을 충족해야 한다. 졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.\n\n심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.\n\n2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다. 코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다. 졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.",
+          "elapsed_seconds": 14.813,
+          "actual_http_status": 200,
+          "response_sha256": "b8956ad037014857c60f049ca2fd2e0b21af28755e580d1b6998167513361a20"
+        },
+        {
+          "turn_index": 3,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "required_context_not_used",
+              "failure_category": "question_understanding",
+              "message": "Property/selection continuation did not report context use",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "clarification",
+            "reason_code": "ambiguous",
+            "plan_status": "fallback",
+            "generation_status": "not_applicable",
+            "body_sha256": "f1dcd7ff175fe9b181e719a572434ddc9018ccac710752853238f74a24c47057"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "고급자료구조는요?",
+          "expected": {
+            "mode": "clarification",
+            "topic": "property",
+            "subject_codes": [
+              "CDA0143"
+            ],
+            "require_context_question": true,
+            "uses_context": true
+          },
+          "actual_answer": "고급자료구조의 학점·이수구분·편성·이수 의무 중 어떤 정보를 확인할까요?",
+          "elapsed_seconds": 0.0,
+          "actual_http_status": 200,
+          "response_sha256": "404eec584363bebfce9e101fa517c283324d9ef05b8d89c2d619fe4111b5ab99"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H04",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "wrong_answer",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "supported_demand_unanswered",
+              "failure_category": "question_understanding",
+              "message": "Approved requested demands did not produce overall supported response",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "completion_subject_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Demanded source-bound member identity absent from body",
+              "review_required": false
+            },
+            {
+              "code": "completion_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Requested approved completion obligation not recognized",
+              "review_required": true
+            },
+            {
+              "code": "false_elective_premise_uncorrected",
+              "failure_category": "wrong_answer",
+              "message": "False elective premise was not corrected from approved source",
+              "review_required": false
+            },
+            {
+              "code": "completion_subject_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Demanded source-bound member identity absent from body",
+              "review_required": false
+            },
+            {
+              "code": "completion_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Requested approved completion obligation not recognized",
+              "review_required": true
+            },
+            {
+              "code": "false_elective_premise_uncorrected",
+              "failure_category": "wrong_answer",
+              "message": "False elective premise was not corrected from approved source",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "out_of_scope",
+            "kind": "refusal",
+            "reason_code": "unsupported_scope",
+            "plan_status": "fallback",
+            "generation_status": "fallback",
+            "body_sha256": "1e829ba2d82a1c2c66ffdf7513df4b657c2d8514d93d60fbc24a29c351663d61"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "전선이라고 들은 컴퓨터구조와 알고리즘을 둘 다 안 들어도, 다른 전공학점만 채우면 되는지 확인해 주세요.",
+          "expected": {
+            "mode": "obligation",
+            "codes": [
+              "CDA0016",
+              "CDA0027"
+            ],
+            "required_rules": [
+              "cwnu.cs.2026.major-required-course-set"
+            ],
+            "require_category_correction": true,
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              },
+              {
+                "code": "CDA0027",
+                "course_id": "cwnu.cs.2026.course.cda0027",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+                "fact_sha256": "2835454b2bb19545712bff12550fdaf3c5b94b552bf18871a9d2acee7f993ef5"
+              }
+            ],
+            "evidence_precedence": "approved_required_rule_member",
+            "course_evidence_required": false,
+            "required_members": [
+              {
+                "code": "CDA0016",
+                "label": "컴퓨터구조",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              },
+              {
+                "code": "CDA0027",
+                "label": "알고리즘",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual_answer": "2026학번·2026 교육과정·컴퓨터공학과의 확인된 근거만 지원합니다.",
+          "elapsed_seconds": 0.0,
+          "actual_http_status": 200,
+          "response_sha256": "cecd6043509141721b230b793d638f8bb9b75b693accc7614fa040010fd98e42"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H05",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "missing_retrieval",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "164c8df089495efb31bff7e82d7b6a94f3d6962285634aa9742376d6b2c4bcfe"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026학번 컴공이 졸업하려면 심층상담을 이수해야 하나요?",
+          "expected": {
+            "mode": "obligation",
+            "codes": [
+              "CDA0088"
+            ],
+            "required_rules": [
+              "cwnu.cs.2026.major-required-course-set",
+              "cwnu.cs.2026.major-counseling-completion"
+            ],
+            "allow_credit_qualifier": true,
+            "expected_courses": [
+              {
+                "code": "CDA0088",
+                "course_id": "cwnu.cs.2026.course.cda0088",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0088 row",
+                "fact_sha256": "71b537e0c85c26bb667b773fc2dab735532600bdb7cfab03cb3e22a6206d1e73"
+              }
+            ],
+            "evidence_precedence": "approved_required_rule_member",
+            "course_evidence_required": false,
+            "required_members": [
+              {
+                "code": "CDA0088",
+                "label": "심층상담",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual_answer": "심층상담은 0학점이지만 최소 1회 이수해야 하는 사항입니다. 매 학기 수강하는 것이 권장됩니다.",
+          "elapsed_seconds": 13.687,
+          "actual_http_status": 200,
+          "response_sha256": "c6ab233c3426a01f126ddade9c619ec7acfbfa380327462d5c55655d93e2b6aa"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            },
+            {
+              "code": "required_context_not_used",
+              "failure_category": "question_understanding",
+              "message": "Property/selection continuation did not report context use",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "rejected",
+            "generation_status": "fallback",
+            "body_sha256": "8ae53d0b741fd9e8e067897992112bed3d3a2ed63abefeb9c58bfc24f5baba8f"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "그렇다면 상담에 실제로 참여하지 않아도 이수 처리되는지 궁금해요.",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "attendance"
+            ],
+            "reason_options": [
+              "no_matching_evidence"
+            ],
+            "context_codes": [
+              "CDA0088"
+            ],
+            "uses_context": true
+          },
+          "actual_answer": "질문 해석 또는 문장 생성 처리가 완료되지 않았습니다. 이는 학사 근거가 없다는 뜻이 아닙니다. 확인된 자료는 위에 표시했습니다. 다시 시도하거나 과목·요건을 나누어 질문해 주세요.",
+          "elapsed_seconds": 1.656,
+          "actual_http_status": 200,
+          "response_sha256": "96939c96cac08f7dd04bace62de4358829b7e1b2f40cb3ca5627be726d33e596"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H06",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "clarification_not_preserved",
+              "failure_category": "question_understanding",
+              "message": "Ambiguous entity/purpose was arbitrarily answered",
+              "review_required": false
+            },
+            {
+              "code": "real_candidate_missing",
+              "failure_category": "question_understanding",
+              "message": "Clarification omits a required real source candidate",
+              "review_required": false
+            },
+            {
+              "code": "real_candidate_missing",
+              "failure_category": "question_understanding",
+              "message": "Clarification omits a required real source candidate",
+              "review_required": false
+            },
+            {
+              "code": "clarification_identity_not_retained",
+              "failure_category": "question_understanding",
+              "message": "Resume context omits the actual course/candidate identity",
+              "review_required": false
+            },
+            {
+              "code": "clarification_identity_not_retained",
+              "failure_category": "question_understanding",
+              "message": "Resume context omits the actual course/candidate identity",
+              "review_required": false
+            },
+            {
+              "code": "clarification_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Ambiguity mislabeled as outage/scope/source gap",
+              "review_required": false
+            },
+            {
+              "code": "continuation_context_missing",
+              "failure_category": "question_understanding",
+              "message": "A required clarification cannot be resumed from saved public context",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "not_applicable",
+            "body_sha256": "017a9ba3419227af87a4a0ecd5fb2e9bb045d63993499a45acee5e11b9a9b835"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴퓨터자료구조는 몇 학점으로 계산하나요?",
+          "expected": {
+            "mode": "clarification",
+            "topic": "identity",
+            "candidate_codes": [
+              "CDA0016",
+              "CDA0008"
+            ],
+            "require_context_question": true,
+            "reason_options": [
+              "ambiguous"
+            ]
+          },
+          "actual_answer": "2026 교육과정의 검증된 과목 목록에서 해당 조건을 확인하지 못했습니다. 과목명이나 학년을 확인해 주세요.\n\n질문한 모든 과목을 현재 조회 결과에 연결하지 못했습니다. 누락한 과목을 포함해 다시 확인해야 합니다. 이는 해당 과목의 자료가 없다는 뜻은 아닙니다.",
+          "elapsed_seconds": 12.813,
+          "actual_http_status": 200,
+          "response_sha256": "04d3728416ee9a18ad464f1ff01d19873226f6b031b224549e7c331c313203b8"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": null,
+          "issues": [
+            {
+              "code": "collector_context_mismatch",
+              "failure_category": "question_understanding",
+              "message": "Collector did not forward the previous actual response context",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "a5b4528fa12a8306f5d9ebc1d57ffe9807cf8a3c1b01835aa2d8e3c37911b92c"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "제 질문은 컴퓨터구조였어요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0016"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터구조는 3학점입니다.",
+          "elapsed_seconds": 13.422,
+          "actual_http_status": 200,
+          "response_sha256": "0ad9cbf21618a376ab0961f98e0553592e4c0599a3142e44f705aa74d0cce9ea"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "fdfe5e669c38e629ed875838e5f0c6f2fd3d362c0e15f9abbf5976c83f0ee7d8"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "아까 학점 말고 고급자료구조가 몇 학기에 편성됐는지 물어볼게요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0143"
+            ],
+            "properties": [
+              "offering"
+            ],
+            "offering_require": [
+              "semesters"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0143",
+                "course_id": "cwnu.cs.2026.course.cda0143",
+                "properties": {
+                  "offering": {
+                    "years": [
+                      2
+                    ],
+                    "semesters": [
+                      "2"
+                    ],
+                    "label": "2학년 2학기"
+                  }
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+                "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+              }
+            ]
+          },
+          "actual_answer": "고급자료구조는 2학년 2학기에 편성되어 있습니다.",
+          "elapsed_seconds": 3.422,
+          "actual_http_status": 200,
+          "response_sha256": "7c6df928013a470f838c527914b2f0c117212801985ea596cdd7c223209e8ebf"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H07",
+      "split": "heldout",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "30e2c721f187a7093f5d51dcd1b1a9beeac3cb4a6904eba9edfe08e2b202004f"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "운영체제의 학점과 전필 여부를 봐 주세요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0017"
+            ],
+            "properties": [
+              "credits",
+              "category"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0017",
+                "course_id": "cwnu.cs.2026.course.cda0017",
+                "properties": {
+                  "credits": 3,
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+                "fact_sha256": "8cc569a2e57540e4f4ed2af9f6ace77ebc267cda6cfd0c38e03777fc165b1c83"
+              }
+            ]
+          },
+          "actual_answer": "운영체제는 3학점이며 전공필수입니다.",
+          "elapsed_seconds": 3.297,
+          "actual_http_status": 200,
+          "response_sha256": "87d66df21af0231bbef58f7bce19b2c57999271c421f5a139a7443dd0e6656b6"
+        },
+        {
+          "turn_index": 2,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "5c79d84131de116ceffe007c8300fd4ba24bb2cf4eff6fda0b375754b1962ef4"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "영상처리",
+          "expected": {
+            "mode": "attributes_or_clarify",
+            "topic": "property",
+            "subject_codes": [
+              "CDA0139"
+            ],
+            "require_context_question": true,
+            "uses_context": true,
+            "codes": [
+              "CDA0139"
+            ],
+            "properties": [
+              "credits",
+              "category"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0139",
+                "course_id": "cwnu.cs.2026.course.cda0139",
+                "properties": {
+                  "credits": 3,
+                  "category": "major_elective"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0139 row",
+                "fact_sha256": "1ece85c5223fb9e42e92fc7d630c548a4a5211320950f7fb23294077c4f9de11"
+              }
+            ],
+            "context_evidence_policy": "All previous unambiguous properties inherited or clarification; no partial supported response"
+          },
+          "actual_answer": "영상처리 과목은 3학점이며 전공선택으로 편성되어 있습니다.",
+          "elapsed_seconds": 3.453,
+          "actual_http_status": 200,
+          "response_sha256": "adc4d95e785e79b29c61365d13dcf7a5d4650b7542f4ff09ef6b0ca692288639"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "87ebed1ede5e1a939154ee404da8bd6916e624c19ec3bdd54937f54a4ed2f11c"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "필수·선택 구분 쪽을 이어서 물은 거예요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0139"
+            ],
+            "properties": [
+              "category"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0139",
+                "course_id": "cwnu.cs.2026.course.cda0139",
+                "properties": {
+                  "category": "major_elective"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0139 row",
+                "fact_sha256": "1ece85c5223fb9e42e92fc7d630c548a4a5211320950f7fb23294077c4f9de11"
+              }
+            ]
+          },
+          "actual_answer": "영상처리 과목은 전공선택입니다.",
+          "elapsed_seconds": 3.234,
+          "actual_http_status": 200,
+          "response_sha256": "d3fea4c8d081fc8174fc6722ed33d8f4e3b005048422e92d2383040d433ced4c"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H08",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "real_candidate_missing",
+              "failure_category": "question_understanding",
+              "message": "Clarification omits a required real source candidate",
+              "review_required": false
+            },
+            {
+              "code": "clarification_identity_not_retained",
+              "failure_category": "question_understanding",
+              "message": "Resume context omits the actual course/candidate identity",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "clarification",
+            "reason_code": "ambiguous",
+            "plan_status": "fallback",
+            "generation_status": "not_applicable",
+            "body_sha256": "5a296c3b8453665ccce34846eb65468f1df138cd98780e33646f260a1afae28f"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네트워크컴퓨터프로그래밍의 학점을 찾고 있어요.",
+          "expected": {
+            "mode": "clarification",
+            "topic": "identity",
+            "candidate_codes": [
+              "CDA0165",
+              "CDA0031"
+            ],
+            "require_context_question": true,
+            "reason_options": [
+              "ambiguous"
+            ]
+          },
+          "actual_answer": "네트워크프로그래밍 과목을 말씀하시나요?",
+          "elapsed_seconds": 0.0,
+          "actual_http_status": 200,
+          "response_sha256": "cc7c2e107ead870ee7ba06865cd0ceec85366529082b8fa8203ae5c6cc6b0da3"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "unrequested_body_fields",
+              "failure_category": "question_understanding",
+              "message": "Unrequested course fields appended to body: category,offering,code",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "5fa88e5c3f906fc4d5921fb1d9397463a04d15efb9271c1f7f557cba672e3ec1"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "네트워크프로그래밍으로 확인해 주세요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0165"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0165",
+                "course_id": "cwnu.cs.2026.course.cda0165",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+                "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n네트워크프로그래밍: 3학점, 전공선택, 3학년 1학기, CDA0165",
+          "elapsed_seconds": 3.656,
+          "actual_http_status": 200,
+          "response_sha256": "34418955a0d20c6c88ea3b3add81dd5a8746dddcaaf8107804c98b718e065a17"
+        },
+        {
+          "turn_index": 3,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "a5b4528fa12a8306f5d9ebc1d57ffe9807cf8a3c1b01835aa2d8e3c37911b92c"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴구 학점도 추가로요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0016"
+            ],
+            "properties": [
+              "credits"
+            ],
+            "expected_courses": [
+              {
+                "code": "CDA0016",
+                "course_id": "cwnu.cs.2026.course.cda0016",
+                "properties": {
+                  "credits": 3
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+                "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+              }
+            ]
+          },
+          "actual_answer": "컴퓨터구조는 3학점입니다.",
+          "elapsed_seconds": 14.359,
+          "actual_http_status": 200,
+          "response_sha256": "afd6caf89fd200aa95ef194ea95dfbe1a22c48ca725395adb8d5d6441668a1a8"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H09",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": null,
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "clarification",
+            "reason_code": "ambiguous",
+            "plan_status": "fallback",
+            "generation_status": "not_applicable",
+            "body_sha256": "0acd27bd2ba19e9c2a9f717894ce492fa640c0a75e8a463ed57e809fe4a50528"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "데이터베이쓰개론은 전선인지 전필인지 찾아줄래요?",
+          "expected": {
+            "mode": "attribute_or_clarify",
+            "codes": [
+              "CDA0065"
+            ],
+            "properties": [
+              "category"
+            ],
+            "candidate_codes": [
+              "CDA0065"
+            ],
+            "require_context_question": true,
+            "expected_courses": [
+              {
+                "code": "CDA0065",
+                "course_id": "cwnu.cs.2026.course.cda0065",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0065 row",
+                "fact_sha256": "d76c200957e2ac071a57490047f5ffde6374707780435fb0d1319f9bb1e3dd55"
+              }
+            ]
+          },
+          "actual_answer": "데이타베이스개론 / 데이터마이닝 중 어떤 과목을 말씀하시나요?",
+          "elapsed_seconds": 0.0,
+          "actual_http_status": 200,
+          "response_sha256": "b0cfdd86a1560519f7a41128259b921c696afe185990d1e3054f75b8cea24e34"
+        },
+        {
+          "turn_index": 2,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "unrequested_body_fields",
+              "failure_category": "question_understanding",
+              "message": "Unrequested course fields appended to body: credits,offering,code",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "74edb5f85023f99e94f172857ba1d91fbc53e4fcb95c3687fb9d3a11fdd29b15"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "데이타베이스개론을 뜻한 질문이에요.",
+          "expected": {
+            "mode": "attributes",
+            "codes": [
+              "CDA0065"
+            ],
+            "properties": [
+              "category"
+            ],
+            "uses_context": true,
+            "expected_courses": [
+              {
+                "code": "CDA0065",
+                "course_id": "cwnu.cs.2026.course.cda0065",
+                "properties": {
+                  "category": "major_required"
+                },
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0065 row",
+                "fact_sha256": "d76c200957e2ac071a57490047f5ffde6374707780435fb0d1319f9bb1e3dd55"
+              }
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n데이타베이스개론: 3학점, 전공필수, 3학년 1학기, CDA0065",
+          "elapsed_seconds": 3.735,
+          "actual_http_status": 200,
+          "response_sha256": "c188d5bc7599f8a566cfc5a7ebf3503996cbabc272580b9fad8f2169a1710b1f"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H10",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "missing_retrieval",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "supported_demand_unanswered",
+              "failure_category": "question_understanding",
+              "message": "Approved requested demands did not produce overall supported response",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "overview_is_catalogue_dump",
+              "failure_category": "question_understanding",
+              "message": "Overview replaced by course catalogue or exceeds bounded part count",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "rejected",
+            "generation_status": "fallback",
+            "body_sha256": "ee43948a32895e88eda2cebfb8f6a61c1d960348f37d6bb2afe3a1b90d9d7e44"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "26학번 컴공 졸업 준비 중이에요. 학점 합계뿐 아니라 필수 이수, 교양, 졸업논문까지 챙겨야 할 조건을 한 번에 정리해 줄래요?",
+          "expected": {
+            "mode": "overview",
+            "rule_bundle": "graduation_overview",
+            "maximum_parts": 8,
+            "required_rules": [
+              "cwnu.cs.2026.credits.graduation-total",
+              "cwnu.cs.2026.credits.general-total",
+              "cwnu.cs.2026.credits.major-total",
+              "cwnu.cs.2026.credits.graduation-remaining",
+              "cwnu.cs.2026.credits.graduation-remaining-allocation",
+              "cwnu.cs.2026.credits.general-foundation",
+              "cwnu.cs.2026.credits.general-balanced",
+              "cwnu.cs.2026.credits.general-remaining",
+              "cwnu.cs.2026.credits.general-remaining-allocation",
+              "cwnu.cs.2026.credits.general-recognition-cap",
+              "cwnu.cs.2026.general-balanced-area-coverage",
+              "cwnu.cs.2026.credits.major-required",
+              "cwnu.cs.2026.credits.major-elective",
+              "cwnu.cs.2026.credits.major-minimum",
+              "cwnu.cs.2026.credits.major-advanced",
+              "cwnu.cs.2026.major-required-course-set",
+              "cwnu.cs.2026.graduation.thesis-required",
+              "cwnu.cs.2026.graduation.thesis-completion-result",
+              "cwnu.cs.2026.major-counseling-completion"
+            ]
+          },
+          "actual_answer": "검증된 목록에서 1과목을 확인했습니다.\n졸업논문 (CDA0034): 0학점, 전공필수, 4학년 1·2학기\n\n질문 해석 또는 문장 생성 처리가 완료되지 않았습니다. 이는 학사 근거가 없다는 뜻이 아닙니다. 확인된 자료는 위에 표시했습니다. 다시 시도하거나 과목·요건을 나누어 질문해 주세요.",
+          "elapsed_seconds": 12.406,
+          "actual_http_status": 200,
+          "response_sha256": "df0fac8edce604da14508c5dbe16079590fee250c4ad8b0e703bceceb638e6fc"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H11",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "missing_retrieval",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "count_set_incomplete",
+              "failure_category": "missing_retrieval",
+              "message": "Category/year-filtered unique course set differs from approved catalogue",
+              "review_required": false
+            },
+            {
+              "code": "count_set_incomplete",
+              "failure_category": "missing_retrieval",
+              "message": "Category/year-filtered unique course set differs from approved catalogue",
+              "review_required": false
+            },
+            {
+              "code": "count_union_mismatch",
+              "failure_category": "missing_retrieval",
+              "message": "All requested category count demands were not retrieved exactly",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "a97844c8a2a738e5d80eb4d9fd2f2eb7d0188b063173532e27f9726aeee71504"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026학번 교육과정에서 3학년에 편성된 전필은 몇 개이고 전선은 몇 개인가요? 두 학기 모두 편성된 과목은 같은 구분 안에서 한 번만 세어 주세요.",
+          "expected": {
+            "mode": "counts",
+            "counts": [
+              {
+                "category": "major_required",
+                "year": 3,
+                "expected_count": 7,
+                "expected_codes": [
+                  "CDA0016",
+                  "CDA0027",
+                  "CDA0028",
+                  "CDA0065",
+                  "CDA0017",
+                  "CDA0023",
+                  "CDA0088"
+                ]
+              },
+              {
+                "category": "major_elective",
+                "year": 3,
+                "expected_count": 12,
+                "expected_codes": [
+                  "CDA0164",
+                  "CDA0165",
+                  "CDA0139",
+                  "CDA0154",
+                  "CDA0169",
+                  "CDA0167",
+                  "CDA0147",
+                  "CDA0173",
+                  "CDA0144",
+                  "CDA0145",
+                  "CDA0171",
+                  "CDA0172"
+                ]
+              }
+            ]
+          },
+          "actual_answer": "2학년 1학기에 편성된 과목은 총 8개입니다.\n\n2학년 2학기에 편성된 과목은 총 10개입니다.\n\n3학년에 편성된 전공선택 과목은 총 12개입니다.\n\n3학년에 편성된 전공필수 과목은 총 7개입니다.",
+          "elapsed_seconds": 15.719,
+          "actual_http_status": 200,
+          "response_sha256": "90579fee3fe06a5536f78f1c2c30f2403fbdaf588ac3e1b89b2f26cd5210e634"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H12",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "wrong_answer",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_not_preserved",
+              "failure_category": "wrong_answer",
+              "message": "Unsupported material demand answered as supported or wrong scope",
+              "review_required": false
+            },
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "supported",
+            "kind": "academic",
+            "reason_code": null,
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "3e08efb2f02562c0069a5d97ccb31fc4abfc196a42a03625ccd556d025aea1d6"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "2026학번 컴공 전필 과목 수와 전선 과목 수를 각각 알려주고, 다음 학기 실제 개설되는 전선은 그중 몇 개인지도 확인해 주세요.",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "actual_opening"
+            ],
+            "reason_options": [
+              "no_matching_evidence"
+            ],
+            "known_demands": {
+              "mode": "counts",
+              "counts": [
+                {
+                  "category": "major_required",
+                  "expected_count": 9,
+                  "expected_codes": [
+                    "CDA0143",
+                    "CDA0016",
+                    "CDA0027",
+                    "CDA0028",
+                    "CDA0065",
+                    "CDA0017",
+                    "CDA0023",
+                    "CDA0034",
+                    "CDA0088"
+                  ]
+                },
+                {
+                  "category": "major_elective",
+                  "expected_count": 34,
+                  "expected_codes": [
+                    "CDA0163",
+                    "CDA0174",
+                    "CDA0157",
+                    "CDA0170",
+                    "CDA0008",
+                    "CDA0010",
+                    "CDA0014",
+                    "CDA0006",
+                    "CDA0013",
+                    "CDA0125",
+                    "CDA0176",
+                    "CDA0155",
+                    "CDA0156",
+                    "CDA0164",
+                    "CDA0165",
+                    "CDA0139",
+                    "CDA0154",
+                    "CDA0169",
+                    "CDA0167",
+                    "CDA0030",
+                    "CDA0031",
+                    "CDA0119",
+                    "CDA0177",
+                    "CDA0150",
+                    "CDA0153",
+                    "CDA0166",
+                    "CDA0175",
+                    "CDA0168",
+                    "CDA0147",
+                    "CDA0173",
+                    "CDA0144",
+                    "CDA0145",
+                    "CDA0171",
+                    "CDA0172"
+                  ]
+                }
+              ]
+            }
+          },
+          "actual_answer": "과목 조회 결과, 전공필수 과목은 총 9개 과목이 편성되어 있습니다.\n\n과목 조회 결과, 전공선택 과목은 총 34개 과목이 편성되어 있습니다.\n\n과목 조회 결과, 2학기에 편성된 전공선택 과목은 총 19개 과목입니다.",
+          "elapsed_seconds": 4.875,
+          "actual_http_status": 200,
+          "response_sha256": "d968f724ebcead33e077a416a99deec4543e61626b5100cd7cea9addd527d560"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H13",
+      "split": "heldout",
+      "required": true,
+      "status": "passed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "passed",
+          "failure_category": "genuine_evidence_gap",
+          "product_failure": false,
+          "issues": [],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "no_matching_evidence",
+            "plan_status": "generated",
+            "generation_status": "generated",
+            "body_sha256": "2a760e35e679d4cbae711cc3ea15e87a6ad0e50da06ab39018b6f0067cccb67e"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "딥러닝과자연어처리는 몇 학점인지 먼저 알고 싶어요. 그 수업에서 사용하는 교재랑 주차별 내용도 자료로 확인할 수 있을까요?",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "description"
+            ],
+            "reason_options": [
+              "no_matching_evidence"
+            ],
+            "known_demands": {
+              "mode": "attributes",
+              "codes": [
+                "CDA0166"
+              ],
+              "properties": [
+                "credits"
+              ],
+              "expected_courses": [
+                {
+                  "code": "CDA0166",
+                  "course_id": "cwnu.cs.2026.course.cda0166",
+                  "properties": {
+                    "credits": 3
+                  },
+                  "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                  "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                  "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0166 row",
+                  "fact_sha256": "263c2b0d3ad5ec0f901bccc4154bc99370806f86d66b6bb638a69027e1c24116"
+                }
+              ]
+            },
+            "context_codes": [
+              "CDA0166"
+            ]
+          },
+          "actual_answer": "딥러닝과자연어처리 과목은 3학점입니다.\n\n과목의 학점·편성표는 강의 내용을 증명하지 않습니다. 강의계획서 근거가 없어 내용을 추정할 수 없습니다.",
+          "elapsed_seconds": 3.906,
+          "actual_http_status": 200,
+          "response_sha256": "b3d62fabc94b541d3b84b618d102e805e4a0dd30a910dc30ada5517991b1fa8d"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H14",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "wrong_answer",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_not_preserved",
+              "failure_category": "wrong_answer",
+              "message": "Unsupported material demand answered as supported or wrong scope",
+              "review_required": false
+            },
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            },
+            {
+              "code": "gap_demand_not_explained",
+              "failure_category": "question_understanding",
+              "message": "One unsupported subquestion lacks a recognizable explicit hold",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "out_of_scope",
+            "kind": "refusal",
+            "reason_code": "unsupported_scope",
+            "plan_status": "fallback",
+            "generation_status": "fallback",
+            "body_sha256": "1e829ba2d82a1c2c66ffdf7513df4b657c2d8514d93d60fbc24a29c351663d61"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "컴구를 꼭 이수해야 한다면 제가 따로 만든 CPU 프로젝트로 출석과 과목 이수를 모두 대신할 수 있나요?",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "attendance",
+              "personal_substitution"
+            ],
+            "reason_options": [
+              "no_matching_evidence",
+              "missing_student_input"
+            ],
+            "context_codes": [
+              "CDA0016"
+            ]
+          },
+          "actual_answer": "2026학번·2026 교육과정·컴퓨터공학과의 확인된 근거만 지원합니다.",
+          "elapsed_seconds": 0.0,
+          "actual_http_status": 200,
+          "response_sha256": "001fedca74bd567a90b0ba3e401a876f05d63364db7655fc2e6a19e3334a5ba2"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H15",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "question_understanding",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "gap_reason_wrong",
+              "failure_category": "question_understanding",
+              "message": "Expected source/input gap mislabeled as provider outage or another reason",
+              "review_required": false
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "generated",
+            "generation_status": "fallback",
+            "body_sha256": "d1f8366ccb40ea6ba1d864d76c084bdc8ed3ae12733ceb1c3b85760f56f1e91a"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "산학캡스톤디자인1은 전선으로 분류되는지 확인해 주고, 전선이면 졸업까지 이수하지 않아도 되는지도 따로 설명해 주세요.",
+          "expected": {
+            "mode": "gap",
+            "gap_types": [
+              "elective_obligation"
+            ],
+            "reason_options": [
+              "no_matching_evidence"
+            ],
+            "known_demands": {
+              "mode": "attributes",
+              "codes": [
+                "CDA0167"
+              ],
+              "properties": [
+                "category"
+              ],
+              "expected_courses": [
+                {
+                  "code": "CDA0167",
+                  "course_id": "cwnu.cs.2026.course.cda0167",
+                  "properties": {
+                    "category": "major_elective"
+                  },
+                  "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                  "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                  "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0167 row",
+                  "fact_sha256": "5e63a4288b409385dd97f3b17aa03cda316e7188c946a76256e3e6a4561cc262"
+                }
+              ]
+            },
+            "context_codes": [
+              "CDA0167"
+            ],
+            "optional_rules": [
+              "cwnu.cs.2026.operations.coding-test-failure",
+              "cwnu.cs.2026.operations.pccp-current-trial"
+            ]
+          },
+          "actual_answer": "문장 생성 처리가 완료되지 않아 확인된 근거를 그대로 안내합니다.\n산학캡스톤디자인1: 전공선택\n\n코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다.\n\n산학캡스톤디자인1의 이수구분만으로 졸업을 위한 의무 또는 개인 면제를 확정할 수 없습니다. 적용할 승인된 요건의 추가 확인이 필요합니다.",
+          "elapsed_seconds": 4.625,
+          "actual_http_status": 200,
+          "response_sha256": "9685016c6dfad6c9ca97474079df8ed1ed4e37befada256fb76877b235bdc627"
+        }
+      ]
+    },
+    {
+      "case_id": "PD2-H16",
+      "split": "heldout",
+      "required": true,
+      "status": "failed",
+      "turns": [
+        {
+          "turn_index": 1,
+          "status": "failed",
+          "failure_category": "missing_retrieval",
+          "product_failure": true,
+          "issues": [
+            {
+              "code": "supported_demand_unanswered",
+              "failure_category": "question_understanding",
+              "message": "Approved requested demands did not produce overall supported response",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "rule_demand_not_retrieved",
+              "failure_category": "missing_retrieval",
+              "message": "Requested completion/overview RuleFact evidence missing",
+              "review_required": false
+            },
+            {
+              "code": "completion_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Requested approved completion obligation not recognized",
+              "review_required": true
+            },
+            {
+              "code": "completion_not_rendered",
+              "failure_category": "question_understanding",
+              "message": "Requested approved completion obligation not recognized",
+              "review_required": true
+            }
+          ],
+          "observed": {
+            "http_status": 200,
+            "status": "insufficient_evidence",
+            "kind": "academic",
+            "reason_code": "processing_unavailable",
+            "plan_status": "rejected",
+            "generation_status": "fallback",
+            "body_sha256": "144d93e9ebb16c271044a5bf1bcb931c13073fc04c08d32307a5bc22b155fb20"
+          },
+          "model_evidence": "Saved response labels only; inference/caching/transport audit remains separate",
+          "question": "졸업논문과 심층상담이 학점 합계에 거의 영향을 안 주면, 2026학번 졸업 준비에서는 두 과목을 제외해도 되나요?",
+          "expected": {
+            "mode": "obligation",
+            "codes": [
+              "CDA0034",
+              "CDA0088"
+            ],
+            "required_rules": [
+              "cwnu.cs.2026.major-required-course-set",
+              "cwnu.cs.2026.graduation.thesis-completion-result",
+              "cwnu.cs.2026.major-counseling-completion"
+            ],
+            "allow_credit_qualifier": true,
+            "expected_courses": [
+              {
+                "code": "CDA0034",
+                "course_id": "cwnu.cs.2026.course.cda0034",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0034 row",
+                "fact_sha256": "c4f497aba2f4cce4b2bbeece6a105787ece1f51158ea04c8a5e29c4f806b2d87"
+              },
+              {
+                "code": "CDA0088",
+                "course_id": "cwnu.cs.2026.course.cda0088",
+                "properties": {},
+                "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+                "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0088 row",
+                "fact_sha256": "71b537e0c85c26bb667b773fc2dab735532600bdb7cfab03cb3e22a6206d1e73"
+              }
+            ],
+            "evidence_precedence": "approved_required_rule_member",
+            "course_evidence_required": false,
+            "required_members": [
+              {
+                "code": "CDA0034",
+                "label": "졸업논문",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              },
+              {
+                "code": "CDA0088",
+                "label": "심층상담",
+                "rule_id": "cwnu.cs.2026.major-required-course-set",
+                "rule_sha256": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+                "citations": [
+                  {
+                    "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+                    "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열"
+                  },
+                  {
+                    "source_id": "cwnu.curriculum.2026.ta-validation-response",
+                    "locator": "PDF pp.2-3, section 4: 전공필수 과목"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual_answer": "검증된 목록에서 1과목을 확인했습니다.\n졸업논문 (CDA0034): 0학점, 전공필수, 4학년 1·2학기\n\n검증된 목록에서 1과목을 확인했습니다.\n심층상담 (CDA0088): 0학점, 전공필수, 전 학년 1·2학기\n\n질문 해석 또는 문장 생성 처리가 완료되지 않았습니다. 이는 학사 근거가 없다는 뜻이 아닙니다. 확인된 자료는 위에 표시했습니다. 다시 시도하거나 과목·요건을 나누어 질문해 주세요.",
+          "elapsed_seconds": 12.531,
+          "actual_http_status": 200,
+          "response_sha256": "06da7deb0cfd9569d04c1f6caf54824cd14b0564c8ad54700a5a0ad4123ce186"
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 
 | ADR | 결정 | 상태 |
 | --- | --- | --- |
+| [0027](0027-prototype-dialogue-repair-and-observed-progress.md) | B 프로토타입 이름·학번 허용, 사실 중심 LLM 재작성, 실측 단계와 Cypher 표시 | 채택·구현 중 |
 | [0001](0001-vendored-harness-installation.md) | WSL에서 고정 SHA의 하네스를 설치본으로 포함 | 채택 |
 | [0002](0002-max-three-concurrent-agents.md) | 동시 서브에이전트 최대 3개 | 채택 |
 | [0003](0003-exclude-source-documents.md) | 원문·학생정보·접속정보를 Git에서 제외 | 채택 |
@@ -28,3 +29,7 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 - [ADR0020: 사용자 PC의 익명 외부 HTTPS 시연](0020-anonymous-pc-hosted-demo.md)
 - [ADR0021: 실제 Gemma 승인 문장 생성과 검증](0021-verified-gemma-claim-generation.md)
 - [ADR0022: 친절한 근거 안내와 휘발성 대화](0022-friendly-volatile-conversation.md)
+- [ADR0023: 의미 기반 과목 조회와 학생 질문 검증](0023-semantic-course-retrieval-and-student-evaluation.md)
+- [ADR0024: 질문 목적·별칭·문맥을 보존하는 재개](0024-purpose-aware-dialogue-and-resume.md)
+- [ADR0025: 질문·답변(B) 우선, 성적표 비교(A)와 개발 단계 분리](0025-separate-dialogue-and-transcript-tracks.md)
+- [ADR0026: 생산 구조화 계획의 입력 의미 권한과 레거시 경로 분리](0026-typed-input-semantic-authority.md)

@@ -35,7 +35,7 @@ _LATIN_LOWERCASE_NAME = re.compile(
     r"(?<![A-Za-z])(?:john|jane|james|mary|michael|david|alice|robert|sarah|anna)[ \t]+[a-z]{2,30}(?![A-Za-z])",
     re.IGNORECASE,
 )
-_BARE_NAME_ACADEMIC_CONTEXT = ("휴학", "복학", "전과", "재입학", "학적", "졸업", "학점", "수강", "성적", "이수")
+_BARE_NAME_ACADEMIC_CONTEXT = ("휴학", "복학", "전과", "재입학", "학적", "졸업", "학점", "수강", "성적", "이수", "과목", "강의")
 _BARE_NAME_GRAMMATICAL_ENDINGS = ("는", "가", "을", "를", "의", "도", "에", "게", "요", "어", "된", "상", "없", "하", "들", "면", "고", "해", "할", "했")
 _PERSONAL_TOKEN = re.compile(
     r"^(?:전|난|"
@@ -238,9 +238,13 @@ def _has_final_consonant(text: str) -> bool:
     return 0xAC00 <= code <= 0xD7A3 and (code - 0xAC00) % 28 != 0
 
 
-def _question_exceeds_scope(question: str) -> bool:
+def _question_exceeds_scope(question: str, *, allow_academic_conjunctions=False) -> bool:
     compact = question.replace(" ", "")
-    if any(marker in compact for marker in _UNSUPPORTED_DEPARTMENT_MARKERS):
+    # "다른 전공학점" can refer to another credit component in the same
+    # curriculum, not another department. Explicit department/cohort entities
+    # below and all other cross-department markers still retain their bounds.
+    department_text = compact.replace("다른전공학점", "전공학점")
+    if any(marker in department_text for marker in _UNSUPPORTED_DEPARTMENT_MARKERS):
         return True
     if any(int(year) != 2026 for year in _EXPLICIT_YEAR.findall(question)):
         return True
@@ -250,6 +254,33 @@ def _question_exceeds_scope(question: str) -> bool:
         return True
     if any(discipline != "컴퓨터공학" for discipline in _EXPLICIT_DISCIPLINE.findall(question)):
         return True
+    if allow_academic_conjunctions is True:
+        # A Korean conjunction or ordinary noun ending in 과 is not an
+        # entity. Short department names need a discipline identity or an
+        # explicit department declaration; full 학과/학부 and cohort checks
+        # above remain independent and unchanged.
+        short_entity = re.compile(r"(?<![가-힣])([가-힣]{1,20}?과)(?=(?:은|는|이|가|의|도|만|을|를|에서|에|으로|로|인)?(?:\s|학생|재학생|신입생|졸업생|$))")
+        for match in short_entity.finditer(question):
+            department = match[1]
+            if department == "컴퓨터공학과":
+                continue
+            declaration = re.search(r"(?:학과|학부|소속|전공)\s*[:：=]?\s*" + re.escape(department), question)
+            # A role/enrollment relation declares the entity, regardless of
+            # whether its short department name was known ahead of time.
+            tail = question[match.end():]
+            relation = r"(?:소속(?:인|의)?|속한|소속된|다니는|재학\s*(?:하는|한|중인)?|입학\s*(?:한|하는)?|전과\s*(?:한|하는)?|편입\s*(?:한|하는)?)"
+            role = re.match(r"(?:의|에|에서|으로|로|인)?\s*(?:" + relation + r"\s*)?(?:재학생|신입생|졸업생|학생|전공생)(?!번호|증)", tail)
+            scope = re.match(r"(?:의|기준|교육과정)?\s*(?:졸업\s*(?:요건|기준|조건)|교육과정|전공\s*기준)",tail)
+            # A possessive relation can be separated by normalization, e.g.
+            # 'department 의 졸업 요건'. Affiliation nouns themselves declare
+            # a department even without repeating 'student'.
+            affiliation = re.match(r"(?:의|에|에서)?\s*(?:소속|속한|소속된)(?:\s|학생|재학생|사람|구성원|$)",tail)
+            possessive = re.match(r"\s*의\s*(?:졸업\s*(?:요건|기준|조건)|교육과정|전공\s*기준)",tail)
+            enrollment = re.match(r"(?:으로|로|에)\s*(?:입학|편입|전과|진학|재학)",tail)
+            academic_conjunction = any(department[:-1].startswith(stem) for stem in _ACADEMIC_KWA_STEMS)
+            if declaration or role or enrollment or affiliation or (scope or possessive) and not academic_conjunction:
+                return True
+        return False
     return any(
         department != "컴퓨터공학과" and department not in _NON_DEPARTMENT_KWA_WORDS
         and not any(department[:-1].startswith(stem) for stem in _ACADEMIC_KWA_STEMS)
@@ -283,19 +314,33 @@ def _asks_unapproved_exemption(compact: str) -> bool:
     return "면제" in compact and not _is_approved_linked_thesis_question(compact)
 
 
-def validate_request_safety(payload: AcademicAnswerRequest) -> None:
-    validate_public_text_safety(payload.question)
+def validate_request_safety(payload: AcademicAnswerRequest, *, allow_identifying=False) -> None:
+    validate_public_text_safety(payload.question, allow_identifying=allow_identifying)
     if set(payload.earned_credits) - APPROVED_METRICS:
         raise ValueError("unknown earned-credit metric")
 
 
-def validate_public_text_safety(value: str) -> None:
+def validate_public_text_safety(value: str, *, allow_identifying=False) -> None:
     normalized = unicodedata.normalize("NFKC", value)
+    if allow_identifying is True:
+        if any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
+            raise ValueError("unsafe control character")
+        return
     # A two- or four-digit admission cohort is not an individual student identifier.
     # Keep the full text for every other PII check, including 6-12 digit IDs.
     without_cohort_label = _ADMISSION_COHORT_PHRASE.sub(lambda match: match.group().replace("학번", ""), normalized)
-    if _UNSAFE_QUESTION.search(without_cohort_label) or any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
+    # A course's name label is public academic vocabulary, not a person's
+    # name. Remove only that qualified label from this one lexical check;
+    # original text still undergoes all person/identifier checks below.
+    without_course_label = re.sub(r"((?:교과목|과목|강의)(?:의)?\s*)이름", r"\1label", without_cohort_label)
+    if _UNSAFE_QUESTION.search(without_course_label) or any(ord(char) < 32 and char not in "\t\n\r" for char in normalized):
         raise ValueError("unsafe or identifying question content")
+    if without_course_label != without_cohort_label:
+        # The qualified-label exception must not make a supplied human name
+        # safe merely because it appears beside a course-label request.
+        for token in re.findall(r"[가-힣]+", without_course_label):
+            if re.fullmatch(rf"(?:{_KOREAN_SURNAME}[가-힣]{{2}}|{_KOREAN_COMPOUND_SURNAME}[가-힣]{{2}})(?:의|은|는|이|가|씨|님|이라고|라는|라고)?", token):
+                raise ValueError("unsafe or identifying question content")
     if any(pattern.search(normalized) for pattern in (
         _KOREAN_NAME_WITH_HUMAN_SUFFIX,
         _KOREAN_NAME_WITH_PARTICLE,
@@ -321,8 +366,8 @@ class AnswerEngine:
         self.registry = registry or Registry.load()
         self.evidence_reader = evidence_reader
 
-    def validate_request(self, payload: AcademicAnswerRequest) -> None:
-        validate_request_safety(payload)
+    def validate_request(self, payload: AcademicAnswerRequest, *, allow_identifying=False) -> None:
+        validate_request_safety(payload, allow_identifying=allow_identifying)
         if self.registry.allowed_metrics != APPROVED_METRICS:
             raise ValueError("registry metric profile mismatch")
 

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/assistant-progress-event.schema.json",
+  "title": "AssistantProgressEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0"
+    },
+    "type": {
+      "const": "progress"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "stage": {
+      "enum": [
+        "received",
+        "intent",
+        "query",
+        "retrieval",
+        "writing",
+        "verification",
+        "repair",
+        "complete",
+        "error"
+      ]
+    },
+    "state": {
+      "enum": [
+        "started",
+        "completed",
+        "failed",
+        "info"
+      ]
+    },
+    "elapsed_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "duration_ms": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "explanation_source": {
+      "enum": [
+        "system",
+        "llm"
+      ]
+    },
+    "details": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "type",
+    "request_id",
+    "sequence",
+    "stage",
+    "state",
+    "elapsed_ms",
+    "duration_ms",
+    "message",
+    "explanation_source",
+    "details"
+  ]
+}

@@ -1,0 +1,362 @@
+{
+  "$defs": {
+    "CourseCitation": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "locator": {
+          "title": "Locator",
+          "type": "string"
+        },
+        "claim": {
+          "title": "Claim",
+          "type": "string"
+        },
+        "course_id": {
+          "title": "Course Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_sha256",
+        "locator",
+        "claim",
+        "course_id"
+      ],
+      "title": "CourseCitation",
+      "type": "object"
+    },
+    "CourseFact": {
+      "additionalProperties": false,
+      "properties": {
+        "course_id": {
+          "title": "Course Id",
+          "type": "string"
+        },
+        "course_code": {
+          "title": "Course Code",
+          "type": "string"
+        },
+        "course_name": {
+          "title": "Course Name",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "major_required",
+            "major_elective"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "credits": {
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Credits",
+          "type": "integer"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "maximum": 4,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Year"
+        },
+        "semester": {
+          "anyOf": [
+            {
+              "maximum": 2,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Semester"
+        },
+        "offering_years": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "title": "Offering Years",
+          "type": "array"
+        },
+        "offering_semesters": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "title": "Offering Semesters",
+          "type": "array"
+        },
+        "offering_label": {
+          "default": "",
+          "title": "Offering Label",
+          "type": "string"
+        },
+        "theory": {
+          "anyOf": [
+            {
+              "maximum": 30,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Theory"
+        },
+        "practical": {
+          "anyOf": [
+            {
+              "maximum": 30,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Practical"
+        },
+        "minor_required": {
+          "default": false,
+          "title": "Minor Required",
+          "type": "boolean"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "locator": {
+          "title": "Locator",
+          "type": "string"
+        },
+        "fact_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fact Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "course_id",
+        "course_code",
+        "course_name",
+        "category",
+        "credits",
+        "year",
+        "semester",
+        "source_id",
+        "source_sha256",
+        "locator",
+        "fact_sha256"
+      ],
+      "title": "CourseFact",
+      "type": "object"
+    },
+    "Issue": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "missing",
+            "conflict",
+            "scope",
+            "review"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "related_ids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Related Ids"
+        }
+      },
+      "required": [
+        "kind",
+        "message"
+      ],
+      "title": "Issue",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "admission_year": {
+          "title": "Admission Year",
+          "type": "integer"
+        },
+        "matched_curriculum_year": {
+          "title": "Matched Curriculum Year",
+          "type": "integer"
+        },
+        "department": {
+          "title": "Department",
+          "type": "string"
+        }
+      },
+      "required": [
+        "admission_year",
+        "matched_curriculum_year",
+        "department"
+      ],
+      "title": "Scope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "packet_id": {
+      "title": "Packet Id",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "status": {
+      "enum": [
+        "supported",
+        "insufficient_evidence",
+        "conflict",
+        "out_of_scope"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "courses": {
+      "items": {
+        "$ref": "#/$defs/CourseFact"
+      },
+      "title": "Courses",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/CourseCitation"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/Issue"
+      },
+      "title": "Issues",
+      "type": "array"
+    }
+  },
+  "required": [
+    "packet_id",
+    "scope",
+    "status",
+    "courses",
+    "evidence",
+    "issues"
+  ],
+  "title": "CourseEvidencePacket",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/contracts/course-evidence-packet.schema.json",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "supported"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "courses": {
+            "minItems": 1
+          },
+          "evidence": {
+            "minItems": 1
+          },
+          "issues": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "insufficient_evidence",
+              "conflict",
+              "out_of_scope"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "courses": {
+            "maxItems": 0
+          },
+          "evidence": {
+            "maxItems": 0
+          },
+          "issues": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

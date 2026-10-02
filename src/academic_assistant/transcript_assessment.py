@@ -20,7 +20,9 @@ PASS_GRADES = {"A+", "A0", "B+", "B0", "C+", "C0", "D+", "D0", "P", "PASS", "S"}
 
 
 def _identity(name):
-    return re.sub(r"\s+", "", name)
+    # The approved original catalogue uses 데이타; the reviewed rule list uses
+    # 데이터. This explicit spelling equivalence does not merge distinct codes.
+    return re.sub(r"\s+", "", name).replace("데이타", "데이터")
 
 
 class TranscriptAssessor:

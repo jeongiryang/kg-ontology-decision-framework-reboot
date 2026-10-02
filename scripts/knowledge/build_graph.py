@@ -31,7 +31,7 @@ def _neo4j_properties(properties: dict[str, Any]) -> dict[str, Any]:
     """Encode nested, typed JSON for Neo4j property storage without losing content."""
     result: dict[str, Any] = {}
     for key, value in properties.items():
-        if isinstance(value, (dict, list)):
+        if isinstance(value, (dict, list)) or value is None:
             result[f"{key}_json"] = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
         elif value is not None and isinstance(value, (str, int, float, bool)):
             result[key] = value

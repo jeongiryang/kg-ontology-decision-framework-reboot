@@ -1,0 +1,559 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "20261002-b-dialogue-v2",
+  "status": "failed",
+  "product_complete": false,
+  "deployed_backend": "0.11.0",
+  "worktree_version": "0.12.0",
+  "git_baseline": "42e013f",
+  "scope": {
+    "admission_year": 2026,
+    "department": "컴퓨터공학과",
+    "stream": "B"
+  },
+  "academic_evidence_changed": false,
+  "approved_inventory": {
+    "sources": 3,
+    "rules": 29,
+    "course_facts": 43
+  },
+  "product_cycles": {
+    "maximum": 4,
+    "executed": 4,
+    "additional_silent_cycle": false
+  },
+  "offline": {
+    "kind": "scripted_provider_at_real_facade_api_stream_not_live_model",
+    "full": {
+      "tests_run": 964,
+      "failure_events": 19,
+      "error_events": 0,
+      "skipped": 0,
+      "successful": false,
+      "failed_methods": [
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_department_roles_not_course_conjunctions_or_name_labels",
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_opposing_category_negation_not_wrong_actual_category",
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_required_pass_case_condition_not_whether_or_not",
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_source_repair_13",
+        "test_b_input_routing_qa.BInputIndependentQA.test_private_heldout_02",
+        "test_b_input_routing_qa.BInputIndependentQA.test_private_heldout_08",
+        "test_b_input_routing_qa.BInputIndependentQA.test_private_heldout_09",
+        "test_b_input_routing_worker.InputRoutingTests.test_course_name_label_with_transient_identity_reaches_model",
+        "test_b_input_routing_worker.InputRoutingTests.test_scope_entities_still_refuse_before_typed_model"
+      ]
+    },
+    "new": {
+      "tests_run": 39,
+      "failure_events": 11,
+      "error_events": 0,
+      "skipped": 0,
+      "successful": false,
+      "failed_methods": [
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_department_roles_not_course_conjunctions_or_name_labels",
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_opposing_category_negation_not_wrong_actual_category",
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_required_pass_case_condition_not_whether_or_not",
+        "test_b_dialogue_v2_qa.BDialogueSourceQA.test_source_repair_13"
+      ]
+    },
+    "node": {
+      "commands_run": 7,
+      "passed": 7,
+      "failed": 0
+    },
+    "pure_grader_checks_passed": 24,
+    "actual_mocked_correction_checks_passed": 47
+  },
+  "actual_model": {
+    "kind": "actual_api_in_process_existing_gemma_and_neo4j",
+    "model": "gemma4:26b",
+    "revision": "cycle4",
+    "grader": {
+      "schema_version": "1.0.0",
+      "oracle_version": "2.0.0",
+      "execution": "saved_data_only_no_replay",
+      "oracle_sha256": "120a3c31cff4dc541059ebedafe314b28871939d21d3178dc0632bc69050ee86",
+      "observation_count": 6,
+      "counts": {
+        "passed": 4,
+        "failed": 2,
+        "not_run": 26
+      },
+      "split_counts": {
+        "repair": {
+          "passed": 4,
+          "failed": 2,
+          "not_run": 12
+        },
+        "heldout": {
+          "not_run": 14
+        }
+      },
+      "results": [
+        {
+          "case_id": "repair-04",
+          "split": "repair",
+          "execution_kind": "actual_api_in_process_existing_neo4j_and_gemma",
+          "http_status": 200,
+          "observation_sha256": "9ce4a0e3ee1da726ccf69a0740b41ee426acbfebda729b84b274dc9665dde02c",
+          "response_sha256": "8f02fd1b43440edf76e06eb5415b6aa9f37d9857d5ba39e94d9347152edc7de4",
+          "elapsed_seconds": 16.515,
+          "final_elapsed_ms": 16047.00000002049,
+          "product_failures": [],
+          "review_required": [],
+          "collector_failures": [],
+          "observed_status": "supported",
+          "plan_status": "generated",
+          "generation_status": "generated",
+          "reason_code": null,
+          "failure_categories": [],
+          "genuine_evidence_gap": false,
+          "processing_failure": false,
+          "validation_rejection": false,
+          "grader_uncertainty": false,
+          "status": "passed",
+          "question": "데이터베이스개론은 교육과정 표에서 몇 학년 어느 학기에 나오는지 알려 주세요.",
+          "observed_answer": "데이타베이스개론은 승인된 지정 이수과목이므로 반드시 이수해야 합니다. 이는 개인에 대한 면제나 대체 판정이 아닙니다.\n\n데이타베이스개론의 교육과정 편성 정보는 3학년 1학기입니다.",
+          "provider_calls": 2,
+          "provider_done_reasons": [
+            "stop",
+            "stop"
+          ],
+          "progress_event_count": 23
+        },
+        {
+          "case_id": "repair-01",
+          "split": "repair",
+          "execution_kind": "actual_api_in_process_existing_neo4j_and_gemma",
+          "http_status": 200,
+          "observation_sha256": "f18251ea91bdfee7d4fd4efc3c21489ddc8f32b4f31896be2e934b1c37623224",
+          "response_sha256": "fc9c045aa8c261132b9c8d2426c14d74beba64a16fcac542ed2bb8161b1551aa",
+          "elapsed_seconds": 13.25,
+          "final_elapsed_ms": 12655.999999959022,
+          "product_failures": [],
+          "review_required": [],
+          "collector_failures": [],
+          "observed_status": "out_of_scope",
+          "plan_status": "generated",
+          "generation_status": "not_applicable",
+          "reason_code": null,
+          "failure_categories": [],
+          "genuine_evidence_gap": false,
+          "processing_failure": false,
+          "validation_rejection": false,
+          "grader_uncertainty": false,
+          "status": "passed",
+          "question": "안녕하세요. 2026년에 컴공에 입학했는데 과목이랑 졸업 준비에 대해 물어봐도 될까요?",
+          "observed_answer": "안녕하세요! 2026학번 컴퓨터공학과의 과목과 이수 기준을 함께 확인해 드릴게요.",
+          "provider_calls": 1,
+          "provider_done_reasons": [
+            "stop"
+          ],
+          "progress_event_count": 6
+        },
+        {
+          "case_id": "repair-02",
+          "split": "repair",
+          "execution_kind": "actual_api_in_process_existing_neo4j_and_gemma",
+          "http_status": 200,
+          "observation_sha256": "a15ab51aaca570e7d06b0946ca242cd003be92c9d82ab840bc9ca9e57097884a",
+          "response_sha256": "3693b80c98df5f536fd8f91d4b521a6a4af7b59c106f85bd73b71bd0768c2fa7",
+          "elapsed_seconds": 4.5,
+          "final_elapsed_ms": 4094.000000040978,
+          "product_failures": [],
+          "review_required": [],
+          "collector_failures": [],
+          "observed_status": "supported",
+          "plan_status": "generated",
+          "generation_status": "generated",
+          "reason_code": null,
+          "failure_categories": [],
+          "genuine_evidence_gap": false,
+          "processing_failure": false,
+          "validation_rejection": false,
+          "grader_uncertainty": false,
+          "status": "passed",
+          "question": "운체를 수강 계획에 넣으려고 해요. 이 과목 자체는 몇 학점인가요?",
+          "observed_answer": "운영체제 과목은 3학점입니다.",
+          "provider_calls": 2,
+          "provider_done_reasons": [
+            "stop",
+            "stop"
+          ],
+          "progress_event_count": 16
+        },
+        {
+          "case_id": "repair-03",
+          "split": "repair",
+          "execution_kind": "actual_api_in_process_existing_neo4j_and_gemma",
+          "http_status": 200,
+          "observation_sha256": "7e1275cefd303a9bd09705f89404616b96296d1048823f6b71cca91deb16d2e6",
+          "response_sha256": "e1b297fc009d65537f37e0cbbd487f5ab37a5fc00039decc6524d3b55d78ad51",
+          "elapsed_seconds": 5.454,
+          "final_elapsed_ms": 5077.999999979511,
+          "product_failures": [],
+          "review_required": [],
+          "collector_failures": [],
+          "observed_status": "supported",
+          "plan_status": "generated",
+          "generation_status": "generated",
+          "reason_code": null,
+          "failure_categories": [],
+          "genuine_evidence_gap": false,
+          "processing_failure": false,
+          "validation_rejection": false,
+          "grader_uncertainty": false,
+          "status": "passed",
+          "question": "컴퓨터구조가 전공 필수로 잡히는 과목인지 확인하고 싶어요.",
+          "observed_answer": "컴퓨터구조는 승인된 지정 이수과목이므로 반드시 이수해야 합니다. 이는 개인에 대한 면제나 대체 판정이 아닙니다.\n\n컴퓨터구조의 이수구분은 전공필수입니다.",
+          "provider_calls": 2,
+          "provider_done_reasons": [
+            "stop",
+            "stop"
+          ],
+          "progress_event_count": 23
+        },
+        {
+          "case_id": "repair-05",
+          "split": "repair",
+          "execution_kind": "actual_api_in_process_existing_neo4j_and_gemma",
+          "http_status": 200,
+          "observation_sha256": "57754aaab46df6847d78fe936a9072d23b2a729a2572eecefc61ca2e867b5058",
+          "response_sha256": "16c1c68653566e3c64f5cc6da1c8567aa6c5312e6e4055c0201697d637130c81",
+          "elapsed_seconds": 7.25,
+          "final_elapsed_ms": 6858.999999938533,
+          "product_failures": [
+            "requested_outcome_not_delivered"
+          ],
+          "review_required": [
+            "requested_property_not_observable:CDA0016:credits",
+            "requested_property_not_observable:CDA0165:category"
+          ],
+          "collector_failures": [],
+          "observed_status": "insufficient_evidence",
+          "plan_status": "generated",
+          "generation_status": "fallback",
+          "reason_code": "processing_unavailable",
+          "failure_categories": [
+            "question_understanding"
+          ],
+          "genuine_evidence_gap": false,
+          "processing_failure": true,
+          "validation_rejection": true,
+          "grader_uncertainty": true,
+          "status": "failed",
+          "question": "컴구는 학점을 알고 싶고, 네프는 전필인지 전선인지 알고 싶어요. 따로 구분해서 설명해 주세요.",
+          "observed_answer": "네트워크프로그래밍의 이수구분만으로 졸업을 위한 의무 또는 개인 면제를 확정할 수 없습니다. 적용할 승인된 요건의 추가 확인이 필요합니다.\n\n문장 작성 또는 교정 처리가 완료되지 않았습니다. 조회 근거는 상세 보기에서 확인할 수 있습니다.\n\n문장 작성 또는 교정 처리가 완료되지 않았습니다. 조회 근거는 상세 보기에서 확인할 수 있습니다.",
+          "provider_calls": 3,
+          "provider_done_reasons": [
+            "stop",
+            "stop",
+            "stop"
+          ],
+          "progress_event_count": 29
+        },
+        {
+          "case_id": "repair-06",
+          "split": "repair",
+          "execution_kind": "actual_api_in_process_existing_neo4j_and_gemma",
+          "http_status": 200,
+          "observation_sha256": "314df05fe60295f93d55dbfb3fbf21c4e317a08d5ad0afbd8e5ea7b3a8cd1650",
+          "response_sha256": "03cd8e4b402d9d12d3236c3b6fc95e11648fe8abba6fc2c4d47c620b379da7f2",
+          "elapsed_seconds": 20.047,
+          "final_elapsed_ms": 19577.99999997951,
+          "product_failures": [
+            "requested_outcome_not_delivered"
+          ],
+          "review_required": [
+            "requested_property_not_observable:CDA0017:category",
+            "requested_property_not_observable:CDA0017:credits",
+            "requested_property_not_observable:CDA0028:category",
+            "requested_property_not_observable:CDA0028:credits"
+          ],
+          "collector_failures": [],
+          "observed_status": "insufficient_evidence",
+          "plan_status": "generated",
+          "generation_status": "fallback",
+          "reason_code": "processing_unavailable",
+          "failure_categories": [
+            "question_understanding"
+          ],
+          "genuine_evidence_gap": false,
+          "processing_failure": true,
+          "validation_rejection": true,
+          "grader_uncertainty": true,
+          "status": "failed",
+          "question": "소프트웨어공학하고 운영체제를 비교하려고 해요. 각각 학점과 이수구분을 같이 보여 주세요.",
+          "observed_answer": "문장 작성 또는 교정 처리가 완료되지 않았습니다. 조회 근거는 상세 보기에서 확인할 수 있습니다.\n\n문장 작성 또는 교정 처리가 완료되지 않았습니다. 조회 근거는 상세 보기에서 확인할 수 있습니다.\n\n문장 작성 또는 교정 처리가 완료되지 않았습니다. 조회 근거는 상세 보기에서 확인할 수 있습니다.\n\n문장 작성 또는 교정 처리가 완료되지 않았습니다. 조회 근거는 상세 보기에서 확인할 수 있습니다.\n\n답변 처리를 완료하지 못했습니다. 이는 학사 근거의 부재를 뜻하지 않습니다.",
+          "provider_calls": 3,
+          "provider_done_reasons": [
+            "stop",
+            "stop",
+            "stop"
+          ],
+          "progress_event_count": 39
+        },
+        {
+          "case_id": "repair-07",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-08",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-09",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-10",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-11",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-12",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-13",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-14",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-15",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-16",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-17",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "repair-18",
+          "split": "repair",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-01",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-02",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-03",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-04",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-05",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-06",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-07",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-08",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-09",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-10",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-11",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-12",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-13",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        },
+        {
+          "case_id": "heldout-14",
+          "split": "heldout",
+          "status": "not_run",
+          "product_failures": [],
+          "collector_failures": [],
+          "review_required": []
+        }
+      ],
+      "publication_policy": "Private IDs/hash projection only; no raw question, answer, identity or deployment data"
+    },
+    "frozen_source_hashes": {
+      "assistant.py": "849276901f085c31024a5a2d0c30a66d7e49127782e9bfb6b05e25c60681c793",
+      "semantic_llm.py": "764308182835e99c4e758f38da22c1e3550465725ed4d4c30d165eb7c4931895",
+      "core.py": "305bdd626ff0a80ae8ee554eb0b7b4728cf8c75ed6ca1393aa4cc8ba9d0bff35",
+      "api.py": "7ef1dad83332e100288e2faae45b46464166882d833aadf885b220f24fe1cdfa",
+      "progress.py": "56dfa056647e2194ceeb4216f1d11fb9845992f89984472a730efbb4c3a6572b",
+      "neo4j_evidence.py": "9e3cb8d297d26245bf8d0e251ec0d903916e30ddb320450c915726d1f1693267"
+    },
+    "all_revision_observed_turns": 13,
+    "all_revision_observed_provider_calls": 22,
+    "turn_budget": 42,
+    "call_budget": 126,
+    "current_revision_provider_calls": 13,
+    "stop_reason": "Required independent failures and two observed processing failures; no complete claim or further product cycle.",
+    "unused_heldout_wordings": 14
+  },
+  "protected_service_final_check": {
+    "gpu_id": 0,
+    "protected_gpu_id": 1,
+    "protected_processes_preserved": true,
+    "gpu0_processes_verified": true,
+    "loaded_models": 0,
+    "observed_utc": "2026-10-02T03:00:56.517992+00:00"
+  },
+  "github_actions": {
+    "run_id": 36959461472,
+    "head_commit": "3ec82b098c66369c2bac245c263e4542135b4fd8",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/actions/runs/36959461472",
+    "failing_step": "Run unit tests",
+    "tests_run": 964,
+    "failure_events": 19,
+    "error_events": 0,
+    "skipped_tests": 6,
+    "following_steps_skipped": true,
+    "product_snapshot": "519156b234d0854aa64c54d5bbef7ade47ef7d45",
+    "observed_evidence": "Actual gh run watch/view and log-failed; completion03:18:42UTC. Report-only subsequent changes do not alter frozen product source."
+  },
+  "publication": {
+    "provider_payloads": false,
+    "private_question_wordings": false,
+    "student_data": false,
+    "connection_secrets": false
+  },
+  "required_not_run": [
+    "Remaining26 actual questions",
+    "New-backend browser loading/Cypher/cancel/mobile acceptance",
+    "New-backend promotion"
+  ],
+  "historical_failures_preserved": [
+    "Initial/second/third product QA and live results remain in private run logs; earlier published reports remain unchanged."
+  ]
+}

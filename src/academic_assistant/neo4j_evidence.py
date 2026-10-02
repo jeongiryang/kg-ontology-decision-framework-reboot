@@ -13,6 +13,7 @@ from urllib.parse import urlsplit
 
 from .kg import NODE_TYPES, build_graph, validate_graph
 from .registry import Registry, RegistryUnavailable, canonical_bytes
+from .progress import step, emit
 
 
 def _unique_object(pairs):
@@ -35,7 +36,7 @@ def _decode(properties: dict[str, Any]) -> dict[str, Any]:
                 raise ValueError("invalid encoded property")
             value = json.loads(value, object_pairs_hook=_unique_object,
                                parse_constant=lambda _: (_ for _ in ()).throw(ValueError("invalid number")))
-            if not isinstance(value, (dict, list)):
+            if value is not None and not isinstance(value, (dict, list)):
                 raise ValueError("encoded property is not structured")
         decoded[target] = value
     return decoded
@@ -118,9 +119,12 @@ class Neo4jEvidenceReader:
             with self._driver.session(database=self.settings.database, default_access_mode="READ") as session:
                 @unit_of_work(timeout=self.settings.timeout_seconds)
                 def read(tx):
-                    return tx.run(query,
-                        node_limit=len(expected["nodes"]) + 1,
-                        edge_limit=len(expected["relationships"]) + 1).single(strict=True).data()
+                    parameters = dict(node_limit=len(expected["nodes"]) + 1, edge_limit=len(expected["relationships"]) + 1)
+                    with step("query", "검증된 그래프 읽기 쿼리를 실행합니다.", details={"backend": "neo4j", "cypher": query, "parameters": parameters}):
+                        result = tx.run(query, **parameters).single(strict=True).data()
+                    emit("query", "info", "그래프의 원문 연결을 확인합니다.",
+                         details={"backend": "neo4j", "result_count": len(result.get("nodes", []))})
+                    return result
                 raw = session.execute_read(read)
             if len(canonical_bytes(raw)) > 1048576:
                 raise ValueError("graph response exceeds bound")
@@ -158,3 +162,8 @@ class Neo4jEvidenceReader:
         except (KeyError, TypeError):
             raise RegistryUnavailable() from None
         return evidence
+
+    def fetch_courses(self, registry: Registry) -> list[dict]:
+        """Read real CourseFact nodes, then require the exact source-bound mirror."""
+        graph = self._read_graph(registry)
+        return [node["properties"] for node in graph["nodes"] if node["type"] == "CourseFact"]

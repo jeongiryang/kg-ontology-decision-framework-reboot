@@ -43,6 +43,41 @@ class LLMInvalidResponse(ValueError):
     """The provider returned output outside the one-ID contract."""
 
 
+def validation_error_code(error):
+    """Expose observed validation categories, never arbitrary exception text."""
+    categories = {
+        "semantic response truncated": "provider_output_truncated",
+        "writer changed per-area course minimum": "per_area_minimum_changed",
+        "writer promoted recommendation to obligation": "recommendation_promoted",
+        "writer negated the prerequisite": "prerequisite_negated",
+        "writer reversed prerequisite direction": "prerequisite_direction_changed",
+        "writer omitted prerequisite relation": "prerequisite_relation_omitted",
+        "writer lost derived course count": "course_count_omitted",
+        "writer changed course-credit association": "course_credit_mismatch",
+        "writer changed a course-list credit predicate": "course_credit_mismatch",
+        "writer changed course category": "course_category_changed",
+        "writer changed offering predicate": "course_offering_changed",
+        "writer changed exclusive offering predicate": "course_offering_changed",
+        "writer negated source offering": "course_offering_negated",
+        "writer changed credit subject/value/polarity": "credit_predicate_changed",
+        "writer reversed a minimum predicate": "minimum_reversed",
+        "writer reversed a maximum predicate": "maximum_reversed",
+        "writer negated a required completion": "required_completion_negated",
+        "writer lost term recommendation": "term_recommendation_omitted",
+        "writer lost minimum completion count": "completion_minimum_omitted",
+        "writer lost operational caveat": "operational_caveat_omitted",
+        "writer citation coverage changed": "citation_coverage_changed",
+        "writer reference identity changed": "citation_coverage_changed",
+        "writer invented course numbers": "unsupported_number",
+        "writer invented a numerical fact": "unsupported_number",
+        "writer introduced an unsupported policy": "unsupported_policy",
+        "writer changed list classification": "course_category_changed",
+        "writer negated course classification": "course_category_negated",
+        "writer invented an unretrieved course": "unretrieved_course_claim",
+    }
+    return categories.get(str(error), "output_validation_failed")
+
+
 class LLMBusy(RuntimeError):
     """The process-wide no-queue inference budget refused this request."""
 
@@ -302,7 +337,7 @@ class LocalLLMClient:
         parsed = urlsplit(request.full_url)
         address = ipaddress.ip_address(parsed.hostname or "")
         if (parsed.scheme != "http" or not address.is_loopback or not parsed.port
-                or parsed.path != "/api/generate" or parsed.query or parsed.fragment
+                or parsed.path not in {"/api/generate", "/api/chat"} or parsed.query or parsed.fragment
                 or parsed.username is not None or parsed.password is not None
                 or request.get_method() != "POST"):
             raise LLMUnavailable("unsupported grounded transport")
@@ -310,7 +345,7 @@ class LocalLLMClient:
         headers = [("Host", f"{host}:{parsed.port}"), ("Connection", "close"),
                    ("Content-Length", str(len(request.data or b""))), *request.header_items()]
         try:
-            wire = ("POST /api/generate HTTP/1.0\r\n" + "".join(f"{key}: {value}\r\n" for key, value in headers)
+            wire = (f"POST {parsed.path} HTTP/1.0\r\n" + "".join(f"{key}: {value}\r\n" for key, value in headers)
                     + "\r\n").encode("ascii") + (request.data or b"")
         except UnicodeEncodeError as exc:
             raise LLMUnavailable("unsupported grounded request headers") from exc

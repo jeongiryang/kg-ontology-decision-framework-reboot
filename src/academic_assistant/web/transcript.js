@@ -16,6 +16,7 @@
   let activeFollowupController = null;
   let previousQuestion = null;
   const friendlyUI = byId("new-conversation")?.dataset?.conversationMode === "friendly";
+  const semanticUI = byId("new-conversation")?.dataset?.assistantMode === "semantic";
   const checkSections = new Map();
   const checkLabels = new Map();
   const reviewFlags = {retake:"재수강 확인 필요", equivalence:"동일·대체 확인 필요", retroactivity:"소급 적용 확인 필요", recognition_unverified:"개인 인정 미확인"};
@@ -67,6 +68,7 @@
   function add(course = {}) {
     if(body.children.length >= 250) return;
     const row = document.createElement("tr");
+    row.dataset.rowId = course.row_id || "";
     row.dataset.term = course.term || "";
     inputCell(row, "course_name", course.course_name); inputCell(row,"course_code",course.course_code);
     inputCell(row,"credits",course.credits,"number"); selectCell(row,"grade",grades,course.grade);
@@ -84,6 +86,7 @@
   }
   function reviewRows(courses, year, note) {
     invalidate(); body.replaceChildren(); confirm.checked=false; complete.checked=false; detectedYear=year; review.hidden=false;
+    review.open=true;
     byId("transcript-degree").value="unknown";
     byId("transcript-scope").textContent = year === 2026 ? "2026학번 적용: 과목 내용을 확인해 주세요." : year ? `${year}학번 감지: 과목 인식은 확인할 수 있지만 2026 규칙으로 계산할 수 없습니다.` : "입학년도 미확인: 원문을 확인하세요. 2026 자료일 때 새 이수내역을 직접 입력할 수 있습니다.";
     courses.forEach(add); message.textContent=note; enable();
@@ -138,6 +141,20 @@
     const title=document.createElement("h3"); title.textContent=data.answer; output.append(title);
     const credits=data.credit_summary;
     const summary=document.createElement("p"); summary.textContent=`입력상 PASS학점 합계 ${credits?.input_pass_credits ?? data.raw_earned_credits} · 조건부 졸업인정학점 ${(credits ? credits.conditional_graduation_credits : data.recognized_graduation_credits) ?? "확인 필요"}${credits ? ` · 인정 미확인 PASS학점 ${credits.unresolved_pass_credits}` : ""} · 최종 졸업 인증 아님`; output.append(summary);
+    let target=output;
+    if(semanticUI) {
+      const total=data.checks.find(c=>c.check_id === "credits.graduation.total");
+      const required=data.checks.find(c=>c.check_id === "major.required.course_set");
+      const thesis=data.checks.find(c=>c.check_id === "graduation.thesis");
+      const simple=document.createElement("div"); simple.className="transcript-simple-summary";
+      for(const text of [total?.gap != null ? `졸업학점 부족분: ${total.gap}학점 (조건부 비교)` : "졸업 인정학점: 추가 확인 필요",
+          required?.missing_courses?.length ? `남은 전공필수: ${required.missing_courses.join(", ")}` : required?.result === "met" ? "확인된 전공필수 과목: 모두 이수" : "남은 전공필수: 확인 필요",
+          thesis ? `0학점 졸업논문: ${{met:"이수 확인",not_met:"미이수 — 학점 합계와 별도로 필요",needs_review:"확인 필요"}[thesis.result]}` : "졸업논문: 확인 필요"]) {
+        const p=document.createElement("p"); p.textContent=text; simple.append(p);
+      }
+      output.append(simple);
+      target=document.createElement("details"); const cap=document.createElement("summary"); cap.textContent="분야별 계산 · 확인할 항목 · PDF 근거"; target.append(cap); output.append(target);
+    }
     for(const check of data.checks) {
       const section=document.createElement("section"); section.className="transcript-check";
       section.dataset.checkId=check.check_id; checkSections.set(check.check_id,section); checkLabels.set(check.check_id,check.label);
@@ -154,10 +171,10 @@
         for(const rule of packet.applied_rules) { const p=document.createElement("p"); p.className="packet-id"; p.textContent=`${rule.rule_id} · SHA-256 ${rule.rule_sha256}`; evidence.append(p); }
         section.append(evidence);
       }
-      output.append(section);
+      target.append(section);
     }
-    renderVerification(output,data.verification_items);
-    for(const text of data.issues) { const p=document.createElement("p"); p.textContent=text; output.append(p); }
+    renderVerification(target,data.verification_items);
+    for(const text of data.issues) { const p=document.createElement("p"); p.textContent=text; target.append(p); }
   }
   function checkQuestion(id) {
     if(id === "major.required.course_set") return "남은 전공필수 과목 알려줘";
@@ -171,6 +188,13 @@
     return "졸업까지 몇 학점 남았어?";
   }
   async function ask(question) {
+    if(semanticUI && latest && question.trim()) {
+      byId("question").value=question.trim();
+      byId("question").dispatchEvent(new Event("input"));
+      byId("question-form").requestSubmit();
+      byId("answer-panel").scrollIntoView?.({behavior:"smooth",block:"start"});
+      return;
+    }
     if(!latest || !question.trim()) return; const token=generation; const sequence=++followupSequence;
     if(activeFollowupController) activeFollowupController.abort();
     const controller=new AbortController(); activeFollowupController=controller;
@@ -211,6 +235,24 @@
     {course_name:"심층상담",course_code:"CDA0088",credits:0,grade:"S",category:"major_required"},
   ],2026,"가상 예제입니다. 실제 학생 성적표가 아닙니다."));
   byId("transcript-clear").addEventListener("click",clear);
+  async function useExample(identifier) {
+    invalidate(); const token=generation; const controller=new AbortController(); activeController=controller;
+    busy=true; enable(); message.textContent="가상 PDF를 실제로 인식하고 비교하는 중입니다…";
+    try {
+      const response=await fetch(`/v1/academic/transcripts/examples/${identifier}`,{method:"POST",headers:{"Content-Type":"application/json"},body:"{}",cache:"no-store",credentials:"omit",signal:controller.signal});
+      if(token !== generation) return;
+      if(!response.ok) throw new Error("example unavailable");
+      const data=await response.json(); if(token !== generation) return;
+      if(data.synthetic !== true || data.example_id !== identifier || !Array.isArray(data.extraction?.courses) || !Array.isArray(data.assessment?.checks) || !Array.isArray(data.transcript?.courses) || data.transcript.confirmed !== true) throw new Error("bad example response");
+      reviewRows(data.transcript.courses,2026,`${data.title} · PDF ${data.extraction.courses.length}과목 인식 · 가상 전체 이수내역과 예제 조건 자동 적용`);
+      byId("transcript-degree").value="single_major"; confirm.checked=true; complete.checked=true;
+      review.open=false; latest=data.transcript; render(data.assessment); byId("transcript-followups").hidden=false;
+      activeController=null; busy=false; enable(); notifyRevision();
+      const link=document.createElement("a"); link.href=`/v1/academic/transcripts/examples/${identifier}.pdf`; link.textContent="가상 PDF 원본 보기"; link.target="_blank"; link.rel="noopener"; message.append(document.createTextNode(" · "),link);
+    } catch(_error) {if(token === generation) message.textContent="가상 PDF 인식에 실패했습니다. 인식하지 못한 값을 대신 채우지 않습니다. 잠시 후 다시 시도해 주세요.";}
+    finally {if(token === generation && activeController === controller) {activeController=null;busy=false;enable();}}
+  }
+  document.querySelectorAll("[data-transcript-example]").forEach(element=>element.addEventListener("click",()=>useExample(element.dataset.transcriptExample)));
   byId("transcript-add").addEventListener("click",()=>{invalidate();confirm.checked=false;add();});
   body.addEventListener("input",()=>{invalidate();confirm.checked=false;enable();});
   body.addEventListener("change",()=>{invalidate();confirm.checked=false;enable();});
@@ -241,7 +283,7 @@
   if(!localAccess) {
     byId("public-demo-note").hidden=false;
     byId("transcript-privacy-note").textContent="2026학번 컴퓨터공학과만 지원하는 로그인 없는 공개 데모입니다. 성적표 PDF와 이수내역은 HTTPS 연결과 Cloudflare 중계 서비스를 거쳐 운영자의 PC로 전달되어 요청 메모리에서 처리됩니다. 서비스는 성적표를 저장하거나 LLM에 보내지 않으며, 브라우저의 영구 저장소에도 이수내역을 남기지 않습니다. 인식 결과를 확인한 뒤 계산하세요.";
-    byId("feedback-privacy-note").textContent="질문 원문과 성적표는 서비스에 저장하지 않습니다. 공개 데모에서는 보완 요청 저장을 제공하지 않습니다. 성적표 지우기 또는 페이지를 떠나면 이 탭의 이수내역과 대기 요청을 지웁니다.";
+    byId("feedback-privacy-note").textContent="비식별 질문과 공개 근거만 연구실 Gemma에 보냅니다. 성적표·개인 이수내역·입력 학점은 보내거나 저장하지 않습니다. 공개 데모에서는 보완 요청 저장을 제공하지 않습니다. 성적표 지우기 또는 페이지를 떠나면 이 탭의 이수내역과 대기 요청을 지웁니다.";
   }
   window.AcademicTranscript = Object.freeze({
     current: () => latest ? JSON.parse(JSON.stringify(latest)) : null,

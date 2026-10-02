@@ -1,0 +1,97 @@
+# B 질문·답변 v2 구현·검증 결과 - 프로토타입 미완료
+
+- 실행 ID: `20261002-b-dialogue-v2`
+- 계약 버전: `1.0.0`
+- 하네스 버전: `1.0.0 / upstream 79b82281d305c89181fbb216499d5f1e962c14ed / prototype 0.12.0 draft`
+- 브랜치: `codex/semantic-prototype`
+- 기준 커밋: `42e013f9cf276213f8ebc4ed91c2bfdf047aa9b2`
+- 결과 커밋: `519156b234d0854aa64c54d5bbef7ade47ef7d45`
+
+## 요청
+
+B 질문·답변 우선: 이름·학번 어휘 차단 제거, 의미 기반 과목/규칙 조회, 자연스러운 사실 검증·LLM 교정, 실제 단계·시간·Cypher 상세·로딩 UI를 구현하고 독립 평가와 실제 모델 결과를 기록한다. A 확장은 이후로 둔다.
+
+## 요약
+
+4회 수정의 구현 기록을 마무리했지만 제품은 미완료다. 최종 독립964검사에서19실패 이벤트·9메서드·오류0, 실제 동결 Gemma/Neo4j6질문4통과·2처리실패·26미실행. 필수 QA·리뷰가 완료 게이트를 막았다. 공개 백엔드0.11.0은 유지했고 새0.12.0을 승격하지 않았다. 학사 근거 부족이나 사용자 설명 누락이 아니라 구현 결함이 남은 상태다.
+
+## 변경 사항
+
+| 구분 | 파일 | 내용 |
+|---|---|---|
+| changed | `src/academic_assistant/core.py` | B에 한해 식별 어휘를 허용하고 학과/과목 역할을 보완. A·레거시 보호는 유지. 소유격/과목 이름 문맥 결함은 남음. |
+| changed | `src/academic_assistant/assistant.py` | 조회 목적·속성·문맥 연결, 원문 사실·관계 중심 검사, 실제 오류+동일 사실로1회 교정. 필수 PASS 부정 허용·정확한 분류 거절·관계 과잉 보류 잔여. |
+| changed | `src/academic_assistant/semantic_llm.py` | 전체43과목 색인+관련 과목, 구조화 coverage와 짧은 참조, 선택적 계획/교정 진행 설명. 실제 복합 질문2개는 작성 전달 실패. |
+| changed | `src/academic_assistant/llm.py` | 교정 전달·공통 호출/시간/응답 제한과8192 요청 컨텍스트·길이 종료 거부 지원. 새 모델/서비스 설치 없음. |
+| added | `src/academic_assistant/progress.py` | 실제 작업 경계의 순서·경과/단계시간·상세·선택 설명을 스트림 기록. 가상 진행률이나 숨은 모델 추론을 표시하지 않음. |
+| changed | `src/academic_assistant/api.py` | 명시적 NDJSON 협상,128큐/별도 종료 통지, 실제 스레드 종료 전 용량 유지·disconnect/overflow 종료. JSON 호환 유지. |
+| changed | `src/academic_assistant/public_demo.py` | B 명시적 NDJSON만 점진 전달. JSON·PDF는 완전 응답 후 전달, 협상 경계와 잘못된 UTF-8 처리 검사. |
+| changed | `src/academic_assistant/neo4j_evidence.py` | 실제 읽기 전용 Cypher·매개변수·시간·개수 관찰. 임의 LLM 쿼리 실행이나 새 지식 적재는 없음. |
+| changed | `src/academic_assistant/courses.py` | B의 일시적 식별 허용을 조회 경계에 전달. 출처·학점·분류·편성 사실 변경 없음. |
+| changed | `src/academic_assistant/web/semantic-ui.js` | 스켈레톤·회전 표시·초와밀리초·실제 현재 단계·취소·기본 접힌 조회 상세. 전체 단계·Cypher/결과를 필요시 펼침. |
+| changed | `src/academic_assistant/web/index.html` | B 일시 식별 정책과 로딩/조회 상세 표면을 정리. A 가상 PDF3개 기능 유지. |
+| changed | `src/academic_assistant/web/app.css` | 로딩·현재 단계·제한된 상세 스크롤, 낮은 동작/모바일 표현. 실제 새 백엔드 브라우저 검사는 미실행. |
+| added | `contracts/assistant-progress-event.schema.json` | AssistantProgressEvent1.0.0. 실제 단계·상태·시간·공개 상세 형식, 답변 계약과 분리. |
+| changed | `harness-manifest.yaml` | 진행 계약 등록, 이번 실행 기본2+예외2 총4회 상한을ADR0027과 동기화. 실패 이력 삭제나 숨은5차 수정 없음. |
+| changed | `.agents/skills/academic-evaluation/SKILL.md` | B의 일시적 식별 허용과 A/저장/공개 비밀 보호를 구분. 학사 규칙 승인 권한 변경 없음. |
+| added | `tests/test_b_dialogue_v2_worker.py` | 작성/조회/관계/진행/자원 경계와 인접 표현 회귀. 최종 생산자250선택검사 통과는 독립 전체 통과와 다름. |
+| added | `tests/test_b_dialogue_v2_qa.py` | 독립 원문 기대값·정확한 값/인용·긍정/부정 이웃·과잉 보류·실제 교정 provenance. 필수 실패 그대로 보존. |
+| added | `tests/test_b_progress_transport.py` | JSON/NDJSON/PDF협상·버퍼·종료·disconnect·queue·provider제한 검증. |
+| added | `tests/web/b_progress_ui_test.cjs` | 실측 시계·로딩·순서·중지·오래된 결과·접힌 전체 이벤트 상세 등 Node검사. |
+| added | `tests/fixtures/b-dialogue-v2-20261002.json` | 공개 수정용18질문과 독립 원문 기대 사실. 미사용14문장은 비공개 유지. |
+| fixed | `tests/test_academic_web_prototype.py` | 현재 /assistant mock의 필수 typed coverage/능력을 보정. 학사 정답/인용 assertion 약화 없음, 실제 해당 메서드 통과. |
+| fixed | `tests/test_semantic_assistant_worker.py` | 전체 course_index+관련courses 계약에 mock을 맞춤. source13/과목/문맥 등 기존 사실 assertion 유지. |
+| documentation | `docs/operations/b-dialogue-v2.md` | 작업 범위,3회30초8KiB,실제 단계/설명,개인정보·후속 A와 완료 기준. 실행 당시 동결 입력 보존. |
+| documentation | `docs/operations/b-dialogue-v2-correction-window.md` | 앞선 실패를 보존한4회 예외 상한과 필수 잔여. 상한 뒤 미완료를 보고하고 자동 재시작하지 않음. |
+| documentation | `docs/harness/decisions/0027-prototype-dialogue-repair-and-observed-progress.md` | B 의미 권한·실제 교정/진행·일시 식별·예외 상한 ADR. 계약 문서/색인 동기화. |
+| documentation | `docs/operations/development-roadmap.md` | B 잔여6원인 그룹→미사용 질문·전체회귀→배포/브라우저→A→연동 순서. 추가 학사 재승인 불필요 명시. |
+| documentation | `README.md` | 미완료0.12 작업본·기존 공개0.11·실제6/26미실행·과거실패 구분. 사용/보고색인·변경이력 연결. |
+| documentation | `reports/evaluations/20261002-b-dialogue-v2.md` | 무엇을 구현했는지, 실제 통과/실패 질문, 독립 실패와 다음 재개 순서. JSON에 출처/응답/동결 해시·공개6관찰 저장. |
+| changed | `pyproject.toml` | 개발 버전0.12.0, 실행중 기존 백엔드에는 재설치/교체하지 않음. |
+| changed | `.github/workflows/harness-ci.yml` | 새 B진행 Node검사 등록. 실패하는 학사 회귀를 CI에서 제거/skip하지 않음. |
+
+## 에이전트 결과
+
+| 역할 | 작업 | 상태 | 결과 |
+|---|---|---|---|
+| harness_worker | backend-c1-c4 | completed | 최종4회 생산자 수정 동결. 선택250검사+공개18메서드 통과, 전체 QA 완료 아님. |
+| harness_worker | transport-and-compact-ui | completed | 협상49검사 및 UI8그룹/기존6소비자 검사. 실제 새 백엔드 브라우저 증명 아님. |
+| question_generator_fallback | questions-32 | completed | 정답을 만들지 않고18수정+14미사용 질문을 준비. 독립 자료 기대값은 QA가 별도 동결. |
+| harness_qa | final4-qa | failed | 전체964/19실패 이벤트/9메서드,새39/11/4.72모의 경계54통과18실패.입력14·출처 사실 불변. |
+| harness_reviewer | final4-review | failed | 48선택검사 통과와 별개로 필수 PASS 부정 허용·정확한 분류 거절·허위 원문 오류 진행 설명3건 독립 재현. |
+
+## 검사 결과
+
+| 검사 | 필수 | 상태 | 명령 | 근거 |
+|---|---:|---|---|---|
+| 최종 전체 회귀 | yes | failed | - | 동결 원본 full-suite.json:964건/19실패 이벤트/9메서드/오류0. 단순 질문 정확도 점수로 환산하지 않음. |
+| 독립 QA·리뷰와 완료 게이트 | yes | failed | - | 새39검사11실패 이벤트/4메서드,모의72관찰54통과18실패. 리뷰3필수잔여. validate --complete는필수QA/리뷰2오류로 실패. |
+| Node·교정·판정기 경계 | yes | passed | - | Node7명령 모두exit0,실제 제공자 HTTP를모의한 교정47assertions,자료 판정기24합성검사 통과. 실제 LLM/브라우저 점수와 분리. |
+| 최종 실제 Gemma+Neo4j | yes | failed | - | 동일 소스6질문4통과·2processing_unavailable. 세 학사 질문은 값과PDF해시/인용 연결, 인사1정상. 복합2는자료가 있으나 작성/교정 실패. 전체13턴22응답;서비스 신규 변경 없음. |
+| 남은 실제26질문 | yes | not_run | - | 12수정용+14미사용 질문. 필수 오류·2실제 처리 실패와4회 상한 이후 중단. 미실행을 통과나 근거부족으로 바꾸지 않음. |
+| 새 백엔드 브라우저·승격 | yes | not_run | - | 로딩/시간/Cypher/중지/모바일 새 백엔드 수용 검사와 승격을 하지 않음. 기존 공개0.11.0 유지;정적 UI일부는작업트리에서 즉시 보임. |
+| 기존 가상 PDF3개 | no | passed | - | 기존0.11백엔드 실제버튼:초기6PASS과목15학점/115부족,130학점·논문미이수,재수강7과목9PASS학점/121부족. 새 백엔드 증명 아님. |
+| 출처·하네스·검수 불변 | yes | passed | - | 출처75검사,3SourceEntry/29RuleFact/43CourseFact불변.최종14입력지문일치.하네스10에이전트9스킬구조,학사지식/검수/미검증격리 검사와diffcheckexit0. |
+| DSW 보호·종료 확인 | yes | passed | - | 2026-10-02T03:00:56UTC 기존GPU0자기서비스/프로세스 확인,NaruGPU1 보호대상 유지,적재모델0.사전42턴/126호출·종료시간 내 관찰.다른프로세스/GPU/서비스/가중치/그래프 쓰기 없음. |
+| 공개 보고서 계약·정제·일치 | yes | passed | .venv/Scripts/python.exe -X utf8 -B scripts/reporting/ci_checks.py --project . --changed-from 42e013f | 실제exit0:MD/JSON/PDF정제·바이트 재생성·상대 링크/계약·관련 문서 검사 통과. 하네스manifest/에이전트/스킬/스키마/설정/문서 동기화도exit0. 최초 잘못된CLI옵션 --base는실행 인자 오류로 보존하고 올바른 --changed-from으로 검사함. |
+| PDF 전 페이지 시각 확인 | yes | passed | - | Poppler110dpi로4쪽모두렌더링·시각확인:한글 읽기,표 잘림/겹침없음,머리행반복,페이지번호1-4.렌더러CIDfont대체경고는 있었으나 실제 한글 표시 확인.검사 상태를반영한최종 재생성도같은4쪽을재확인함. |
+| GitHub Actions | yes | failed | gh run watch 36959461472 --exit-status; gh run view 36959461472 --log-failed | 실제Actions36959461472(head3ec82b0) completed/failure,Run unit tests에서964건19실패·오류0·Linux전용skip6.이후 단계는미실행.제품 소스는동결519156b와같고후속 보고서 변경은제품 수정이 아님.결과:https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/actions/runs/36959461472 |
+
+## 학사 근거 변경
+
+학사 근거 변경 없음.
+
+## 이슈 및 남은 작업
+
+- **error**: 필수 II PASS를 PASS해도 안해도라는 선택 조건으로 바꾼 답변이 supported로 통과하는 P1. 학사 관계 사실 검사부터 수정해야 함.
+- **error**: 짧은 다른 학과 소유격 범위누출과 과목 이름/기존 문맥의 오탐이 남음. 예시 문장을 추가하는 대신 엔터티 역할을 고칠 것.
+- **error**: source13선행관계만 요청해도 과목 조회 누락으로 과잉 보류. 별도 속성 demand와 RuleFact관계참여자 목적을 분리할 것.
+- **error**: 정확한 전공선택 부정+전공필수 설명을 분류/주어 오류로 거부. 실제 복합질문2개도 조회자료가 있으나 processing_unavailable. 저장응답·원인코드부터 재현할 것.
+- **warning**: 실제 문장9학점 오류를3으로 교정하면서 근거/원문 오류가 확인됐다는 허위 진행 설명을 표시할 수 있음. 모델 설명은 관찰된 오류 대상과 연결해야 함.
+- **warning**: 이번4회 상한에 도달해 추가 숨은 수정·완료 선언 없음. 새 상한을 정한 실행에서 잔여수정→미사용14평가/전체회귀→새백엔드브라우저/배포→A→A+B 순서로 재개. 추가 학사 재승인 불필요.
+- **info**: 이 보고서의head_commit은 동결 제품/평가 스냅샷519156b다. 보고서 파일을 추가한 후속커밋과 공개PR의 최종head는 별개다. 과거 실패 이력을 덮어쓰지 않았다.
+
+## 공개 정보
+
+- 주요 작업: `yes`
+- PDF 필요: `yes`

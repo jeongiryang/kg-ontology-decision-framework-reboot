@@ -18,12 +18,16 @@ from urllib.parse import parse_qsl, urlsplit
 
 from starlette.responses import JSONResponse
 
+from .progress import accepts_ndjson
+
 _EVIDENCE = re.compile(r"^/v1/academic/evidence/[a-z0-9][a-z0-9._-]{2,127}/preview(?:\.png|\.pdf)?$")
 _GET = {"/", "/readyz", "/v1/academic/runtime", "/v1/academic/demo"}
 _GET.update(f"/assets/{name}" for name in
-            ("app.css", "app.js", "transcript.js", "evidence.js", "evidence.css"))
+            ("app.css", "app.js", "transcript.js", "semantic-ui.js", "evidence.js", "evidence.css"))
+_EXAMPLES = {f"/v1/academic/transcripts/examples/{name}" for name in ("early", "near-graduation", "retake")}
+_GET.update(path + ".pdf" for path in _EXAMPLES)
 _POST = {"/v1/academic/answers", "/v1/academic/chat", "/v1/academic/transcripts/extract",
-         "/v1/academic/transcripts/assess", "/v1/academic/transcripts/chat"}
+         "/v1/academic/transcripts/assess", "/v1/academic/transcripts/chat", "/v1/academic/assistant"} | _EXAMPLES
 _HEADERS = {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer",
             "X-Robots-Tag": "noindex, nofollow, noarchive",
             "X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY",
@@ -42,6 +46,7 @@ class DemoLimits:
     requests_per_minute: int = 120
     posts_per_minute: int = 12
     extracts_per_minute: int = 2
+    examples_per_minute: int = 6
     previews_per_minute: int = 12
     inventory_per_minute: int = 6
 
@@ -92,6 +97,11 @@ def _json_object(data: bytes):
         raise ValueError("invalid JSON")
 
 
+def _accepts_ndjson(scope):
+    """Streaming needs an explicit, acceptable media type, never a wildcard."""
+    return accepts_ndjson(scope.get("headers", []))
+
+
 class PublicDemo:
     def __init__(self, backend, limits: DemoLimits | None = None, *, clock=time.monotonic):
         self.backend = backend
@@ -99,7 +109,7 @@ class PublicDemo:
         self.clock = clock
         self.lock = Lock()
         self.active = self.work_active = 0
-        self.events = {name: deque() for name in ("all", "post", "extract", "preview", "inventory")}
+        self.events = {name: deque() for name in ("all", "post", "extract", "example", "preview", "inventory")}
 
     def _enter(self, path, method):
         work = method == "POST" or bool(_EVIDENCE.fullmatch(path)) or path in {"/readyz", "/v1/academic/runtime"}
@@ -108,6 +118,8 @@ class PublicDemo:
             budgets["post"] = self.limits.posts_per_minute
         if path.endswith("/extract"):
             budgets["extract"] = self.limits.extracts_per_minute
+        if path in _EXAMPLES:
+            budgets["example"] = self.limits.examples_per_minute
         if _EVIDENCE.fullmatch(path):
             budgets["preview"] = self.limits.previews_per_minute
         if path == "/v1/academic/runtime":
@@ -191,6 +203,38 @@ class PublicDemo:
         work = None
         backend_task = None
         abandoned = False
+        response_started = response_closed = client_disconnected = False
+        streaming = False
+        request_started = self.clock()
+        output_lock = asyncio.Lock()
+
+        def stream_error_body():
+            elapsed_ms = round(max(0, self.clock() - request_started) * 1000, 3)
+            return (json.dumps({"type": "error",
+                "message": "요청 처리를 마치지 못했습니다. 다시 시도해 주세요.",
+                "elapsed_ms": elapsed_ms}, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
+
+        # Reserve terminal-error space before publishing any progress. The
+        # backend byte bound includes this error, even on a size breach.
+        error_reserve = len(stream_error_body()) + 32
+
+        async def fail_stream():
+            nonlocal abandoned, response_closed, client_disconnected
+            abandoned = True
+            if response_closed or client_disconnected:
+                return
+            try:
+                async with asyncio.timeout(min(self.limits.body_seconds, self.limits.work_seconds)):
+                    async with output_lock:
+                        if response_closed or client_disconnected:
+                            return
+                        response_closed = True
+                        await send({"type": "http.response.body", "body": stream_error_body(), "more_body": False})
+            except Exception:
+                # An unavailable/disconnected transport cannot receive an error.
+                # It does not cancel the backend or release its work capacity.
+                client_disconnected = True
+
         try:
             path, method, maximum, length = self._validate(scope)
             work = self._enter(path, method)
@@ -221,25 +265,69 @@ class PublicDemo:
                     _json_object(bytes(body))
             delivered = False
             async def replay():
-                nonlocal delivered
+                nonlocal delivered, client_disconnected, abandoned
                 if not delivered:
                     delivered = True
                     return {"type": "http.request", "body": bytes(body), "more_body": False}
-                return await receive()
-            # Buffer every response until completion; never forward a partial
-            # student/PDF response after a size breach or backend failure.
+                event = await receive()
+                if event["type"] == "http.disconnect" and streaming:
+                    client_disconnected = abandoned = True
+                return event
+            # Only the explicitly negotiated B dialogue stream bypasses whole-
+            # response buffering. Student/PDF and ordinary JSON stay buffered.
+            stream_requested = (method == "POST" and path == "/v1/academic/assistant"
+                                and _accepts_ndjson(scope))
             start = None
             response_body = bytearray()
+            response_bytes = 0
             async def collect(event):
-                nonlocal start
+                nonlocal start, streaming, response_started, response_closed, response_bytes
                 if abandoned:
                     return
                 if event["type"] == "http.response.start":
                     if start is not None:
                         raise _Rejected(503)
                     start = event
+                    content_type = dict((key.lower(), value) for key, value in event.get("headers", [])).get(b"content-type", b"")
+                    streaming = (stream_requested and event["status"] == 200
+                                 and content_type.split(b";", 1)[0].strip().lower() == b"application/x-ndjson")
+                    if streaming:
+                        if self.limits.response_bytes < error_reserve:
+                            raise _Rejected(503)
+                        public_start = dict(event)
+                        public_start["headers"] = [(key, value) for key, value in event.get("headers", [])
+                            if key.lower() not in {b"content-length", b"server", b"set-cookie", b"x-accel-buffering"}]
+                        public_start["headers"].extend([(b"x-robots-tag", b"noindex, nofollow, noarchive"),
+                                                       (b"x-accel-buffering", b"no")])
+                        async with output_lock:
+                            response_started = True
+                            await send(public_start)
                 elif event["type"] == "http.response.body":
                     chunk = event.get("body", b"")
+                    if streaming:
+                        if response_closed:
+                            raise _Rejected(503)
+                        response_bytes += len(chunk)
+                        if response_bytes > self.limits.response_bytes - error_reserve:
+                            raise _Rejected(503)
+                        response_body.extend(chunk)
+                        end = response_body.rfind(b"\n") + 1
+                        complete = bytes(response_body[:end])
+                        del response_body[:end]
+                        final = not event.get("more_body", False)
+                        if final and response_body:
+                            # A valid final record may omit its trailing newline.
+                            # Never publish an unfinished fragment before an error.
+                            _json_object(bytes(response_body))
+                            complete += bytes(response_body)
+                            response_body.clear()
+                        if complete or final:
+                            async with output_lock:
+                                if abandoned:
+                                    return
+                                response_closed = final
+                                await send({"type": "http.response.body", "body": complete, "more_body": not final})
+                        return
                     if len(response_body) + len(chunk) > self.limits.response_bytes:
                         raise _Rejected(503)
                     response_body.extend(chunk)
@@ -253,6 +341,10 @@ class PublicDemo:
                 response_body.clear()
                 raise _Rejected(503)
             backend_task.result()
+            if streaming:
+                if not response_closed and not client_disconnected:
+                    await fail_stream()
+                return
             if start is None:
                 raise _Rejected(503)
             if path == "/readyz":
@@ -267,14 +359,23 @@ class PublicDemo:
             await send(start)
             await send({"type": "http.response.body", "body": bytes(response_body)})
         except _Rejected as exc:
+            if response_started:
+                await fail_stream()
+                return
             headers = dict(_HEADERS)
             if exc.status == 429:
                 headers["Retry-After"] = "60"
             await JSONResponse({"detail": {429: "demo busy; retry later", 408: "request timeout"}.get(exc.status, "request unavailable")},
                                status_code=exc.status, headers=headers)(scope, receive, send)
         except (ValueError, UnicodeError, RecursionError):
+            if response_started:
+                await fail_stream()
+                return
             await JSONResponse({"detail": "invalid request"}, status_code=422, headers=_HEADERS)(scope, receive, send)
         except Exception:
+            if response_started:
+                await fail_stream()
+                return
             await JSONResponse({"detail": "service unavailable"}, status_code=503, headers=_HEADERS)(scope, receive, send)
         finally:
             if work is not None:

@@ -1,0 +1,228 @@
+{
+  "academic_sources_changed": [],
+  "agents": [
+    {
+      "role": "harness_worker",
+      "status": "completed",
+      "summary": "실제 <redacted-path> 생산 수정2회 동결;233관련검사 통과. 통합 완료 아님.",
+      "task_id": "backend-c1-c2"
+    },
+    {
+      "role": "question_generator_fallback",
+      "status": "completed",
+      "summary": "실제 <redacted-path> 재사용. 정답 없는24질문; 별도 wire mock2개 보정. 전용 생성 역할 대신 제한된 기존 역할 사용.",
+      "task_id": "questions-fixtures"
+    },
+    {
+      "role": "harness_reviewer",
+      "status": "completed",
+      "summary": "실제 <redacted-path> 읽기 전용 검토. QA 확인된 입력 P1/P2 반환. 리뷰 완료는 제품 통과 아님.",
+      "task_id": "review-c1-c2"
+    },
+    {
+      "role": "harness_qa",
+      "status": "failed",
+      "summary": "실제 <redacted-path> 자료 기반24질문과 실제 API 관찰을 독립 평가. 필수 입력 실패 남음.",
+      "task_id": "qa-c1-c2"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/assistant.py",
+      "summary": "생산 typed 계획의 목적/속성 의미를 보존; 의무+학점과 후속 문맥 조회; 범위 역할 구분은 잔여 결함 있음."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/semantic_llm.py",
+      "summary": "전체43과목 공개 ID 색인, 묶음/개수 목적 안내, 이름 없는 의무 계획 거절. 사실/임의 쿼리 권한 없음."
+    },
+    {
+      "kind": "changed",
+      "path": "src/academic_assistant/core.py",
+      "summary": "다른 전공학점 일반 표현과 공개 과목 이름 항목 구분. 개인정보 오탐 잔여 실패 명시."
+    },
+    {
+      "kind": "added",
+      "path": "tests/test_b_input_routing_worker.py",
+      "summary": "생산 입력 경계·복합·식별/PII·조건부 이름 계약28검사."
+    },
+    {
+      "kind": "added",
+      "path": "tests/test_b_input_routing_qa.py",
+      "summary": "독립 원문 기반 facade/API41검사와 재현된 필수 입력 실패 보존."
+    },
+    {
+      "kind": "added",
+      "path": "tests/fixtures/b-input-routing-20261002.json",
+      "summary": "최종 생산 코드 동결 후 공개한 합성24질문과 QA 기대값. CI에서 사적 파일 없이 재생."
+    },
+    {
+      "kind": "fixed",
+      "path": "tests/test_semantic_assistant_worker.py",
+      "summary": "기존 wire mock2개의 필수 typed 필드를 명시; 228assertions와60메서드 보존."
+    },
+    {
+      "kind": "added",
+      "path": "docs/operations/b-input-routing.md",
+      "summary": "생산/레거시 입력 연결, 유지한 사실·개인정보 경계와 미완료 결과."
+    },
+    {
+      "kind": "added",
+      "path": "docs/harness/decisions/0026-typed-input-semantic-authority.md",
+      "summary": "입력 의미 권한과 범위·출력 검증 유지, 이번2회 수정 경계."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/harness/decisions/README.md",
+      "summary": "ADR0026 연결."
+    },
+    {
+      "kind": "documentation",
+      "path": "docs/operations/development-roadmap.md",
+      "summary": "B 우선 입력 단위의 실패와 다음 수정 목록; A 확장 보류."
+    },
+    {
+      "kind": "documentation",
+      "path": "README.md",
+      "summary": "새 입력 수정과 과거6경계·66발화 이력 구분, 전체 미완료 유지."
+    },
+    {
+      "kind": "documentation",
+      "path": "reports/README.md",
+      "summary": "새 실행·평가와 과거 평가의 진입점."
+    },
+    {
+      "kind": "documentation",
+      "path": "CHANGELOG.md",
+      "summary": "실제 수정2회와 미해결 입력 결함·출력5경계, 운영 불변 기록."
+    },
+    {
+      "kind": "added",
+      "path": "reports/evaluations/20261002-b-input-routing.md",
+      "summary": "모의/실제·조회/문장생성, 수정/별도/노출 질문과 잔여 결함 구분."
+    },
+    {
+      "kind": "added",
+      "path": "reports/evaluations/20261002-b-input-routing.json",
+      "summary": "합성 질문별 기대 사실·PDF 위치·조회/생성 관찰과 실패 유형. 비밀/원시 로그 제외."
+    }
+  ],
+  "checks": [
+    {
+      "evidence": "실제 worker 결과: B28/기존worker60/core64/A30/의미통합13/legacyAPI5/의미QA33, 합계233통과. 출력 guard3개 AST와 입력8지문 유지.",
+      "name": "생산 수정 회귀",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "최종 동결 코드의 모의 typed plan을 실제 facade/API로 평가:21통과3실패. 모델 이해 정답률이 아님. 최초22/2 실패 이력 유지.",
+      "name": "독립 입력24질문",
+      "required": true,
+      "status": "failed"
+    },
+    {
+      "evidence": "assistant.py:122 다른 전공 입학/전과 마스킹, core.py:311 일반 단어 사람 이름 오인. QA 실제API 재현, 공개 승격 차단.",
+      "name": "독립 읽기 전용 리뷰",
+      "required": true,
+      "status": "failed"
+    },
+    {
+      "evidence": "실제12턴/고유10질문. 반환 사실의 출처 연결12/12, 요청정보10/12, 정상생성7/12. 수정2 재시험은 개수9/34 정상생성, 졸업기준22규칙은 맞지만 불필요43과목 조회와 문장대체. 서로 다른 수정본의 누적 관찰이며 최종 코드10질문 정답률 아님. 추가14질문 실제미실행.",
+      "name": "실제 Gemma/Neo4j API",
+      "required": true,
+      "status": "failed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -X utf8 -B -m unittest discover -s tests -p test_*.py",
+      "evidence": "QA tests/공개fixture 동결 후 실제849메서드 실행.16실패·3오류 하위검사 이벤트,10개 비통과 메서드(신규입력5/기존경계5). 생략0; 오류는 PII오탐 ValueError재현. 19이벤트를19개 메서드로 세지 않는다.",
+      "name": "전체 통합 회귀",
+      "required": true,
+      "status": "failed"
+    },
+    {
+      "evidence": "36중31통과5실패: F2통과, F1/F3/F4/F5/F6미해결. 과거6실패 및 누적5회 이력 보존.",
+      "name": "기존6경계",
+      "required": true,
+      "status": "failed"
+    },
+    {
+      "evidence": "A30회귀,95중첩패킷,Node6명령의 ordering/근거9/취소10/Gemma9/대화16/의미7그룹 통과. 실제 사람UAT/새 공개웹 관찰 아님.",
+      "name": "A 및 화면 소비자",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "하네스10agent/9skill,manifest/config/schema/docs,지식/clarification/research,엔진265/사용성30/참고합성15 검사 통과. 학사 사실과 승인 상태 불변.",
+      "name": "하네스·학사 정적 동기화",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "신원/uptime/GPU/df사전확인. 학사GPU0 기존서비스 재사용,총12턴상한. 17:25UTC 활성모델0, 보호GPU1프로세스보존. 나루 성능영향의 정량 보증 아님.",
+      "name": "DSW 기존 서비스/나루 보존",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "보고 계약·공개 정제·문서/링크 검사 통과. 동일 입력 Markdown/JSON/PDF 생성; A4 3페이지 전부 PNG 렌더 및 한글·표·잘림·겹침·페이지번호 시각 확인. 실행 장부 완료 검사는 필수 QA failed로 실패했으며 보고 발행을 제품 완료로 취급하지 않는다.",
+      "name": "공개 보고·PDF 검증",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "evidence": "제품 커밋9e46ead의 GitHub Actions 36902076979가 단위검사 단계에서 failure로 종료한 사실 확인. 이후 화면·동기화·Mermaid·보고 단계는 원격에서 미실행. 해당 검사의 로컬 통과와 원격 결과를 구분. Draft PR12 유지, 병합/공개 앱 승격 안 함; 보고 발행 커밋의 후속 CI 결과는 이 보고의 관찰 대상 아님.",
+      "name": "GitHub CI/배포",
+      "required": false,
+      "status": "failed"
+    }
+  ],
+  "git": {
+    "base_commit": "a01768d9c2bc6b2b168449e97b0d6b85419bccfd",
+    "branch": "codex/semantic-prototype",
+    "head_commit": "9e46ead51fbc9eedb18d9e9a4af4694a0fa93735"
+  },
+  "harness_version": "1.0.0 / upstream 79b82281d305c89181fbb216499d5f1e962c14ed / prototype 0.11.0 draft",
+  "issues": [
+    {
+      "message": "다른 전공 입학/전과 표현을 과목으로 바꾸어 CS요건을 답할 수 있다. 입력 단위 및 B 전체 미완료; 공개 승격 금지.",
+      "owner": "B-input",
+      "severity": "error"
+    },
+    {
+      "message": "과목 이름의 일반 표현·단독 분류·앞 질문 범위 오탐이 남는다. 학사 재승인이 아닌 구현 결함.",
+      "owner": "B-input",
+      "severity": "error"
+    },
+    {
+      "message": "기존 F1/F3/F4/F5/F6 실패 유지. 입력 개선이나 모델 연결을 출력 사실/요청 완전성 검증 통과로 취급하지 않는다.",
+      "owner": "B-output",
+      "severity": "error"
+    },
+    {
+      "message": "기본 수정2/2 뒤 필수 실패를 보존하고 자동3회차를 진행하지 않았다. 다음 수정 범위/완료 기준을 작업 목록에서 재개한다. A 확장은 뒤로 유지.",
+      "owner": "main",
+      "severity": "warning"
+    },
+    {
+      "message": "원 실행의 유휴ID까지 세는 로컬3슬롯 레지스트리가 리뷰등록을 거절해 별도 실제 리뷰 실행을 사용했다. 원 장부의pending을 위조하지 않았고 전체 네이티브완료 통과를 주장하지 않는다.",
+      "owner": "main",
+      "severity": "info"
+    },
+    {
+      "message": "별도02/04는 원인 선택에 사용하여노출로표시,남은10문장은구현자에게안보냄. 이후 공개된 fixture는 향후 미사용이 아니다. 필터 기대값1건을 근거로 정정; 제품 수정으로 세지 않음.",
+      "owner": "QA",
+      "severity": "info"
+    }
+  ],
+  "publication": {
+    "major": true,
+    "pdf_required": true,
+    "reason": "제품 입력 동작과 privacy/scope 분기 변경의 미완료 내역을 Markdown/JSON/PDF로 동일 기록. 발행 성공은 제품 완료 아님."
+  },
+  "request": "우선 처리할 큰 단위 작업 하나를 선정해 진행한다. B 질문 이해·조회부터 구현하고 A 성적표 확장은 뒤로 둔다.",
+  "run_id": "20261002-b-input-routing",
+  "schema_version": "1.0.0",
+  "summary": "생산 구조화 계획을 키워드로 덮어쓰는 경로를 분리하고 복합 조회·문맥과 공개 과목 식별을 보강했다. 수정2회 뒤 독립24질문의21통과·3실패와 전공 역할/PII 오탐이 남아 단위 및 B 전체는 미완료다. 실제 API는 고유10질문과 재시험2턴, 총12턴만 관찰했다. 새 학사 승인·학생 자료 전송·출력 사실 검증 완화·A 확장·서비스 변경은 하지 않았다. 실패를 회귀와 재개 목록으로 보존하고 공개 앱 승격/PR병합은 하지 않는다.",
+  "title": "B 입력·조회 첫 단위 개선 - 필수 실패 남음"
+}

@@ -4,12 +4,15 @@ from importlib.resources import files
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request, Query
-from fastapi.responses import Response
+from fastapi.responses import Response, StreamingResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 import hashlib
 import asyncio
+import json
+import anyio
+from threading import Event
 from functools import lru_cache, wraps
 from threading import RLock
 from threading import BoundedSemaphore
@@ -114,6 +117,130 @@ def web_script() -> Response:
     return _web_asset("app.js", "text/javascript; charset=utf-8")
 
 
+@app.get("/assets/semantic-ui.js", include_in_schema=False)
+def semantic_script() -> Response:
+    return _web_asset("semantic-ui.js", "text/javascript; charset=utf-8")
+
+
+from .assistant_models import AssistantTurnRequest, AssistantTurnResponse
+
+
+@app.get("/v1/academic/transcripts/examples/{identifier}.pdf")
+def synthetic_pdf(identifier: str):
+    from .transcript_examples import example_pdf
+    try:
+        _fixture, data = example_pdf(identifier)
+        return Response(data, media_type="application/pdf")
+    except KeyError:
+        raise HTTPException(status_code=404, detail="example not found") from None
+    except Exception:
+        raise HTTPException(status_code=503, detail="example unavailable") from None
+
+
+@app.post("/v1/academic/transcripts/examples/{identifier}")
+def synthetic_transcript(identifier: str):
+    from .transcript_examples import recognize_example
+    if not _EXTRACTION_SLOT.acquire(blocking=False):
+        raise HTTPException(status_code=429, detail="transcript extraction busy")
+    try:
+        return recognize_example(_engine(), identifier)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="example not found") from None
+    except Exception:
+        raise HTTPException(status_code=503, detail="synthetic PDF recognition unavailable") from None
+    finally:
+        _EXTRACTION_SLOT.release()
+
+
+@app.post("/v1/academic/assistant", response_model=AssistantTurnResponse)
+async def semantic_turn(request: AssistantTurnRequest, http_request: Request):
+    from .assistant import SemanticAssistant
+    from .progress import ProgressReporter, accepts_ndjson
+    try:
+        engine = _engine()
+        if engine.registry.catalogue is None:
+            raise RegistryUnavailable()
+        engine.validate_request(AcademicAnswerRequest(question=request.question, admission_year=request.admission_year,
+            matched_curriculum_year=request.matched_curriculum_year, department=request.department,
+            earned_credits=request.earned_credits), allow_identifying=True)
+        assistant = SemanticAssistant(engine=engine)
+        if not accepts_ndjson(http_request.scope.get("headers", [])):
+            return await run_in_threadpool(assistant.chat, request)
+
+        async def stream():
+            # Request-local bounded transport queue, not an inference queue.
+            # A disconnect discards future observations, while the already
+            # owned provider turn still exits its absolute deadline/finally.
+            queue = asyncio.Queue(maxsize=128)
+            loop = asyncio.get_running_loop()
+            disconnected = Event()
+            overflow = Event()
+            completed = asyncio.Event()
+            terminal = [None]
+
+            def publish(row):
+                if disconnected.is_set():
+                    return
+                future = asyncio.run_coroutine_threadsafe(queue.put(row), loop)
+                try:
+                    future.result(timeout=.05)
+                except Exception:
+                    future.cancel()
+                    # Backpressure is not a client disconnect. Completion is
+                    # a separate channel and cannot be lost with progress.
+                    overflow.set()
+
+            reporter = ProgressReporter(publish)
+
+            def produce():
+                row = None
+                try:
+                    response = assistant.chat(request, progress=reporter)
+                    row = {"type": "result", "response": response.model_dump(mode="json"), "elapsed_ms": reporter.elapsed_ms}
+                except Exception:
+                    row = {"type": "error", "message": "요청 처리를 완료하지 못했습니다. 다시 시도해 주세요.", "elapsed_ms": reporter.elapsed_ms}
+                finally:
+                    if overflow.is_set() or row is None:
+                        row = {"type": "error", "message": "진행 정보 전송을 완료하지 못했습니다. 다시 시도해 주세요.", "elapsed_ms": reporter.elapsed_ms}
+                    def finish():
+                        terminal[0] = row
+                        completed.set()
+                    loop.call_soon_threadsafe(finish)
+
+            task = asyncio.create_task(run_in_threadpool(produce))
+            try:
+                while True:
+                    if completed.is_set() and queue.empty():
+                        break
+                    pending = asyncio.create_task(queue.get())
+                    done = asyncio.create_task(completed.wait())
+                    try:
+                        await asyncio.wait((pending, done), return_when=asyncio.FIRST_COMPLETED)
+                        if not pending.done():
+                            continue
+                        row = pending.result()
+                    finally:
+                        for waiting in (pending, done):
+                            if not waiting.done():
+                                waiting.cancel()
+                        await asyncio.gather(pending, done, return_exceptions=True)
+                    yield json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n"
+                yield json.dumps(terminal[0], ensure_ascii=False, separators=(",", ":")) + "\n"
+            finally:
+                disconnected.set()
+                # The public request/capacity lifetime includes the actual
+                # worker, even after a disconnect. Provider finally owns slot
+                # release; shielding cleanup does not extend its deadline.
+                with anyio.CancelScope(shield=True):
+                    await asyncio.shield(task)
+
+        return StreamingResponse(stream(), media_type="application/x-ndjson")
+    except ValueError:
+        return _invalid_response()
+    except RegistryUnavailable:
+        raise HTTPException(status_code=503, detail="academic registry unavailable") from None
+
+
 @app.get("/assets/transcript.js", include_in_schema=False)
 def transcript_script() -> Response:
     return _web_asset("transcript.js", "text/javascript; charset=utf-8")
@@ -188,7 +315,15 @@ def runtime_status():
             "graph_verified": engine.evidence_reader is not None,
             "llm_configured": llm is not None, "llm_model_available": model_available,
             "llm_mode": "grounded_answer_generation" if generation_enabled else "topic_code_suggestions",
-            "student_records_sent_to_llm": False}
+            "student_records_sent_to_llm": False,
+            "default_dialogue_mode": "semantic_retrieval",
+            "course_catalogue_count": len((engine.registry.catalogue or {}).get("courses", [])),
+            "nonidentifying_questions_sent_to_llm": True,
+            "semantic_question_policy": "prototype questions may include names and student IDs; structured student records are not forwarded",
+            "semantic_question_identifiers_allowed": True,
+            "semantic_max_model_calls": 3,
+            "semantic_turn_max_deadline_seconds": 30,
+            "semantic_turn_deadline_seconds": llm.settings.timeout_seconds if llm is not None else None}
 
 
 @app.post("/v1/academic/answers", response_model=AcademicAnswerResponse)

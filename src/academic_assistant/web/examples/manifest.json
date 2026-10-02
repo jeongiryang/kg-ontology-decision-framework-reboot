@@ -1,0 +1,500 @@
+{
+  "schema_version": "1.0.0",
+  "synthetic": true,
+  "examples": {
+    "early": {
+      "title": "1. 이수 초기",
+      "description": "학점과 필수과목이 많이 남은 예제",
+      "pdf_sha256": "4c900c8dea8723890ab4c779a85f481d5fda3d1b19285401c1aaea8e42f2580f",
+      "input_pass_credits": 15,
+      "rows": [
+        {
+          "course_code": null,
+          "course_name": "가상기초교양",
+          "credits": 3,
+          "grade": "B+",
+          "category": "foundation",
+          "row_id": "p1-r1"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상균형교양",
+          "credits": 3,
+          "grade": "B+",
+          "category": "balanced",
+          "balanced_area": "nature-science-technology",
+          "row_id": "p1-r2"
+        },
+        {
+          "course_code": "CDA0163",
+          "course_name": "웹프로그래밍",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r3"
+        },
+        {
+          "course_code": "CDA0008",
+          "course_name": "자료구조",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r4"
+        },
+        {
+          "course_code": "CDA0143",
+          "course_name": "고급자료구조",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r5"
+        },
+        {
+          "course_code": "CDA0088",
+          "course_name": "심층상담",
+          "credits": 0,
+          "grade": "S",
+          "category": "major_required",
+          "row_id": "p1-r6"
+        }
+      ]
+    },
+    "near-graduation": {
+      "title": "2. 130학점 · 졸업논문 미이수",
+      "description": "학점 합계만으로 졸업을 확정하지 않는 예제",
+      "pdf_sha256": "b02179d3dced1af4710fb276f2196308f7f79f44d6ca7db0cbc132ea2196717d",
+      "input_pass_credits": 130,
+      "rows": [
+        {
+          "course_code": "CDA0143",
+          "course_name": "고급자료구조",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r1"
+        },
+        {
+          "course_code": "CDA0016",
+          "course_name": "컴퓨터구조",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r2"
+        },
+        {
+          "course_code": "CDA0027",
+          "course_name": "알고리즘",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r3"
+        },
+        {
+          "course_code": "CDA0028",
+          "course_name": "소프트웨어공학",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r4"
+        },
+        {
+          "course_code": "CDA0065",
+          "course_name": "데이타베이스개론",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r5"
+        },
+        {
+          "course_code": "CDA0017",
+          "course_name": "운영체제",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r6"
+        },
+        {
+          "course_code": "CDA0023",
+          "course_name": "데이타통신",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r7"
+        },
+        {
+          "course_code": "CDA0088",
+          "course_name": "심층상담",
+          "credits": 0,
+          "grade": "S",
+          "category": "major_required",
+          "row_id": "p1-r8"
+        },
+        {
+          "course_code": "CDA0163",
+          "course_name": "웹프로그래밍",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r9"
+        },
+        {
+          "course_code": "CDA0174",
+          "course_name": "피지컬AI입문",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r10"
+        },
+        {
+          "course_code": "CDA0157",
+          "course_name": "이산수학",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r11"
+        },
+        {
+          "course_code": "CDA0170",
+          "course_name": "컴퓨터공학기술세미나",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r12"
+        },
+        {
+          "course_code": "CDA0008",
+          "course_name": "자료구조",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r13"
+        },
+        {
+          "course_code": "CDA0010",
+          "course_name": "논리설계",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r14"
+        },
+        {
+          "course_code": "CDA0014",
+          "course_name": "컴퓨터그래픽스",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r15"
+        },
+        {
+          "course_code": "CDA0006",
+          "course_name": "시스템프로그래밍",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r16"
+        },
+        {
+          "course_code": "CDA0013",
+          "course_name": "프로그래밍언어론",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r17"
+        },
+        {
+          "course_code": "CDA0125",
+          "course_name": "모바일프로그래밍",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r18"
+        },
+        {
+          "course_code": "CDA0176",
+          "course_name": "임베디드시스템",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r19"
+        },
+        {
+          "course_code": "CDA0155",
+          "course_name": "객체지향프로그래밍",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r20"
+        },
+        {
+          "course_code": "CDA0156",
+          "course_name": "오픈소스소프트웨어",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r21"
+        },
+        {
+          "course_code": "CDA0164",
+          "course_name": "빅데이터",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r22"
+        },
+        {
+          "course_code": "CDA0165",
+          "course_name": "네트워크프로그래밍",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r23"
+        },
+        {
+          "course_code": "CDA0139",
+          "course_name": "영상처리",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r24"
+        },
+        {
+          "course_code": "CDA0154",
+          "course_name": "소프트웨어설계",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r25"
+        },
+        {
+          "course_code": "CDA0169",
+          "course_name": "데이터마이닝",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r26"
+        },
+        {
+          "course_code": "CDA0030",
+          "course_name": "인공지능",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_elective",
+          "row_id": "p1-r27"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상기초교양1",
+          "credits": 3,
+          "grade": "B+",
+          "category": "foundation",
+          "row_id": "p1-r28"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상기초교양2",
+          "credits": 3,
+          "grade": "B+",
+          "category": "foundation",
+          "row_id": "p1-r29"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상기초교양3",
+          "credits": 3,
+          "grade": "B+",
+          "category": "foundation",
+          "row_id": "p1-r30"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상균형교양1",
+          "credits": 3,
+          "grade": "B+",
+          "category": "balanced",
+          "balanced_area": "digital-communication",
+          "row_id": "p1-r31"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상균형교양2",
+          "credits": 3,
+          "grade": "B+",
+          "category": "balanced",
+          "balanced_area": "humanities-arts",
+          "row_id": "p1-r32"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상균형교양3",
+          "credits": 3,
+          "grade": "B+",
+          "category": "balanced",
+          "balanced_area": "society-culture",
+          "row_id": "p1-r33"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상균형교양4",
+          "credits": 3,
+          "grade": "B+",
+          "category": "balanced",
+          "balanced_area": "nature-science-technology",
+          "row_id": "p1-r34"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상확대교양1",
+          "credits": 3,
+          "grade": "B+",
+          "category": "expanded",
+          "row_id": "p1-r35"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상확대교양2",
+          "credits": 3,
+          "grade": "B+",
+          "category": "expanded",
+          "row_id": "p1-r36"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상확대교양3",
+          "credits": 3,
+          "grade": "B+",
+          "category": "expanded",
+          "row_id": "p1-r37"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상확대교양4",
+          "credits": 3,
+          "grade": "B+",
+          "category": "expanded",
+          "row_id": "p1-r38"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상확대교양5",
+          "credits": 1,
+          "grade": "B+",
+          "category": "expanded",
+          "row_id": "p1-r39"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상자유선택1",
+          "credits": 3,
+          "grade": "B+",
+          "category": "free",
+          "row_id": "p1-r40"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상자유선택2",
+          "credits": 3,
+          "grade": "B+",
+          "category": "free",
+          "row_id": "p1-r41"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상자유선택3",
+          "credits": 3,
+          "grade": "B+",
+          "category": "free",
+          "row_id": "p1-r42"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상자유선택4",
+          "credits": 3,
+          "grade": "B+",
+          "category": "free",
+          "row_id": "p1-r43"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상자유선택5",
+          "credits": 3,
+          "grade": "B+",
+          "category": "free",
+          "row_id": "p1-r44"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상자유선택6",
+          "credits": 3,
+          "grade": "B+",
+          "category": "free",
+          "row_id": "p1-r45"
+        }
+      ]
+    },
+    "retake": {
+      "title": "3. 재수강 · F/U",
+      "description": "삭제된 이전 기록 제외와 0학점 필수과목 확인",
+      "pdf_sha256": "23f33ae4bb6c71c93da5410767973c0c81566661c79115d5ae0900c7f596839f",
+      "input_pass_credits": 9,
+      "rows": [
+        {
+          "course_code": "CDA0143",
+          "course_name": "고급자료구조",
+          "credits": 3,
+          "grade": "F",
+          "category": "major_required",
+          "excluded": true,
+          "row_id": "p1-r1"
+        },
+        {
+          "course_code": "CDA0143",
+          "course_name": "고급자료구조",
+          "credits": 3,
+          "grade": "A0",
+          "category": "major_required",
+          "row_id": "p1-r2"
+        },
+        {
+          "course_code": "CDA0016",
+          "course_name": "컴퓨터구조",
+          "credits": 3,
+          "grade": "F",
+          "category": "major_required",
+          "row_id": "p1-r3"
+        },
+        {
+          "course_code": "CDA0088",
+          "course_name": "심층상담",
+          "credits": 0,
+          "grade": "U",
+          "category": "major_required",
+          "row_id": "p1-r4"
+        },
+        {
+          "course_code": "CDA0034",
+          "course_name": "졸업논문",
+          "credits": 0,
+          "grade": "U",
+          "category": "major_required",
+          "row_id": "p1-r5"
+        },
+        {
+          "course_code": "CDA0163",
+          "course_name": "웹프로그래밍",
+          "credits": 3,
+          "grade": "B0",
+          "category": "major_elective",
+          "row_id": "p1-r6"
+        },
+        {
+          "course_code": null,
+          "course_name": "가상기초교양",
+          "credits": 3,
+          "grade": "B+",
+          "category": "foundation",
+          "row_id": "p1-r7"
+        }
+      ]
+    }
+  }
+}

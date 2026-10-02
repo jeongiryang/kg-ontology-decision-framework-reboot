@@ -111,6 +111,7 @@ class Registry:
     intents: dict[str, Any]
     digest: str
     conflicts: dict[str, tuple[str, ...]]
+    catalogue: dict[str, Any] | None = None
 
     @classmethod
     def load(cls, project_root: Path | str | None = None) -> "Registry":
@@ -138,13 +139,16 @@ class Registry:
                     or hashlib.sha256((root / DEPARTMENT_CONFIRMATION_PATH).read_bytes()).hexdigest() != confirmation["sha256"]):
                 raise RegistryUnavailable()
             hashes = {rule_id: canonical_sha256(rule) for rule_id, rule in rules.items()}
+            from .courses import load_catalogue
+            catalogue = load_catalogue(root, sources)
             digest = canonical_sha256({
                 "rules": hashes,
                 "sources": {source_id: canonical_sha256(source) for source_id, source in sorted(sources.items())},
                 "research": canonical_sha256(research),
                 "intents": canonical_sha256(intents),
+                **({"catalogue": canonical_sha256(catalogue)} if catalogue is not None else {}),
             })
-            return cls(rules, hashes, sources, research, intents, digest, cls._semantic_conflicts(rules))
+            return cls(rules, hashes, sources, research, intents, digest, cls._semantic_conflicts(rules), catalogue)
         except Exception as exc:
             if isinstance(exc, RegistryUnavailable):
                 raise
