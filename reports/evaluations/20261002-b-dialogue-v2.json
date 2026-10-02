@@ -527,6 +527,21 @@
     "loaded_models": 0,
     "observed_utc": "2026-10-02T03:00:56.517992+00:00"
   },
+  "github_actions": {
+    "run_id": 36959461472,
+    "head_commit": "3ec82b098c66369c2bac245c263e4542135b4fd8",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/actions/runs/36959461472",
+    "failing_step": "Run unit tests",
+    "tests_run": 964,
+    "failure_events": 19,
+    "error_events": 0,
+    "skipped_tests": 6,
+    "following_steps_skipped": true,
+    "product_snapshot": "519156b234d0854aa64c54d5bbef7ade47ef7d45",
+    "observed_evidence": "Actual gh run watch/view and log-failed; completion03:18:42UTC. Report-only subsequent changes do not alter frozen product source."
+  },
   "publication": {
     "provider_payloads": false,
     "private_question_wordings": false,

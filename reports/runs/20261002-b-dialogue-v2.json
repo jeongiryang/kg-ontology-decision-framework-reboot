@@ -253,10 +253,11 @@
       "status": "passed"
     },
     {
-      "evidence": "미완료 draftPR12에 기록 예정. 실행 결과를 확인하기 전 성공을 주장하지 않음.",
+      "command": "gh run watch 36959461472 --exit-status; gh run view 36959461472 --log-failed",
+      "evidence": "실제Actions36959461472(head3ec82b0) completed/failure,Run unit tests에서964건19실패·오류0·Linux전용skip6.이후 단계는미실행.제품 소스는동결519156b와같고후속 보고서 변경은제품 수정이 아님.결과:https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/actions/runs/36959461472",
       "name": "GitHub Actions",
       "required": true,
-      "status": "not_run"
+      "status": "failed"
     }
   ],
   "git": {

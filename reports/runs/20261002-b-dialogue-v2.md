@@ -75,7 +75,7 @@ B 질문·답변 우선: 이름·학번 어휘 차단 제거, 의미 기반 과�
 | DSW 보호·종료 확인 | yes | passed | - | 2026-10-02T03:00:56UTC 기존GPU0자기서비스/프로세스 확인,NaruGPU1 보호대상 유지,적재모델0.사전42턴/126호출·종료시간 내 관찰.다른프로세스/GPU/서비스/가중치/그래프 쓰기 없음. |
 | 공개 보고서 계약·정제·일치 | yes | passed | .venv/Scripts/python.exe -X utf8 -B scripts/reporting/ci_checks.py --project . --changed-from 42e013f | 실제exit0:MD/JSON/PDF정제·바이트 재생성·상대 링크/계약·관련 문서 검사 통과. 하네스manifest/에이전트/스킬/스키마/설정/문서 동기화도exit0. 최초 잘못된CLI옵션 --base는실행 인자 오류로 보존하고 올바른 --changed-from으로 검사함. |
 | PDF 전 페이지 시각 확인 | yes | passed | - | Poppler110dpi로4쪽모두렌더링·시각확인:한글 읽기,표 잘림/겹침없음,머리행반복,페이지번호1-4.렌더러CIDfont대체경고는 있었으나 실제 한글 표시 확인.검사 상태를반영한최종 재생성도같은4쪽을재확인함. |
-| GitHub Actions | yes | not_run | - | 미완료 draftPR12에 기록 예정. 실행 결과를 확인하기 전 성공을 주장하지 않음. |
+| GitHub Actions | yes | failed | gh run watch 36959461472 --exit-status; gh run view 36959461472 --log-failed | 실제Actions36959461472(head3ec82b0) completed/failure,Run unit tests에서964건19실패·오류0·Linux전용skip6.이후 단계는미실행.제품 소스는동결519156b와같고후속 보고서 변경은제품 수정이 아님.결과:https://github.com/jeongiryang/kg-ontology-decision-framework-reboot/actions/runs/36959461472 |
 
 ## 학사 근거 변경
 

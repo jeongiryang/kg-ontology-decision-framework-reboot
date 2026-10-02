@@ -6,6 +6,7 @@
 - 작업: 복합 목적/후속 조회, 사실 중심 문장 검사, 실제 실패에 근거한 한 번의 LLM 재작성, 실측 단계 NDJSON·스켈레톤·Cypher 상세를 함께 구현한다.
 - 기준: [작업 계약](docs/operations/b-dialogue-v2.md), [ADR0027](docs/harness/decisions/0027-prototype-dialogue-repair-and-observed-progress.md), `AssistantProgressEvent` 계약을 동기화했다.
 - 평가: 최종 독립964검사에서19실패 이벤트·9메서드·오류0, 신규39검사에서11실패 이벤트·4메서드. Node7·교정47assertions·판정기24·출처75는 통과했다. 모의 경계72건은54통과·18실패이며 실제 Gemma 점수가 아니다.
+- GitHub Actions도 실제 실행36959461472에서964검사·19실패·오류0(Linux skip6)로 실패했고 이후 단계는 실행되지 않았다. 테스트 제거·skip으로 성공을 만들지 않았다.
 - 실제 최종 동결본:6질문4통과·2처리실패·26미실행(미사용14포함). 기본 과목 조회는 확인했으나 복합 질문, 필수 PASS 부정, 과목/학과 역할과 분류 설명 경계가 남았다. [평가와 재개](reports/evaluations/20261002-b-dialogue-v2.md), [MD·JSON·PDF 결과](reports/runs/20261002-b-dialogue-v2.md)에 기록했다.
 - 이전 누적5회·입력2회와 이번 앞선 실패를 보존한다. 이번 범위는 기본2회+사전 기록된 예외2회, 총4회로 종료했으며 숨은5차 수정·백엔드 승격·완료 선언을 하지 않았다. 학사 사실·A 확장·나루 설정은 변경하지 않았다.
 
