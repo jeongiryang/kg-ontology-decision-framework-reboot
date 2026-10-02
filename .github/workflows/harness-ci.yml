@@ -48,6 +48,8 @@ jobs:
         run: node tests/web/natural_conversation_ui_test.cjs
       - name: Validate default semantic dialogue and one-click PDF consumer
         run: node tests/web/semantic_dialogue_ui_test.cjs
+      - name: Validate observed B progress stream, loading and cancellation
+        run: node tests/web/b_progress_ui_test.cjs
       - name: Build wheel and verify packaged web assets
         run: |
           python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/wheel"

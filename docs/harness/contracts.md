@@ -2,7 +2,9 @@
 
 ## 자연어 조회 계약
 
-`AssistantTurnRequest`는 비식별 질문, 2026 적용 범위, 선택적 이전 질문·현재 확인된 성적표를 받는다. `AssistantTurnResponse`는 부분별 상태와 근거, `plan_status`, `generation_status`, `reason_code`를 구분한다. 처리 연결 불가는 `processing_unavailable`이며 실제 자료 부재인 `no_matching_evidence`와 같지 않다. 인사·범위 안내는 학사 근거가 있다는 주장이 아니다.
+`AssistantTurnRequest`는 학사 질문, 2026 적용 범위, 선택적 이전 질문·현재 확인된 성적표를 받는다. B 프로토타입에서는 사용자가 이름·학번 포함 질문과 응답을 허용했으며 영구 저장은 하지 않는다. 성적표 원문/이수내역은 원격 모델에 보내지 않는다. `AssistantTurnResponse`는 부분별 상태와 근거, `plan_status`, `generation_status`, `reason_code`를 구분한다. 처리 연결 불가는 `processing_unavailable`이며 실제 자료 부재인 `no_matching_evidence`와 같지 않다. 인사·범위 안내는 학사 근거가 있다는 주장이 아니다.
+
+`AssistantProgressEvent`는 서버가 관찰한 단계·상태·단조 시간·실행 쿼리·결과 요약의 스트림 계약이다. 기존 JSON 요청에 `Accept: application/x-ndjson`을 사용하면 progress 줄과 최종 result 줄을 받는다. LLM의 쉬운 설명은 `explanation_source`로 구분하며 실제 실행 사실을 대신하지 않는다. [진행 계약](../../contracts/assistant-progress-event.schema.json)과 [B v2 작업/화면 계약](../operations/b-dialogue-v2.md)을 따른다.
 
 `CourseCatalogue`는 이미 승인된 교육과정 PDF의 직접 표 데이터를 독립 감사한 43개 `CourseFact`와 출처/내용 해시를 포함한다. 졸업 규칙의 새로운 승인이나 전선/심화 학점 배분 근거가 아니다. `CourseEvidencePacket`은 과목코드·학점·이수구분·편성 학년/학기·원문 PDF 페이지를 연결하며 기존 RuleFact ID를 꾸며내지 않는다. 복수 학년/양 학기/계절학기는 배열로 보존한다. 실제 개설·개인 수강 가능·대체 승인을 교육과정 편성만으로 보장하지 않는다. 실행 기준은 `contracts/assistant-turn-request.schema.json`, `contracts/assistant-turn-response.schema.json`, `contracts/course-evidence-packet.schema.json`, `contracts/course-catalogue.schema.json`이다.
 

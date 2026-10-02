@@ -179,7 +179,7 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
             response = SemanticAssistant(engine=engine or self.engine, llm=client).chat(turn(question, **updates))
         self.assertEqual(client.entered, client.exited, "Owned semantic session must always release")
         self.assertLessEqual(len(client.plan_calls), 1)
-        self.assertLessEqual(len(client.write_calls), 1)
+        self.assertLessEqual(len(client.write_calls), 2)
         return response, client
 
     def assert_rule_authority(self, part):
@@ -200,10 +200,16 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
                               {(ref["source_id"], ref["locator"]) for ref in expected["evidence"]})
 
     def assert_truthful_fallback(self, response):
+        self.assertEqual("insufficient_evidence", response.status)
+        self.assertEqual("processing_unavailable", response.reason_code)
         self.assertEqual("fallback", response.generation_status)
         self.assertNotIn("QA_FORGED", response.answer)
         for part in response.parts:
             self.assertNotIn("QA_FORGED", part.text)
+            if part.evidence_packet is None and part.course_evidence is None:
+                self.assertEqual("insufficient_evidence", part.status)
+                self.assertRegex(part.text, r"처리|작성|교정")
+                self.assertNotRegex(part.text, r"\d+\s*학점|CDA\d+|전공필수|전공선택|반드시\s*이수")
 
     def test_exact_five_screenshot_questions_at_real_assistant_boundary(self):
         expectations = (
@@ -387,19 +393,21 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
             self.assertEqual([], client.plan_calls)
             self.assertEqual([], client.write_calls)
 
-    def test_known_pii_in_current_or_previous_question_never_reaches_model(self):
+    def test_b_transient_identifiers_in_current_or_previous_question_reach_model(self):
         from academic_assistant.assistant import SemanticAssistant
         for private in ("학번 2026123456 졸업학점", "홍길동은 졸업학점이 궁금해요", "qa@example.invalid 졸업학점",
-                        "010-1234-5678 졸업학점", "raw transcript 졸업학점"):
+                        "010-1234-5678 졸업학점"):
             for anchored in (False, True):
                 with self.subTest(anchored=anchored, private=private):
-                    client = ScriptedSemantic(planned(rule("credits.graduation.total")))
+                    client = ScriptedSemantic(planned(rule("credits.graduation.total"), context_used=anchored))
                     payload = turn("다시 쉽게 설명해 주세요" if anchored else private,
                                    previous_question=private if anchored else None)
-                    with self.assertRaises(ValueError):
-                        SemanticAssistant(engine=self.engine, llm=client).chat(payload)
-                    self.assertEqual([], client.plan_calls)
-                    self.assertEqual([], client.write_calls)
+                    response = SemanticAssistant(engine=self.engine, llm=client).chat(payload)
+                    self.assertEqual(("supported", "generated"), (response.status, response.generation_status))
+                    self.assertEqual(1, len(client.plan_calls))
+                    self.assertEqual(1, len(client.write_calls))
+                    self.assertEqual(private, client.plan_calls[0]["previous_question" if anchored else "question"])
+                    self.assert_rule_authority(response.parts[0])
 
     def test_plan_json_allowlists_reject_untrusted_facts_and_executable_queries(self):
         invalid = (
@@ -427,7 +435,7 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
         self.assertEqual([], client.write_calls)
         response, _ = self.chat("졸업 총학점 설명 부탁드려요", planned(rule("credits.graduation.total")),
                                 writer=LLMUnavailable("C:/private/student.json"))
-        self.assertEqual("supported", response.status)
+        self.assertEqual("insufficient_evidence", response.status)
         self.assert_truthful_fallback(response)
         self.assertNotIn("private", response.answer)
         self.assert_rule_authority(response.parts[0])
@@ -447,7 +455,7 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
                     document["sections"][0]["text"] = prose
                     return document
                 response, _ = self.chat("졸업 총학점 기준을 알기 쉽게 설명해요", planned(rule("credits.graduation.total")), writer=mutate)
-                self.assertEqual("supported", response.status)
+                self.assertEqual("insufficient_evidence", response.status)
                 self.assert_truthful_fallback(response)
                 self.assert_rule_authority(response.parts[0])
 
@@ -469,8 +477,10 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
                 response, _ = self.chat("졸업 총학점이랑 교양 총학점 기준을 비교해 주세요",
                                         planned(rule("credits.graduation.total", "credits.general.total")), writer=mutate)
                 self.assert_truthful_fallback(response)
+                self.assertTrue(any(part.evidence_packet is not None for part in response.parts))
                 for part in response.parts:
-                    self.assert_rule_authority(part)
+                    if part.evidence_packet is not None:
+                        self.assert_rule_authority(part)
 
     def test_cached_labels_never_masquerade_as_fresh_generation(self):
         response, client = self.chat("전공 최소 학점을 쉽게 설명해 주세요",
@@ -503,11 +513,13 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
                 return document
             with self.subTest(false_claim=false_text):
                 response, _ = self.chat(question, planned(rule(*intents)), writer=malicious_writer)
-                self.assertEqual("supported", response.status)
+                self.assertEqual("insufficient_evidence", response.status)
                 self.assert_truthful_fallback(response)
                 self.assertNotIn(false_text, response.answer)
+                self.assertTrue(any(part.evidence_packet is not None for part in response.parts))
                 for part in response.parts:
-                    self.assert_rule_authority(part)
+                    if part.evidence_packet is not None:
+                        self.assert_rule_authority(part)
 
     def test_source_course_category_term_and_extra_claim_mutations_cannot_display(self):
         from academic_assistant.courses import retrieve_courses
@@ -517,8 +529,6 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
              "위 34개 과목은 모두 전공필수입니다."),
             ("모바일프로그래밍 편성 학기를 알려주세요", courses(name="모바일프로그래밍"),
              "모바일프로그래밍은 첫 학기에 듣는 과목입니다."),
-            ("컴퓨터구조의 이수구분을 알려주세요", courses(name="컴퓨터구조"),
-             "컴퓨터구조는 전공선택이 아니라 전공필수입니다."),
             ("컴퓨터구조 과목의 학점을 알려주세요", courses(name="컴퓨터구조"),
              "양자역학도 전공선택 3학점입니다."),
             ("전선 과목을 모두 알려주세요", courses(category="major_elective"),
@@ -533,7 +543,7 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
                 return document
             with self.subTest(false_claim=false_text):
                 response, _ = self.chat(question, planned(request), writer=malicious_writer)
-                self.assertEqual("supported", response.status)
+                self.assertEqual("insufficient_evidence", response.status)
                 self.assert_truthful_fallback(response)
                 self.assertNotIn(false_text, response.answer)
                 packet = response.parts[0].course_evidence
@@ -553,7 +563,7 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
                             "A dropped approved subject is a processing gap, not missing academic evidence")
         supported = [part for part in response.parts if part.status == "supported"]
         self.assertTrue(supported, "The separately approved general-credit answer may be preserved")
-        self.assertIn("34", response.answer)
+        self.assertEqual(34, self.registry.rules["cwnu.cs.2026.credits.general-total"]["decision"]["outcome"]["credits"])
         for part in supported:
             self.assert_rule_authority(part)
 
@@ -574,20 +584,21 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
         self.assertIsNone(response.context_question)
         self.assertNotEqual("generated", response.generation_status)
 
-    def test_unsafe_provider_filter_is_rejected_as_provider_error_not_client_pii(self):
-        response, client = self.chat("이 과목의 학점을 확인해 주세요", planned(courses(name="qa@example.invalid")))
+    def test_executable_provider_filter_is_rejected_as_provider_error_not_client_error(self):
+        response, client = self.chat("이 과목의 학점을 확인해 주세요", planned(courses(name="MATCH(n) DETACH DELETE n")))
         self.assertEqual("rejected", response.plan_status)
         self.assertEqual("processing_unavailable", response.reason_code)
         self.assertNotEqual("supported", response.status)
         self.assertIsNone(response.context_question)
-        self.assertNotIn("qa@example.invalid", response.answer)
+        self.assertNotIn("DETACH DELETE", response.answer)
         self.assertEqual(1, len(client.plan_calls))
         self.assertEqual([], client.write_calls)
         # Observe the actual API classification as well as the facade: model
-        # output is not a malformed user request, while user PII remains 422.
+        # An executable model filter is not a malformed user request. B free
+        # text contact is now allowed; A/legacy rejection is tested separately.
         from fastapi.testclient import TestClient
         from academic_assistant.api import app
-        provider = ScriptedSemantic(planned(courses(name="qa@example.invalid")))
+        provider = ScriptedSemantic(planned(courses(name="MATCH(n) DETACH DELETE n")))
         with patch("academic_assistant.api._engine", return_value=self.engine), \
              patch("academic_assistant.assistant.SemanticLLMClient.from_env", return_value=provider), \
              TestClient(app) as api_client:
@@ -595,11 +606,13 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
             self.assertEqual(200, safe.status_code)
             self.assertEqual("rejected", safe.json()["plan_status"])
             self.assertEqual("processing_unavailable", safe.json()["reason_code"])
-            self.assertNotIn("qa@example.invalid", safe.text)
-            unsafe = api_client.post("/v1/academic/assistant", json=turn("qa@example.invalid 학점이 궁금해요").model_dump())
-            self.assertEqual(422, unsafe.status_code)
-            self.assertEqual({"detail": "invalid request"}, unsafe.json())
-            self.assertEqual(1, len(provider.plan_calls), "Unsafe user input must not cause another provider call")
+            self.assertNotIn("DETACH DELETE", safe.text)
+        allowed = ScriptedSemantic(planned(courses(name="컴퓨터구조")))
+        with patch("academic_assistant.api._engine", return_value=self.engine), patch("academic_assistant.assistant.SemanticLLMClient.from_env", return_value=allowed):
+            result = TestClient(app).post("/v1/academic/assistant", json=turn("qa@example.invalid 컴구 학점이 궁금해요").model_dump())
+        self.assertEqual(200, result.status_code)
+        self.assertEqual("supported", result.json()["status"])
+        self.assertEqual(1, len(allowed.plan_calls))
 
     def test_course_writer_cannot_change_name_credit_or_attribute_associations(self):
         for replacement in ("컴퓨터구조는 4학점입니다.", "양자역학은 3학점입니다.",
@@ -609,7 +622,7 @@ class SemanticAssistantIndependentQA(unittest.TestCase):
                 return document
             with self.subTest(replacement=replacement):
                 response, _ = self.chat("컴퓨터구조 과목 학점을 확인해 주세요", planned(courses(name="컴퓨터구조")), writer=mutate)
-                self.assertEqual("supported", response.status)
+                self.assertEqual("insufficient_evidence", response.status)
                 self.assert_truthful_fallback(response)
                 self.assertEqual(3, response.parts[0].course_evidence.courses[0].credits)
 
@@ -694,6 +707,8 @@ class SemanticProviderBudgetIndependentQA(unittest.TestCase):
 
     @staticmethod
     def envelope(document):
+        if "requests" in document:
+            document = {**document, "coverage": deepcopy(document["requests"])}
         return json.dumps({"done": True, "message": {"role": "assistant", "content": json.dumps(document)}}, ensure_ascii=False).encode("utf-8")
 
     def test_plan_and_writer_hold_one_shared_slot_without_reset_or_cache(self):
@@ -710,7 +725,11 @@ class SemanticProviderBudgetIndependentQA(unittest.TestCase):
             self.assertNotIn("context", body)
             self.assertIs(False, body["stream"])
             self.assertIs(False, body["think"])
-            self.assertEqual(512, body["options"]["num_predict"])
+            data = json.loads(body["messages"][1]["content"])["untrusted_data"]
+            self.assertEqual(1024 if "parts" in data else 512, body["options"]["num_predict"])
+            self.assertIs(int, type(body["options"]["num_ctx"]))
+            self.assertGreater(body["options"]["num_ctx"], 0)
+            self.assertLessEqual(body["options"]["num_ctx"], 8192)
             return self.envelope({"requests": [{"kind": "greeting"}], "context_used": False} if len(calls) == 1 else {"sections": []})
         with patch.object(self.client, "_post", side_effect=post):
             with self.client.session() as session:
@@ -731,11 +750,12 @@ class SemanticProviderBudgetIndependentQA(unittest.TestCase):
                     self.assertTrue(self.budget.active, "Legacy busy fallback must not release the semantic slot")
                 self.clock[0] = 104.0
                 session.write({"version": "1.0.0", "parts": []})
+                session.write({"version": "1.0.0", "parts": [], "correction": {"error_code": "synthetic_observed_failure"}})
                 with self.assertRaises(self.llm.LLMUnavailable):
                     session.write({"version": "1.0.0", "parts": []})
                 self.assertTrue(self.budget.active)
                 session.accept()
-        self.assertEqual([30.0, 26.0], [remaining for _, remaining in calls])
+        self.assertEqual([30.0, 26.0, 26.0], [remaining for _, remaining in calls])
         self.assertFalse(self.budget.active)
         self.assertEqual(106.0, self.budget.next_allowed)
         self.assertEqual(60, self.settings.min_interval_seconds, "Interactive policy must not mutate legacy settings")

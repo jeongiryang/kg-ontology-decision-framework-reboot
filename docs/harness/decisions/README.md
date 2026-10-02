@@ -4,6 +4,7 @@ ADR(Architecture Decision Record)은 이미 선택한 중요한 설계 결정과
 
 | ADR | 결정 | 상태 |
 | --- | --- | --- |
+| [0027](0027-prototype-dialogue-repair-and-observed-progress.md) | B 프로토타입 이름·학번 허용, 사실 중심 LLM 재작성, 실측 단계와 Cypher 표시 | 채택·구현 중 |
 | [0001](0001-vendored-harness-installation.md) | WSL에서 고정 SHA의 하네스를 설치본으로 포함 | 채택 |
 | [0002](0002-max-three-concurrent-agents.md) | 동시 서브에이전트 최대 3개 | 채택 |
 | [0003](0003-exclude-source-documents.md) | 원문·학생정보·접속정보를 Git에서 제외 | 채택 |

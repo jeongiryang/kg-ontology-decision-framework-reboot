@@ -49,7 +49,7 @@
           <label for="question">학사 질문</label>
           <textarea id="question" name="question" rows="5" minlength="1" maxlength="500" required placeholder="예: 졸업학점 기준은 몇 학점인가요?" aria-describedby="question-help question-count"></textarea>
           <div class="field-meta">
-            <span id="question-help">앞 질문에 이어 물어보세요. 이름·학번·성적표 원문은 입력하지 마세요.</span>
+            <span id="question-help">앞 질문에 이어 물어보세요. 이름·학번이 포함된 질문도 모델에서 처리할 수 있으며 자동 저장하지 않습니다. 성적표 원문은 넣지 마세요.</span>
             <span id="question-count" aria-live="polite">0 / 500</span>
           </div>
 
@@ -111,9 +111,27 @@
         </div>
 
         <div id="loading-state" class="loading-state" hidden role="status" aria-live="polite">
-          <span class="spinner" aria-hidden="true"></span>
-          승인된 근거와 안내 문장을 확인하고 있습니다.
+          <div class="loading-heading">
+            <span class="spinner" aria-hidden="true"></span>
+            <span id="loading-message">서버의 진행 정보를 기다리고 있습니다.</span>
+          </div>
+          <div class="answer-skeleton" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
         </div>
+
+        <section id="assistant-progress" class="assistant-progress" hidden aria-labelledby="assistant-progress-title">
+          <div class="assistant-progress-heading">
+            <h3 id="assistant-progress-title">질문 처리 중</h3>
+            <span id="assistant-elapsed" class="assistant-elapsed" aria-live="off">전체 대기 0.000초 · 0ms</span>
+            <button id="cancel-question" class="secondary-button" type="button" hidden>요청 취소</button>
+          </div>
+          <p id="assistant-progress-note" class="assistant-progress-note" role="status" aria-live="polite">단계별 실제 진행 정보가 도착하면 표시합니다.</p>
+          <details id="assistant-trace" class="assistant-trace">
+            <summary>단계별 조회 상세</summary>
+            <ol id="assistant-stages" class="assistant-stages" tabindex="0" aria-label="실제 단계별 진행 기록"></ol>
+          </details>
+        </section>
 
         <div id="result" class="result" hidden aria-live="polite" aria-atomic="false">
           <section class="answer-card" aria-labelledby="answer-title">
@@ -225,7 +243,7 @@
 
   <footer>
     <p>본 서비스는 2026학번 컴퓨터공학과의 승인된 교육과정 근거와 학과 확인 기록을 사용합니다. PDF 원문 인용과 비PDF 학과 확인을 구분해 표시합니다.</p>
-    <p id="feedback-privacy-note">비식별 질문과 공개 근거만 연구실 Gemma에 보내며 질문·성적표는 서비스에 저장하지 않습니다. 성적표와 개인 이수내역은 LLM에 보내지 않습니다.</p>
+    <p id="feedback-privacy-note">이름·학번이 포함된 질문도 연구실 Gemma에서 처리할 수 있으며 자동 저장하지 않습니다. 성적표·개인 이수내역·입력 학점은 LLM으로 보내지 않습니다. 새 대화 또는 페이지를 떠나면 이 탭의 대화와 입력을 지웁니다.</p>
   </footer>
 </body>
 </html>

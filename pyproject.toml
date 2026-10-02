@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "academic-assistant"
-version = "0.11.0"
+version = "0.12.0"
 description = "Source-grounded semantic 2026 Computer Engineering assistant with deterministic academic checks"
 requires-python = ">=3.12,<3.13"
 dependencies = [

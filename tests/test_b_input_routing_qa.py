@@ -48,7 +48,7 @@ def course(name, properties=("credits",), purpose="attributes", **filters):
 
 
 def plan(*requests, context_used=False):
-    return dict(requests=list(requests), context_used=context_used)
+    return dict(requests=list(requests), coverage=deepcopy(list(requests)), context_used=context_used)
 
 
 def projected_prose(payload):
@@ -157,9 +157,9 @@ class BInputIndependentQA(unittest.TestCase):
                                  provider_plan_calls=deepcopy(model.plan_calls), provider_write_calls=deepcopy(model.write_calls)))
         self.assertEqual(model.entered, model.exited)
         self.assertLessEqual(len(model.plan_calls), 1)
-        self.assertLessEqual(len(model.write_calls), 1)
+        self.assertLessEqual(len(model.write_calls), 2)
         self.assertLessEqual(len(result.parts), 8)
-        self.assertNotRegex(result.model_dump_json(), r"(?i)(?:[A-Z]:[\\/]|qa-private@example\.invalid|QAPRIVATE0001)")
+        self.assertNotRegex(result.model_dump_json(), r"(?i)(?:[A-Z]:[\\/]|QAPRIVATE0001)")
         from jsonschema import Draft202012Validator
         Draft202012Validator(self.response_schema).validate(data)
         if model.plan_calls:
@@ -287,7 +287,7 @@ class BInputIndependentQA(unittest.TestCase):
         invalid_tools = [{k: v for k, v in good.items() if k != key} for key in ("purpose", "properties")]
         invalid_tools += [course("컴퓨터구조", properties=("credits", "credits")), course("컴퓨터구조", properties=("exemption",)), course("컴퓨터구조", purpose="approve"),
                           course("컴퓨터구조", year=True), course("컴퓨터구조", year=2.0), course("컴퓨터구조", semester=3), course("컴퓨터구조", category="foundation"),
-                          course("qa-private@example.invalid"), course("MATCH(n)"), {**good, "approved": True}, {**good, "facts": [{"credits": 99}]},
+                          course("MATCH(n)"), {**good, "approved": True}, {**good, "facts": [{"credits": 99}]},
                           dict(kind="rule", intent_ids=["cwnu.cs.2026.credits.major-total"]), dict(kind="rule", intent_ids=["credits.major.total", "credits.major.total"]),
                           dict(kind="requirements_overview", source_id="forged")]
         documents = [plan(tool) for tool in invalid_tools]
@@ -366,21 +366,17 @@ class BInputIndependentQA(unittest.TestCase):
                     self.assertEqual(("out_of_scope", "unsupported_scope"), (result.status, result.reason_code))
                     self.assertEqual([], model.plan_calls)
 
-    def test_user_and_provider_pii_are_separate_generic_error_boundaries(self):
-        from fastapi.testclient import TestClient
-        from academic_assistant import api
+    def test_user_contact_and_previous_identifier_are_transient_allowed(self):
         requests = [dict(question="qa-private@example.invalid 컴구 정보"), dict(question="컴구 정보", previous_question="학번 2026123456 학점")]
         for updates in requests:
-            with self.subTest(updates=updates):
-                model = ControlledTypedProvider(plan(course("컴퓨터구조")))
-                payload = dict(question="컴구 정보", **SCOPE)
-                payload.update(updates)
-                with self.assertRaises(ValueError):
-                    SemanticAssistant(self.engine, model).chat(AssistantTurnRequest.model_validate(payload))
-                with patch.object(api, "_engine", return_value=self.engine), patch("academic_assistant.assistant.SemanticLLMClient.from_env", return_value=model):
-                    response = TestClient(api.app).post("/v1/academic/assistant", json=payload)
-                self.assertEqual((422, {"detail": "invalid request"}), (response.status_code, response.json()))
-                self.assertEqual([], model.plan_calls)
+            for boundary in ("facade", "api"):
+                with self.subTest(updates=updates, boundary=boundary):
+                    model = ControlledTypedProvider(plan(course("컴퓨터구조")))
+                    result = self.call(boundary, updates["question"], model, previous_question=updates.get("previous_question"))
+                    self.assertEqual(("supported", "generated"), (result.status, result.generation_status))
+                    self.assert_courses(result, ["CDA0016"])
+                    self.assert_facets(result, "CDA0016", ["credits"])
+                    self.assertEqual(1, len(model.plan_calls))
 
     def test_untrusted_writer_unknown_fact_ids_and_wrong_values_never_display(self):
         def changed_id(payload):
@@ -468,19 +464,15 @@ class BInputIndependentQA(unittest.TestCase):
                     self.assertEqual(("out_of_scope", "unsupported_scope"), (result.status, result.reason_code))
                     self.assertEqual([], model.plan_calls)
 
-    def test_qualified_course_name_label_keeps_actual_personal_input_blocked(self):
-        from fastapi.testclient import TestClient
-        from academic_assistant import api
+    def test_qualified_course_name_label_allows_transient_synthetic_identity(self):
         for question in ("과목 이름 김민수", "과목 이름 홍길동", "과목 이름 학생 이름", "과목 이름 학번 2026123456", "과목 이름 qa-private@example.invalid"):
-            with self.subTest(question=question):
-                model = ControlledTypedProvider(plan(course(None, ["names"])))
-                payload = dict(question=question, **SCOPE)
-                with self.assertRaises(ValueError):
-                    SemanticAssistant(self.engine, model).chat(AssistantTurnRequest.model_validate(payload))
-                with patch.object(api, "_engine", return_value=self.engine), patch("academic_assistant.assistant.SemanticLLMClient.from_env", return_value=model):
-                    response = TestClient(api.app).post("/v1/academic/assistant", json=payload)
-                self.assertEqual((422, {"detail": "invalid request"}), (response.status_code, response.json()))
-                self.assertEqual([], model.plan_calls)
+            for boundary in ("facade", "api"):
+                with self.subTest(question=question, boundary=boundary):
+                    model = ControlledTypedProvider(plan(course(None, ["names"])))
+                    result = self.call(boundary, question, model)
+                    self.assertEqual(("supported", "generated"), (result.status, result.generation_status))
+                    self.assert_courses(result, list(self.raw_courses))
+                    self.assertEqual(1, len(model.plan_calls))
 
 
 def _case_test(case_id):

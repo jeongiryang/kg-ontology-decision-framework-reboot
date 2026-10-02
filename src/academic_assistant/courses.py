@@ -101,6 +101,7 @@ def load_catalogue(root: Path, sources: dict) -> dict | None:
 
 
 def retrieve_courses(engine, filters: dict) -> CourseEvidencePacket:
+    from .progress import emit
     if not isinstance(filters, dict) or set(filters) - {"name", "category", "year", "semester"}:
         raise ValueError("invalid course query")
     name, category = filters.get("name"), filters.get("category")
@@ -123,6 +124,7 @@ def retrieve_courses(engine, filters: dict) -> CourseEvidencePacket:
         records = engine.evidence_reader.fetch_courses(registry)
     else:
         records = catalogue["courses"]
+        emit("query", "info", "로컬 검증 목록을 조회합니다.", details={"backend": "registry", "filters": dict(filters), "result_count": len(records)})
     # Identity aliases, not question templates or new equivalence rules.
     key = normalize_course(name) if name else None
     if key:
@@ -139,6 +141,7 @@ def retrieve_courses(engine, filters: dict) -> CourseEvidencePacket:
         return CourseEvidencePacket(packet_id=packet_id, scope=SCOPE, status="insufficient_evidence", courses=[], evidence=[],
             issues=[{"kind": "missing", "message": "2026 교육과정의 검증된 과목 목록에서 해당 조건을 확인하지 못했습니다. 과목명이나 학년을 확인해 주세요."}])
     evidence = []
+    emit("retrieval", "info", "조건에 맞는 과목 근거를 연결했습니다.", details={"backend": "neo4j" if engine.evidence_reader is not None else "registry", "result_count": len(matches)})
     for fact in matches:
         label = "전공필수" if fact.category == "major_required" else "전공선택"
         term = f", {fact.offering_label}" if fact.offering_label else f", {fact.year}학년 {fact.semester}학기" if fact.year is not None and fact.semester is not None else ""

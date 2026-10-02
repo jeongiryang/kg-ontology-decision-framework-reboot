@@ -4,6 +4,10 @@
 
 ## 현재 작업과 남은 일
 
+[B v2 평가·재개 목록](evaluations/20261002-b-dialogue-v2.md), [평가 JSON](evaluations/20261002-b-dialogue-v2.json), [변경·검사 보고](runs/20261002-b-dialogue-v2.md), [보고 JSON](runs/20261002-b-dialogue-v2.json), [PDF](pdf/20261002-b-dialogue-v2.pdf)를 먼저 읽으세요. **4회 수정 뒤 필수 오류가 남아 미완료이고, 공개 백엔드를 교체하지 않았습니다.** 실제 최종6질문4통과·2실패·26미실행, 독립964검사의19실패 이벤트를 구분해 기록했습니다.
+
+[B v2 계약](../docs/operations/b-dialogue-v2.md), [4회 상한 기록](../docs/operations/b-dialogue-v2-correction-window.md), [ADR0027](../docs/harness/decisions/0027-prototype-dialogue-repair-and-observed-progress.md)은 실행 당시 입력으로 보존했습니다. 아래 과거 실패 이력도 유지합니다.
+
 [개발 방향과 남은 작업 — B 먼저, A는 그다음](../docs/operations/development-roadmap.md)을 먼저 읽는다.
 2026-10-02에 합의한 질문·답변(B) → 성적표 비교(A) → 연동 순서, 입력/출력 수정 방향과 완료 기준을 모았다. 방향 기록이며 제품 수정 완료가 아니다.
 

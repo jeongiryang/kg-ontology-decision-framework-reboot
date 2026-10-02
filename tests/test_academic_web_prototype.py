@@ -6,6 +6,7 @@ import re
 import sys
 import tempfile
 import unittest
+from copy import deepcopy
 from importlib.resources import files
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -196,9 +197,10 @@ class AcademicWebPrototypeTests(unittest.TestCase):
                              "fact_ids": [fact["course_id" if family == "courses" else "rule_id"] for fact in facts]}
                             for index, (family, facts, text) in enumerate(expected_parts, 1)]
                 provider = MagicMock()
+                provider.typed_plans = True
                 session = provider.session.return_value.__enter__.return_value
                 session.plan.return_value = SemanticDocument(
-                    {"requests": requests, "context_used": False}, typed_plan=True)
+                    {"requests": requests, "coverage": deepcopy(requests), "context_used": False}, typed_plan=True)
                 session.write.return_value = SemanticDocument({"sections": sections})
                 payload = {
                     "schema_version": "1.0.0",

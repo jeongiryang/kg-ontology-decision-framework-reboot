@@ -1,0 +1,5620 @@
+{
+  "schema_version": "1.0.0",
+  "oracle_version": "2.0.0",
+  "fixture_purpose": "Independent approved source predicates, repair cases only until final producer freeze",
+  "source_oracle_raw_sha256": "2fe03bbe4eb256671f0bf2e3a1bd55e2d5fb99c48d9bb35dc6253031b54d0b62",
+  "scope": {
+    "admission_year": 2026,
+    "matched_curriculum_year": 2026,
+    "department": "컴퓨터공학과"
+  },
+  "source_pins": {
+    "cwnu.cs.2026.department-confirmation-20261001": {
+      "sha256": "d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6",
+      "authority": "department_guidance",
+      "review_status": "approved",
+      "review_mode": "human",
+      "review_scope": "full"
+    },
+    "cwnu.curriculum.2026.changwon-undergraduate": {
+      "sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "authority": "curriculum",
+      "review_status": "approved",
+      "review_mode": "human",
+      "review_scope": "full"
+    },
+    "cwnu.curriculum.2026.ta-validation-response": {
+      "sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+      "authority": "validation_aid",
+      "review_status": "approved",
+      "review_mode": "human",
+      "review_scope": "full"
+    }
+  },
+  "course_facts": {
+    "CDA0163": {
+      "course_id": "cwnu.cs.2026.course.cda0163",
+      "course_code": "CDA0163",
+      "course_name": "웹프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 1,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "1학년 1학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0163 row",
+      "fact_sha256": "8866757e287284e4c553abd5b4d6922438472f032c0982bbd445d083d2269fec"
+    },
+    "CDA0174": {
+      "course_id": "cwnu.cs.2026.course.cda0174",
+      "course_code": "CDA0174",
+      "course_name": "피지컬AI입문",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 1,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "1학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0174 row",
+      "fact_sha256": "4e66ca16504b2891c55ed71807115cd22977bd1a72b792b5a07eb89f8ce206ea"
+    },
+    "CDA0157": {
+      "course_id": "cwnu.cs.2026.course.cda0157",
+      "course_code": "CDA0157",
+      "course_name": "이산수학",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 2,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "1학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0157 row",
+      "fact_sha256": "cb961eb4160a14e2a836134a269bc53f960210c5d784c3aef24141dddf5e1c76"
+    },
+    "CDA0170": {
+      "course_id": "cwnu.cs.2026.course.cda0170",
+      "course_code": "CDA0170",
+      "course_name": "컴퓨터공학기술세미나",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 1,
+      "semester": 2,
+      "offering_years": [
+        1
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "1학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0170 row",
+      "fact_sha256": "71981acd50373210acf4180a176217f8a1d5e4380f7a9885b435a652601b3fc3"
+    },
+    "CDA0008": {
+      "course_id": "cwnu.cs.2026.course.cda0008",
+      "course_code": "CDA0008",
+      "course_name": "자료구조",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 1,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "2학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": true,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0008 row",
+      "fact_sha256": "d2506a7f4d755efe9dce2096df7fd58e369dbbba915c0739d10eb724bf3fa8c4"
+    },
+    "CDA0010": {
+      "course_id": "cwnu.cs.2026.course.cda0010",
+      "course_code": "CDA0010",
+      "course_name": "논리설계",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 1,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "2학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0010 row",
+      "fact_sha256": "fae2dbc0662c31a86db6e4ce88ddd65cc169f2d1adb5bdaf6d21ff66ae200b47"
+    },
+    "CDA0014": {
+      "course_id": "cwnu.cs.2026.course.cda0014",
+      "course_code": "CDA0014",
+      "course_name": "컴퓨터그래픽스",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 1,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "2학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0014 row",
+      "fact_sha256": "b021901122f6bb4d0425011f8be5eb4b2421d31fabe5a60c3f376d21f4282965"
+    },
+    "CDA0143": {
+      "course_id": "cwnu.cs.2026.course.cda0143",
+      "course_code": "CDA0143",
+      "course_name": "고급자료구조",
+      "category": "major_required",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+      "fact_sha256": "ddbc31f1cdb096e2b77fb1a1246551d921eefbf230e9c40626a589de58d9596b"
+    },
+    "CDA0006": {
+      "course_id": "cwnu.cs.2026.course.cda0006",
+      "course_code": "CDA0006",
+      "course_name": "시스템프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0006 row",
+      "fact_sha256": "c5755f2482dda0e2ed4aea7e6ce976d4b50e5fbfd48c60e53b57043d069ede25"
+    },
+    "CDA0013": {
+      "course_id": "cwnu.cs.2026.course.cda0013",
+      "course_code": "CDA0013",
+      "course_name": "프로그래밍언어론",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0013 row",
+      "fact_sha256": "b0179a2ec73ab437f12c8f68ce13de8801a761535ba7ef52945d6de0dbddb99d"
+    },
+    "CDA0125": {
+      "course_id": "cwnu.cs.2026.course.cda0125",
+      "course_code": "CDA0125",
+      "course_name": "모바일프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0125 row",
+      "fact_sha256": "6f5ee01f05aa23be74c0e0d9948696972b56c513a1e22128c071d8a443a6d822"
+    },
+    "CDA0176": {
+      "course_id": "cwnu.cs.2026.course.cda0176",
+      "course_code": "CDA0176",
+      "course_name": "임베디드시스템",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": 2,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "2학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0176 row",
+      "fact_sha256": "f11379de5c93fefd4206bb4750346704eb0612566954cc2c44e6b1ba7ee10a18"
+    },
+    "CDA0155": {
+      "course_id": "cwnu.cs.2026.course.cda0155",
+      "course_code": "CDA0155",
+      "course_name": "객체지향프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": null,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2학년 1·2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0155 row",
+      "fact_sha256": "7bdd2447f7a6f73f03b50be89be587baee6008835ef96347bf9eed707cce49e4"
+    },
+    "CDA0156": {
+      "course_id": "cwnu.cs.2026.course.cda0156",
+      "course_code": "CDA0156",
+      "course_name": "오픈소스소프트웨어",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 2,
+      "semester": null,
+      "offering_years": [
+        2
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2학년 1·2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0156 row",
+      "fact_sha256": "79707645a8171c39c4a33de87c689f86f4865b7454adcbe991efbee5fb95bcd5"
+    },
+    "CDA0016": {
+      "course_id": "cwnu.cs.2026.course.cda0016",
+      "course_code": "CDA0016",
+      "course_name": "컴퓨터구조",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": true,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+      "fact_sha256": "51c397c82092647793a499d58fdc5bb879f65e45ba1408cdf5db070c38196a44"
+    },
+    "CDA0027": {
+      "course_id": "cwnu.cs.2026.course.cda0027",
+      "course_code": "CDA0027",
+      "course_name": "알고리즘",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+      "fact_sha256": "2835454b2bb19545712bff12550fdaf3c5b94b552bf18871a9d2acee7f993ef5"
+    },
+    "CDA0028": {
+      "course_id": "cwnu.cs.2026.course.cda0028",
+      "course_code": "CDA0028",
+      "course_name": "소프트웨어공학",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0028 row",
+      "fact_sha256": "bab2d77f17749ae3e35ec7fe4b540a5d2af6de9837869baa6f8fd8e0bc98628b"
+    },
+    "CDA0065": {
+      "course_id": "cwnu.cs.2026.course.cda0065",
+      "course_code": "CDA0065",
+      "course_name": "데이타베이스개론",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0065 row",
+      "fact_sha256": "d76c200957e2ac071a57490047f5ffde6374707780435fb0d1319f9bb1e3dd55"
+    },
+    "CDA0164": {
+      "course_id": "cwnu.cs.2026.course.cda0164",
+      "course_code": "CDA0164",
+      "course_name": "빅데이터",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0164 row",
+      "fact_sha256": "1dc60ba2db4ee1932634d4199207d185d802959d186bb2865133b64c40f372ec"
+    },
+    "CDA0165": {
+      "course_id": "cwnu.cs.2026.course.cda0165",
+      "course_code": "CDA0165",
+      "course_name": "네트워크프로그래밍",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 1,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "3학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+      "fact_sha256": "b570351d6f168c75ce188acb09333044b14bd6ec6a08a859cc3d29a9d5958e52"
+    },
+    "CDA0017": {
+      "course_id": "cwnu.cs.2026.course.cda0017",
+      "course_code": "CDA0017",
+      "course_name": "운영체제",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": true,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+      "fact_sha256": "8cc569a2e57540e4f4ed2af9f6ace77ebc267cda6cfd0c38e03777fc165b1c83"
+    },
+    "CDA0023": {
+      "course_id": "cwnu.cs.2026.course.cda0023",
+      "course_code": "CDA0023",
+      "course_name": "데이타통신",
+      "category": "major_required",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0023 row",
+      "fact_sha256": "e7d78dd4bc6d8ad328763c964f057dbecc208c438f24a8b0f1f743611a916391"
+    },
+    "CDA0139": {
+      "course_id": "cwnu.cs.2026.course.cda0139",
+      "course_code": "CDA0139",
+      "course_name": "영상처리",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0139 row",
+      "fact_sha256": "1ece85c5223fb9e42e92fc7d630c548a4a5211320950f7fb23294077c4f9de11"
+    },
+    "CDA0154": {
+      "course_id": "cwnu.cs.2026.course.cda0154",
+      "course_code": "CDA0154",
+      "course_name": "소프트웨어설계",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0154 row",
+      "fact_sha256": "06d4d1289b349b49417bd9a1d1b058066185055a7bb73b7cd4b47cc8fe64d8fb"
+    },
+    "CDA0169": {
+      "course_id": "cwnu.cs.2026.course.cda0169",
+      "course_code": "CDA0169",
+      "course_name": "데이터마이닝",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 3,
+      "semester": 2,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "3학년 2학기",
+      "theory": 2,
+      "practical": 2,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0169 row",
+      "fact_sha256": "ad7fb1fb2a50f40d61be891ff67adf49b59ff88793a188a13450f32f345983c2"
+    },
+    "CDA0167": {
+      "course_id": "cwnu.cs.2026.course.cda0167",
+      "course_code": "CDA0167",
+      "course_name": "산학캡스톤디자인1",
+      "category": "major_elective",
+      "credits": 0,
+      "year": 3,
+      "semester": null,
+      "offering_years": [
+        3
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "3학년 1·2학기",
+      "theory": 0,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0167 row",
+      "fact_sha256": "5e63a4288b409385dd97f3b17aa03cda316e7188c946a76256e3e6a4561cc262"
+    },
+    "CDA0030": {
+      "course_id": "cwnu.cs.2026.course.cda0030",
+      "course_code": "CDA0030",
+      "course_name": "인공지능",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0030 row",
+      "fact_sha256": "630e1f0dd3285f4796684cc7dcafb0e312af019a62d8b5b4f491cd26e785d38d"
+    },
+    "CDA0031": {
+      "course_id": "cwnu.cs.2026.course.cda0031",
+      "course_code": "CDA0031",
+      "course_name": "컴퓨터네트워크",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0031 row",
+      "fact_sha256": "03b759ed480f138f571dbb1b458225617e53db179ca1166b5891357f8b541cd9"
+    },
+    "CDA0119": {
+      "course_id": "cwnu.cs.2026.course.cda0119",
+      "course_code": "CDA0119",
+      "course_name": "컴파일러",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0119 row",
+      "fact_sha256": "073b7b51262eb060a6c27a9ea7b1df2d14b20b527b84cda494007723aa521172"
+    },
+    "CDA0177": {
+      "course_id": "cwnu.cs.2026.course.cda0177",
+      "course_code": "CDA0177",
+      "course_name": "클라우드컴퓨팅",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 1,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1"
+      ],
+      "offering_label": "4학년 1학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0177 row",
+      "fact_sha256": "74cb0b2d1a527deae48fd62a3b3e4ba1eaba90637ac9a1438b5156149015400b"
+    },
+    "CDA0150": {
+      "course_id": "cwnu.cs.2026.course.cda0150",
+      "course_code": "CDA0150",
+      "course_name": "사물인터넷",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0150 row",
+      "fact_sha256": "c379f8d82fdf372eb7dc600e4cc928aaa5421803479828d4021c91532c8ab2f4"
+    },
+    "CDA0153": {
+      "course_id": "cwnu.cs.2026.course.cda0153",
+      "course_code": "CDA0153",
+      "course_name": "정보보안",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0153 row",
+      "fact_sha256": "83da14c2e3273fc7371c4f3f0f362a565e54b8a8c73203c95763e833bc5922bf"
+    },
+    "CDA0166": {
+      "course_id": "cwnu.cs.2026.course.cda0166",
+      "course_code": "CDA0166",
+      "course_name": "딥러닝과자연어처리",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0166 row",
+      "fact_sha256": "263c2b0d3ad5ec0f901bccc4154bc99370806f86d66b6bb638a69027e1c24116"
+    },
+    "CDA0175": {
+      "course_id": "cwnu.cs.2026.course.cda0175",
+      "course_code": "CDA0175",
+      "course_name": "컴퓨터비전",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": 2,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "2"
+      ],
+      "offering_label": "4학년 2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0175 row",
+      "fact_sha256": "7eb704585ef52d9724fad87abbc22b415fe894e0081f1057849369c974834d0f"
+    },
+    "CDA0034": {
+      "course_id": "cwnu.cs.2026.course.cda0034",
+      "course_code": "CDA0034",
+      "course_name": "졸업논문",
+      "category": "major_required",
+      "credits": 0,
+      "year": 4,
+      "semester": null,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "4학년 1·2학기",
+      "theory": 0,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0034 row",
+      "fact_sha256": "c4f497aba2f4cce4b2bbeece6a105787ece1f51158ea04c8a5e29c4f806b2d87"
+    },
+    "CDA0168": {
+      "course_id": "cwnu.cs.2026.course.cda0168",
+      "course_code": "CDA0168",
+      "course_name": "산학캡스톤디자인2",
+      "category": "major_elective",
+      "credits": 3,
+      "year": 4,
+      "semester": null,
+      "offering_years": [
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "4학년 1·2학기",
+      "theory": 3,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0168 row",
+      "fact_sha256": "61f8083d6f0bdb6450b85471ce653bc2a93ca85ddd5f5a5f407ff3933d168e81"
+    },
+    "CDA0147": {
+      "course_id": "cwnu.cs.2026.course.cda0147",
+      "course_code": "CDA0147",
+      "course_name": "현장실습4",
+      "category": "major_elective",
+      "credits": 12,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2·3·4학년 1·2학기",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0147 row",
+      "fact_sha256": "328bd7650b3a01b7d728a640313a2aca36d9ef80b30a083fe2c7b10beb2afe39"
+    },
+    "CDA0173": {
+      "course_id": "cwnu.cs.2026.course.cda0173",
+      "course_code": "CDA0173",
+      "course_name": "표준현장실습4",
+      "category": "major_elective",
+      "credits": 12,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "2·3·4학년 1·2학기",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0173 row",
+      "fact_sha256": "76f45c0a5fbf806e6b207e411a0997a12c6c0ef56b69afb88bee9aae15f19bb2"
+    },
+    "CDA0144": {
+      "course_id": "cwnu.cs.2026.course.cda0144",
+      "course_code": "CDA0144",
+      "course_name": "현장실습1",
+      "category": "major_elective",
+      "credits": 3,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0144 row",
+      "fact_sha256": "0dac220ad65056fc4d5bfbb723617eab71b2a33420ae06d16ec14971735bcb39"
+    },
+    "CDA0145": {
+      "course_id": "cwnu.cs.2026.course.cda0145",
+      "course_code": "CDA0145",
+      "course_name": "현장실습3",
+      "category": "major_elective",
+      "credits": 6,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0145 row",
+      "fact_sha256": "79eeaa55fc8bc5c2d15a055efdde4bbf70df8dfed07158594784b04719bfd377"
+    },
+    "CDA0171": {
+      "course_id": "cwnu.cs.2026.course.cda0171",
+      "course_code": "CDA0171",
+      "course_name": "표준현장실습1",
+      "category": "major_elective",
+      "credits": 3,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0171 row",
+      "fact_sha256": "136e5d85f83e7bd3bc16df725cd7dcbcc107cbf3d4138dc24fa3a11c86432d18"
+    },
+    "CDA0172": {
+      "course_id": "cwnu.cs.2026.course.cda0172",
+      "course_code": "CDA0172",
+      "course_name": "표준현장실습3",
+      "category": "major_elective",
+      "credits": 6,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "S"
+      ],
+      "offering_label": "2·3·4학년 하계·동계",
+      "theory": 0,
+      "practical": null,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0172 row",
+      "fact_sha256": "2e2ea1c889394aa1019e0abfae9af22a2721ddf2812ee7fb93681f6d6b0a5cd4"
+    },
+    "CDA0088": {
+      "course_id": "cwnu.cs.2026.course.cda0088",
+      "course_code": "CDA0088",
+      "course_name": "심층상담",
+      "category": "major_required",
+      "credits": 0,
+      "year": null,
+      "semester": null,
+      "offering_years": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "offering_semesters": [
+        "1",
+        "2"
+      ],
+      "offering_label": "전 학년 1·2학기",
+      "theory": 0,
+      "practical": 0,
+      "minor_required": false,
+      "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+      "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+      "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0088 row",
+      "fact_sha256": "71b537e0c85c26bb667b773fc2dab735532600bdb7cfab03cb3e22a6206d1e73"
+    }
+  },
+  "rule_facts": {
+    "cwnu.cs.2026.cohort.department-transfer-original-admission-year": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.cohort.department-transfer-original-admission-year",
+      "label": "전과생 교육과정 적용 학년도",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": [
+          {
+            "fact_key": "student.cohort.kind",
+            "operator": "equals",
+            "value": "department_transfer"
+          }
+        ]
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "전과 완료 연도가 아니라 학생의 최초 입학연도에 해당하는 교육과정을 적용한다.",
+        "outcome": {
+          "type": "cohort_assignment_policy",
+          "cohort_kind": "department_transfer",
+          "assignment_basis": "original_admission_year",
+          "completion_year_ignored": true
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.13 (printed p.5) 및 p.18 (printed p.10): 교육과정 입학연도 적용 원칙",
+          "evidence_type": "explicit_text",
+          "excerpt": "교육과정은 입학연도를 기준으로 적용"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.1, section 1: 적용 대상 필기와 사용자 정정",
+          "evidence_type": "department_confirmation",
+          "excerpt": "전과 완료 연도가 아니라 최초 입학연도 교육과정 적용"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:15+09:00",
+        "rationale": "사용자가 2022년 입학·2023년 전과 완료는 2022 교육과정, 2023년 입학·2025년 전과 완료는 2023 교육과정이라고 명시했다. 초기 지원 범위에서는 최초 입학연도가 2026인 전과생에게만 적용한다. [question_id=cohort.department-transfer; response_id=response.cohort.department-transfer]"
+      },
+      "review_notes": [
+        "복학생, 편입학자, 재입학생의 적용 규칙은 이 규칙으로 확장하지 않는다."
+      ]
+    },
+    "cwnu.cs.2026.course-counting.identical-course": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.course-counting.identical-course",
+      "label": "동일교과목 중복 계산 방지",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "동일교과목은 중복 수강신청되지 않으므로 중복 계산되지 않는다.",
+        "outcome": {
+          "type": "course_counting_policy",
+          "scenario": "identical_course_registration",
+          "action": "registration_blocked",
+          "double_counted": false,
+          "individual_determination": "not_required"
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치",
+          "evidence_type": "explicit_text",
+          "excerpt": "동일교과목 처리"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 동일교과목 필기와 사용자 정정",
+          "evidence_type": "department_confirmation",
+          "excerpt": "동일교과목은 수강신청되지 않으므로 중복 카운트되지 않음"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:25+09:00",
+        "rationale": "사용자의 정확한 동일교과목 설명을 같은 세션의 학과 확인으로 승인했다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"
+      }
+    },
+    "cwnu.cs.2026.course-counting.post-completion-equivalence": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.course-counting.post-completion-equivalence",
+      "label": "이수 후 동일·대체 지정 과목 계산",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "이수 후 대체 또는 동일 과목으로 지정된 경우에는 별개의 과목으로 학점 수를 계산하되, 소급 적용되는 경우 결과가 달라질 수 있어 개인 판정은 보류한다.",
+        "outcome": {
+          "type": "course_counting_policy",
+          "scenario": "post_completion_equivalent_or_substitute",
+          "action": "count_as_separate_courses",
+          "double_counted": false,
+          "individual_determination": "required_if_retroactive"
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.14 (printed p.6): 동일·대체교과목 및 경과조치",
+          "evidence_type": "explicit_text",
+          "excerpt": "동일·대체교과목과 소급 경과조치"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 동일·대체 지정 필기와 사용자 정정",
+          "evidence_type": "department_confirmation",
+          "excerpt": "이수 후 대체 또는 동일 지정된 경우는 별개의 과목으로 학점 수 계산. (단 소급적용 시 다를 수 있음)"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:25+09:00",
+        "rationale": "이수 후 동일·대체 지정은 별개 과목으로 계산한다는 일반 정책은 답변 가능하도록 승인했다. 단, 소급 적용과 개인 과목 판정은 공식 지정 이력 확인 전 insufficient_evidence로 유지한다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"
+      },
+      "review_notes": [
+        "일반 정책 문장은 답변할 수 있지만 개별 학생의 소급 적용 여부, 동일·대체 지정 시점과 성적표 결과는 판정할 수 없다."
+      ]
+    },
+    "cwnu.cs.2026.course-counting.retake": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.course-counting.retake",
+      "label": "재수강 학점 중복 계산 방지",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "재수강 시 기이수 과목은 삭제되므로 학점을 중복 계산하지 않는다.",
+        "outcome": {
+          "type": "course_counting_policy",
+          "scenario": "retake",
+          "action": "delete_prior_completion",
+          "double_counted": false,
+          "individual_determination": "not_required"
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.14 (printed p.6): 재수강·동일·대체교과목 경과조치",
+          "evidence_type": "explicit_text",
+          "excerpt": "재수강과 동일·대체교과목 처리"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 재수강 필기와 사용자 정정",
+          "evidence_type": "department_confirmation",
+          "excerpt": "재수강시 기이수 과목은 삭제하므로 중복 카운트하지 않음"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:25+09:00",
+        "rationale": "사용자의 정확한 재수강 설명을 같은 세션의 학과 확인으로 승인했다. [question_id=course-counting.retake-equivalence; response_id=response.course-counting.retake-equivalence]"
+      }
+    },
+    "cwnu.cs.2026.credits.general-balanced": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.general-balanced",
+      "label": "균형교양 최소 이수학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "균형교양을 12학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.general.balanced",
+          "comparator": "at_least",
+          "credits": 12
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 균형교양 열",
+          "evidence_type": "table_structure",
+          "excerpt": "균형교양 12"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 균형교양 12학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
+      }
+    },
+    "cwnu.cs.2026.credits.general-foundation": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.general-foundation",
+      "label": "기초교양 최소 이수학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "기초교양을 9학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.general.foundation",
+          "comparator": "at_least",
+          "credits": 9
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 기초교양 열",
+          "evidence_type": "table_structure",
+          "excerpt": "기초교양 9"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 기초교양 9학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
+      }
+    },
+    "cwnu.cs.2026.credits.general-recognition-cap": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.general-recognition-cap",
+      "label": "교양 졸업학점 인정 상한",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.credits.general-total",
+          "cwnu.cs.2026.credits.graduation-total"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "교양은 실제 취득학점과 별개로 졸업학점에는 최대 42학점까지만 인정된다.",
+        "outcome": {
+          "type": "credit_recognition_cap",
+          "metric": "credits.general.recognized",
+          "maximum_recognized_credits": 42,
+          "excess_counts_toward_graduation": false
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23: 교양 인정학점 구조와 졸업학점 합계",
+          "evidence_type": "table_structure",
+          "excerpt": "교양 졸업 인정 상한 42학점"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 5: 교양 인정 상한",
+          "evidence_type": "department_confirmation",
+          "excerpt": "42학점을 초과한 교양 과목도 총취득학점에는 인정되나, 졸업인정은 42학점까지"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:10+09:00",
+        "rationale": "조교 답변 문서의 교양 42학점 상한 해석을 이번 세션의 학과 확인으로 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+      }
+    },
+    "cwnu.cs.2026.credits.general-remaining-allocation": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+      "label": "교양 잔여학점 충족 영역",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.credits.general-remaining"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "교양 잔여 13학점은 기초교양, 균형교양 또는 확대교양으로 충족할 수 있다.",
+        "outcome": {
+          "type": "allocation_policy",
+          "source_metric": "credits.general.remaining",
+          "allowed_allocations": [
+            "기초교양",
+            "균형교양",
+            "확대교양"
+          ],
+          "double_counting_allowed": false
+        },
+        "operator": "any"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23: 교양 영역별 학점과 잔여학점 구조",
+          "evidence_type": "table_structure",
+          "excerpt": "교양 잔여학점 13"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.2, section 2: 교양 잔여학점",
+          "evidence_type": "department_confirmation",
+          "excerpt": "기초, 균형, 확대교양으로 충족 가능"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:10+09:00",
+        "rationale": "조교 답변 문서의 교양 잔여학점 충족 영역을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+      }
+    },
+    "cwnu.cs.2026.credits.general-remaining": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.general-remaining",
+      "label": "교양 잔여학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "교양 잔여학점을 13학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.general.remaining",
+          "comparator": "at_least",
+          "credits": 13
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 잔여학점 열",
+          "evidence_type": "table_structure",
+          "excerpt": "교양 잔여학점 13"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 교양 잔여학점 13학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
+      }
+    },
+    "cwnu.cs.2026.credits.general-total": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.general-total",
+      "label": "교양 최소 이수학점 합계",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "교양을 합계 34학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.general.total",
+          "comparator": "at_least",
+          "credits": 34
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 소계 열",
+          "evidence_type": "table_structure",
+          "excerpt": "교양 소계 34"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 교양 소계 34학점을 확인했다. [question_id=credits.general; response_id=response.credits.general]"
+      }
+    },
+    "cwnu.cs.2026.credits.graduation-remaining-allocation": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+      "label": "졸업 잔여학점 충족 영역",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.credits.graduation-remaining"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "졸업 잔여 18학점은 자유선택 교과목으로 충족할 수 있으며 이미 교양·전공으로 산입된 학점을 다시 중복 계산하지 않는다.",
+        "outcome": {
+          "type": "allocation_policy",
+          "source_metric": "credits.graduation.remaining",
+          "allowed_allocations": [
+            "자유선택 교과목"
+          ],
+          "double_counting_allowed": false
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23: 졸업 잔여학점 구조",
+          "evidence_type": "table_structure",
+          "excerpt": "졸업 잔여학점 18"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.2, section 2: 졸업 잔여학점과 중복 계산",
+          "evidence_type": "department_confirmation",
+          "excerpt": "자유선택 교과목; 교양·전공과 중복 계산하지 않음"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:10+09:00",
+        "rationale": "조교 답변 문서의 졸업 잔여학점 배분과 중복 불가를 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+      }
+    },
+    "cwnu.cs.2026.credits.graduation-remaining": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.graduation-remaining",
+      "label": "졸업 잔여학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "졸업 잔여학점을 18학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.graduation.remaining",
+          "comparator": "at_least",
+          "credits": 18
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업 잔여학점 열",
+          "evidence_type": "table_structure",
+          "excerpt": "졸업 잔여학점 18"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 졸업 잔여학점 18학점을 확인했다. [question_id=credits.graduation; response_id=response.credits.graduation]"
+      }
+    },
+    "cwnu.cs.2026.credits.graduation-total": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.graduation-total",
+      "label": "졸업 최소 이수학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "졸업을 위해 총 130학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.graduation.total",
+          "comparator": "at_least",
+          "credits": 130
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업학점 열",
+          "evidence_type": "table_structure",
+          "excerpt": "졸업학점 130"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 졸업학점 130학점을 확인했다. [question_id=credits.graduation; response_id=response.credits.graduation]"
+      }
+    },
+    "cwnu.cs.2026.credits.major-advanced": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.major-advanced",
+      "label": "심화전공 최소 이수학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "심화전공을 33학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.major.advanced",
+          "comparator": "at_least",
+          "credits": 33
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 심화전공 열",
+          "evidence_type": "table_structure",
+          "excerpt": "심화전공 33"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 심화전공 33학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
+      }
+    },
+    "cwnu.cs.2026.credits.major-elective": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.major-elective",
+      "label": "전공선택 최소 이수학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "전공선택을 24학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.major.elective",
+          "comparator": "at_least",
+          "credits": 24
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공선택 열",
+          "evidence_type": "table_structure",
+          "excerpt": "전공선택 24"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 전공선택 24학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
+      }
+    },
+    "cwnu.cs.2026.credits.major-minimum": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.major-minimum",
+      "label": "최소전공 이수학점 합계",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "최소전공을 합계 45학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.major.minimum",
+          "comparator": "at_least",
+          "credits": 45
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 최소전공 소계 열",
+          "evidence_type": "table_structure",
+          "excerpt": "최소전공 소계 45"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 최소전공 소계 45학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
+      }
+    },
+    "cwnu.cs.2026.credits.major-required": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.major-required",
+      "label": "전공필수 최소 이수학점",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "전공필수를 21학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.major.required",
+          "comparator": "at_least",
+          "credits": 21
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공필수 열",
+          "evidence_type": "table_structure",
+          "excerpt": "전공필수 21"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 전공필수 21학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
+      }
+    },
+    "cwnu.cs.2026.credits.major-total": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.credits.major-total",
+      "label": "전공 최소 이수학점 합계",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "전공을 합계 78학점 이상 이수해야 한다.",
+        "outcome": {
+          "type": "credit_threshold",
+          "metric": "credits.major.total",
+          "comparator": "at_least",
+          "credits": 78
+        },
+        "operator": "threshold"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공 소계 열",
+          "evidence_type": "table_structure",
+          "excerpt": "전공 소계 78"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 교육과정 학점표의 전공 소계 78학점을 확인했다. [question_id=credits.major; response_id=response.credits.major]"
+      }
+    },
+    "cwnu.cs.2026.general-balanced-area-coverage": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+      "label": "균형교양 4개 영역 이수",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.credits.general-balanced"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다.",
+        "outcome": {
+          "type": "coverage_requirement",
+          "requirement": "general.balanced.area_coverage",
+          "coverage_kind": "area",
+          "items": [
+            {
+              "item_id": "digital-communication",
+              "label": "디지털커뮤니케이션"
+            },
+            {
+              "item_id": "humanities-arts",
+              "label": "인문예술"
+            },
+            {
+              "item_id": "society-culture",
+              "label": "사회와문화"
+            },
+            {
+              "item_id": "nature-science-technology",
+              "label": "자연·과학·기술의이해"
+            }
+          ],
+          "minimum_items": 4,
+          "minimum_courses_per_item": 1,
+          "one_course_may_cover_multiple_items": false,
+          "fixed_credits_per_course": null
+        },
+        "operator": "all"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.35: 균형교양 이수영역",
+          "evidence_type": "explicit_text",
+          "excerpt": "균형교양 4개 영역별 이수"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.2, section 3: 균형교양 영역 규칙",
+          "evidence_type": "department_confirmation",
+          "excerpt": "각 영역 1과목 이상; 한 과목의 복수 영역 충족 불가; 과목별 3학점 고정 아님"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:10+09:00",
+        "rationale": "조교 답변 문서의 균형교양 영역 해석을 이번 세션의 학과 확인으로 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+      }
+    },
+    "cwnu.cs.2026.general-recommended-courses": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.general-recommended-courses",
+      "label": "권장 교양 3과목",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.credits.general-total"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "컴퓨터개론, 컴퓨터프로그래밍, 공업수학은 필수가 아닌 권장 교양이다.",
+        "outcome": {
+          "type": "recommendation",
+          "items": [
+            {
+              "item_id": "GEA7260",
+              "label": "컴퓨터개론"
+            },
+            {
+              "item_id": "GEA7261",
+              "label": "컴퓨터프로그래밍"
+            },
+            {
+              "item_id": "GEA7301",
+              "label": "공업수학"
+            }
+          ],
+          "required": false
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.261 (printed p.253): 컴퓨터공학과 9. 학과 권장 교과목 표, GEA7260/GEA7261/GEA7301 행",
+          "evidence_type": "table_structure",
+          "excerpt": "GEA7260, GEA7261, GEA7301 권장 교과목"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.4, section 6: 권장 교양의 의미",
+          "evidence_type": "department_confirmation",
+          "excerpt": "필수가 아닌 권장 과목"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:10+09:00",
+        "rationale": "조교 답변 문서가 세 과목을 필수가 아닌 권장으로 확인한 내용을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+      }
+    },
+    "cwnu.cs.2026.graduation.thesis-completion-result": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+      "label": "0학점 졸업논문 미이수 결과",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.graduation.thesis-required"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.",
+        "outcome": {
+          "type": "completion_requirement",
+          "requirement": "graduation.thesis.required",
+          "credit_value": 0,
+          "required": true,
+          "result_if_incomplete": "fail"
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.565 (printed p.557): 1. 졸업 요건·2. 졸업 논문; PDF p.263 (printed p.255): CDA0034 졸업논문 행, 전공필수·0학점",
+          "evidence_type": "explicit_text",
+          "excerpt": "졸업논문 통과 요구; 졸업논문 0학점"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 4: 졸업논문 필기와 사용자 정정",
+          "evidence_type": "department_confirmation",
+          "excerpt": "졸업논문은 0학점이어도 반드시 이수해야 함. -> 미이수면 Fail임."
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:20+09:00",
+        "rationale": "모호한 필기를 같은 세션의 사용자 원문으로 정정해 승인했다. [question_id=thesis.zero-credit-result; response_id=response.thesis.zero-credit-result]"
+      }
+    },
+    "cwnu.cs.2026.graduation.thesis-linked-program-exemption": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.graduation.thesis-linked-program-exemption",
+      "label": "학·석사 연계과정생 졸업논문 면제 가능성",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": [
+          {
+            "fact_key": "student.program.bachelors_masters_linked",
+            "operator": "equals",
+            "value": true
+          }
+        ]
+      },
+      "relationship": {
+        "kind": "exception",
+        "target_rule_ids": [
+          "cwnu.cs.2026.graduation.thesis-required"
+        ]
+      },
+      "answer_policy": "record_only",
+      "decision": {
+        "statement": "학·석사 연계과정생은 졸업논문 이수 면제가 가능하지만 자동 면제로 판정하지 않는다.",
+        "outcome": {
+          "type": "exception_eligibility",
+          "target_requirement": "graduation.thesis.required",
+          "eligible_group": "student.program.bachelors_masters_linked",
+          "eligibility": "may_be_exempt",
+          "automatic": false
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.565 (printed p.557): 졸업논문 통과 일반요건",
+          "evidence_type": "explicit_text",
+          "excerpt": "졸업논문 통과 요구"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 4: 오른쪽 필기와 사용자 정정",
+          "evidence_type": "department_confirmation",
+          "excerpt": "학석사연계과정생은 면제 가능"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:20+09:00",
+        "rationale": "오른쪽 필기를 학·석사 연계과정생의 면제 가능성으로 정정 승인했다. 가능성만 기록하며 개인의 자동 면제 판정에는 쓰지 않는다. [question_id=thesis.zero-credit-result; response_id=response.thesis.zero-credit-result]"
+      },
+      "review_notes": [
+        "면제 가능은 자동 면제를 뜻하지 않으며 실제 적용에는 공식 절차와 학생 상태 확인이 필요하다."
+      ]
+    },
+    "cwnu.cs.2026.graduation.thesis-required": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.graduation.thesis-required",
+      "label": "졸업논문 요구",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "decision": {
+        "statement": "졸업을 위해 졸업논문 요건을 충족해야 한다.",
+        "outcome": {
+          "type": "boolean_requirement",
+          "requirement": "graduation.thesis.required",
+          "required": true
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.565 (printed p.557): 일반 졸업요건의 졸업논문 통과 요구",
+          "evidence_type": "explicit_text",
+          "excerpt": "졸업논문 통과 요구"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 일반 졸업논문 통과 요건의 2026학번 컴퓨터공학과 적용을 확인했다. [question_id=thesis.required; response_id=response.thesis.required]"
+      },
+      "review_notes": [
+        "학과별 적용과 원문 표현을 전수 검수한다."
+      ]
+    },
+    "cwnu.cs.2026.graduation.thesis-substitution": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.graduation.thesis-substitution",
+      "label": "졸업논문 대체요건 기재 상태",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.graduation.thesis-required"
+        ]
+      },
+      "decision": {
+        "statement": "현재 교육과정 규정집에는 컴퓨터공학과 졸업논문 대체요건이 기재되어 있지 않다.",
+        "outcome": {
+          "type": "substitution_policy",
+          "target_requirement": "graduation.thesis.required",
+          "listing_status": "none_listed",
+          "substitute_ids": []
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.567 (printed p.559): 졸업논문 대체요건 표의 컴퓨터공학과 행",
+          "evidence_type": "table_structure",
+          "excerpt": "해당사항 없음"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-18T16:27:06+09:00",
+        "rationale": "프로젝트 책임자가 none_listed를 현재 PDF에 기재된 졸업논문 대체요건이 없다는 의미로만 확인했다. [question_id=thesis.substitution; response_id=response.thesis.substitution]"
+      },
+      "review_notes": [
+        "none_listed는 이 출처에 기재된 대체수단이 없다는 뜻이며 졸업논문 면제 또는 대체 금지를 뜻하지 않는다.",
+        "추후 확인되는 학과 운영자료는 별도 출처와 새 규칙 버전으로 반영한다."
+      ]
+    },
+    "cwnu.cs.2026.major-counseling-completion": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.major-counseling-completion",
+      "label": "0학점 심층상담 이수",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.major-required-course-set"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.",
+        "outcome": {
+          "type": "completion_requirement",
+          "requirement": "major.counseling.required",
+          "credit_value": 0,
+          "required": true,
+          "result_if_incomplete": "requirement_unsatisfied",
+          "minimum_completions": 1
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF p.263 (printed p.255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0088 심층상담 행, 이수구분(전공필수)·학점(0) 열",
+          "evidence_type": "table_structure",
+          "excerpt": "CDA0088 심층상담 0학점"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF p.3, section 4: 심층상담 확인",
+          "evidence_type": "department_confirmation",
+          "excerpt": "0학점이어도 반드시 이수; 1회 이상; 매학기 수강 권장"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:10+09:00",
+        "rationale": "조교 답변 문서의 심층상담 최소 이수 조건을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+      }
+    },
+    "cwnu.cs.2026.major-required-course-set": {
+      "schema_version": "2.0.0",
+      "rule_id": "cwnu.cs.2026.major-required-course-set",
+      "label": "전공필수 지정 9과목",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "supplement",
+        "target_rule_ids": [
+          "cwnu.cs.2026.credits.major-required"
+        ]
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 한다.",
+        "outcome": {
+          "type": "coverage_requirement",
+          "requirement": "major.required.course_set",
+          "coverage_kind": "course_set",
+          "items": [
+            {
+              "item_id": "CDA0143",
+              "label": "고급자료구조"
+            },
+            {
+              "item_id": "CDA0016",
+              "label": "컴퓨터구조"
+            },
+            {
+              "item_id": "CDA0027",
+              "label": "알고리즘"
+            },
+            {
+              "item_id": "CDA0028",
+              "label": "소프트웨어공학"
+            },
+            {
+              "item_id": "CDA0065",
+              "label": "데이터베이스개론"
+            },
+            {
+              "item_id": "CDA0017",
+              "label": "운영체제"
+            },
+            {
+              "item_id": "CDA0023",
+              "label": "데이터통신"
+            },
+            {
+              "item_id": "CDA0034",
+              "label": "졸업논문"
+            },
+            {
+              "item_id": "CDA0088",
+              "label": "심층상담"
+            }
+          ],
+          "minimum_items": 9,
+          "minimum_courses_per_item": 1,
+          "one_course_may_cover_multiple_items": false
+        },
+        "operator": "all"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열",
+          "evidence_type": "table_structure",
+          "excerpt": "전공필수: CDA0143, CDA0016, CDA0027, CDA0028, CDA0065, CDA0017, CDA0023 각 3학점; CDA0034, CDA0088 각 0학점"
+        },
+        {
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "locator": "PDF pp.2-3, section 4: 전공필수 과목",
+          "evidence_type": "department_confirmation",
+          "excerpt": "위 9과목을 모두 이수해야 함"
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-09-19T15:39:10+09:00",
+        "rationale": "조교 답변 문서의 전공필수 9과목 목록과 전수 이수 조건을 승인했다. [question_id=ta.response.acceptance; response_id=response.ta.response.acceptance]"
+      }
+    },
+    "cwnu.cs.2026.operations.coding-test-failure": {
+      "schema_version": "2.1.0",
+      "rule_id": "cwnu.cs.2026.operations.coding-test-failure",
+      "label": "코딩 테스트 미통과 시 캡스톤 처리",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다.",
+        "outcome": {
+          "type": "operational_policy",
+          "kind": "coding_test_failure",
+          "requirement": "capstone.coding_test_failure",
+          "capstone_i_result": "U",
+          "capstone_i_enrollment_prohibited": false,
+          "capstone_ii_enrollment": "next_academic_year_not_allowed"
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 2; session=review-20261001-prototype-integration",
+          "evidence_type": "department_confirmation",
+          "excerpt": "코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다."
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-10-01T09:28:35+09:00",
+        "rationale": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+      },
+      "review_notes": [
+        "확인된 일반 운영정책 설명만 허용한다. 개인의 이수·수강·면제·학점 판정과 보류 조건을 자동 도출하지 않는다."
+      ]
+    },
+    "cwnu.cs.2026.operations.graduation-work-prerequisite": {
+      "schema_version": "2.1.0",
+      "rule_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+      "label": "졸업작품 수강 선행조건",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.",
+        "outcome": {
+          "type": "operational_policy",
+          "kind": "graduation_work_prerequisite",
+          "requirement": "graduation.work.enrollment",
+          "prerequisite": "capstone.ii.pass",
+          "sufficient_for_graduation": false,
+          "automatic_credits": false
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 3; session=review-20261001-prototype-integration",
+          "evidence_type": "department_confirmation",
+          "excerpt": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다."
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-10-01T09:28:35+09:00",
+        "rationale": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+      },
+      "review_notes": [
+        "확인된 일반 운영정책 설명만 허용한다. 개인의 이수·수강·면제·학점 판정과 보류 조건을 자동 도출하지 않는다."
+      ]
+    },
+    "cwnu.cs.2026.operations.pccp-current-trial": {
+      "schema_version": "2.1.0",
+      "rule_id": "cwnu.cs.2026.operations.pccp-current-trial",
+      "label": "현행 시범 PCCP 합격 기준",
+      "applicability": {
+        "basis": "admission_year",
+        "curriculum_years": [
+          2026
+        ],
+        "admission_years": [
+          2026
+        ],
+        "departments": [
+          "컴퓨터공학과"
+        ],
+        "conditions": []
+      },
+      "relationship": {
+        "kind": "base",
+        "target_rule_ids": []
+      },
+      "answer_policy": "policy_statement",
+      "decision": {
+        "statement": "2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다.",
+        "outcome": {
+          "type": "operational_policy",
+          "kind": "pccp_current_trial",
+          "requirement": "coding_test.pccp_current_trial",
+          "minimum_score": 400,
+          "confirmed_as_of": "2026-10-01",
+          "provisional": true,
+          "future_guaranteed": false
+        },
+        "operator": "direct"
+      },
+      "evidence": [
+        {
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 1; session=review-20261001-prototype-integration",
+          "evidence_type": "department_confirmation",
+          "excerpt": "2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다."
+        }
+      ],
+      "review": {
+        "status": "approved",
+        "mode": "human",
+        "scope": "full",
+        "reviewer_id": "project_owner",
+        "reviewed_at": "2026-10-01T09:28:35+09:00",
+        "rationale": "새 검수 세션에서 표시한 세 조건에 한정한 권한 부여와 재확인: 반영해 새 검수 세션. 관찰 기록 시각 사용; 이전 권한 미재사용. [question_id=operational.conditions.confirmation; response_id=response.operational.conditions.confirmation]"
+      },
+      "review_notes": [
+        "확인된 일반 운영정책 설명만 허용한다. 개인의 이수·수강·면제·학점 판정과 보류 조건을 자동 도출하지 않는다."
+      ]
+    }
+  },
+  "rule_fact_sha256": {
+    "cwnu.cs.2026.cohort.department-transfer-original-admission-year": "6da104f85ab14dcf87e23e56106df4653658a34c075ff3734347a95e8e93e885",
+    "cwnu.cs.2026.course-counting.identical-course": "b40e2f2cc04101f789c7989e552908b8df65e6e15c8afda66aa92bb7b2261164",
+    "cwnu.cs.2026.course-counting.post-completion-equivalence": "2a16a4709e51f0a93ad7ee37130a34611dc85e01207a3f5aac8dee27e24b12b1",
+    "cwnu.cs.2026.course-counting.retake": "ae7daed8382390355452b5572e1b526768fc82913d4f86089d3bc349ef5d6a3c",
+    "cwnu.cs.2026.credits.general-balanced": "7164a0d14ac16bcb1bc0e5df974a518c4155bc9e9d1d1f12a49b50c55946e0af",
+    "cwnu.cs.2026.credits.general-foundation": "cd17456a0dd09c9d2f00ec0ac75145d144d4983e06859dd6aff2129f981264aa",
+    "cwnu.cs.2026.credits.general-recognition-cap": "2796f2d1178248bf380b2c097015188cf63315999607f92925174d85f67f667b",
+    "cwnu.cs.2026.credits.general-remaining-allocation": "a164188a0cc98db64583450f9ab0a5eabe759d7820c88d39be2fcf11ff9ecbaa",
+    "cwnu.cs.2026.credits.general-remaining": "16d7a7dbab93236d717f11f7e343551e0cbeba7178b98b4edf063d38e1a9d336",
+    "cwnu.cs.2026.credits.general-total": "869c43b174b0369472676d63f9551eb20e45a1895992b8a89ba60c538c68a2b0",
+    "cwnu.cs.2026.credits.graduation-remaining-allocation": "89ef3c4cfede182d764cdf042ead828d7ca5cef4befac24a6e1c2aa48ba0b3a4",
+    "cwnu.cs.2026.credits.graduation-remaining": "3fe2a6b2d580fe73daa09b04d30276e9f2a624eb5c23efa35e1ce80d9b0391f0",
+    "cwnu.cs.2026.credits.graduation-total": "849706fe43aecab95aaeb9b57d95b1a637d03a3627a2bd9f8060a63d34b8a005",
+    "cwnu.cs.2026.credits.major-advanced": "bc94e8cf2fd3f9807a0bcc65f7431c8fae63e69f421e3d537e8a0751808949a9",
+    "cwnu.cs.2026.credits.major-elective": "1a670bb62d2a2017a3fc2728eead142bb9fda6520ebb231a4c1d465ac1b19e3b",
+    "cwnu.cs.2026.credits.major-minimum": "2c5b890a2e09fa6fa82c2615f9bd03fdbb14b1cd066c52e3d367bb9120455bde",
+    "cwnu.cs.2026.credits.major-required": "4d1f13d3a77d19af70bc3472acdcad48151ff23709e757175a9595896d65c490",
+    "cwnu.cs.2026.credits.major-total": "8273ff94f4c194f765c5209f4928f8f8182d092966e005a79a0774ac9a7cdc1a",
+    "cwnu.cs.2026.general-balanced-area-coverage": "5de3112df3430b0e7952a80656fcf4bdf5cfd40680d991243dca4a740e9351fe",
+    "cwnu.cs.2026.general-recommended-courses": "e0c28d4fe8370b6a6c663e765251c23335c7b9b71125b57e6394b2c3cdad5ba4",
+    "cwnu.cs.2026.graduation.thesis-completion-result": "e20f1f0f8fbdc028a08eff1abf87f5e5ab41d575de906416905a48ce2a3951ae",
+    "cwnu.cs.2026.graduation.thesis-linked-program-exemption": "ca4673156dd92f4d76a7442ecc168cb97ff3e2cb3f3a323d504e0a33ef982482",
+    "cwnu.cs.2026.graduation.thesis-required": "af2d1dffb8eace9d5691f948e65700ae52498bb710204ac11465c38c98974c7b",
+    "cwnu.cs.2026.graduation.thesis-substitution": "ae38e4f3833c9833d60511d4e5b74282b6c92923ec58a3b9324cec0f4749f82e",
+    "cwnu.cs.2026.major-counseling-completion": "9105a1dc8d53196f07dc782e21aa2e6634b6bf92522e9723b21fa21ff2d324cb",
+    "cwnu.cs.2026.major-required-course-set": "66b2b302c966d485f13aeb3f8ef32081ca66ad6b1f56311329b107d702528ccd",
+    "cwnu.cs.2026.operations.coding-test-failure": "46a35824e5ddd4ae25e706ebdc772a4d88cf585d9997fd9e64098289a8848975",
+    "cwnu.cs.2026.operations.graduation-work-prerequisite": "6f5bd038ec764cffb5538f52148afb8bae4b5b4fde643787abd99160d821ce6c",
+    "cwnu.cs.2026.operations.pccp-current-trial": "4593b3534cccca68e52ec5b817b07d26ab1408b8b6f4a2e7ebc1e3b14cd930e2"
+  },
+  "overview_required_rule_ids": [
+    "cwnu.cs.2026.credits.general-balanced",
+    "cwnu.cs.2026.credits.general-foundation",
+    "cwnu.cs.2026.credits.general-recognition-cap",
+    "cwnu.cs.2026.credits.general-remaining",
+    "cwnu.cs.2026.credits.general-remaining-allocation",
+    "cwnu.cs.2026.credits.general-total",
+    "cwnu.cs.2026.credits.graduation-remaining",
+    "cwnu.cs.2026.credits.graduation-remaining-allocation",
+    "cwnu.cs.2026.credits.graduation-total",
+    "cwnu.cs.2026.credits.major-advanced",
+    "cwnu.cs.2026.credits.major-elective",
+    "cwnu.cs.2026.credits.major-minimum",
+    "cwnu.cs.2026.credits.major-required",
+    "cwnu.cs.2026.credits.major-total",
+    "cwnu.cs.2026.general-balanced-area-coverage",
+    "cwnu.cs.2026.graduation.thesis-completion-result",
+    "cwnu.cs.2026.graduation.thesis-required",
+    "cwnu.cs.2026.major-counseling-completion",
+    "cwnu.cs.2026.major-required-course-set",
+    "cwnu.cs.2026.operations.coding-test-failure",
+    "cwnu.cs.2026.operations.graduation-work-prerequisite",
+    "cwnu.cs.2026.operations.pccp-current-trial"
+  ],
+  "cases": {
+    "repair-01": {
+      "expected_status": "out_of_scope",
+      "expected_kind": "greeting",
+      "required_course_properties": {},
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "acceptable_outcomes": [
+        {
+          "status": "out_of_scope",
+          "kind": "greeting",
+          "academic_claims_required": false
+        },
+        {
+          "status": "insufficient_evidence",
+          "kind": "clarification",
+          "reason": "needs_specific_academic_question",
+          "academic_claims_required": false
+        }
+      ],
+      "notes": [
+        "Mixed greeting/invitation is not a request for a fabricated complete academic verdict. Acknowledge and invite a concrete course/rule question."
+      ],
+      "case_id": "repair-01",
+      "split": "repair",
+      "question": "안녕하세요. 2026년에 컴공에 입학했는데 과목이랑 졸업 준비에 대해 물어봐도 될까요?",
+      "previous_question": null,
+      "required_course_ids": [],
+      "required_course_fact_ids": [],
+      "course_values": {},
+      "rule_values": {},
+      "citation_bindings": [],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false,
+      "expected_wire_kind": "greeting",
+      "wire_status_semantics": "Social, not academic-supported and not an unsupported cohort/discipline claim. Grade by greeting kind/reply; no fabricated evidence parts."
+    },
+    "repair-02": {
+      "expected_status": "supported",
+      "expected_kind": "course_attributes",
+      "required_course_properties": {
+        "CDA0017": [
+          "credits"
+        ]
+      },
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "case_id": "repair-02",
+      "split": "repair",
+      "question": "운체를 수강 계획에 넣으려고 해요. 이 과목 자체는 몇 학점인가요?",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0017"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0017"
+      ],
+      "course_values": {
+        "CDA0017": {
+          "course_name": "운영체제",
+          "credits": 3
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0017",
+          "course_code": "CDA0017",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-03": {
+      "expected_status": "supported",
+      "expected_kind": "course_attributes",
+      "required_course_properties": {
+        "CDA0016": [
+          "category"
+        ]
+      },
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "case_id": "repair-03",
+      "split": "repair",
+      "question": "컴퓨터구조가 전공 필수로 잡히는 과목인지 확인하고 싶어요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0016"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0016"
+      ],
+      "course_values": {
+        "CDA0016": {
+          "course_name": "컴퓨터구조",
+          "category": "major_required"
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0016",
+          "course_code": "CDA0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-04": {
+      "expected_status": "supported",
+      "expected_kind": "course_attributes",
+      "required_course_properties": {
+        "CDA0065": [
+          "offering"
+        ]
+      },
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "subject_resolution": {
+        "데이터베이스개론": "CDA0065"
+      },
+      "case_id": "repair-04",
+      "split": "repair",
+      "question": "데이터베이스개론은 교육과정 표에서 몇 학년 어느 학기에 나오는지 알려 주세요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0065"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0065"
+      ],
+      "course_values": {
+        "CDA0065": {
+          "course_name": "데이타베이스개론",
+          "offering": {
+            "years": [
+              3
+            ],
+            "semesters": [
+              "1"
+            ],
+            "label": "3학년 1학기"
+          }
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0065",
+          "course_code": "CDA0065",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0065 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-05": {
+      "expected_status": "supported",
+      "expected_kind": "compound_course_attributes",
+      "required_course_properties": {
+        "CDA0016": [
+          "credits"
+        ],
+        "CDA0165": [
+          "category"
+        ]
+      },
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "facet_binding": "CDA0016 credit, CDA0165 category; no swapped or lost facet",
+      "case_id": "repair-05",
+      "split": "repair",
+      "question": "컴구는 학점을 알고 싶고, 네프는 전필인지 전선인지 알고 싶어요. 따로 구분해서 설명해 주세요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0016",
+        "CDA0165"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0016",
+        "cwnu.cs.2026.course.cda0165"
+      ],
+      "course_values": {
+        "CDA0016": {
+          "course_name": "컴퓨터구조",
+          "credits": 3
+        },
+        "CDA0165": {
+          "course_name": "네트워크프로그래밍",
+          "category": "major_elective"
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0016",
+          "course_code": "CDA0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0165",
+          "course_code": "CDA0165",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-06": {
+      "expected_status": "supported",
+      "expected_kind": "compound_course_attributes",
+      "required_course_properties": {
+        "CDA0028": [
+          "credits",
+          "category"
+        ],
+        "CDA0017": [
+          "credits",
+          "category"
+        ]
+      },
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "case_id": "repair-06",
+      "split": "repair",
+      "question": "소프트웨어공학하고 운영체제를 비교하려고 해요. 각각 학점과 이수구분을 같이 보여 주세요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0017",
+        "CDA0028"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0017",
+        "cwnu.cs.2026.course.cda0028"
+      ],
+      "course_values": {
+        "CDA0017": {
+          "course_name": "운영체제",
+          "credits": 3,
+          "category": "major_required"
+        },
+        "CDA0028": {
+          "course_name": "소프트웨어공학",
+          "credits": 3,
+          "category": "major_required"
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0017",
+          "course_code": "CDA0017",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0028",
+          "course_code": "CDA0028",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0028 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-07": {
+      "expected_status": "supported",
+      "expected_kind": "course_names",
+      "required_course_properties": {},
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "course_queries": [
+        {
+          "filters": {
+            "category": "major_elective",
+            "year": 2,
+            "semester": "2"
+          },
+          "properties": [
+            "names"
+          ],
+          "course_codes": [
+            "CDA0006",
+            "CDA0013",
+            "CDA0125",
+            "CDA0147",
+            "CDA0155",
+            "CDA0156",
+            "CDA0173",
+            "CDA0176"
+          ]
+        }
+      ],
+      "case_id": "repair-07",
+      "split": "repair",
+      "question": "2학년 2학기에 편성된 전공선택 과목을 과목 이름으로 정리해 주세요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0006",
+        "CDA0013",
+        "CDA0125",
+        "CDA0147",
+        "CDA0155",
+        "CDA0156",
+        "CDA0173",
+        "CDA0176"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0006",
+        "cwnu.cs.2026.course.cda0013",
+        "cwnu.cs.2026.course.cda0125",
+        "cwnu.cs.2026.course.cda0147",
+        "cwnu.cs.2026.course.cda0155",
+        "cwnu.cs.2026.course.cda0156",
+        "cwnu.cs.2026.course.cda0173",
+        "cwnu.cs.2026.course.cda0176"
+      ],
+      "course_values": {
+        "CDA0006": {
+          "course_name": "시스템프로그래밍"
+        },
+        "CDA0013": {
+          "course_name": "프로그래밍언어론"
+        },
+        "CDA0125": {
+          "course_name": "모바일프로그래밍"
+        },
+        "CDA0147": {
+          "course_name": "현장실습4"
+        },
+        "CDA0155": {
+          "course_name": "객체지향프로그래밍"
+        },
+        "CDA0156": {
+          "course_name": "오픈소스소프트웨어"
+        },
+        "CDA0173": {
+          "course_name": "표준현장실습4"
+        },
+        "CDA0176": {
+          "course_name": "임베디드시스템"
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0006",
+          "course_code": "CDA0006",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0006 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0013",
+          "course_code": "CDA0013",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0013 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0125",
+          "course_code": "CDA0125",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0125 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0147",
+          "course_code": "CDA0147",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0147 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0155",
+          "course_code": "CDA0155",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0155 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0156",
+          "course_code": "CDA0156",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0156 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0173",
+          "course_code": "CDA0173",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0173 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0176",
+          "course_code": "CDA0176",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0176 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-08": {
+      "expected_status": "supported",
+      "expected_kind": "compound_course_counts",
+      "required_course_properties": {},
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "course_queries": [
+        {
+          "filters": {
+            "category": "major_required"
+          },
+          "properties": [
+            "count"
+          ],
+          "course_codes": [
+            "CDA0016",
+            "CDA0017",
+            "CDA0023",
+            "CDA0027",
+            "CDA0028",
+            "CDA0034",
+            "CDA0065",
+            "CDA0088",
+            "CDA0143"
+          ],
+          "count": 9
+        },
+        {
+          "filters": {
+            "category": "major_elective"
+          },
+          "properties": [
+            "count"
+          ],
+          "course_codes": [
+            "CDA0006",
+            "CDA0008",
+            "CDA0010",
+            "CDA0013",
+            "CDA0014",
+            "CDA0030",
+            "CDA0031",
+            "CDA0119",
+            "CDA0125",
+            "CDA0139",
+            "CDA0144",
+            "CDA0145",
+            "CDA0147",
+            "CDA0150",
+            "CDA0153",
+            "CDA0154",
+            "CDA0155",
+            "CDA0156",
+            "CDA0157",
+            "CDA0163",
+            "CDA0164",
+            "CDA0165",
+            "CDA0166",
+            "CDA0167",
+            "CDA0168",
+            "CDA0169",
+            "CDA0170",
+            "CDA0171",
+            "CDA0172",
+            "CDA0173",
+            "CDA0174",
+            "CDA0175",
+            "CDA0176",
+            "CDA0177"
+          ],
+          "count": 34
+        }
+      ],
+      "notes": [
+        "Counts are numbers of distinct catalogue courses, not required-credit amounts or completed student courses."
+      ],
+      "case_id": "repair-08",
+      "split": "repair",
+      "question": "학년별로 나누지 말고 컴공 전필과 전선을 각각 몇 과목으로 확인할 수 있는지 알려 주세요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0006",
+        "CDA0008",
+        "CDA0010",
+        "CDA0013",
+        "CDA0014",
+        "CDA0016",
+        "CDA0017",
+        "CDA0023",
+        "CDA0027",
+        "CDA0028",
+        "CDA0030",
+        "CDA0031",
+        "CDA0034",
+        "CDA0065",
+        "CDA0088",
+        "CDA0119",
+        "CDA0125",
+        "CDA0139",
+        "CDA0143",
+        "CDA0144",
+        "CDA0145",
+        "CDA0147",
+        "CDA0150",
+        "CDA0153",
+        "CDA0154",
+        "CDA0155",
+        "CDA0156",
+        "CDA0157",
+        "CDA0163",
+        "CDA0164",
+        "CDA0165",
+        "CDA0166",
+        "CDA0167",
+        "CDA0168",
+        "CDA0169",
+        "CDA0170",
+        "CDA0171",
+        "CDA0172",
+        "CDA0173",
+        "CDA0174",
+        "CDA0175",
+        "CDA0176",
+        "CDA0177"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0006",
+        "cwnu.cs.2026.course.cda0008",
+        "cwnu.cs.2026.course.cda0010",
+        "cwnu.cs.2026.course.cda0013",
+        "cwnu.cs.2026.course.cda0014",
+        "cwnu.cs.2026.course.cda0016",
+        "cwnu.cs.2026.course.cda0017",
+        "cwnu.cs.2026.course.cda0023",
+        "cwnu.cs.2026.course.cda0027",
+        "cwnu.cs.2026.course.cda0028",
+        "cwnu.cs.2026.course.cda0030",
+        "cwnu.cs.2026.course.cda0031",
+        "cwnu.cs.2026.course.cda0034",
+        "cwnu.cs.2026.course.cda0065",
+        "cwnu.cs.2026.course.cda0088",
+        "cwnu.cs.2026.course.cda0119",
+        "cwnu.cs.2026.course.cda0125",
+        "cwnu.cs.2026.course.cda0139",
+        "cwnu.cs.2026.course.cda0143",
+        "cwnu.cs.2026.course.cda0144",
+        "cwnu.cs.2026.course.cda0145",
+        "cwnu.cs.2026.course.cda0147",
+        "cwnu.cs.2026.course.cda0150",
+        "cwnu.cs.2026.course.cda0153",
+        "cwnu.cs.2026.course.cda0154",
+        "cwnu.cs.2026.course.cda0155",
+        "cwnu.cs.2026.course.cda0156",
+        "cwnu.cs.2026.course.cda0157",
+        "cwnu.cs.2026.course.cda0163",
+        "cwnu.cs.2026.course.cda0164",
+        "cwnu.cs.2026.course.cda0165",
+        "cwnu.cs.2026.course.cda0166",
+        "cwnu.cs.2026.course.cda0167",
+        "cwnu.cs.2026.course.cda0168",
+        "cwnu.cs.2026.course.cda0169",
+        "cwnu.cs.2026.course.cda0170",
+        "cwnu.cs.2026.course.cda0171",
+        "cwnu.cs.2026.course.cda0172",
+        "cwnu.cs.2026.course.cda0173",
+        "cwnu.cs.2026.course.cda0174",
+        "cwnu.cs.2026.course.cda0175",
+        "cwnu.cs.2026.course.cda0176",
+        "cwnu.cs.2026.course.cda0177"
+      ],
+      "course_values": {
+        "CDA0006": {
+          "course_name": "시스템프로그래밍"
+        },
+        "CDA0008": {
+          "course_name": "자료구조"
+        },
+        "CDA0010": {
+          "course_name": "논리설계"
+        },
+        "CDA0013": {
+          "course_name": "프로그래밍언어론"
+        },
+        "CDA0014": {
+          "course_name": "컴퓨터그래픽스"
+        },
+        "CDA0016": {
+          "course_name": "컴퓨터구조"
+        },
+        "CDA0017": {
+          "course_name": "운영체제"
+        },
+        "CDA0023": {
+          "course_name": "데이타통신"
+        },
+        "CDA0027": {
+          "course_name": "알고리즘"
+        },
+        "CDA0028": {
+          "course_name": "소프트웨어공학"
+        },
+        "CDA0030": {
+          "course_name": "인공지능"
+        },
+        "CDA0031": {
+          "course_name": "컴퓨터네트워크"
+        },
+        "CDA0034": {
+          "course_name": "졸업논문"
+        },
+        "CDA0065": {
+          "course_name": "데이타베이스개론"
+        },
+        "CDA0088": {
+          "course_name": "심층상담"
+        },
+        "CDA0119": {
+          "course_name": "컴파일러"
+        },
+        "CDA0125": {
+          "course_name": "모바일프로그래밍"
+        },
+        "CDA0139": {
+          "course_name": "영상처리"
+        },
+        "CDA0143": {
+          "course_name": "고급자료구조"
+        },
+        "CDA0144": {
+          "course_name": "현장실습1"
+        },
+        "CDA0145": {
+          "course_name": "현장실습3"
+        },
+        "CDA0147": {
+          "course_name": "현장실습4"
+        },
+        "CDA0150": {
+          "course_name": "사물인터넷"
+        },
+        "CDA0153": {
+          "course_name": "정보보안"
+        },
+        "CDA0154": {
+          "course_name": "소프트웨어설계"
+        },
+        "CDA0155": {
+          "course_name": "객체지향프로그래밍"
+        },
+        "CDA0156": {
+          "course_name": "오픈소스소프트웨어"
+        },
+        "CDA0157": {
+          "course_name": "이산수학"
+        },
+        "CDA0163": {
+          "course_name": "웹프로그래밍"
+        },
+        "CDA0164": {
+          "course_name": "빅데이터"
+        },
+        "CDA0165": {
+          "course_name": "네트워크프로그래밍"
+        },
+        "CDA0166": {
+          "course_name": "딥러닝과자연어처리"
+        },
+        "CDA0167": {
+          "course_name": "산학캡스톤디자인1"
+        },
+        "CDA0168": {
+          "course_name": "산학캡스톤디자인2"
+        },
+        "CDA0169": {
+          "course_name": "데이터마이닝"
+        },
+        "CDA0170": {
+          "course_name": "컴퓨터공학기술세미나"
+        },
+        "CDA0171": {
+          "course_name": "표준현장실습1"
+        },
+        "CDA0172": {
+          "course_name": "표준현장실습3"
+        },
+        "CDA0173": {
+          "course_name": "표준현장실습4"
+        },
+        "CDA0174": {
+          "course_name": "피지컬AI입문"
+        },
+        "CDA0175": {
+          "course_name": "컴퓨터비전"
+        },
+        "CDA0176": {
+          "course_name": "임베디드시스템"
+        },
+        "CDA0177": {
+          "course_name": "클라우드컴퓨팅"
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0006",
+          "course_code": "CDA0006",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0006 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0008",
+          "course_code": "CDA0008",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0008 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0010",
+          "course_code": "CDA0010",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0010 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0013",
+          "course_code": "CDA0013",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0013 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0014",
+          "course_code": "CDA0014",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0014 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0016",
+          "course_code": "CDA0016",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0016 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0017",
+          "course_code": "CDA0017",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0017 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0023",
+          "course_code": "CDA0023",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0023 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0027",
+          "course_code": "CDA0027",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0028",
+          "course_code": "CDA0028",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0028 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0030",
+          "course_code": "CDA0030",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0030 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0031",
+          "course_code": "CDA0031",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0031 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0034",
+          "course_code": "CDA0034",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0034 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0065",
+          "course_code": "CDA0065",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0065 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0088",
+          "course_code": "CDA0088",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0088 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0119",
+          "course_code": "CDA0119",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0119 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0125",
+          "course_code": "CDA0125",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0125 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0139",
+          "course_code": "CDA0139",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0139 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0143",
+          "course_code": "CDA0143",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0143 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0144",
+          "course_code": "CDA0144",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0144 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0145",
+          "course_code": "CDA0145",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0145 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0147",
+          "course_code": "CDA0147",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0147 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0150",
+          "course_code": "CDA0150",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0150 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0153",
+          "course_code": "CDA0153",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0153 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0154",
+          "course_code": "CDA0154",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0154 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0155",
+          "course_code": "CDA0155",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0155 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0156",
+          "course_code": "CDA0156",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0156 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0157",
+          "course_code": "CDA0157",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0157 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0163",
+          "course_code": "CDA0163",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0163 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0164",
+          "course_code": "CDA0164",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0164 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0165",
+          "course_code": "CDA0165",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0165 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0166",
+          "course_code": "CDA0166",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0166 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0167",
+          "course_code": "CDA0167",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0167 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0168",
+          "course_code": "CDA0168",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0168 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0169",
+          "course_code": "CDA0169",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0169 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0170",
+          "course_code": "CDA0170",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0170 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0171",
+          "course_code": "CDA0171",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0171 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0172",
+          "course_code": "CDA0172",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0172 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0173",
+          "course_code": "CDA0173",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0173 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0174",
+          "course_code": "CDA0174",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0174 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0175",
+          "course_code": "CDA0175",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0175 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0176",
+          "course_code": "CDA0176",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0176 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0177",
+          "course_code": "CDA0177",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0177 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-09": {
+      "expected_status": "supported",
+      "expected_kind": "rule_policy",
+      "required_course_properties": {},
+      "required_rule_ids": [
+        "cwnu.cs.2026.general-balanced-area-coverage"
+      ],
+      "context": {
+        "used": false
+      },
+      "required_rule_predicates": [
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "path": "decision.outcome.minimum_items",
+          "operator": "eq",
+          "value": 4
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "path": "decision.outcome.minimum_courses_per_item",
+          "operator": "eq",
+          "value": 1
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "path": "decision.outcome.one_course_may_cover_multiple_items",
+          "operator": "eq",
+          "value": false
+        },
+        {
+          "rule_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "path": "decision.outcome.fixed_credits_per_course",
+          "operator": "eq",
+          "value": null
+        }
+      ],
+      "prohibited_claims": [
+        "Three courses per area are required",
+        "Exactly one course per area is the maximum",
+        "Every area course must be3credits",
+        "One course can satisfy multiple areas"
+      ],
+      "case_id": "repair-09",
+      "split": "repair",
+      "question": "균형교양은 영역마다 과목을 골라야 하나요? 영역별로 최소 몇 과목인지 궁금해요.",
+      "previous_question": null,
+      "required_course_ids": [],
+      "required_course_fact_ids": [],
+      "course_values": {},
+      "rule_values": {
+        "cwnu.cs.2026.general-balanced-area-coverage": {
+          "statement": "균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다.",
+          "outcome": {
+            "type": "coverage_requirement",
+            "requirement": "general.balanced.area_coverage",
+            "coverage_kind": "area",
+            "items": [
+              {
+                "item_id": "digital-communication",
+                "label": "디지털커뮤니케이션"
+              },
+              {
+                "item_id": "humanities-arts",
+                "label": "인문예술"
+              },
+              {
+                "item_id": "society-culture",
+                "label": "사회와문화"
+              },
+              {
+                "item_id": "nature-science-technology",
+                "label": "자연·과학·기술의이해"
+              }
+            ],
+            "minimum_items": 4,
+            "minimum_courses_per_item": 1,
+            "one_course_may_cover_multiple_items": false,
+            "fixed_credits_per_course": null
+          }
+        }
+      },
+      "citation_bindings": [
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.35: 균형교양 이수영역",
+          "pdf_pages": [
+            35
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.2, section 3: 균형교양 영역 규칙",
+          "pdf_pages": [
+            2
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-10": {
+      "expected_status": "supported",
+      "expected_kind": "requirements_overview_and_course_attribute",
+      "required_course_properties": {
+        "CDA0027": [
+          "credits"
+        ]
+      },
+      "required_rule_ids": [
+        "cwnu.cs.2026.credits.general-balanced",
+        "cwnu.cs.2026.credits.general-foundation",
+        "cwnu.cs.2026.credits.general-recognition-cap",
+        "cwnu.cs.2026.credits.general-remaining",
+        "cwnu.cs.2026.credits.general-remaining-allocation",
+        "cwnu.cs.2026.credits.general-total",
+        "cwnu.cs.2026.credits.graduation-remaining",
+        "cwnu.cs.2026.credits.graduation-remaining-allocation",
+        "cwnu.cs.2026.credits.graduation-total",
+        "cwnu.cs.2026.credits.major-advanced",
+        "cwnu.cs.2026.credits.major-elective",
+        "cwnu.cs.2026.credits.major-minimum",
+        "cwnu.cs.2026.credits.major-required",
+        "cwnu.cs.2026.credits.major-total",
+        "cwnu.cs.2026.general-balanced-area-coverage",
+        "cwnu.cs.2026.graduation.thesis-completion-result",
+        "cwnu.cs.2026.graduation.thesis-required",
+        "cwnu.cs.2026.major-counseling-completion",
+        "cwnu.cs.2026.major-required-course-set",
+        "cwnu.cs.2026.operations.coding-test-failure",
+        "cwnu.cs.2026.operations.graduation-work-prerequisite",
+        "cwnu.cs.2026.operations.pccp-current-trial"
+      ],
+      "context": {
+        "used": false
+      },
+      "overview": true,
+      "personal_graduation_verdict_allowed": false,
+      "notes": [
+        "Require requested named course credits in the answer, not merely retrieved course evidence. Thresholds are minimums, not exact total allowances. Conditional/operational source limits must stay intact when explained."
+      ],
+      "case_id": "repair-10",
+      "split": "repair",
+      "question": "졸업 준비에 필요한 전체 기준을 먼저 정리하고, 알고리즘의 학점도 함께 알려 주세요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0027"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0027"
+      ],
+      "course_values": {
+        "CDA0027": {
+          "course_name": "알고리즘",
+          "credits": 3
+        }
+      },
+      "rule_values": {
+        "cwnu.cs.2026.credits.general-balanced": {
+          "statement": "균형교양을 12학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.general.balanced",
+            "comparator": "at_least",
+            "credits": 12
+          }
+        },
+        "cwnu.cs.2026.credits.general-foundation": {
+          "statement": "기초교양을 9학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.general.foundation",
+            "comparator": "at_least",
+            "credits": 9
+          }
+        },
+        "cwnu.cs.2026.credits.general-recognition-cap": {
+          "statement": "교양은 실제 취득학점과 별개로 졸업학점에는 최대 42학점까지만 인정된다.",
+          "outcome": {
+            "type": "credit_recognition_cap",
+            "metric": "credits.general.recognized",
+            "maximum_recognized_credits": 42,
+            "excess_counts_toward_graduation": false
+          }
+        },
+        "cwnu.cs.2026.credits.general-remaining": {
+          "statement": "교양 잔여학점을 13학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.general.remaining",
+            "comparator": "at_least",
+            "credits": 13
+          }
+        },
+        "cwnu.cs.2026.credits.general-remaining-allocation": {
+          "statement": "교양 잔여 13학점은 기초교양, 균형교양 또는 확대교양으로 충족할 수 있다.",
+          "outcome": {
+            "type": "allocation_policy",
+            "source_metric": "credits.general.remaining",
+            "allowed_allocations": [
+              "기초교양",
+              "균형교양",
+              "확대교양"
+            ],
+            "double_counting_allowed": false
+          }
+        },
+        "cwnu.cs.2026.credits.general-total": {
+          "statement": "교양을 합계 34학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.general.total",
+            "comparator": "at_least",
+            "credits": 34
+          }
+        },
+        "cwnu.cs.2026.credits.graduation-remaining": {
+          "statement": "졸업 잔여학점을 18학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.graduation.remaining",
+            "comparator": "at_least",
+            "credits": 18
+          }
+        },
+        "cwnu.cs.2026.credits.graduation-remaining-allocation": {
+          "statement": "졸업 잔여 18학점은 자유선택 교과목으로 충족할 수 있으며 이미 교양·전공으로 산입된 학점을 다시 중복 계산하지 않는다.",
+          "outcome": {
+            "type": "allocation_policy",
+            "source_metric": "credits.graduation.remaining",
+            "allowed_allocations": [
+              "자유선택 교과목"
+            ],
+            "double_counting_allowed": false
+          }
+        },
+        "cwnu.cs.2026.credits.graduation-total": {
+          "statement": "졸업을 위해 총 130학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.graduation.total",
+            "comparator": "at_least",
+            "credits": 130
+          }
+        },
+        "cwnu.cs.2026.credits.major-advanced": {
+          "statement": "심화전공을 33학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.major.advanced",
+            "comparator": "at_least",
+            "credits": 33
+          }
+        },
+        "cwnu.cs.2026.credits.major-elective": {
+          "statement": "전공선택을 24학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.major.elective",
+            "comparator": "at_least",
+            "credits": 24
+          }
+        },
+        "cwnu.cs.2026.credits.major-minimum": {
+          "statement": "최소전공을 합계 45학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.major.minimum",
+            "comparator": "at_least",
+            "credits": 45
+          }
+        },
+        "cwnu.cs.2026.credits.major-required": {
+          "statement": "전공필수를 21학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.major.required",
+            "comparator": "at_least",
+            "credits": 21
+          }
+        },
+        "cwnu.cs.2026.credits.major-total": {
+          "statement": "전공을 합계 78학점 이상 이수해야 한다.",
+          "outcome": {
+            "type": "credit_threshold",
+            "metric": "credits.major.total",
+            "comparator": "at_least",
+            "credits": 78
+          }
+        },
+        "cwnu.cs.2026.general-balanced-area-coverage": {
+          "statement": "균형교양은 4개 영역에서 각각 1과목 이상 이수해야 하며 한 과목으로 둘 이상의 영역을 동시에 충족할 수 없다. 영역별 과목은 반드시 3학점일 필요가 없다.",
+          "outcome": {
+            "type": "coverage_requirement",
+            "requirement": "general.balanced.area_coverage",
+            "coverage_kind": "area",
+            "items": [
+              {
+                "item_id": "digital-communication",
+                "label": "디지털커뮤니케이션"
+              },
+              {
+                "item_id": "humanities-arts",
+                "label": "인문예술"
+              },
+              {
+                "item_id": "society-culture",
+                "label": "사회와문화"
+              },
+              {
+                "item_id": "nature-science-technology",
+                "label": "자연·과학·기술의이해"
+              }
+            ],
+            "minimum_items": 4,
+            "minimum_courses_per_item": 1,
+            "one_course_may_cover_multiple_items": false,
+            "fixed_credits_per_course": null
+          }
+        },
+        "cwnu.cs.2026.graduation.thesis-completion-result": {
+          "statement": "졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.",
+          "outcome": {
+            "type": "completion_requirement",
+            "requirement": "graduation.thesis.required",
+            "credit_value": 0,
+            "required": true,
+            "result_if_incomplete": "fail"
+          }
+        },
+        "cwnu.cs.2026.graduation.thesis-required": {
+          "statement": "졸업을 위해 졸업논문 요건을 충족해야 한다.",
+          "outcome": {
+            "type": "boolean_requirement",
+            "requirement": "graduation.thesis.required",
+            "required": true
+          }
+        },
+        "cwnu.cs.2026.major-counseling-completion": {
+          "statement": "심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.",
+          "outcome": {
+            "type": "completion_requirement",
+            "requirement": "major.counseling.required",
+            "credit_value": 0,
+            "required": true,
+            "result_if_incomplete": "requirement_unsatisfied",
+            "minimum_completions": 1
+          }
+        },
+        "cwnu.cs.2026.major-required-course-set": {
+          "statement": "전공필수 21학점과 함께 지정된 9개 과목을 모두 이수해야 한다.",
+          "outcome": {
+            "type": "coverage_requirement",
+            "requirement": "major.required.course_set",
+            "coverage_kind": "course_set",
+            "items": [
+              {
+                "item_id": "CDA0143",
+                "label": "고급자료구조"
+              },
+              {
+                "item_id": "CDA0016",
+                "label": "컴퓨터구조"
+              },
+              {
+                "item_id": "CDA0027",
+                "label": "알고리즘"
+              },
+              {
+                "item_id": "CDA0028",
+                "label": "소프트웨어공학"
+              },
+              {
+                "item_id": "CDA0065",
+                "label": "데이터베이스개론"
+              },
+              {
+                "item_id": "CDA0017",
+                "label": "운영체제"
+              },
+              {
+                "item_id": "CDA0023",
+                "label": "데이터통신"
+              },
+              {
+                "item_id": "CDA0034",
+                "label": "졸업논문"
+              },
+              {
+                "item_id": "CDA0088",
+                "label": "심층상담"
+              }
+            ],
+            "minimum_items": 9,
+            "minimum_courses_per_item": 1,
+            "one_course_may_cover_multiple_items": false
+          }
+        },
+        "cwnu.cs.2026.operations.coding-test-failure": {
+          "statement": "코딩 테스트 미통과자는 캡스톤디자인 I에서 U 처리되고 다음 연도 캡스톤디자인 II를 수강할 수 없다. 캡스톤 I 수강 자체가 금지된다는 뜻은 아니다.",
+          "outcome": {
+            "type": "operational_policy",
+            "kind": "coding_test_failure",
+            "requirement": "capstone.coding_test_failure",
+            "capstone_i_result": "U",
+            "capstone_i_enrollment_prohibited": false,
+            "capstone_ii_enrollment": "next_academic_year_not_allowed"
+          }
+        },
+        "cwnu.cs.2026.operations.graduation-work-prerequisite": {
+          "statement": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.",
+          "outcome": {
+            "type": "operational_policy",
+            "kind": "graduation_work_prerequisite",
+            "requirement": "graduation.work.enrollment",
+            "prerequisite": "capstone.ii.pass",
+            "sufficient_for_graduation": false,
+            "automatic_credits": false
+          }
+        },
+        "cwnu.cs.2026.operations.pccp-current-trial": {
+          "statement": "2026-10-01 학과 확인 당시 현행 시범 PCCP 합격 기준은 400점 이상이다. 향후 시행 시점까지 이 점수 기준이 유지된다고 보장하지 않으며, 이 점수만으로 개인의 캡스톤 I PASS를 판정하지 않는다.",
+          "outcome": {
+            "type": "operational_policy",
+            "kind": "pccp_current_trial",
+            "requirement": "coding_test.pccp_current_trial",
+            "minimum_score": 400,
+            "confirmed_as_of": "2026-10-01",
+            "provisional": true,
+            "future_guaranteed": false
+          }
+        }
+      },
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0027",
+          "course_code": "CDA0027",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-balanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 균형교양 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-foundation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 기초교양 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23: 교양 인정학점 구조와 졸업학점 합계",
+          "pdf_pages": [
+            23
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-recognition-cap",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.3, section 5: 교양 인정 상한",
+          "pdf_pages": [
+            3
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 잔여학점 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23: 교양 영역별 학점과 잔여학점 구조",
+          "pdf_pages": [
+            23
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.2, section 2: 교양 잔여학점",
+          "pdf_pages": [
+            2
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.general-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 교양 소계 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.graduation-remaining",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업 잔여학점 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23: 졸업 잔여학점 구조",
+          "pdf_pages": [
+            23
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.graduation-remaining-allocation",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.2, section 2: 졸업 잔여학점과 중복 계산",
+          "pdf_pages": [
+            2
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.graduation-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 졸업학점 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.major-advanced",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 심화전공 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.major-elective",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공선택 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.major-minimum",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 최소전공 소계 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.major-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공필수 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.credits.major-total",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.23 (printed p.15), p.261 (printed p.253), p.577 (printed p.569): 컴퓨터공학과 학점표의 전공 소계 열",
+          "pdf_pages": [
+            23,
+            261,
+            577
+          ],
+          "printed_pages": [
+            15,
+            253,
+            569
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.35: 균형교양 이수영역",
+          "pdf_pages": [
+            35
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.general-balanced-area-coverage",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.2, section 3: 균형교양 영역 규칙",
+          "pdf_pages": [
+            2
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.565 (printed p.557): 1. 졸업 요건·2. 졸업 논문; PDF p.263 (printed p.255): CDA0034 졸업논문 행, 전공필수·0학점",
+          "pdf_pages": [
+            263,
+            565
+          ],
+          "printed_pages": [
+            255,
+            557
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.3, section 4: 졸업논문 필기와 사용자 정정",
+          "pdf_pages": [
+            3
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.graduation.thesis-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.565 (printed p.557): 일반 졸업요건의 졸업논문 통과 요구",
+          "pdf_pages": [
+            565
+          ],
+          "printed_pages": [
+            557
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0088 심층상담 행, 이수구분(전공필수)·학점(0) 열",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.3, section 4: 심층상담 확인",
+          "pdf_pages": [
+            3
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF pp.262-263 (인쇄 pp.254-255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0143/CDA0016/CDA0027/CDA0028/CDA0065/CDA0017/CDA0023/CDA0034/CDA0088 행, 이수구분·학점 열",
+          "pdf_pages": [
+            262,
+            263
+          ],
+          "printed_pages": [
+            254,
+            255
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-required-course-set",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF pp.2-3, section 4: 전공필수 과목",
+          "pdf_pages": [
+            2,
+            3
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.operations.coding-test-failure",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "source_sha256": "d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 2; session=review-20261001-prototype-integration",
+          "pdf_pages": [],
+          "printed_pages": [],
+          "pdf_required": false
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "source_sha256": "d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 3; session=review-20261001-prototype-integration",
+          "pdf_pages": [],
+          "printed_pages": [],
+          "pdf_required": false
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.operations.pccp-current-trial",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "source_sha256": "d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 1; session=review-20261001-prototype-integration",
+          "pdf_pages": [],
+          "printed_pages": [],
+          "pdf_required": false
+        }
+      ],
+      "genuine_evidence_gap": false
+    },
+    "repair-11": {
+      "approved_authority_alternatives": [
+        {
+          "satisfies_rule_id": "cwnu.cs.2026.graduation.thesis-required",
+          "required_rule_ids": [
+            "cwnu.cs.2026.major-required-course-set",
+            "cwnu.cs.2026.graduation.thesis-completion-result"
+          ],
+          "required_item": {
+            "rule_id": "cwnu.cs.2026.major-required-course-set",
+            "course_code": "CDA0034",
+            "course_name": "졸업논문"
+          },
+          "completion_outcome": {
+            "rule_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+            "required": true,
+            "result_if_incomplete": "fail",
+            "credit_value": 0
+          },
+          "required_course_fact": {
+            "course_code": "CDA0034",
+            "credits": 0
+          },
+          "source_policy": "Alternative requires approved immutable hashes/citations; exact required-set code+label, thesis mandatory completion/Fail rule and independently sourced requested0credits. It does not authorize optional thesis, individual exemption or a graduation verdict."
+        }
+      ],
+      "expected_status": "supported",
+      "expected_kind": "course_credit_and_completion_obligation",
+      "required_course_properties": {
+        "CDA0034": [
+          "credits"
+        ]
+      },
+      "required_rule_ids": [
+        "cwnu.cs.2026.graduation.thesis-required",
+        "cwnu.cs.2026.graduation.thesis-completion-result"
+      ],
+      "context": {
+        "used": false
+      },
+      "completion_obligations": [
+        {
+          "course_code": "CDA0034",
+          "required": true,
+          "result_if_incomplete": "fail",
+          "credit_value": 0,
+          "individual_automatic_exemption": false
+        }
+      ],
+      "prohibited_claims": [
+        "Zero credits means optional",
+        "Course attendance every semester is mandatory",
+        "No student can ever be exempt",
+        "PASS text label is the only legally valid wording"
+      ],
+      "case_id": "repair-11",
+      "split": "repair",
+      "question": "졸논을 듣지 않고 넘어가도 되는지 궁금해요. 이 과목의 학점과 이수 의무를 같이 설명해 주세요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0034"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0034"
+      ],
+      "course_values": {
+        "CDA0034": {
+          "course_name": "졸업논문",
+          "credits": 0
+        }
+      },
+      "rule_values": {
+        "cwnu.cs.2026.graduation.thesis-required": {
+          "statement": "졸업을 위해 졸업논문 요건을 충족해야 한다.",
+          "outcome": {
+            "type": "boolean_requirement",
+            "requirement": "graduation.thesis.required",
+            "required": true
+          }
+        },
+        "cwnu.cs.2026.graduation.thesis-completion-result": {
+          "statement": "졸업논문은 0학점이어도 반드시 이수해야 하며 미이수하면 Fail이다.",
+          "outcome": {
+            "type": "completion_requirement",
+            "requirement": "graduation.thesis.required",
+            "credit_value": 0,
+            "required": true,
+            "result_if_incomplete": "fail"
+          }
+        }
+      },
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0034",
+          "course_code": "CDA0034",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0034 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.graduation.thesis-required",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.565 (printed p.557): 일반 졸업요건의 졸업논문 통과 요구",
+          "pdf_pages": [
+            565
+          ],
+          "printed_pages": [
+            557
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.565 (printed p.557): 1. 졸업 요건·2. 졸업 논문; PDF p.263 (printed p.255): CDA0034 졸업논문 행, 전공필수·0학점",
+          "pdf_pages": [
+            263,
+            565
+          ],
+          "printed_pages": [
+            255,
+            557
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.graduation.thesis-completion-result",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.3, section 4: 졸업논문 필기와 사용자 정정",
+          "pdf_pages": [
+            3
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-12": {
+      "expected_status": "supported",
+      "expected_kind": "rule_policy",
+      "required_course_properties": {},
+      "required_rule_ids": [
+        "cwnu.cs.2026.major-counseling-completion"
+      ],
+      "context": {
+        "used": false
+      },
+      "completion_obligations": [
+        {
+          "course_code": "CDA0088",
+          "required": true,
+          "minimum_completions": 1,
+          "minimum_operator": "at_least",
+          "every_semester": "recommended_not_mandatory",
+          "credit_value": 0
+        }
+      ],
+      "prohibited_claims": [
+        "Exactly one completion only",
+        "Mandatory every semester",
+        "Counseling is optional because zero credits"
+      ],
+      "case_id": "repair-12",
+      "split": "repair",
+      "question": "상담은 꼭 해야 하는 횟수와 권장하는 횟수가 같은 건가요? 두 기준을 나눠 설명해 주세요.",
+      "previous_question": null,
+      "required_course_ids": [],
+      "required_course_fact_ids": [],
+      "course_values": {},
+      "rule_values": {
+        "cwnu.cs.2026.major-counseling-completion": {
+          "statement": "심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.",
+          "outcome": {
+            "type": "completion_requirement",
+            "requirement": "major.counseling.required",
+            "credit_value": 0,
+            "required": true,
+            "result_if_incomplete": "requirement_unsatisfied",
+            "minimum_completions": 1
+          }
+        }
+      },
+      "citation_bindings": [
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0088 심층상담 행, 이수구분(전공필수)·학점(0) 열",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.3, section 4: 심층상담 확인",
+          "pdf_pages": [
+            3
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-13": {
+      "expected_status": "supported",
+      "expected_kind": "conditional_prerequisite_policy",
+      "required_course_properties": {},
+      "required_rule_ids": [
+        "cwnu.cs.2026.operations.graduation-work-prerequisite"
+      ],
+      "context": {
+        "used": false
+      },
+      "required_relation": {
+        "target": "graduation.work.enrollment",
+        "necessary_prerequisite": "capstone.ii.pass",
+        "prerequisite_negation": "without_capstone_II_PASS_necessary_condition_unmet",
+        "sufficient_for_graduation": false,
+        "automatic_credits": false
+      },
+      "prohibited_claims": [
+        "Capstone II PASS not required for graduation-work enrollment",
+        "Capstone II PASS automatically establishes graduation eligibility",
+        "Capstone II PASS automatically grants credits"
+      ],
+      "notes": [
+        "Approved department-confirmation record, not a fabricated curriculum PDF citation. No final individualized transcript verdict."
+      ],
+      "case_id": "repair-13",
+      "split": "repair",
+      "question": "캡스톤2를 아직 통과하지 못했다면 졸업작품 수강 신청은 어떻게 되는지 선행조건을 알려 주세요.",
+      "previous_question": null,
+      "required_course_ids": [],
+      "required_course_fact_ids": [],
+      "course_values": {},
+      "rule_values": {
+        "cwnu.cs.2026.operations.graduation-work-prerequisite": {
+          "statement": "졸업작품을 수강하려면 캡스톤디자인 II를 PASS해야 한다. 이 선행조건만으로 졸업 가능 여부나 학점 취득을 판정하지 않는다.",
+          "outcome": {
+            "type": "operational_policy",
+            "kind": "graduation_work_prerequisite",
+            "requirement": "graduation.work.enrollment",
+            "prerequisite": "capstone.ii.pass",
+            "sufficient_for_graduation": false,
+            "automatic_credits": false
+          }
+        }
+      },
+      "citation_bindings": [
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.operations.graduation-work-prerequisite",
+          "source_id": "cwnu.cs.2026.department-confirmation-20261001",
+          "source_sha256": "d859f17bd70b39f90c5fa5b906c960e0b79debbf3dcdaa051bee17aaf3674ac6",
+          "locator": "학과 확인 기록 2026-10-01, 확인된 조건 3; session=review-20261001-prototype-integration",
+          "pdf_pages": [],
+          "printed_pages": [],
+          "pdf_required": false
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-14": {
+      "expected_status": "supported",
+      "expected_kind": "context_course_attributes",
+      "required_course_properties": {
+        "CDA0027": [
+          "credits",
+          "offering"
+        ]
+      },
+      "required_rule_ids": [],
+      "context": {
+        "used": true,
+        "inherit_properties": [
+          "credits",
+          "offering"
+        ],
+        "replace_subject_with": "CDA0027",
+        "discard_prior_subject_as_current": "CDA0017"
+      },
+      "required_offering_semester": [
+        "1"
+      ],
+      "case_id": "repair-14",
+      "split": "repair",
+      "question": "그럼 알고리즘도 같은 항목으로 확인해 주세요.",
+      "previous_question": "운영체제의 학점과 편성 학기를 확인해 주세요.",
+      "required_course_ids": [
+        "CDA0027"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0027"
+      ],
+      "course_values": {
+        "CDA0027": {
+          "course_name": "알고리즘",
+          "credits": 3,
+          "offering": {
+            "years": [
+              3
+            ],
+            "semesters": [
+              "1"
+            ],
+            "label": "3학년 1학기"
+          }
+        }
+      },
+      "rule_values": {},
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0027",
+          "course_code": "CDA0027",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.262 (printed p.254), Ⅱ 전공 교과목 편성표, CDA0027 row",
+          "pdf_pages": [
+            262
+          ],
+          "printed_pages": [
+            254
+          ]
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-15": {
+      "expected_status": "out_of_scope",
+      "expected_kind": "greeting",
+      "required_course_properties": {},
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "academic_claims_required": false,
+      "reply_semantics": "thanks_and_goodbye",
+      "notes": [
+        "Do not convert thanks/end-of-conversation into unsupported academic question or unsolicited graduation verdict."
+      ],
+      "case_id": "repair-15",
+      "split": "repair",
+      "question": "설명 고마워요. 오늘은 여기까지 볼게요.",
+      "previous_question": null,
+      "required_course_ids": [],
+      "required_course_fact_ids": [],
+      "course_values": {},
+      "rule_values": {},
+      "citation_bindings": [],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false,
+      "expected_wire_kind": "greeting",
+      "acceptable_outcomes": [
+        {
+          "status": "out_of_scope",
+          "kind": "greeting",
+          "academic_claims_required": false
+        }
+      ],
+      "wire_status_semantics": "Social, not academic-supported and not an unsupported cohort/discipline claim. Grade by greeting kind/reply; no fabricated evidence parts."
+    },
+    "repair-16": {
+      "expected_status": "supported",
+      "expected_kind": "course_credit_and_completion_obligation",
+      "required_course_properties": {
+        "CDA0088": [
+          "credits"
+        ]
+      },
+      "required_rule_ids": [
+        "cwnu.cs.2026.major-counseling-completion"
+      ],
+      "context": {
+        "used": false
+      },
+      "completion_obligations": [
+        {
+          "course_code": "CDA0088",
+          "required": true,
+          "minimum_completions": 1,
+          "every_semester": "recommended_not_mandatory",
+          "credit_value": 0
+        }
+      ],
+      "synthetic_identity_present": true,
+      "identity_only_rejection_allowed": false,
+      "case_id": "repair-16",
+      "split": "repair",
+      "question": "저는 김서윤이고 학번은 2026000001이에요. 심층상담의 학점과 이수 기준을 알고 싶어요.",
+      "previous_question": null,
+      "required_course_ids": [
+        "CDA0088"
+      ],
+      "required_course_fact_ids": [
+        "cwnu.cs.2026.course.cda0088"
+      ],
+      "course_values": {
+        "CDA0088": {
+          "course_name": "심층상담",
+          "credits": 0
+        }
+      },
+      "rule_values": {
+        "cwnu.cs.2026.major-counseling-completion": {
+          "statement": "심층상담은 0학점이어도 최소 1회 이수해야 하며 매 학기 수강은 권장사항이다.",
+          "outcome": {
+            "type": "completion_requirement",
+            "requirement": "major.counseling.required",
+            "credit_value": 0,
+            "required": true,
+            "result_if_incomplete": "requirement_unsatisfied",
+            "minimum_completions": 1
+          }
+        }
+      },
+      "citation_bindings": [
+        {
+          "fact_kind": "CourseFact",
+          "fact_id": "cwnu.cs.2026.course.cda0088",
+          "course_code": "CDA0088",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255), Ⅱ 전공 교과목 편성표, CDA0088 row",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ]
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.changwon-undergraduate",
+          "source_sha256": "0d800318dc367a89518f9be6be8f559092474bf00b3573e14bd37b6c44b54471",
+          "locator": "PDF p.263 (printed p.255): 컴퓨터공학과 Ⅱ 전공 교과목 편성표, CDA0088 심층상담 행, 이수구분(전공필수)·학점(0) 열",
+          "pdf_pages": [
+            263
+          ],
+          "printed_pages": [
+            255
+          ],
+          "pdf_required": true
+        },
+        {
+          "fact_kind": "RuleFact",
+          "fact_id": "cwnu.cs.2026.major-counseling-completion",
+          "source_id": "cwnu.curriculum.2026.ta-validation-response",
+          "source_sha256": "c5a7839675bd02679018788190961613d68b3126ba411b060710987162cb336d",
+          "locator": "PDF p.3, section 4: 심층상담 확인",
+          "pdf_pages": [
+            3
+          ],
+          "printed_pages": [],
+          "pdf_required": true
+        }
+      ],
+      "genuine_evidence_gap": false,
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-17": {
+      "expected_status": "insufficient_evidence",
+      "expected_kind": "genuine_evidence_gap",
+      "required_course_properties": {},
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "expected_reason_family": "no_matching_evidence",
+      "resolved_course_ids": [
+        "CDA0165"
+      ],
+      "missing_properties": [
+        "current_instructor",
+        "midterm_exam_method"
+      ],
+      "genuine_evidence_gap": true,
+      "notes": [
+        "Approved catalogue has course attributes, not current teacher/exam facts. Ask for syllabus/current official announcement; do not fabricate."
+      ],
+      "case_id": "repair-17",
+      "split": "repair",
+      "question": "네트워크프로그래밍은 올해 누가 강의하고 중간고사는 어떤 방식으로 보나요?",
+      "previous_question": null,
+      "required_course_ids": [],
+      "required_course_fact_ids": [],
+      "course_values": {},
+      "rule_values": {},
+      "citation_bindings": [],
+      "personal_graduation_verdict_allowed": false
+    },
+    "repair-18": {
+      "expected_status": "out_of_scope",
+      "expected_kind": "scope_refusal",
+      "required_course_properties": {},
+      "required_rule_ids": [],
+      "context": {
+        "used": false
+      },
+      "expected_wire_kind": "refusal",
+      "scope_violation": {
+        "admission_year": 2025,
+        "department": "소프트웨어공학과"
+      },
+      "expected_reason_family": "unsupported_scope",
+      "genuine_evidence_gap": false,
+      "case_id": "repair-18",
+      "split": "repair",
+      "question": "2025학번 소프트웨어공학과 학생의 졸업 준비 기준도 알려 줄 수 있나요?",
+      "previous_question": null,
+      "required_course_ids": [],
+      "required_course_fact_ids": [],
+      "course_values": {},
+      "rule_values": {},
+      "citation_bindings": [],
+      "personal_graduation_verdict_allowed": false
+    }
+  },
+  "heldout_case_count": 14,
+  "heldout_publication": "withheld until frozen independent execution"
+}

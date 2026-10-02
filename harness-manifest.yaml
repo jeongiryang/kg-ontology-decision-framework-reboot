@@ -29,6 +29,11 @@ orchestration:
     heldout_isolated_from_implementation: true
     completion_requires_no_wrong_supported_claims: true
     milestone_overrides:
+      - run_id: 20261002-b-dialogue-v2
+        maximum_total_repair_cycles: 4
+        previous_repair_cycles: 2
+        maximum_additional_repair_cycles: 2
+        decision: docs/harness/decisions/0027-prototype-dialogue-repair-and-observed-progress.md
       - run_id: 20261001-semantic-final-integration
         maximum_total_repair_cycles: 3
         decision: docs/harness/decisions/0023-semantic-course-retrieval-and-student-evaluation.md
@@ -131,6 +136,9 @@ skills:
 
 contracts:
   schemas:
+    AssistantProgressEvent:
+      path: contracts/assistant-progress-event.schema.json
+      version: "1.0.0"
     AssistantTurnRequest:
       path: contracts/assistant-turn-request.schema.json
       version: "1.0.0"

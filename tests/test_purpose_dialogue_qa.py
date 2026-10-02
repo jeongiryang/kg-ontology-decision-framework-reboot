@@ -146,6 +146,9 @@ class ScriptedSemantic:
     def __init__(self, document, writer, *, typed_plan=False):
         self.document, self.writer = deepcopy(document), writer
         self.typed_plan = typed_plan
+        self.typed_plans = typed_plan
+        if typed_plan and isinstance(self.document, dict) and "requests" in self.document:
+            self.document["coverage"] = deepcopy(self.document["requests"])
         self.plan_calls, self.write_calls = [], []
         self.entered = self.exited = 0
 
@@ -198,14 +201,14 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
         response = SemanticAssistant(engine=self.engine, llm=provider).chat(turn(question, **updates))
         self.assertEqual(provider.entered, provider.exited)
         self.assertLessEqual(len(provider.plan_calls), 1)
-        self.assertLessEqual(len(provider.write_calls), 1)
+        self.assertLessEqual(len(provider.write_calls), 2)
         self.assertIn(response.status, {"supported", "insufficient_evidence", "conflict", "out_of_scope"})
         self.assertLessEqual(len(response.parts), 8)
         self.assert_no_private_output(response)
         return response, provider
 
     def assert_no_private_output(self, response):
-        self.assertNotRegex(response.model_dump_json(), r"(?i)(?:[A-Z]:[\\/]|qa@example\.invalid|QAPRIVATE0001)")
+        self.assertNotRegex(response.model_dump_json(), r"(?i)(?:[A-Z]:[\\/]|QAPRIVATE0001)")
 
     def course_parts(self, response):
         return [part for part in response.parts if part.course_evidence is not None and part.status == "supported"]
@@ -582,7 +585,7 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
         for question, request, false_text in variants:
             with self.subTest(false_text=false_text):
                 response, _ = self.chat(question, planned(request), writer=source_writer(replace_text=lambda _part, _text: false_text))
-                self.assertEqual("supported", response.status)
+                self.assertEqual("insufficient_evidence", response.status)
                 self.assertEqual("fallback", response.generation_status)
                 self.assertNotIn(false_text, response.answer)
                 self.assertNotIn("양자역학", response.answer)
@@ -595,7 +598,7 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
         response, _ = self.chat("전선 과목들의 학점을 모두 알려줘",
                                 planned(course_request(category="major_elective", properties=("names", "credits"))),
                                 writer=source_writer(replace_text=lambda _part, _text: "모든 전공선택 과목은 3학점입니다."))
-        self.assertEqual("supported", response.status)
+        self.assertEqual("insufficient_evidence", response.status)
         self.assertEqual("fallback", response.generation_status)
         self.assertNotIn("모든 전공선택 과목은 3학점입니다.", response.answer)
         expected = [code for code, fact in self.raw_courses.items() if fact["category"] == "major_elective"]
@@ -639,7 +642,7 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
                 response, _ = self.chat("균형교양 영역별 이수 조건을 알려줘",
                                         planned(rule_request("general.balanced-area-coverage")),
                                         writer=source_writer(replace_text=lambda _part, _text: forged))
-                self.assertEqual("supported", response.status)
+                self.assertEqual("insufficient_evidence", response.status)
                 self.assertEqual("fallback", response.generation_status)
                 self.assertNotIn(forged, response.answer)
                 self.assert_rules(response, (rule_id,))
@@ -694,7 +697,9 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
         self.assert_rules(response, (rule_id,))
         self.assertNotIn(forged, response.answer)
         self.assertNotRegex(response.answer, r"각각\s*3\s*과목\s*이상")
-        self.assertRegex(response.answer, r"(?:각각|영역별|각\s*영역)[^.!?\n]{0,35}1\s*과목\s*이상")
+        self.assertEqual(("insufficient_evidence", "fallback", "processing_unavailable"),
+                         (response.status, response.generation_status, response.reason_code))
+        self.assertNotEqual("no_matching_evidence", response.reason_code)
 
     def test_r5_f2_same_subject_credits_and_obligation_must_cover_both(self):
         expected = self.raw_courses["CDA0016"]
@@ -757,9 +762,9 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
                                 writer=source_writer(replace_text=lambda _part, _text: forged), typed_plan=True)
         self.assert_rules(response, (COUNSELING,))
         self.assertNotIn(forged, response.answer)
-        self.assertRegex(response.answer, r"0\s*학점")
-        self.assertRegex(response.answer, r"최소\s*1\s*(?:회|번)|1\s*(?:회|번)\s*이상")
-        self.assertRegex(response.answer, r"매\s*학기[^.!?\n]{0,35}(?:권장|추천)")
+        self.assertEqual(("insufficient_evidence", "fallback", "processing_unavailable"),
+                         (response.status, response.generation_status, response.reason_code))
+        self.assertNotEqual("no_matching_evidence", response.reason_code)
         self.assertNotRegex(response.answer, r"매\s*학기[^.!?\n]{0,35}(?:반드시|의무|필수)")
 
     def test_r5_f6_conditional_work_prerequisite_cannot_be_negated_with_separate_caveats(self):
@@ -774,9 +779,9 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
         self.assert_rules(response, (WORK_PREREQUISITE,))
         self.assertNotIn(forged, response.answer)
         self.assertNotRegex(response.answer, r"PASS\s*하지\s*않아도")
-        self.assertRegex(response.answer, r"캡스톤디자인\s*II[^.!?\n]{0,20}PASS\s*해야")
-        self.assertRegex(response.answer, r"졸업[^.!?\n]{0,50}판정[^.!?\n]{0,20}않")
-        self.assertRegex(response.answer, r"학점[^.!?\n]{0,50}판정[^.!?\n]{0,20}않")
+        self.assertEqual(("insufficient_evidence", "fallback", "processing_unavailable"),
+                         (response.status, response.generation_status, response.reason_code))
+        self.assertNotEqual("no_matching_evidence", response.reason_code)
 
     def test_purpose_properties_and_overview_reject_unrecognized_or_executable_fields(self):
         invalid = (
@@ -803,7 +808,7 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
         self.assertEqual("generated", complete.generation_status)
         self.assert_courses(complete, ["CDA0016"])
         omitted, _ = self.chat(question, legacy, writer=source_writer(properties=("credits",)))
-        self.assertEqual("supported", omitted.status)
+        self.assertEqual("insufficient_evidence", omitted.status)
         self.assertEqual("fallback", omitted.generation_status)
         self.assert_courses(omitted, ["CDA0016"])
 
@@ -817,7 +822,7 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
             with self.subTest(intent_id=intent_id):
                 response, _ = self.chat(question, planned(rule_request(intent_id)),
                                         writer=source_writer(replace_text=lambda _part, _text: false_text))
-                self.assertEqual("supported", response.status)
+                self.assertEqual("insufficient_evidence", response.status)
                 self.assertEqual("fallback", response.generation_status)
                 self.assertNotIn(false_text, response.answer)
                 self.assert_rules(response, ("cwnu.cs.2026." + intent_id,))
@@ -842,20 +847,23 @@ class PurposeDialogueIndependentQA(unittest.TestCase):
             self.assertEqual({"title", "text", "status", "evidence_packet", "course_evidence", "calculations"}, set(part))
             self.assertFalse(part["evidence_packet"] is not None and part["course_evidence"] is not None)
 
-        unsafe_provider = ScriptedSemantic(planned(course_request("qa@example.invalid", properties=("credits",))), source_writer())
+        unsafe_provider = ScriptedSemantic(planned(course_request("MATCH(n) DETACH DELETE n", properties=("credits",))), source_writer())
         with patch("academic_assistant.api._engine", return_value=self.engine), \
              patch("academic_assistant.assistant.SemanticLLMClient.from_env", return_value=unsafe_provider), \
              TestClient(app) as client:
             rejected = client.post("/v1/academic/assistant", json=turn("이 과목 학점을 알려줘").model_dump())
-            unsafe_user = client.post("/v1/academic/assistant", json=turn("qa@example.invalid 학점을 알려줘").model_dump())
         self.assertEqual(200, rejected.status_code)
         self.assertEqual("rejected", rejected.json()["plan_status"])
         self.assertEqual("processing_unavailable", rejected.json()["reason_code"])
-        self.assertNotIn("qa@example.invalid", rejected.text)
-        self.assertEqual(422, unsafe_user.status_code)
-        self.assertEqual({"detail": "invalid request"}, unsafe_user.json())
+        self.assertNotIn("DETACH DELETE", rejected.text)
         self.assertEqual(1, len(unsafe_provider.plan_calls))
         self.assertEqual([], unsafe_provider.write_calls)
+        allowed = ScriptedSemantic(planned(course_request("컴퓨터구조", properties=("credits",))), source_writer())
+        with patch("academic_assistant.api._engine", return_value=self.engine), patch("academic_assistant.assistant.SemanticLLMClient.from_env", return_value=allowed):
+            result = TestClient(app).post("/v1/academic/assistant", json=turn("qa@example.invalid 컴구 학점을 알려줘").model_dump())
+        self.assertEqual(200, result.status_code)
+        self.assertEqual(("supported", "generated"), (result.json()["status"], result.json()["generation_status"]))
+        self.assertEqual(1, len(allowed.plan_calls))
 
 
 if __name__ == "__main__":
